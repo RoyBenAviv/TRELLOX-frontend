@@ -1,20 +1,25 @@
 <template>
   <section>
-      <p>{{card.title}}</p>
+      <p @click="openActionsMenu = !openActionsMenu">{{card.title}}</p>
+      <card-actions v-if="openActionsMenu"></card-actions>
   </section>
 </template>
 
 <script>
-
+import cardActions from './card-actions.vue'
 export default {
   name: 'card-preview',
   props: {
     card: Object,
   },
-  components: {},
+  components: {
+    cardActions
+  },
   created() {},
   data() {
-    return {}
+    return {
+      openActionsMenu: false,
+    }
   },
   methods: {},
   computed: {},

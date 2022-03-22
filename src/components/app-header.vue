@@ -1,13 +1,12 @@
 <template>
   <header>
-    <section>
+    <div class="logo"> <img src="../assets/images/logo.png" /> <h1>Trellox</h1></div>
       <nav>
         <router-link to="/">Home</router-link>
         <router-link to="/login">login</router-link>
         <router-link to="/workspace">workspace</router-link>
         <router-link to="/board">board</router-link>
       </nav>
-    </section>
   </header>
 </template>
 
