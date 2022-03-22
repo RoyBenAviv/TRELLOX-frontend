@@ -78,8 +78,9 @@ export default {
     },
     async addList({commit, state}, {title}) {
       try {
-        const board = await boardService.addList(state.board._id, title)
+        const board = await boardService.addList(state.currBoard._id, title)
         commit({type: 'setCurrBoard', board})
+        commit({type: 'saveBoard', board})
       }
       catch(err) {
         console.log('Cannot add list',err);

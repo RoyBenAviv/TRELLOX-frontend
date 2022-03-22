@@ -24,14 +24,13 @@ export default {
   },
   data() {
     return {
-      board: null,
       isAddList: false,
       listTitle: '',
     }
   },
   async created() {
     const { boardId } = this.$route.params
-    this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+    await this.$store.dispatch({ type: 'setCurrBoard', boardId })
   },
   methods: {
     addList() {
@@ -41,7 +40,11 @@ export default {
       this.isAddList = !this.isAddList
     },
   },
-  computed: {},
+  computed: {
+    board() {
+      return this.$store.getters.getCurrBoard
+    }
+  },
   unmounted() {},
 }
 </script>

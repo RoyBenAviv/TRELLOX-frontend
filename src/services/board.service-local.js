@@ -12,7 +12,6 @@ export const boardService = {
   updateBoard,
   getEmptyBoard,
   removeBoard,
-  getEmptyList,
   addList,
   editList,
   updateCard,
@@ -35,7 +34,7 @@ async function getBoardById(boardId) {
 }
 
 async function updateBoard(board) {
-  return await storageService.put(board)
+  return await storageService.put(entity_key, board)
 }
 
 function getEmptyBoard() {
@@ -70,7 +69,9 @@ async function removeBoard(boardId) {
 }
 
 async function addList(boardId, title) {
-  var board = getBoardById(boardId)
+  console.log('boardId',boardId);
+  var board = await getBoardById(boardId)
+  console.log('board',board);
   board.lists.push(_getEmptyList(title))
   return await updateBoard(board)
 }
