@@ -12,9 +12,10 @@ export const boardService = {
   updateBoard,
   getEmptyBoard,
   removeBoard,
+  getEmptyList,
   addList,
   editList,
-  getEmptyList
+  updateCard,
 }
 
 // For DEBUG:
@@ -66,6 +67,37 @@ function getEmptyBoard() {
 
 async function removeBoard(boardId) {
   return await storageService.delete(entity_key, boardId)
+}
+
+async function addList(board, newList) {
+  board.lists.push(newList)
+  return await updateBoard(board)
+}
+
+async function editList(newList) {
+  const idx = board.lists.findIndex((list) => list.id === newList.id)
+  board.lists[idx] = newList
+  return await updateBoard(board)
+}
+
+async function editList(board, newList, listId) {
+  const idx = board.lists.findIndex((list) => list.id === newList.id)
+  board.lists[idx] = newList
+  return await updateBoard(board)
+}
+
+async function updateCard(board) {
+  if (action === 'addCard') {
+    // action listId
+    var idx = board.lists.findIndex((list) => list.id === listId)
+    board.lists[idx].push(_getEmptyCard())
+  } else if (action === 'editCard') {
+    // action listId? newValue
+    var idxList = board.lists.findIndex((list) => list.id === listId)
+    var idxCard = board.lists[idxList].findIndex((card) => card.id === newValue.id)
+    board.lists[idxList][idxCard] = newValue
+  }
+  return await storageService.put(board)
 }
 
 async function _createData() {
@@ -188,31 +220,6 @@ function _getEmptyCard(title = '') {
     id: utilService.makeId(),
     title,
   }
-}
-
-async function addList(board) {
-  board.lists.push(getEmptyList())
-  return await updateBoard(board)
-}
-
-async function editList(newList) {
-  const idx = board.lists.findIndex((list) => list.id === newList.id)
-  board.lists[idx] = newList
-  return await updateBoard(board)
-}
-
-async function updateCard(board) {
-  if (action === 'addCard') {
-    // action listId
-    var idx = board.lists.findIndex((list) => list.id === listId)
-    board.lists[idx].push(_getEmptyCard())
-  } else if (action === 'editCard') {
-    // action listId? newValue
-    var idxList = board.lists.findIndex((list) => list.id === listId)
-    var idxCard = board.lists[idxList].findIndex((card) => card.id === newValue.id)
-    board.lists[idxList][idxCard] = newValue
-  }
-  return await storageService.put(board)
 }
 
 // // This IIFE functions for Dev purposes
