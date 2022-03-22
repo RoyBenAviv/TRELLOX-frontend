@@ -16,7 +16,7 @@ export const boardService = {
 async function query(filterBy) {
   // var queryStr = !filterBy ? '' : `?name=${filterBy.name}&sort=anaAref`
   const boards = await storageService.query(entityType)
-  if(filterBy){
+  if (filterBy) {
     // filtering
   }
   return boards
@@ -36,7 +36,8 @@ async function removeBoard(boardId) {
 
 function _createData() {
   const boards = query()
-  board = {
+  if (boards.length) return
+  const b1 = {
     _id: 'b101',
     title: 'board1',
     createdAt: 1589983468418,
@@ -96,6 +97,8 @@ function _createData() {
       },
     ],
   }
+  boards.push(b1)
+  storageService.postMany(boards)
 }
 
 // async function add(board) {
