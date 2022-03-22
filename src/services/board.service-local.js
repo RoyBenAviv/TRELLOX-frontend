@@ -9,10 +9,11 @@ _createData()
 export const boardService = {
   query,
   getBoardById,
-  updateBorad: updateBoard,
+  updateBoard,
   getEmptyBoard,
   removeBoard,
-  // _createData
+  addList,
+  editList,
 }
 
 // For DEBUG:
@@ -31,31 +32,35 @@ async function getBoardById(boardId) {
   return await storageService.get(entity_key, boardId)
 }
 
-async function updateBoard(board, action, newValue) {
-
+async function updateBoard(board) {
+  return await storageService.put(board)
 }
 
 function getEmptyBoard() {
-  return  {
-      title: '',
-      createdAt: Date.now(),
-      createdBy: userService.getLoggedinUser(),
-      style: {},
-      labels: [
-        {
-          id: 'l101',
-          title: 'Done',
-          color: '#61bd4f',
-        },
-        {
-          id: 'l102',
-          title: 'Progress',
-          color: '#61bd33',
-        },
-      ],
-      members: [],
-      lists: [_getList('my list'),]
-    }
+  return {
+    title: '',
+    createdAt: Date.now(),
+    createdBy: {
+      _id: 'u101',
+      fullname: 'Shani',
+      imgUrl: 'img.png',
+    },
+    style: {},
+    labels: [
+      {
+        id: 'l101',
+        title: 'Done',
+        color: '#61bd4f',
+      },
+      {
+        id: 'l102',
+        title: 'Progress',
+        color: '#61bd33',
+      },
+    ],
+    members: [],
+    lists: [_getList('my list')],
+  }
 }
 
 async function removeBoard(boardId) {
@@ -63,7 +68,7 @@ async function removeBoard(boardId) {
 }
 
 async function _createData() {
-  console.log('hi');
+  console.log('hi')
   var boards = await query()
   if (boards.length) return
   // board example {
@@ -154,34 +159,60 @@ async function _createData() {
         imgUrl: 'img.png',
       },
     ],
-    lists: [_getList('Processing'), _getList('Done'), _getList('Tasks for today'), _getList('Others')]
+    lists: [_getList('Processing'), _getList('Done'), _getList('Tasks for today'), _getList('Others')],
   }
   boards = []
   boards.push(b1)
   storageService.postMany(entity_key, boards)
 }
 
-function _getList(title){
+function _getEmptyList() {
   return {
     id: utilService.makeId(),
-    title,
-    cards: [_getCard('card1'), _getCard('card2'), _getCard('card3')]
+    title: '',
+    cards: [],
   }
 }
 
-function _getCard(title){
+function _getList(title) {
+  return {
+    id: utilService.makeId(),
+    title,
+    cards: [_getEmptyCard('card1'), _getEmptyCard('card2'), _getEmptyCard('card3')],
+  }
+}
+
+function _getEmptyCard(title = '') {
   return {
     id: utilService.makeId(),
     title,
   }
 }
 
-// async function add(board) {
-//   board.aboutUser = await userService.getById(board.aboutUserId)
-//   const addedBoard = storageService.post('board', board)
+async function addList(board) {
+  board.lists.push(_getEmptyList())
+  return await updateBoard(board)
+}
 
-//   return addedBoard
-// }
+function editList(newList) {
+  const idx = board.lists.findIndex((list) => list.id === newList.id)
+  board.lists[idx] = newList
+  return await updateBoard(board)
+}
+
+async function updateCard(board) {
+  if (action === 'addCard') {
+    // action listId
+    var idx = board.lists.findIndex((list) => list.id === listId)
+    board.lists[idx].push(_getEmptyCard())
+  } else if (action === 'editCard') {
+    // action listId? newValue
+    var idxList = board.lists.findIndex((list) => list.id === listId)
+    var idxCard = board.lists[idxList].findIndex((card) => card.id === newValue.id)
+    board.lists[idxList][idxCard] = newValue
+  }
+  return await storageService.put(board)
+}
 
 // // This IIFE functions for Dev purposes
 // // It allows testing of real time updates (such as sockets) by listening to storage events
