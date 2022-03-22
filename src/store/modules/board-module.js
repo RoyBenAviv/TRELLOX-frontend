@@ -86,6 +86,17 @@ export default {
         console.log('Cannot add list',err);
         throw err
       }
+    },
+    async addCard({commit, state}, {listId, title}) {
+      try {
+        const board = await boardService.addCard(state.currBoard._id, listId, title)
+        commit({type: 'setCurrBoard', board})
+        commit({type: 'saveBoard', board})
+      }
+      catch(err) {
+        console.log('Cannot add card',err);
+        throw err
+      }
     }
   },
 }

@@ -5,7 +5,7 @@
       <article v-for="list in board.lists" :key="list.id">
         <list-preview :list="list"></list-preview>
       </article>
-      <button @click="openAddList" v-if="!isAddList">Add new list</button>
+      <button @click="openAddList = true" v-if="!isAddList">Add new list</button>
       <div v-else>
         <input v-model="listTitle" type="text" placeholder="Enter list title" />
         <button @click="addList">Add List</button>
@@ -35,9 +35,6 @@ export default {
   methods: {
     addList() {
       this.$store.dispatch({ type: 'addList', title: this.listTitle})
-    },
-    openAddList() {
-      this.isAddList = !this.isAddList
     },
   },
   computed: {

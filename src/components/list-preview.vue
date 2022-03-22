@@ -4,6 +4,11 @@
       <div v-for="card in list.cards" :key="card.id">
           <card-preview :card="card"></card-preview>
       </div>
+      <button @click="isAddCard = true" v-if="!isAddCard">Add new card</button>
+      <div v-else>
+        <input v-model="cardTitle" type="text" placeholder="Enter card title" />
+        <button @click="addCard">Add card</button>
+      </div>
   </section>
 </template>
 
@@ -20,14 +25,19 @@ export default {
   },
   created() {},
   data() {
-    return {}
-  },
-  methods: {
-    addList() {
-      
+    return {
+        isAddCard: false,
+        cardTitle: ''
     }
   },
+  methods: {
+    addCard() {
+      this.$store.dispatch({ type: 'addCard', listId: this.list.id, title: this.cardTitle})
+    },
+  },
   computed: {},
-  unmounted() {},
+  unmounted() {
+
+  },
 }
 </script>

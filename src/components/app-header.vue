@@ -5,7 +5,6 @@
         <router-link to="/">Home</router-link>
         <router-link to="/login">login</router-link>
         <router-link to="/workspace">workspace</router-link>
-        <router-link to="/board">board</router-link>
       </nav>
   </header>
 </template>
