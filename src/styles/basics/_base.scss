@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: roboto, sans-serif; 
+  line-height: lh(26px);
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 500;
+  line-height: lh(40px, 29px);
+  font-family: roboto-header, sans-serif; 
+}
+
+ul {
+  list-style-type: none;
+}
+
+img {
+  width: 100%;
+}

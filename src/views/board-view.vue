@@ -10,14 +10,11 @@
 </template>
 
 <script>
-import listCmp from '../components/list-cmp.vue'
+// import appHeader from './components/app-header.vue'
 
 export default {
-  name: 'board',
-  props: {},
-  components: {
-    listCmp
-  },
+  name: 'cmp name',
+  components: {},
   created() {},
   data() {
     return {
