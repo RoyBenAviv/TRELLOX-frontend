@@ -30,6 +30,9 @@ export default {
       if (idx !== -1) state.boards.splice(idx, 1, board);
       else state.boards.push(board);
     },
+    addList(state, {emptyList}) {
+      state.currBoard.lists.push(emptyList)
+    }
     // setFilter(state, { filterBy }) {
     //   state.filterBy = filterBy;
     // },
@@ -73,5 +76,15 @@ export default {
         throw err
       }
     },
+    async addList({commit, state}, {title}) {
+      try {
+        const board = await boardService.addList(state.board._id, title)
+        commit({type: 'setCurrBoard', board})
+      }
+      catch(err) {
+        console.log('Cannot add list',err);
+        throw err
+      }
+    }
   },
 }
