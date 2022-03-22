@@ -14,6 +14,7 @@ export const boardService = {
   removeBoard,
   addList,
   editList,
+  getEmptyList
 }
 
 // For DEBUG:
@@ -166,7 +167,7 @@ async function _createData() {
   storageService.postMany(entity_key, boards)
 }
 
-function _getEmptyList() {
+function getEmptyList() {
   return {
     id: utilService.makeId(),
     title: '',
@@ -190,7 +191,7 @@ function _getEmptyCard(title = '') {
 }
 
 async function addList(board) {
-  board.lists.push(_getEmptyList())
+  board.lists.push(getEmptyList())
   return await updateBoard(board)
 }
 

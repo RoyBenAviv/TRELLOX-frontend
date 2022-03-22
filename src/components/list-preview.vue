@@ -1,7 +1,6 @@
 <template>
   <section>
       <h2>{{list.title}}</h2>
-      <button @click="addList"></button>
       <div v-for="card in list.cards" :key="card.id">
           <card-preview :card="card"></card-preview>
       </div>

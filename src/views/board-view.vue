@@ -2,36 +2,46 @@
   <section v-if="board" class="board-view">
     <h1>{{ board.title }}</h1>
     <main>
-      <article  v-for="list in board.lists" :key="list.id">
-        <list-cmp :list="list"></list-cmp>
+      <article v-for="list in board.lists" :key="list.id">
+        <list-preview :list="list"></list-preview>
       </article>
+      <button @click="openAddList" v-if="!isAddList">Add new list</button>
+      <div v-else>
+        <input v-model="listTitle" type="text" placeholder="Enter list title" />
+        <button @click="addList">Add List</button>
+      </div>
     </main>
   </section>
 </template>
 
 <script>
-import listCmp from '../components/list-cmp.vue'
+import listPreview from '../components/list-preview.vue'
 
 export default {
   name: 'cmp name',
   components: {
-    listCmp,
+    listPreview,
   },
-    data() {
+  data() {
     return {
-      board: null
+      board: null,
+      isAddList: false,
+      listTitle: '',
     }
   },
   async created() {
     const { boardId } = this.$route.params
-    this.board = await this.$store.dispatch({type: 'setCurrBoard', boardId})
+    this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
   },
   methods: {
-
+    addList() {
+      this.$store.dispatch({ type: 'addList', title: this.listTitle})
+    },
+    openAddList() {
+      this.isAddList = !this.isAddList
+    },
   },
-  computed: {
-
-  },
+  computed: {},
   unmounted() {},
 }
 </script>
