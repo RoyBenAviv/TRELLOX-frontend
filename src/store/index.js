@@ -1,21 +1,28 @@
-import { createStore } from 'vuex';
+import { createStore } from 'vuex'
+import boardModules from './modules/board-module.js'
+import userModules from './modules/user-module.js'
 
+// create a store instance
 const store = createStore({
-    strict: true,
-    state: {
-
+  strict: true,
+  state: {
+    isLoading: false,
+  },
+  getters: {
+    isLoading(state) {
+      return state.isLoading
     },
-    getters: {
-
+  },
+  mutations: {
+    setIsLoading(state, { isLoading }) {
+      state.isLoading = isLoading
     },
-    mutations: {
+  },
+  actions: {},
+  modules: {
+    boardModules,
+    userModules
+  },
+})
 
-    },
-    actions: {
-
-    },
-    modules: {
-    },
-});
-
-export default store;
+export default store

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import appHeader from './components/list.vue'
 
 export default {
   name: 'cmp name',
