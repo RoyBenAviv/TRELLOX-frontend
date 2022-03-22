@@ -2,11 +2,11 @@ import { boardService } from '../../services/board.service-local'
 
 export default {
   state: {
-    boards: [],
-    filterBy: {stock: 'All'},
+    boards: null,
+    filterBy: null,
   },
   getters: {
-    boards(state) {
+    getBoards(state) {
       return state.boards
     },
   },
@@ -14,62 +14,46 @@ export default {
     setBoards(state, { boards }) {
       state.boards = boards
     },
-    removeBoard(state, { boardId }) {
-      const idx = state.boards.findIndex((board) => board._id === boardId)
+    removeBoard(state, { id }) {
+      const idx = state.boards.findIndex((board) => board._id === id)
       state.boards.splice(idx, 1)
     },
-    saveBoard(state, { savedBoard }) {
-      const idx = state.boards.findIndex((currBoard) => currBoard._id === savedBoard._id)
-      console.log('savedBoard',savedBoard);
-      state.boards.map((t) => console.log(t._id))
-      console.log('idx',idx);
-      if (idx !== -1) state.boards.splice(idx, 1, savedBoard)
-      else state.boards.unshift(savedBoard)
+    saveBoard(state, { board }) {
+      const idx = state.boards.findIndex((currBoard) => currBoard._id === board._id);
+      if (idx !== -1) state.boards.splice(idx, 1, board);
+      else state.boards.push(board);
     },
-    setFilter(state, { filterBy }) {
-      state.filterBy = filterBy
-    },
+    // setFilter(state, { filterBy }) {
+    //   state.filterBy = filterBy;
+    // },
   },
   actions: {
     async loadBoards({ commit, state }) {
-      commit({ type: 'setIsLoading', isLoading: true })
       try {
-        const boards = await boardService.query(state.filterBy)
+        var boards = await boardService.query(state.filterBy)
         commit({ type: 'setBoards', boards })
-      } catch(err) {
-        console.log('err', err)
-      } finally {
-        commit({ type: 'setIsLoading', isLoading: false })
+      } catch (err) {
+        console.error('Cannot Load boards', err)
+        throw err
       }
     },
-    async removeBoard({ commit }, { boardId }) {
-      try{
-        await boardService.remove(boardId)
-        commit({ type: 'removeBoard', boardId })
-      } catch(err){
-        console.log('err', err)
-      }
-    },
-    async getBoardById(_, { boardId }) {
+    async removeBoard({ commit }, { id }) {
       try {
-        const board = await boardService.getById(boardId)
-        return JSON.parse(JSON.stringify(board))
-      } catch(err) {
-        console.log('err', err)
+        var id = await boardService.removeBoard(id)
+        commit({ type: 'removeBoard', id })
+      } catch (err) {
+        console.error('Cannot remove board', err)
+        throw err
       }
     },
     async saveBoard({ commit }, { board }) {
-      const newBoard = JSON.parse(JSON.stringify(board))
-      try{
-        const savedBoard = await boardService.save(newBoard)
-        commit({ type: 'saveBoard', savedBoard })
-      } catch(err){
-        console.log('err', err)
+      try {
+        var board = await boardService.updateBoard(board)
+        commit({ type: 'saveBoard', board })
+      } catch (err) {
+        console.error('Cannot Edit/Add board', err)
+        throw err
       }
-    },
-    async filter({ commit, dispatch }, { filterBy }) {
-      commit({ type: 'setFilter', filterBy })
-      dispatch({ type: 'loadBoards' })
     },
   },
 }
