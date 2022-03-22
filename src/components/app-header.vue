@@ -6,7 +6,6 @@
         <router-link to="/login">login</router-link>
         <router-link to="/workspace">workspace</router-link>
         <router-link to="/board">board</router-link>
-        <i class="fa-solid fa-list"></i>
       </nav>
     </section>
   </header>
