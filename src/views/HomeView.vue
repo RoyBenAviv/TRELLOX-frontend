@@ -1,0 +1,26 @@
+<template>
+  <h1>Hello</h1>
+</template>
+ 
+<script>
+ 
+export default {
+ 
+name: 'home',
+ data() {
+return {
+ 
+};
+ },
+methods: {
+},
+computed: {
+},
+components: {
+}
+};
+</script>
+ 
+<style>
+ 
+</style>
