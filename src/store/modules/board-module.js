@@ -97,6 +97,28 @@ export default {
         console.log('Cannot add card',err);
         throw err
       }
+    },
+    async archiveList({commit, state}, {listId}) {
+      try {
+        const board = await boardService.archiveList(state.currBoard._id, listId)
+        commit({type: 'setCurrBoard', board})
+        commit({type: 'saveBoard', board})
+      }
+      catch(err) {
+        console.log('Cannot archive list',err);
+        throw err
+      }
+    },
+    async archiveCard({commit, state}, {listId, cardId}) {
+      try {
+        const board = await boardService.archiveCard(state.currBoard._id, listId, cardId)
+        commit({type: 'setCurrBoard', board})
+        commit({type: 'saveBoard', board})
+      }
+      catch(err) {
+        console.log('Cannot archive list',err);
+        throw err
+      }
     }
   },
 }

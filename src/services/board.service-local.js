@@ -4,6 +4,7 @@ import { utilService } from './util.service'
 // import { socketService, SOCKET_EVENT_REVIEW_ADDED } from './socket.service'
 
 const entity_key = 'board'
+const archive_key = 'archive'
 _createData()
 
 export const boardService = {
@@ -16,6 +17,8 @@ export const boardService = {
   editList,
   updateCard,
   addCard,
+  archiveList,
+  archiveCard
 }
 
 // For DEBUG:
@@ -70,11 +73,30 @@ async function removeBoard(boardId) {
 }
 
 async function addList(boardId, title) {
-  console.log('boardId',boardId);
   var board = await getBoardById(boardId)
-  console.log('board',board);
   board.lists.push(_getEmptyList(title))
   return await updateBoard(board)
+}
+
+async function archiveList(boardId, listId) {
+  var board = await getBoardById(boardId)
+  const idx = board.lists.findIndex(list => list.id === listId)
+  const listToArchive = board.lists.splice(idx, 1)[0]
+  _archiveItem(listToArchive)
+  return await updateBoard(board)
+}
+async function archiveCard(boardId, listId, cardId) {
+  var board = await getBoardById(boardId)
+  const listIdx = board.lists.findIndex((list) => list.id === listId)
+  const cardIdx = board.lists[listIdx].cards.findIndex(card => card.id === cardId)
+  const cardToArchive = board.lists[listIdx].cards.splice(cardIdx, 1)[0]
+  _archiveItem(cardToArchive)
+  return await updateBoard(board)
+}
+
+async function _archiveItem(item) {
+  const archive = await storageService.query(archive_key) || []
+  storageService.post(archive_key, item)
 }
 
 async function editList(boardId, newList) {
