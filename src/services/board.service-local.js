@@ -69,18 +69,14 @@ async function removeBoard(boardId) {
   return await storageService.delete(entity_key, boardId)
 }
 
-async function addList(board, newList) {
-  board.lists.push(newList)
+async function addList(boardId, title) {
+  var board = getBoardById(boardId)
+  board.lists.push(_getEmptyList(title))
   return await updateBoard(board)
 }
 
-async function editList(newList) {
-  const idx = board.lists.findIndex((list) => list.id === newList.id)
-  board.lists[idx] = newList
-  return await updateBoard(board)
-}
-
-async function editList(board, newList, listId) {
+async function editList(boardId, newList) {
+  var board = getBoardById(boardId)
   const idx = board.lists.findIndex((list) => list.id === newList.id)
   board.lists[idx] = newList
   return await updateBoard(board)
@@ -199,10 +195,10 @@ async function _createData() {
   storageService.postMany(entity_key, boards)
 }
 
-function getEmptyList() {
+function _getEmptyList(title = '') {
   return {
     id: utilService.makeId(),
-    title: '',
+    title,
     cards: [],
   }
 }
