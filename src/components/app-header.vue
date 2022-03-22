@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="logo"> <img src="../assets/images/logo.png" /> <h1>Trellox</h1></div>
+    <div class="logo"> <img src="../assets/images/logo.png" /> <h2>Trellox</h2></div>
       <nav>
         <router-link to="/">Home</router-link>
         <router-link to="/login">login</router-link>

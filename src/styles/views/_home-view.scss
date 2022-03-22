@@ -1,0 +1,11 @@
+.home-view {
+        padding-block-start: rem(150px);
+        @include flex;
+        gap: rem(100px);
+        img {
+            width: 370px;
+        }
+        article{
+            flex-basis: 60%;
+        }
+}

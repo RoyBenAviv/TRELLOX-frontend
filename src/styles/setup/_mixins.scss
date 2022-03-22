@@ -4,3 +4,22 @@
     justify-content: $justify;
     align-items: $align;
 }
+
+@mixin btn($bg: $clr2, $clr: $clr4, $padding: em(10px), $hover: darken($bg, 8%)) {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: $padding;
+    line-height: 1.25;
+    font-variation-settings: "wght" 430;
+    border: none;
+    cursor: pointer;
+    background-color: $bg;
+    color: $clr;
+    transition: background-color 0.5s;
+        &:hover {
+        background-color: $hover;
+      }
+      border-radius: 10px;
+}
