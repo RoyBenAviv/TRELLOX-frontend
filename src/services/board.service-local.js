@@ -12,10 +12,10 @@ export const boardService = {
   updateBoard,
   getEmptyBoard,
   removeBoard,
-  getEmptyList,
   addList,
   editList,
   updateCard,
+  addCard,
 }
 
 // For DEBUG:
@@ -82,18 +82,19 @@ async function editList(boardId, newList) {
   return await updateBoard(board)
 }
 
-async function updateCard(board) {
-  if (action === 'addCard') {
-    // action listId
-    var idx = board.lists.findIndex((list) => list.id === listId)
-    board.lists[idx].push(_getEmptyCard())
-  } else if (action === 'editCard') {
-    // action listId? newValue
-    var idxList = board.lists.findIndex((list) => list.id === listId)
-    var idxCard = board.lists[idxList].findIndex((card) => card.id === newValue.id)
-    board.lists[idxList][idxCard] = newValue
-  }
-  return await storageService.put(board)
+async function addCard(boardId, listId, title) {
+  var board = await getBoardById(boardId)
+  const idx = board.lists.findIndex((list) => list.id === listId)
+  board.lists[idx].cards.push(_getEmptyCard(title))
+  return await updateBoard(board)
+}
+
+async function updateCard(boardId, listId, updatedCard) {
+  var board = await getBoardById(boardId)
+  const idxList = board.lists.findIndex((list) => list.id === listId)
+  const idxCard = board.lists[idxList].findIndex((card) => card.id === updatedCard.id)
+  board.lists[idxList][idxCard] = updatedCard
+  return await updateBoard(board)
 }
 
 async function _createData() {
