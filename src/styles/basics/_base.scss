@@ -21,6 +21,12 @@ h6 {
   font-weight: 500;
   line-height: lh(40px, 29px);
   font-family: roboto-header, sans-serif; 
+  color: $clr1
+}
+
+h1 {
+  font-size: rem(60px);
+  font-weight: 600;
 }
 
 ul {
