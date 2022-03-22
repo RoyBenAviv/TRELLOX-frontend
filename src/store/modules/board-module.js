@@ -4,15 +4,22 @@ export default {
   state: {
     boards: null,
     filterBy: null,
+    currBoard: null
   },
   getters: {
     getBoards(state) {
-      return state.boards
+      return JSON.parse(JSON.stringify(state.boards))
     },
+    getCurrBoard(state) {
+      return JSON.parse(JSON.stringify(state.currBoard))
+    }
   },
   mutations: {
     setBoards(state, { boards }) {
       state.boards = boards
+    },
+    setCurrBoard(state, { board }) {
+      state.currBoard = board
     },
     removeBoard(state, { id }) {
       const idx = state.boards.findIndex((board) => board._id === id)
@@ -35,6 +42,17 @@ export default {
       } catch (err) {
         console.error('Cannot Load boards', err)
         throw err
+      }
+    },
+    async setCurrBoard({ commit }, { boardId } ) {
+      try {
+        const board = await boardService.getBoardById(boardId)
+        commit({ type: 'setCurrBoard', board })
+        return board
+      }
+      catch(err) {
+          console.log('Cannot find board', err)
+          throw err
       }
     },
     async removeBoard({ commit }, { id }) {

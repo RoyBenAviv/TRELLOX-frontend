@@ -194,7 +194,7 @@ async function addList(board) {
   return await updateBoard(board)
 }
 
-function editList(newList) {
+async function editList(newList) {
   const idx = board.lists.findIndex((list) => list.id === newList.id)
   board.lists[idx] = newList
   return await updateBoard(board)

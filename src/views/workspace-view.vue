@@ -1,24 +1,25 @@
 <template>
   <section>
-    workspace
+    <board-list :boards="boards"/>
   </section>
 </template>
 
 <script>
-// import appHeader from './components/app-header.vue'
+import boardList from '../components/board-list.vue'
 
 export default {
-  name: 'cmp name',
-//  props: {
-//    car: Object,
-//  },
-  components: {},
-  created() {},
+  name: 'workspace-view',
+  components: {
+    boardList
+  },
   data() {
     return {}
   },
   methods: {},
-  computed: {},
-  unmounted() {},
+  computed: {
+    boards() {
+      return this.$store.getters.getBoards
+    }
+  }
 }
 </script>

@@ -23,7 +23,7 @@ const router = createRouter({
       component: workspaceView
     },
     {
-      path: '/board',
+      path: '/board/:boardId?',
       name: 'board',
       component: boardView
     },
