@@ -15,14 +15,16 @@ export const boardService = {
   removeBoard,
   addGroup,
   editGroup,
-  updateCard,
-  addCard,
   archiveGroup,
+  addCard,
+  getCardById,
+  updateCard,
   archiveCard,
 }
 
 // For DEBUG:
 window.boardService = boardService
+// window.boardService.getCardById(boardId, cardId)
 
 // board
 async function query(filterBy) {
@@ -66,43 +68,7 @@ function getEmptyBoard() {
     style: {
       bgcImgUrl: 'https://images.unsplash.com/photo-1557251407-6356f6384370?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwyNXx8YW1zdGVyZGFtfGVufDB8fHx8MTY0MjQxNDE0Ng&ixlib=rb-1.2.1&q=80&w=200',
     },
-    labels: [
-      {
-        id: 'l101',
-        title: 'Copy Request',
-        color: '$labe0',
-      },
-      {
-        id: 'l102',
-        title: 'One more step',
-        color: '$labe1',
-      },
-      {
-        id: 'l103',
-        title: 'Priority',
-        color: '$labe2',
-      },
-      {
-        id: 'l104',
-        title: 'Design Team',
-        color: '$labe3',
-      },
-      {
-        id: 'l105',
-        title: 'Product Marketing',
-        color: '$labe4',
-      },
-      {
-        id: 'l106',
-        title: 'Trello Tip',
-        color: '$labe5',
-      },
-      {
-        id: 'l107',
-        title: 'Help',
-        color: '$labe6',
-      },
-    ],
+    labels: _getLabelsForPM(),
     members: [],
     groups: [_getGroup('my group')],
   }
@@ -151,12 +117,27 @@ async function archiveGroup(boardId, groupId) {
 }
 
 // card
-async function addCard(boardId, groupId, title) {
+async function addCard(boardId, cardId, title) {
   try {
     var board = await getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === groupId)
     board.groups[idx].cards.push(_getEmptyCard(title))
     return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
+}
+
+async function getCardById(boardId, cardId) {
+  try {
+    var board = await getBoardById(boardId)
+    var foundCard = null
+    board.groups.forEach(group =>{
+      group.cards.forEach(card => {
+        if (card.id === cardId) foundCard = card
+      })
+    })
+    return foundCard
   } catch (err) {
     throw err
   }
@@ -179,7 +160,7 @@ async function updateCard(boardId, groupId, cardId, changes) {
     if (changes.label) {
       if (changes.label.action === 'toggle') {
         const idx = currCard.labelIds.findIndex((labelId) => labelId === changes.label.value)
-        if(idx === -1) currCard.labelIds.push(changes.label.value)
+        if (idx === -1) currCard.labelIds.push(changes.label.value)
         else currCard.labelIds.splice(idx, 1)
       } else if (changes.label.action === 'add') {
         currCard.labelIds.push(changes.label.value)
@@ -304,43 +285,7 @@ async function _createData() {
     style: {
       bgcImgUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwzfHxjb2Rpbmd8ZW58MHx8fHwxNjQyMzU4NjIz&ixlib=rb-1.2.1&q=80&w=200',
     },
-    labels: [
-      {
-        id: 'l101',
-        title: 'Copy Request',
-        color: '$labe0',
-      },
-      {
-        id: 'l102',
-        title: 'One more step',
-        color: '$labe1',
-      },
-      {
-        id: 'l103',
-        title: 'Priority',
-        color: '$labe2',
-      },
-      {
-        id: 'l104',
-        title: 'Design Team',
-        color: '$labe3',
-      },
-      {
-        id: 'l105',
-        title: 'Product Marketing',
-        color: '$labe4',
-      },
-      {
-        id: 'l106',
-        title: 'Trello Tip',
-        color: '$labe5',
-      },
-      {
-        id: 'l107',
-        title: 'Help',
-        color: '$labe6',
-      },
-    ],
+    labels: _getLabelsForPM(),
     members: [
       {
         _id: 'u102',
@@ -353,6 +298,83 @@ async function _createData() {
   boards = []
   boards.push(b1)
   storageService.postMany(entity_key, boards)
+}
+
+//project management
+function _getLabelsForPM(){
+  return [
+    {
+      id: 'l101',
+      title: 'Copy Request',
+      color: '#61bd4f',
+    },
+    {
+      id: 'l102',
+      title: 'One more step',
+      color: '#f2d600',
+    },
+    {
+      id: 'l103',
+      title: 'Priority',
+      color: '#ff9f1a',
+    },
+    {
+      id: 'l104',
+      title: 'Design Team',
+      color: '#eb5a46',
+    },
+    {
+      id: 'l105',
+      title: 'Product Marketing',
+      color: '#c377e0',
+    },
+    {
+      id: 'l106',
+      title: 'Trello Tip',
+      color: '#0079bf',
+    },
+    {
+      id: 'l107',
+      title: 'Help',
+      color: '#00c2e0',
+    },
+  ]
+}
+
+//company overview
+function _getLabelsForCO(){
+  return [
+    {
+      id: 'l101',
+      title: 'Product',
+      color: '#61bd4f',
+    },
+    {
+      id: 'l102',
+      title: 'Marketing',
+      color: '#f2d600',
+    },
+    {
+      id: 'l103',
+      title: 'Sales',
+      color: '#ff9f1a',
+    },
+    {
+      id: 'l104',
+      title: 'Support',
+      color: '#eb5a46',
+    },
+    {
+      id: 'l105',
+      title: 'People',
+      color: '#c377e0',
+    },
+    {
+      id: 'l106',
+      title: 'IT',
+      color: '#0079bf',
+    }
+  ]
 }
 
 function _getEmptyGroup(title = '') {
@@ -371,7 +393,7 @@ function _getGroup(title) {
       {
         id: utilService.makeId(),
         title: 'card 1',
-        labelIds: ['l101'],
+        labelIds: ['l101', 'l104', 'l105', 'l106'],
       },
       {
         id: utilService.makeId(),

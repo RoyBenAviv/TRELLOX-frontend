@@ -5,7 +5,8 @@ export default {
     boards: null,
     filterBy: null,
     currBoard: null,
-    lableTitleShown: false
+    labelTitleShown: false,
+    colors: ['#61bd4f', '#f2d600', '#ff9f1a', '#eb5a46', '#c377e0', '#0079bf', '#00c2e0', '#51e898', '#ff78cb', '#344563', '#b3bac5']
   },
   getters: {
     boards(state) {
@@ -14,6 +15,9 @@ export default {
     currBoard(state) {
       return JSON.parse(JSON.stringify(state.currBoard))
     },
+    labelTitleShown(state) {
+      return state.labelTitleShown
+    },
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -21,6 +25,9 @@ export default {
     },
     setCurrBoard(state, { board }) {
       state.currBoard = board
+    },
+    toggleLabelTitle(state) {
+      state.labelTitleShown = !state.labelTitleShown
     },
     removeBoard(state, { id }) {
       const idx = state.boards.findIndex((board) => board._id === id)
@@ -125,5 +132,14 @@ export default {
         throw err
       }
     },
+    async getCardById({commit}, {boardId, cardId}) {
+      try {
+        const card = await boardService.getCardById(boardId, cardId)
+        return card
+      } catch (err) {
+        console.log('Cannot find card', err)
+        throw err
+      }
+    }
   },
 }

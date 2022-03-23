@@ -14,7 +14,7 @@ export default {
   created() {},
   data() {
     return {
-      label: this.labels.find((l) => l.id === this.labelId),
+    //   label: this.labels.find((l) => l.id === this.labelId),
     }
   },
   methods: {},

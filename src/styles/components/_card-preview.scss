@@ -50,5 +50,43 @@
       }
     }
   }
-  
+  .card-label-container {
+    // overflow: auto;
+    position: relative;
+    color: $clr4;
+
+    &:hover {
+      -webkit-filter: brightness(70%);
+    }
+
+    .card-label {
+      float: left;
+      font-size: 12px;
+      font-weight: 700;
+      height: 8px;
+      line-height: 100px;
+      margin: 0 4px 4px 0;
+      max-width: 40px;
+      min-width: 40px;
+      padding: 0;
+      text-shadow: none;
+      width: auto;
+      border-radius: 4px;
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0);
+      transition-duration: 1s;
+      transition-property: color, width, height;
+      transition-timing-function: ease;
+      // transition: width 0.5s ease-in;
+      // transition: color 1s;
+
+      &.open {
+        color: white;
+        height: 16px;
+        line-height: 16px;
+        max-width: 198px;
+        padding: 0 8px;
+      }
+    }
+  }
 }

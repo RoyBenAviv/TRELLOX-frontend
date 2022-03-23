@@ -1,5 +1,5 @@
 <template>
-  <custom-card v-if="!newLable">
+  <custom-card v-if="!newLabel">
     <template v-slot:header> Labels </template>
 
     <input type="search" placeholder="Search labels" />
@@ -54,23 +54,23 @@ export default {
     return {
       groupId: '4667',
       cardId: '4667',
-      newLable: null,
+      newLabel: null,
     }
   },
   methods: {
     startCreating(){
-      this.newLable = {
+      this.newLabel = {
         title: '',
         color: null
       }
     },
-    async toggleLabel(lableId){
+    async toggleLabel(labelId){
       await this.$store.dispatch({
         type: 'updateCard',
         groupId: this.group.id,
         cardId: this.card.id,
         changes: {
-          label: { action: 'toggle', value: lableId },
+          label: { action: 'toggle', value: labelId },
         },
       })
     },
@@ -100,10 +100,10 @@ export default {
         groupId: this.group.id,
         cardId: this.card.id,
         changes: {
-          label: { action: 'create', value: this.newLable},
+          label: { action: 'create', value: this.newLabel},
         },
       })
-      this.newLable = null
+      this.newLabel = null
     },
     async editLabel() {
       await this.$store.dispatch({
@@ -111,7 +111,7 @@ export default {
         groupId: this.group.id,
         cardId: this.card.id,
         changes: {
-          label: { action: 'edit', value: { color: '$labe0', id: 'l101', title: 'SHANI!! Request' } },
+          label: { action: 'edit', value: { color: '$label0', id: 'l101', title: 'SHANI!! Request' } },
         },
       })
     },
