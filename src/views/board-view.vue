@@ -34,13 +34,13 @@
 
 <script>
 import groupPreview from '../components/board/group-preview.vue'
-import { Container, Draggable } from "vue3-smooth-dnd";
+// import { Container, Draggable } from "vue3-smooth-dnd";
 
 export default {
   components: {
     groupPreview,
-    Container,
-    Draggable
+    // Container,
+    // Draggable
   },
   data() {
     return {
