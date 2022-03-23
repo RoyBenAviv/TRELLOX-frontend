@@ -1,4 +1,35 @@
-.card-container {
-    background-color: $clr4;
+.card-preview {
+  position: relative;
+  @include flex(row, flex-start, flex-start);
+  gap: 1rem;
+  height: 100%;
+  background-color: $clr4;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #091e4240;
+  margin-bottom: 8px;
+  cursor: pointer;
+  &:hover {
+    .edit-card {
+        display: flex;
+    }
+    background-color: darken($clr4, 5%);
+  }
+  .edit-card {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: em(12px);
+    color: lighten($clr6, 30%);
     border-radius: 3px;
+    height: 30px;
+    width: 30px;
+    padding: rem(5px);
+    font-weight: 400;
+    @include flex;
+    display: none;
+    transition: background-color 0.3s;
+    &:hover {
+      background-color: darken($clr5, 5%);
+    }
+  }
 }

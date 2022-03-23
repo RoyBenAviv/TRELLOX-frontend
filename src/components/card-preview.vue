@@ -1,5 +1,6 @@
 <template>
-  <div @click="openCardEdit" class="card-container">
+  <div @click="openCardEdit" class="card-preview">
+    <span class="edit-card"><i class="fa-solid fa-pen"></i></span>
     <p>{{ card.title }}</p>
     <card-edit v-if="isCardOpen" :card="card"/>
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->

@@ -23,3 +23,19 @@
       }
       border-radius: 10px;
 }
+
+@mixin blue-btn {
+    cursor: pointer;
+    border-radius: 3px;
+    border: none;
+    font-size: rem(14px);
+    font-weight: 400;
+    font-family: roboto-header;
+    text-decoration: none;
+    background-color: $clr7;
+    box-shadow: none;
+    color: $clr4;
+    padding: rem(8px) rem(14px);
+    line-height: initial;
+    @include flex
+}
