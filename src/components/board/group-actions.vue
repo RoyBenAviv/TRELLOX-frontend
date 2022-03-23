@@ -2,7 +2,7 @@
    <section class="group-actions">
        <div class="grp-act-header"><p>List actions</p> <span><i class="fa-solid fa-xmark"></i></span></div>
       <ul>
-          <li><a>Add card...</a></li>
+          <li @click="addCard"><a>Add card...</a></li>
           <li><a>Copy list...</a></li>
           <li><a>Move list...</a></li>
       </ul>
@@ -17,7 +17,7 @@
       </ul>
       <ul>
           <hr>
-          <li><a>Archive this list</a></li>
+          <li @click="archiveGroup"><a>Archive this list</a></li>
       </ul>
   </section>
 </template>
@@ -33,6 +33,12 @@ return {
 };
  },
 methods: {
+    addCard() {
+        this.$emit('addCard')
+    },
+    archiveGroup() {
+        this.$emit('archiveGroup')
+    }
 },
 computed: {
 },
