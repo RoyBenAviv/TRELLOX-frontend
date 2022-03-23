@@ -55,15 +55,15 @@
       width: auto;
       border-radius: 4px;
       cursor: pointer;
-      // transition: all 1s 0.01s;
-      // transition: width 4s;
-      // transition: height 2s;
-      // transition: width 5s, height 0.8s 0.5s;
-      overflow: hidden;
-      transition: margin-left 0.3s ease-in 1s, max-height 1s ease-in;
+      color: rgba(0, 0, 0, 0);
+      transition-duration: 1s;
+      transition-property: color, width, height;
+      transition-timing-function: ease;
+      // transition: width 0.5s ease-in;
+      // transition: color 1s;
 
       &.open {
-        // transition: 1s;
+        color: white;
         height: 16px;
         line-height: 16px;
         max-width: 198px;
