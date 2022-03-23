@@ -4,8 +4,7 @@
       <!-- <textarea>{{group.title}}</textarea> -->
       <h2>{{group.title}}</h2>
       <div v-for="card in group.cards" :key="card.id">
-          <card-preview :card="card"></card-preview>
-          <button @click="archiveCard(card.id)">Archive card</button>
+        <card-preview :card="card"></card-preview>
       </div>
       <button @click="isAddCard = true" v-if="!isAddCard">Add new card</button>
       <div v-else>
@@ -13,7 +12,7 @@
         <button @click="addCard">Add card</button>
       </div>
       <button @click="archiveGroup">Archive group</button>
-      </div>
+    </div>
   </section>
 </template>
 
@@ -26,29 +25,27 @@ export default {
     group: Object,
   },
   components: {
-      cardPreview
+    cardPreview,
   },
   created() {},
   data() {
     return {
-        isAddCard: false,
-        cardTitle: ''
+      isAddCard: false,
+      cardTitle: '',
     }
   },
   methods: {
     addCard() {
-      this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle})
+      this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
     },
     archiveGroup() {
-      this.$store.dispatch({type: 'archiveGroup', groupId: this.group.id})
+      this.$store.dispatch({ type: 'archiveGroup', groupId: this.group.id })
     },
     archiveCard(cardId) {
-      this.$store.dispatch({type: 'archiveCard', groupId: this.group.id, cardId})
-    }
+      this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
+    },
   },
   computed: {},
-  unmounted() {
-
-  },
+  unmounted() {},
 }
 </script>

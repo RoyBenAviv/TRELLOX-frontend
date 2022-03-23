@@ -3,6 +3,9 @@
     <p>{{ card.title }}</p>
     <card-edit @closeModal="closeModal" v-if="isCardOpen" :card="card"/>
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
+    <span v-for="id in card.labelIds" :key="id">
+      {{ id }}
+    </span>
   </div>
 </template>
 
@@ -16,11 +19,11 @@ export default {
   },
   components: {
     cardActions,
-    cardEdit
+    cardEdit,
   },
   data() {
     return {
-      isCardOpen: false
+      isCardOpen: false,
       // openActionsMenu: false,
     }
   },
@@ -33,7 +36,5 @@ export default {
       console.log('this.isCardOpen',this.isCardOpen);
     }
   },
-  computed: {},
-
 }
 </script>

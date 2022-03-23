@@ -18,27 +18,40 @@ export const boardService = {
   updateCard,
   addCard,
   archiveGroup,
-  archiveCard
+  archiveCard,
 }
 
 // For DEBUG:
 window.boardService = boardService
 
+// board
 async function query(filterBy) {
-  // var queryStr = !filterBy ? '' : `?name=${filterBy.name}&sort=anaAref`
-  var boards = await storageService.query(entity_key)
-  if (filterBy) {
-    // filtering
+  try {
+    // var queryStr = !filterBy ? '' : `?name=${filterBy.name}&sort=anaAref`
+    var boards = await storageService.query(entity_key)
+    if (filterBy) {
+      // filtering
+    }
+    return boards
+  } catch (err) {
+    throw err
   }
-  return boards
 }
 
 async function getBoardById(boardId) {
-  return await storageService.get(entity_key, boardId)
+  try {
+    return await storageService.get(entity_key, boardId)
+  } catch (err) {
+    throw err
+  }
 }
 
 async function updateBoard(board) {
-  return await storageService.put(entity_key, board)
+  try {
+    return await storageService.put(entity_key, board)
+  } catch (err) {
+    throw err
+  }
 }
 
 function getEmptyBoard() {
@@ -51,18 +64,43 @@ function getEmptyBoard() {
       imgUrl: 'img.png',
     },
     style: {
-      bgcImgUrl: 'https://images.unsplash.com/photo-1557251407-6356f6384370?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwyNXx8YW1zdGVyZGFtfGVufDB8fHx8MTY0MjQxNDE0Ng&ixlib=rb-1.2.1&q=80&w=200'
+      bgcImgUrl: 'https://images.unsplash.com/photo-1557251407-6356f6384370?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwyNXx8YW1zdGVyZGFtfGVufDB8fHx8MTY0MjQxNDE0Ng&ixlib=rb-1.2.1&q=80&w=200',
     },
     labels: [
       {
         id: 'l101',
-        title: 'Done',
-        color: '#61bd4f',
+        title: 'Copy Request',
+        color: '$labe0',
       },
       {
         id: 'l102',
-        title: 'Progress',
-        color: '#61bd33',
+        title: 'One more step',
+        color: '$labe1',
+      },
+      {
+        id: 'l103',
+        title: 'Priority',
+        color: '$labe2',
+      },
+      {
+        id: 'l104',
+        title: 'Design Team',
+        color: '$labe3',
+      },
+      {
+        id: 'l105',
+        title: 'Product Marketing',
+        color: '$labe4',
+      },
+      {
+        id: 'l106',
+        title: 'Trello Tip',
+        color: '$labe5',
+      },
+      {
+        id: 'l107',
+        title: 'Help',
+        color: '$labe6',
       },
     ],
     members: [],
@@ -71,58 +109,126 @@ function getEmptyBoard() {
 }
 
 async function removeBoard(boardId) {
-  return await storageService.delete(entity_key, boardId)
+  try {
+    return await storageService.delete(entity_key, boardId)
+  } catch (err) {
+    throw err
+  }
 }
 
+// group
 async function addGroup(boardId, title) {
-  var board = await getBoardById(boardId)
-  board.groups.push(_getEmptyGroup(title))
-  return await updateBoard(board)
-}
-
-async function archiveGroup(boardId, groupId) {
-  var board = await getBoardById(boardId)
-  const idx = board.groups.findIndex(group => group.id === groupId)
-  const groupToArchive = board.groups.splice(idx, 1)[0]
-  _archiveItem(groupToArchive)
-  return await updateBoard(board)
-}
-async function archiveCard(boardId, groupId, cardId) {
-  var board = await getBoardById(boardId)
-  const groupIdx = board.groups.findIndex((group) => group.id === groupId)
-  const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
-  const cardToArchive = board.groups[groupIdx].cards.splice(cardIdx, 1)[0]
-  _archiveItem(cardToArchive)
-  return await updateBoard(board)
-}
-
-async function _archiveItem(item) {
-  const archive = await storageService.query(archive_key) || []
-  storageService.post(archive_key, item)
+  try {
+    var board = await getBoardById(boardId)
+    board.groups.push(_getEmptyGroup(title))
+    return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
 }
 
 async function editGroup(boardId, newGroup) {
-  var board = getBoardById(boardId)
-  const idx = board.groups.findIndex((group) => group.id === newGroup.id)
-  board.groups[idx] = newGroup
-  return await updateBoard(board)
+  try {
+    var board = getBoardById(boardId)
+    const idx = board.groups.findIndex((group) => group.id === newGroup.id)
+    board.groups[idx] = newGroup
+    return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
 }
 
+async function archiveGroup(boardId, groupId) {
+  try {
+    var board = await getBoardById(boardId)
+    const idx = board.groups.findIndex((group) => group.id === groupId)
+    const groupToArchive = board.groups.splice(idx, 1)[0]
+    _archiveItem(groupToArchive)
+    return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
+}
+
+// card
 async function addCard(boardId, groupId, title) {
-  var board = await getBoardById(boardId)
-  const idx = board.groups.findIndex((group) => group.id === groupId)
-  board.groups[idx].cards.push(_getEmptyCard(title))
-  return await updateBoard(board)
+  try {
+    var board = await getBoardById(boardId)
+    const idx = board.groups.findIndex((group) => group.id === groupId)
+    board.groups[idx].cards.push(_getEmptyCard(title))
+    return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
 }
 
-async function updateCard(boardId, groupId, updatedCard) {
-  var board = await getBoardById(boardId)
-  const idxGroup = board.groups.findIndex((group) => group.id === groupId)
-  const idxCard = board.groups[idxGroup].findIndex((card) => card.id === updatedCard.id)
-  board.groups[idxGroup][idxCard] = updatedCard
-  return await updateBoard(board)
+// label
+// add (boardId, groupId, cardId, changes: { label: { action: connect, value: labelId }})
+// remove (boardId, groupId, cardId, changes: { label: { action: remove, value: labelId }})
+// create (boardId, groupId, cardId, changes: { label: { action: create, value: { title, color }}})
+// update (boardId, groupId, cardId, changes: { label: { action: remove, value: updatedLabel }})
+// delete (boardId, groupId, cardId, changes: { label: { action: delete, value: labelId }})
+async function updateCard(boardId, groupId, cardId, changes) {
+  try {
+    //finding current card
+    var board = await getBoardById(boardId)
+    const idxGroup = board.groups.findIndex((group) => group.id === groupId)
+    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === cardId)
+    var currCard = board.groups[idxGroup].cards[idxCard]
+
+    if (changes.label) {
+      if (changes.label.action === 'toggle') {
+        const idx = currCard.labelIds.findIndex((labelId) => labelId === changes.label.value)
+        if(idx === -1) currCard.labelIds.push(changes.label.value)
+        else currCard.labelIds.splice(idx, 1)
+      } else if (changes.label.action === 'add') {
+        currCard.labelIds.push(changes.label.value)
+      } else if (changes.label.action === 'remove') {
+        const idx = currCard.labelIds.findIndex((labelId) => labelId === changes.label.value)
+        currCard.labelIds.splice(idx, 1)
+      } else if (changes.label.action === 'create') {
+        // create
+        var newLabel = changes.label.value
+        newLabel.id = utilService.makeId()
+        board.labels.push(newLabel)
+        // add
+        currCard.labelIds.push(newLabel.id)
+      } else if (changes.label.action === 'edit') {
+        const idx = board.labels.findIndex((l) => l.id === changes.label.value.id)
+        board.labels.splice(idx, 1, changes.label.value)
+      } else if (changes.label.action === 'delete') {
+        const idx = board.labels.findIndex((l) => l.id === changes.label.value)
+        board.labels.splice(idx, 1)
+        // delete from all cards
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.map((card) => {
+            card.labelIds = card.labelIds.filter((labelId) => labelId !== changes.label.value)
+            return card
+          })
+          return group
+        })
+      }
+    }
+    return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
 }
 
+async function archiveCard(boardId, groupId, cardId) {
+  try {
+    var board = await getBoardById(boardId)
+    const groupIdx = board.groups.findIndex((group) => group.id === groupId)
+    const cardIdx = board.groups[groupIdx].cards.findIndex((card) => card.id === cardId)
+    const cardToArchive = board.groups[groupIdx].cards.splice(cardIdx, 1)[0]
+    _archiveItem(cardToArchive)
+    return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
+}
+
+//inside func // add try n catch
 async function _createData() {
   console.log('hi')
   var boards = await query()
@@ -196,18 +302,43 @@ async function _createData() {
       imgUrl: 'img.png',
     },
     style: {
-      bgcImgUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwzfHxjb2Rpbmd8ZW58MHx8fHwxNjQyMzU4NjIz&ixlib=rb-1.2.1&q=80&w=200'
+      bgcImgUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwzfHxjb2Rpbmd8ZW58MHx8fHwxNjQyMzU4NjIz&ixlib=rb-1.2.1&q=80&w=200',
     },
     labels: [
       {
         id: 'l101',
-        title: 'Done',
-        color: '#61bd4f',
+        title: 'Copy Request',
+        color: '$labe0',
       },
       {
         id: 'l102',
-        title: 'Progress',
-        color: '#61bd33',
+        title: 'One more step',
+        color: '$labe1',
+      },
+      {
+        id: 'l103',
+        title: 'Priority',
+        color: '$labe2',
+      },
+      {
+        id: 'l104',
+        title: 'Design Team',
+        color: '$labe3',
+      },
+      {
+        id: 'l105',
+        title: 'Product Marketing',
+        color: '$labe4',
+      },
+      {
+        id: 'l106',
+        title: 'Trello Tip',
+        color: '$labe5',
+      },
+      {
+        id: 'l107',
+        title: 'Help',
+        color: '$labe6',
       },
     ],
     members: [
@@ -236,7 +367,23 @@ function _getGroup(title) {
   return {
     id: utilService.makeId(),
     title,
-    cards: [_getEmptyCard('card1'), _getEmptyCard('card2'), _getEmptyCard('card3')],
+    cards: [
+      {
+        id: utilService.makeId(),
+        title: 'card 1',
+        labelIds: ['l101'],
+      },
+      {
+        id: utilService.makeId(),
+        title: 'card 2',
+        labelIds: ['l102'],
+      },
+      {
+        id: utilService.makeId(),
+        title: 'card 3',
+        labelIds: ['l103'],
+      },
+    ],
   }
 }
 
@@ -244,8 +391,22 @@ function _getEmptyCard(title = '') {
   return {
     id: utilService.makeId(),
     title,
+    labelIds: [],
   }
 }
+
+async function _archiveItem(item) {
+  const archive = (await storageService.query(archive_key)) || []
+  storageService.post(archive_key, item)
+}
+
+// function _createLabel({ title, color }) {
+//   return {
+//     id: utilService.makeId(),
+//     title,
+//     color,
+//   }
+// }
 
 // // This IIFE functions for Dev purposes
 // // It allows testing of real time updates (such as sockets) by groupening to storage events
