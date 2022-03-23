@@ -13,11 +13,11 @@ export const boardService = {
   updateBoard,
   getEmptyBoard,
   removeBoard,
-  addList,
-  editList,
+  addGroup,
+  editGroup,
   updateCard,
   addCard,
-  archiveList,
+  archiveGroup,
   archiveCard
 }
 
@@ -66,7 +66,7 @@ function getEmptyBoard() {
       },
     ],
     members: [],
-    lists: [_getList('my list')],
+    groups: [_getGroup('my group')],
   }
 }
 
@@ -74,24 +74,24 @@ async function removeBoard(boardId) {
   return await storageService.delete(entity_key, boardId)
 }
 
-async function addList(boardId, title) {
+async function addGroup(boardId, title) {
   var board = await getBoardById(boardId)
-  board.lists.push(_getEmptyList(title))
+  board.groups.push(_getEmptyGroup(title))
   return await updateBoard(board)
 }
 
-async function archiveList(boardId, listId) {
+async function archiveGroup(boardId, groupId) {
   var board = await getBoardById(boardId)
-  const idx = board.lists.findIndex(list => list.id === listId)
-  const listToArchive = board.lists.splice(idx, 1)[0]
-  _archiveItem(listToArchive)
+  const idx = board.groups.findIndex(group => group.id === groupId)
+  const groupToArchive = board.groups.splice(idx, 1)[0]
+  _archiveItem(groupToArchive)
   return await updateBoard(board)
 }
-async function archiveCard(boardId, listId, cardId) {
+async function archiveCard(boardId, groupId, cardId) {
   var board = await getBoardById(boardId)
-  const listIdx = board.lists.findIndex((list) => list.id === listId)
-  const cardIdx = board.lists[listIdx].cards.findIndex(card => card.id === cardId)
-  const cardToArchive = board.lists[listIdx].cards.splice(cardIdx, 1)[0]
+  const groupIdx = board.groups.findIndex((group) => group.id === groupId)
+  const cardIdx = board.groups[groupIdx].cards.findIndex(card => card.id === cardId)
+  const cardToArchive = board.groups[groupIdx].cards.splice(cardIdx, 1)[0]
   _archiveItem(cardToArchive)
   return await updateBoard(board)
 }
@@ -101,25 +101,25 @@ async function _archiveItem(item) {
   storageService.post(archive_key, item)
 }
 
-async function editList(boardId, newList) {
+async function editGroup(boardId, newGroup) {
   var board = getBoardById(boardId)
-  const idx = board.lists.findIndex((list) => list.id === newList.id)
-  board.lists[idx] = newList
+  const idx = board.groups.findIndex((group) => group.id === newGroup.id)
+  board.groups[idx] = newGroup
   return await updateBoard(board)
 }
 
-async function addCard(boardId, listId, title) {
+async function addCard(boardId, groupId, title) {
   var board = await getBoardById(boardId)
-  const idx = board.lists.findIndex((list) => list.id === listId)
-  board.lists[idx].cards.push(_getEmptyCard(title))
+  const idx = board.groups.findIndex((group) => group.id === groupId)
+  board.groups[idx].cards.push(_getEmptyCard(title))
   return await updateBoard(board)
 }
 
-async function updateCard(boardId, listId, updatedCard) {
+async function updateCard(boardId, groupId, updatedCard) {
   var board = await getBoardById(boardId)
-  const idxList = board.lists.findIndex((list) => list.id === listId)
-  const idxCard = board.lists[idxList].findIndex((card) => card.id === updatedCard.id)
-  board.lists[idxList][idxCard] = updatedCard
+  const idxGroup = board.groups.findIndex((group) => group.id === groupId)
+  const idxCard = board.groups[idxGroup].findIndex((card) => card.id === updatedCard.id)
+  board.groups[idxGroup][idxCard] = updatedCard
   return await updateBoard(board)
 }
 
@@ -156,10 +156,10 @@ async function _createData() {
   //       imgUrl: 'img.png',
   //     },
   //   ],
-  //   lists: [
+  //   groups: [
   //     {
   //       id: 'g101',
-  //       title: 'List 1',
+  //       title: 'Group 1',
   //       cards: [
   //         {
   //           id: 'c101',
@@ -173,7 +173,7 @@ async function _createData() {
   //     },
   //     {
   //       id: 'g102',
-  //       title: 'List 2',
+  //       title: 'Group 2',
   //       cards: [
   //         {
   //           id: 'c102',
@@ -217,14 +217,14 @@ async function _createData() {
         imgUrl: 'img.png',
       },
     ],
-    lists: [_getList('Processing'), _getList('Done'), _getList('Tasks for today'), _getList('Others')],
+    groups: [_getGroup('Processing'), _getGroup('Done'), _getGroup('Tasks for today'), _getGroup('Others')],
   }
   boards = []
   boards.push(b1)
   storageService.postMany(entity_key, boards)
 }
 
-function _getEmptyList(title = '') {
+function _getEmptyGroup(title = '') {
   return {
     id: utilService.makeId(),
     title,
@@ -232,7 +232,7 @@ function _getEmptyList(title = '') {
   }
 }
 
-function _getList(title) {
+function _getGroup(title) {
   return {
     id: utilService.makeId(),
     title,
@@ -248,12 +248,12 @@ function _getEmptyCard(title = '') {
 }
 
 // // This IIFE functions for Dev purposes
-// // It allows testing of real time updates (such as sockets) by listening to storage events
+// // It allows testing of real time updates (such as sockets) by groupening to storage events
 // ;(async () => {
 //   var boards = await storageService.query('board')
 
-//   // Dev Helper: Listens to when localStorage changes in OTHER browser
-//   window.addEventListener('storage', async () => {
+//   // Dev Helper: Groupens to when localStorage changes in OTHER browser
+//   window.addEventGroupener('storage', async () => {
 //     console.log('Storage updated')
 //     const freshBoards = await storageService.query('board')
 //     if (freshBoards.length === boards.length + 1) {
