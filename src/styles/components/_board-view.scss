@@ -1,4 +1,5 @@
 .board-view {
+    padding-block-start: rem(100px);
     .card-container {
         @include flex(row, flex-start, flex-start);
         gap: 1rem;
