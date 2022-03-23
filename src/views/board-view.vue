@@ -17,16 +17,20 @@
 
         </div>
       </nav>
-    <div class="group-container">
-      <group-preview v-for="group in board.groups" :key="group.id" :group="group"></group-preview>
+    <!-- <div > -->
+      <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
+      <Draggable v-for="group in board.groups" :key="group.id" >
+        <group-preview :group="group"/>
+      </Draggable>
       <div class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
       <div class="add-group-container" v-else>
         <input @keyup.enter="addGroup" v-model="groupTitle" autofocus type="text" placeholder="Enter group title" />
         <div class="add-group-actions">
-        <button @click="addGroup">Add list</button><span><i class="fa-solid fa-xmark"></i></span>
+          <button @click="addGroup">Add list</button><span><i class="fa-solid fa-xmark"></i></span>
         </div>
       </div>
-    </div>
+          </Container>
+    <!-- </div> -->
     <router-view></router-view>
   </section>
 
@@ -34,35 +38,54 @@
 
 <script>
 import groupPreview from '../components/board/group-preview.vue'
-// import { Container, Draggable } from "vue3-smooth-dnd";
+import { Container, Draggable } from 'vue3-smooth-dnd'
+import { applyDrag } from '../services/drag.helpers'
+import KanbanItem from '../components/KanbanItem.vue'
 
 export default {
   components: {
     groupPreview,
-    // Container,
-    // Draggable
+    Container,
+    Draggable,
+    KanbanItem
   },
   data() {
     return {
       isAddGroup: false,
       groupTitle: '',
+      board: null
     }
   },
   async created() {
     const { boardId } = this.$route.params
-    await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+    this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
   },
   methods: {
     addGroup() {
       this.$store.dispatch({ type: 'addGroup', title: this.groupTitle})
       this.groupTitle = ''
     },
+      onGroupDrop (dropResult) {
+      const board = Object.assign({}, this.board)
+      board.groups = applyDrag(board.groups, dropResult)
+      this.$store.dispatch({ type: 'saveBoard', board })
+      this.board = board
+    },
   },
   computed: {
-    board() {
-      return this.$store.getters.currBoard
-    }
+    // board() {
+    //   return this.$store.getters.currBoard
+    // }
   },
   unmounted() {},
 }
 </script>
+
+<style scoped>
+  .smooth-dnd-container.horizontal {
+    display: flex;
+  }
+  .on-dragging {
+      transform: rotate(10deg);
+  }
+</style>
