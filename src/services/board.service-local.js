@@ -15,14 +15,16 @@ export const boardService = {
   removeBoard,
   addGroup,
   editGroup,
-  updateCard,
-  addCard,
   archiveGroup,
+  addCard,
+  getCardById,
+  updateCard,
   archiveCard,
 }
 
 // For DEBUG:
 window.boardService = boardService
+// window.boardService.getCardById(boardId, cardId)
 
 // board
 async function query(filterBy) {
@@ -151,12 +153,23 @@ async function archiveGroup(boardId, groupId) {
 }
 
 // card
-async function addCard(boardId, groupId, title) {
+async function addCard(boardId, cardId, title) {
   try {
     var board = await getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === groupId)
     board.groups[idx].cards.push(_getEmptyCard(title))
     return await updateBoard(board)
+  } catch (err) {
+    throw err
+  }
+}
+
+async function getCardById(boardId, cardId) {
+  try {
+    var board = await getBoardById(boardId)
+    return board.groups.filter(group =>{
+      group.cards.filter(card => card.id === cardId)
+    })
   } catch (err) {
     throw err
   }
@@ -179,7 +192,7 @@ async function updateCard(boardId, groupId, cardId, changes) {
     if (changes.label) {
       if (changes.label.action === 'toggle') {
         const idx = currCard.labelIds.findIndex((labelId) => labelId === changes.label.value)
-        if(idx === -1) currCard.labelIds.push(changes.label.value)
+        if (idx === -1) currCard.labelIds.push(changes.label.value)
         else currCard.labelIds.splice(idx, 1)
       } else if (changes.label.action === 'add') {
         currCard.labelIds.push(changes.label.value)
