@@ -132,5 +132,14 @@ export default {
         throw err
       }
     },
+    async getCardById({commit}, {boardId, cardId}) {
+      try {
+        const card = await boardService.getCardById(boardId, cardId)
+        return card
+      } catch (err) {
+        console.log('Cannot find card', err)
+        throw err
+      }
+    }
   },
 }

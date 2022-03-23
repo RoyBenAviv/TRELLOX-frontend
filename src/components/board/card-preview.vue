@@ -11,7 +11,6 @@
     </span>
     <span class="edit-card"><i class="fa-solid fa-pen"></i></span>
     <p>{{ card.title }}</p>
-    <card-edit @closeModal="closeModal" v-if="isCardOpen" :card="card" />
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
   </div>
 </template>
@@ -33,18 +32,14 @@ export default {
   },
   data() {
     return {
-      isCardOpen: false,
       // openActionsMenu: false,
       activeColor: 'red',
     }
   },
   methods: {
     openCardEdit() {
-      this.isCardOpen = true
-    },
-    closeModal() {
-      this.isCardOpen = false
-      console.log('this.isCardOpen', this.isCardOpen)
+      const currRoute = this.$router.currentRoute._value.fullPath
+      this.$router.push(`${currRoute}/edit/${this.card.id}`)
     },
     toggleLabelTitle() {
       console.log('toggeling')
