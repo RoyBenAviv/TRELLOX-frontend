@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="list-preview">
       <h2>{{list.title}}</h2>
       <div v-for="card in list.cards" :key="card.id">
           <card-preview :card="card"></card-preview>

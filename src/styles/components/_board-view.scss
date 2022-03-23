@@ -1,6 +1,6 @@
 .board-view {
-    main {
-        @include flex(row, flex-start, center);
+    .card-container {
+        @include flex(row, flex-start, flex-start);
         gap: 1rem;
     }
 }
