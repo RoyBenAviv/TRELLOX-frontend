@@ -1,9 +1,9 @@
 <template>
   <section v-if="card" class="card-edit">
-    <div @click="closeModal" class="window-overlay">
+    <div @click="closeEdit" class="window-overlay">
       <div @click.stop class="card-modal">
         <div class="card-modal-details">
-          <i @click="closeModal" class="fa-solid fa-xmark close-modal-button"></i>
+          <i @click="closeEdit" class="fa-solid fa-xmark close-modal-button"></i>
           <div class="modal-header">
             <span class="modal-header-icon">
               <i class="fa-solid fa-tachograph-digital"></i>
@@ -162,7 +162,7 @@ export default {
     this.loadCard()
   },
   methods: {
-    closeModal() {
+    closeEdit() {
       this.$router.push(`/board/${this.boardId}`)
     },
     async loadCard() {
