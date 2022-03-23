@@ -1,4 +1,5 @@
 .board-view {
+    padding-top: 80px;
     main {
         @include flex(row, flex-start, center);
         gap: 1rem;

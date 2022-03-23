@@ -2,30 +2,29 @@
   <section v-if="board" class="board-view">
     <h1>{{ board.title }}</h1>
     <main>
-      <article v-for="list in board.lists" :key="list.id">
-        <list-preview :list="list"></list-preview>
+      <article v-for="group in board.groups" :key="group.id">
+        <group-preview :group="group"></group-preview>
       </article>
-      <button @click="isAddList = true" v-if="!isAddList">Add new list</button>
+      <button @click="isAddGroup = true" v-if="!isAddGroup">Add new group</button>
       <div v-else>
-        <input v-model="listTitle" type="text" placeholder="Enter list title" />
-        <button @click="addList">Add List</button>
+        <input v-model="groupTitle" type="text" placeholder="Enter group title" />
+        <button @click="addGroup">Add Group</button>
       </div>
     </main>
   </section>
 </template>
 
 <script>
-import listPreview from '../components/list-preview.vue'
+import groupPreview from '../components/group-preview.vue'
 
 export default {
-  name: 'cmp name',
   components: {
-    listPreview,
+    groupPreview,
   },
   data() {
     return {
-      isAddList: false,
-      listTitle: '',
+      isAddGroup: false,
+      groupTitle: '',
     }
   },
   async created() {
@@ -33,8 +32,8 @@ export default {
     await this.$store.dispatch({ type: 'setCurrBoard', boardId })
   },
   methods: {
-    addList() {
-      this.$store.dispatch({ type: 'addList', title: this.listTitle})
+    addGroup() {
+      this.$store.dispatch({ type: 'addGroup', title: this.groupTitle})
     },
   },
   computed: {

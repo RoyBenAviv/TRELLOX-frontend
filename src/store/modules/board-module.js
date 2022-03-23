@@ -30,8 +30,8 @@ export default {
       if (idx !== -1) state.boards.splice(idx, 1, board);
       else state.boards.push(board);
     },
-    addList(state, {emptyList}) {
-      state.currBoard.lists.push(emptyList)
+    addGroup(state, {emptyGroup}) {
+      state.currBoard.groups.push(emptyGroup)
     }
     // setFilter(state, { filterBy }) {
     //   state.filterBy = filterBy;
@@ -76,20 +76,20 @@ export default {
         throw err
       }
     },
-    async addList({commit, state}, {title}) {
+    async addGroup({commit, state}, {title}) {
       try {
-        const board = await boardService.addList(state.currBoard._id, title)
+        const board = await boardService.addGroup(state.currBoard._id, title)
         commit({type: 'setCurrBoard', board})
         commit({type: 'saveBoard', board})
       }
       catch(err) {
-        console.log('Cannot add list',err);
+        console.log('Cannot add group',err);
         throw err
       }
     },
-    async addCard({commit, state}, {listId, title}) {
+    async addCard({commit, state}, {groupId, title}) {
       try {
-        const board = await boardService.addCard(state.currBoard._id, listId, title)
+        const board = await boardService.addCard(state.currBoard._id, groupId, title)
         commit({type: 'setCurrBoard', board})
         commit({type: 'saveBoard', board})
       }
@@ -98,25 +98,25 @@ export default {
         throw err
       }
     },
-    async archiveList({commit, state}, {listId}) {
+    async archiveGroup({commit, state}, {groupId}) {
       try {
-        const board = await boardService.archiveList(state.currBoard._id, listId)
+        const board = await boardService.archiveGroup(state.currBoard._id, groupId)
         commit({type: 'setCurrBoard', board})
         commit({type: 'saveBoard', board})
       }
       catch(err) {
-        console.log('Cannot archive list',err);
+        console.log('Cannot archive group',err);
         throw err
       }
     },
-    async archiveCard({commit, state}, {listId, cardId}) {
+    async archiveCard({commit, state}, {groupId, cardId}) {
       try {
-        const board = await boardService.archiveCard(state.currBoard._id, listId, cardId)
+        const board = await boardService.archiveCard(state.currBoard._id, groupId, cardId)
         commit({type: 'setCurrBoard', board})
         commit({type: 'saveBoard', board})
       }
       catch(err) {
-        console.log('Cannot archive list',err);
+        console.log('Cannot archive group',err);
         throw err
       }
     }
