@@ -10,7 +10,7 @@
   cursor: pointer;
   &:hover {
     .edit-card {
-        display: flex;
+      display: flex;
     }
     background-color: darken($clr4, 5%);
   }
@@ -30,6 +30,45 @@
     transition: background-color 0.3s;
     &:hover {
       background-color: darken($clr5, 5%);
+    }
+  }
+  .card-label-container {
+    // overflow: auto;
+    position: relative;
+    color: $clr4;
+
+    &:hover {
+      -webkit-filter: brightness(70%);
+    }
+
+    .card-label {
+      float: left;
+      font-size: 12px;
+      font-weight: 700;
+      height: 8px;
+      line-height: 100px;
+      margin: 0 4px 4px 0;
+      max-width: 40px;
+      min-width: 40px;
+      padding: 0;
+      text-shadow: none;
+      width: auto;
+      border-radius: 4px;
+      cursor: pointer;
+      // transition: all 1s 0.01s;
+      // transition: width 4s;
+      // transition: height 2s;
+      // transition: width 5s, height 0.8s 0.5s;
+      overflow: hidden;
+      transition: margin-left 0.3s ease-in 1s, max-height 1s ease-in;
+
+      &.open {
+        // transition: 1s;
+        height: 16px;
+        line-height: 16px;
+        max-width: 198px;
+        padding: 0 8px;
+      }
     }
   }
 }

@@ -111,7 +111,7 @@ export default {
         groupId: this.group.id,
         cardId: this.card.id,
         changes: {
-          label: { action: 'edit', value: { color: '$labe0', id: 'l101', title: 'SHANI!! Request' } },
+          label: { action: 'edit', value: { color: '$label0', id: 'l101', title: 'SHANI!! Request' } },
         },
       })
     },

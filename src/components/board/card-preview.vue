@@ -1,9 +1,13 @@
 <template>
   <div @click="openCardEdit" class="card-preview">
     <!-- <labelColor v-for="labelId in card.labelIds" :key="labelId" :labelId="labelId" /> -->
-    <span v-for="label in labels" :key="label.id" @click="toggleLabelTitle">
-      <span :style="{ backgroundColor: label.color }">0</span>
-      <span v-if="labelTitleShown">{{ label.title }}</span>
+    <span class="card-label-container">
+      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle">
+        <span :style="{ backgroundColor: label.color }" class="card-label" :class="{ open: labelTitleShown }">
+          <span v-if="labelTitleShown">{{ label.title }}</span>
+        </span>
+        <!-- <pre>{{label.color}}</pre> -->
+      </span>
     </span>
     <span class="edit-card"><i class="fa-solid fa-pen"></i></span>
     <p>{{ card.title }}</p>
@@ -31,6 +35,7 @@ export default {
     return {
       isCardOpen: false,
       // openActionsMenu: false,
+      activeColor: 'red',
     }
   },
   methods: {
@@ -41,14 +46,15 @@ export default {
       this.isCardOpen = false
       console.log('this.isCardOpen', this.isCardOpen)
     },
-    toggleLabelTitle(){
+    toggleLabelTitle() {
+      console.log('toggeling')
       this.$store.commit({ type: 'toggleLabelTitle' })
     },
   },
   computed: {
     labels() {
       var labels = this.$store.getters.currBoard.labels
-      return labels.find((l) => this.card.labelIds.includes(l.id))
+      return labels.filter((l) => this.card.labelIds.includes(l.id))
     },
     labelTitleShown() {
       return this.$store.getters.labelTitleShown
