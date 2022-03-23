@@ -1,18 +1,20 @@
 <template>
   <section class="group-preview">
-    <h2>{{ group.title }}</h2>
-    <div v-for="card in group.cards" :key="card.id">
-      <card-preview :card="card"></card-preview>
-      <button @click="archiveCard(card.id)">Archive card</button>
-      <button @click="addLabel(card.id, 'l109')">connect lable</button>
-      <button @click="removeLabel(card.id, 'l109')">remove lable</button>
+    <div class="group-container">
+      <textarea>{{ group.title }}</textarea>
+      <div v-for="card in group.cards" :key="card.id">
+        <card-preview :card="card"></card-preview>
+        <button @click="archiveCard(card.id)">Archive card</button>
+        <button @click="addLabel(card.id, 'l109')">connect lable</button>
+        <button @click="removeLabel(card.id, 'l109')">remove lable</button>
+      </div>
+      <button @click="isAddCard = true" v-if="!isAddCard">Add new card</button>
+      <div v-else>
+        <input v-model="cardTitle" type="text" placeholder="Enter card title" />
+        <button @click="addCard">Add card</button>
+      </div>
+      <button @click="archiveGroup">Archive group</button>
     </div>
-    <button @click="isAddCard = true" v-if="!isAddCard">Add new card</button>
-    <div v-else>
-      <input v-model="cardTitle" type="text" placeholder="Enter card title" />
-      <button @click="addCard">Add card</button>
-    </div>
-    <button @click="archiveGroup">Archive group</button>
   </section>
 </template>
 

@@ -1,0 +1,9 @@
+.group-preview {
+    width: 272px;
+    height: 100%;
+    .group-container {
+        background-color: $clr5;
+        border-radius: 3px;
+        padding: 0 rem(10px);
+    }
+}

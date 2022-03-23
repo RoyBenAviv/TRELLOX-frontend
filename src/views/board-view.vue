@@ -2,9 +2,7 @@
   <section v-if="board" class="board-view">
       <h1>{{ board.title }}</h1>
     <div class="card-container">
-      <div v-for="group in board.groups" :key="group.id">
-        <group-preview :group="group"></group-preview>
-      </div>
+      <group-preview v-for="group in board.groups" :key="group.id" :group="group"></group-preview>
       <button @click="isAddGroup = true" v-if="!isAddGroup">Add new group</button>
       <div v-else>
         <input v-model="groupTitle" type="text" placeholder="Enter group title" />
