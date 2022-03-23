@@ -43,7 +43,7 @@ export default {
   computed: {
     labels() {
       var labels = this.$store.getters.currBoard.labels
-      return labels.find((l) => this.card.labelIds.includes(l.id))
+      // return labels.find((l) => this.card.labelIds.includes(l.id))
     },
     labelTitleShown() {
       return this.$store.getters.labelTitleShown
