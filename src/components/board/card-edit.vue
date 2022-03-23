@@ -39,7 +39,7 @@
                                     <p v-else >Add a more detailed description…</p>
                                 </div>
                                 <div v-else>
-                                    <textarea autofocus v-model="card.description" placeholder="Add a more detailed description…"></textarea>
+                                    <textarea :hidden="isTextArea" autofocus v-model="card.description" placeholder="Add a more detailed description…"></textarea>
                                     <button class="save-btn">Save</button>
                                     <span @click="isTextArea = false"><i class="fa-solid fa-xmark"></i></span>
                                 </div>
