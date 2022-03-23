@@ -37,5 +37,8 @@
     color: $clr4;
     padding: rem(8px) rem(14px);
     line-height: initial;
-    @include flex
+    @include flex;
+    &:hover {
+        background-color: #026aa7;
+    }
 }
