@@ -34,13 +34,13 @@
                 <h3>Description</h3>
               </div>
               <div class="description-input">
-                <div v-if="!isTextArea" class="fake-text-area" @click="isTextArea = true">
-                  <p v-if="card.description">{{ card.description }}</p>
-                  <p v-else>Add a more detailed description…</p>
+                  <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
+                <div v-if="!isTextArea && !card.description" class="fake-text-area" @click="isTextArea = true">
+                  <p>Add a more detailed description…</p>
                 </div>
-                <div v-else>
+                <div v-if="isTextArea">
                   <textarea autofocus v-model="card.description" placeholder="Add a more detailed description…"></textarea>
-                  <button class="save-btn">Save</button>
+                  <button @click="updateCard" class="save-btn">Save</button>
                   <span @click="isTextArea = false"><i class="fa-solid fa-xmark"></i></span>
                 </div>
               </div>
@@ -150,6 +150,7 @@ export default {
       card: null,
       boardId: null,
       cardId: null,
+      groupId: null,
       isShowActivity: false,
       isCommentsInput: false,
       newComment: '',
@@ -166,7 +167,9 @@ export default {
       this.$router.push(`/board/${this.boardId}`)
     },
     async loadCard() {
-      this.card = await this.$store.dispatch({ type: 'getCardById', boardId: this.boardId, cardId: this.cardId })
+      const cardDetails = await this.$store.dispatch({ type: 'getCardById', boardId: this.boardId, cardId: this.cardId })
+      this.card = cardDetails.card
+      this.groupId = cardDetails.groupId
     },
     showActivity() {
       this.isShowActivity = !this.isShowActivity
@@ -181,6 +184,10 @@ export default {
     openModal(cmpName) {
       this.cmpName = cmpName
     },
+    updateCard() {
+      //TODO - finish the updateCard function at the service
+      // this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.cardId, changes: ???})
+    }
   },
   computed: {
     commentsInputStyle() {

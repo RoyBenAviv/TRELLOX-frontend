@@ -350,6 +350,11 @@
             .description-input {
                 margin-left: rem(40px);
 
+                pre {
+                    font-family: roboto;
+                    font-size: 0.875rem;
+                }
+
                 .fake-text-area {
                     background-color: #091e420a;
                     border-radius: 3px;

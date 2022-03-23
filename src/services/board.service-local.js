@@ -131,13 +131,13 @@ async function addCard(boardId, groupId, title) {
 async function getCardById(boardId, cardId) {
   try {
     var board = await getBoardById(boardId)
-    var foundCard = null
+    var cardDetails = null
     board.groups.forEach(group =>{
       group.cards.forEach(card => {
-        if (card.id === cardId) foundCard = card
+        if (card.id === cardId) cardDetails = {groupId: group.id, card}
       })
     })
-    return foundCard
+    return cardDetails
   } catch (err) {
     throw err
   }
