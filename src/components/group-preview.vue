@@ -1,6 +1,7 @@
 <template>
   <section class="group-preview">
-      <h2>{{group.title}}</h2>
+    <div class="group-container">
+      <textarea>{{group.title}}</textarea>
       <div v-for="card in group.cards" :key="card.id">
           <card-preview :card="card"></card-preview>
           <button @click="archiveCard(card.id)">Archive card</button>
@@ -11,6 +12,7 @@
         <button @click="addCard">Add card</button>
       </div>
       <button @click="archiveGroup">Archive group</button>
+      </div>
   </section>
 </template>
 
