@@ -2,8 +2,11 @@
   <div @click="openCardEdit" class="card-preview">
     <span class="edit-card"><i class="fa-solid fa-pen"></i></span>
     <p>{{ card.title }}</p>
-    <card-edit v-if="isCardOpen" :card="card"/>
+    <card-edit @closeModal="closeModal" v-if="isCardOpen" :card="card"/>
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
+    <span v-for="id in card.labelIds" :key="id">
+      {{ id }}
+    </span>
   </div>
 </template>
 
@@ -17,20 +20,22 @@ export default {
   },
   components: {
     cardActions,
-    cardEdit
+    cardEdit,
   },
   data() {
     return {
-      isCardOpen: false
+      isCardOpen: false,
       // openActionsMenu: false,
     }
   },
   methods: {
     openCardEdit() {
         this.isCardOpen = true
+    },
+    closeModal() {
+      this.isCardOpen = false
+      console.log('this.isCardOpen',this.isCardOpen);
     }
   },
-  computed: {},
-
 }
 </script>
