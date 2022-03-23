@@ -1,7 +1,7 @@
 <template>
   <section>
-      <p @click="openActionsMenu = !openActionsMenu">{{card.title}}</p>
-      <card-actions v-if="openActionsMenu"></card-actions>
+    <p @click="openActionsMenu = !openActionsMenu">{{ card.title }}</p>
+    <card-actions v-if="openActionsMenu"></card-actions>
   </section>
 </template>
 
@@ -13,7 +13,7 @@ export default {
     card: Object,
   },
   components: {
-    cardActions
+    cardActions,
   },
   created() {},
   data() {
@@ -21,7 +21,8 @@ export default {
       openActionsMenu: false,
     }
   },
-  methods: {},
+  methods: {
+  },
   computed: {},
   unmounted() {},
 }
