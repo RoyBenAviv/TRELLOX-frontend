@@ -1,8 +1,11 @@
 <template>
   <div @click="openCardEdit" class="card-container">
     <p>{{ card.title }}</p>
-    <card-edit v-if="isCardOpen" :card="card"/>
+    <card-edit v-if="isCardOpen" :card="card" />
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
+    <span v-for="id in card.labelIds" :key="id">
+      {{ id }}
+    </span>
   </div>
 </template>
 
@@ -16,25 +19,23 @@ export default {
   },
   components: {
     cardActions,
-    cardEdit
+    cardEdit,
   },
   data() {
     return {
-      isCardOpen: false
+      isCardOpen: false,
       // openActionsMenu: false,
     }
   },
   methods: {
     openCardEdit() {
-        this.isCardOpen = true
-    }
+      this.isCardOpen = true
+    },
   },
-<<<<<<< HEAD
-  methods: {
+  computed: {
+    labels() {
+      return this.$store.getters.getBoards.labels
+    },
   },
-=======
->>>>>>> 74499e37f9a858c32a85186292cfda394d5e1521
-  computed: {},
-
 }
 </script>

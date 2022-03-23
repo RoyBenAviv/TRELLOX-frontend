@@ -1,12 +1,9 @@
 <template>
   <section class="group-preview">
     <div class="group-container">
-      <textarea>{{ group.title }}</textarea>
+      <!-- <textarea>{{ group.title }}</textarea> -->
       <div v-for="card in group.cards" :key="card.id">
         <card-preview :card="card"></card-preview>
-        <button @click="archiveCard(card.id)">Archive card</button>
-        <button @click="addLabel(card.id, 'l109')">connect lable</button>
-        <button @click="removeLabel(card.id, 'l109')">remove lable</button>
       </div>
       <button @click="isAddCard = true" v-if="!isAddCard">Add new card</button>
       <div v-else>
@@ -45,26 +42,6 @@ export default {
     },
     archiveCard(cardId) {
       this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
-    },
-    addLabel(cardId, labelId) {
-      this.$store.dispatch({
-        type: 'updateCard',
-        groupId: this.group.id,
-        cardId,
-        changes: {
-          label: { action: 'add', value: labelId },
-        },
-      })
-    },
-    removeLabel(cardId, labelId) {
-      this.$store.dispatch({
-        type: 'updateCard',
-        groupId: this.group.id,
-        cardId,
-        changes: {
-          label: { action: 'remove', value: labelId },
-        },
-      })
     },
   },
   computed: {},

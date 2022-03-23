@@ -120,7 +120,7 @@ export default {
         const board = await boardService.updateCard(state.currBoard._id, groupId, cardId, changes)
         commit({ type: 'saveBoard', board })
       } catch (err) {
-        console.log('Cannot archive group', err)
+        console.log('Cannot update card', err)
         throw err
       }
     },
