@@ -1,6 +1,6 @@
 <template>
   <section class="group-preview">
-    <div>
+    <!-- <div>
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <textarea v-if="editTitle" v-model="group.title"></textarea>
@@ -8,7 +8,7 @@
         <group-actions v-if="openGrpAct" />
       </div>
       <card-preview v-for="card in group.cards" :key="card.id" :card="card"></card-preview>
-      <!-- <button @click="archiveCard(card.id)">Archive card</button> -->
+      <button @click="archiveCard(card.id)">Archive card</button>
       <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
       <div class="add-card-container" v-else>
         <textarea class="add-card-textarea" v-model="cardTitle" type="text" placeholder="Enter a title for this card..."></textarea>
@@ -16,45 +16,45 @@
           <button @click="addCard">Add card</button><span><i class="fa-solid fa-xmark"></i></span>
         </div>
       </div>
-      <!-- <button @click="archiveGroup">Archive group</button> -->
-    </div>
+      <button @click="archiveGroup">Archive group</button>
+    </div> -->
   </section>
 </template>
 
 <script>
-import cardPreview from './card-preview.vue'
-import groupActions from './group-actions.vue'
+// import cardPreview from '../card-preview.vue'
+// import groupActions from '../group-actions.vue'
 
-export default {
-  name: 'group',
-  props: {
-    group: Object,
-  },
-  components: {
-    cardPreview,
-    groupActions,
-  },
-  created() {},
-  data() {
-    return {
-      isAddCard: false,
-      cardTitle: '',
-      editTitle: false,
-      openGrpAct: false,
-    }
-  },
-  methods: {
-    addCard() {
-      this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
-    },
-    archiveGroup() {
-      this.$store.dispatch({ type: 'archiveGroup', groupId: this.group.id })
-    },
-    archiveCard(cardId) {
-      this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
-    },
-  },
-  computed: {},
-  unmounted() {},
-}
+// export default {
+//   name: 'group',
+//   props: {
+//     group: Object,
+//   },
+//   components: {
+//     cardPreview,
+//     groupActions,
+//   },
+//   created() {},
+//   data() {
+//     return {
+//       isAddCard: false,
+//       cardTitle: '',
+//       editTitle: false,
+//       openGrpAct: false,
+//     }
+//   },
+//   methods: {
+//     addCard() {
+//       this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
+//     },
+//     archiveGroup() {
+//       this.$store.dispatch({ type: 'archiveGroup', groupId: this.group.id })
+//     },
+//     archiveCard(cardId) {
+//       this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
+//     },
+//   },
+//   computed: {},
+//   unmounted() {},
+// }
 </script>
