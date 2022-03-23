@@ -3,6 +3,7 @@ import homeView from '../views/home-view.vue'
 import loginView from '../views/login-view.vue'
 import workspaceView from '../views/workspace-view.vue'
 import boardView from '../views/board-view.vue'
+import cardEdit from '../components/board/card-edit.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -23,9 +24,15 @@ const router = createRouter({
       component: workspaceView
     },
     {
-      path: '/board/:boardId?',
+      path: '/board/:boardId',
       name: 'board',
-      component: boardView
+      component: boardView,
+      children: [
+        {
+          path: 'edit/:cardId',
+          component: cardEdit
+        }
+      ]
     },
   ]
 })

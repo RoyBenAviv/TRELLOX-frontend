@@ -1,5 +1,5 @@
 <template>
-    <section class="card-edit">
+    <section v-if="card" class="card-edit">
         <div class="window-overlay">
             <div class="card-modal">
                 <div class="card-modal-details">
@@ -56,13 +56,17 @@
  
 export default {
  
-name: 'card-edit',
-props: {
-    card: Object
+created() {
+    console.log('this.card',this.card);
+    this.cardId = this.$route.params.cardId
+    this.boardId = this.$route.params.boardId
 },
  data() {
 return {
  isTextArea: false,
+ card: null,
+ boardId: null,
+ cardId: null,
 };
  },
 methods: {
@@ -73,7 +77,7 @@ methods: {
 computed: {
 },
 components: {
-}
+},
 };
 </script>
  

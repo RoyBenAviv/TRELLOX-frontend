@@ -9,6 +9,7 @@
         <button @click="addGroup">Add Group</button>
       </div>
     </div>
+    <router-view></router-view>
   </section>
 
 </template>
