@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import boardList from '../components/board-list.vue'
+import boardList from '../components/workspace/board-list.vue'
 
 export default {
   name: 'workspace-view',
@@ -18,7 +18,7 @@ export default {
   methods: {},
   computed: {
     boards() {
-      return this.$store.getters.getBoards
+      return this.$store.getters.boards
     }
   }
 }

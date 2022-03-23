@@ -1,18 +1,18 @@
 <template>
   <div @click="openCardEdit" class="card-preview">
+    <labelColor v-for="labelId in card.labelIds" :key="labelId" :labelId="labelId"/>
     <span class="edit-card"><i class="fa-solid fa-pen"></i></span>
     <p>{{ card.title }}</p>
-    <card-edit @closeModal="closeModal" v-if="isCardOpen" :card="card"/>
+    <card-edit @closeModal="closeModal" v-if="isCardOpen" :card="card" />
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
-    <span v-for="id in card.labelIds" :key="id">
-      {{ id }}
-    </span>
   </div>
 </template>
 
 <script>
 import cardActions from './card-actions.vue'
 import cardEdit from './card-edit.vue'
+import labelColor from './label-color.vue'
+
 export default {
   name: 'card-preview',
   props: {
@@ -21,6 +21,7 @@ export default {
   components: {
     cardActions,
     cardEdit,
+    labelColor,
   },
   data() {
     return {
@@ -30,12 +31,13 @@ export default {
   },
   methods: {
     openCardEdit() {
-        this.isCardOpen = true
+      this.isCardOpen = true
     },
     closeModal() {
       this.isCardOpen = false
-      console.log('this.isCardOpen',this.isCardOpen);
-    }
+      console.log('this.isCardOpen', this.isCardOpen)
+    },
   },
+  computed: {},
 }
 </script>

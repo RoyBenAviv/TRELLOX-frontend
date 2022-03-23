@@ -5,12 +5,13 @@ export default {
     boards: null,
     filterBy: null,
     currBoard: null,
+    lableTitleShown: false
   },
   getters: {
-    getBoards(state) {
+    boards(state) {
       return JSON.parse(JSON.stringify(state.boards))
     },
-    getCurrBoard(state) {
+    currBoard(state) {
       return JSON.parse(JSON.stringify(state.currBoard))
     },
   },

@@ -3,16 +3,18 @@
     <div>
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
-        <textarea v-if="editTitle">{{ group.title }}</textarea>
+        <textarea v-if="editTitle" v-model="group.title"></textarea>
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
-        <group-actions v-if="openGrpAct"/>
+        <group-actions v-if="openGrpAct" />
       </div>
       <card-preview v-for="card in group.cards" :key="card.id" :card="card"></card-preview>
       <!-- <button @click="archiveCard(card.id)">Archive card</button> -->
       <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
       <div class="add-card-container" v-else>
         <textarea class="add-card-textarea" v-model="cardTitle" type="text" placeholder="Enter a title for this card..."></textarea>
-        <div class="add-card-actions"><button @click="addCard">Add card</button><span><i class="fa-solid fa-xmark"></i></span></div>
+        <div class="add-card-actions">
+          <button @click="addCard">Add card</button><span><i class="fa-solid fa-xmark"></i></span>
+        </div>
       </div>
       <!-- <button @click="archiveGroup">Archive group</button> -->
     </div>
@@ -30,7 +32,7 @@ export default {
   },
   components: {
     cardPreview,
-    groupActions
+    groupActions,
   },
   created() {},
   data() {
@@ -38,7 +40,7 @@ export default {
       isAddCard: false,
       cardTitle: '',
       editTitle: false,
-      openGrpAct: false
+      openGrpAct: false,
     }
   },
   methods: {

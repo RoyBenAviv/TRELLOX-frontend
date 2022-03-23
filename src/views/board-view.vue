@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import groupPreview from '../components/group-preview.vue'
+import groupPreview from '../components/board/group-preview.vue'
 
 
 export default {
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     board() {
-      return this.$store.getters.getCurrBoard
+      return this.$store.getters.currBoard
     }
   },
   unmounted() {},

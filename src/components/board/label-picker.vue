@@ -128,7 +128,7 @@ export default {
   },
   computed: {
     labels() {
-      return this.$store.getters.getCurrBoard.labels
+      return this.$store.getters.currBoard.labels
     },
   },
   unmounted() {},
