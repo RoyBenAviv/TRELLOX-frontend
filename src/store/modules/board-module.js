@@ -5,7 +5,7 @@ export default {
     boards: null,
     filterBy: null,
     currBoard: null,
-    lableTitleShown: false
+    labelTitleShown: false
   },
   getters: {
     boards(state) {
@@ -14,6 +14,9 @@ export default {
     currBoard(state) {
       return JSON.parse(JSON.stringify(state.currBoard))
     },
+    labelTitleShown(state) {
+      return state.labelTitleShown
+    },
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -21,6 +24,9 @@ export default {
     },
     setCurrBoard(state, { board }) {
       state.currBoard = board
+    },
+    toggleLabelTitle(state) {
+      state.labelTitleShown = !state.labelTitleShown
     },
     removeBoard(state, { id }) {
       const idx = state.boards.findIndex((board) => board._id === id)
