@@ -1,0 +1,300 @@
+.card-edit {
+    .window-overlay {
+        align-items: flex-start;
+        background-color: #000000a3;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        left: 0;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 20;
+    }
+
+    .card-modal {
+        background-color: #f4f5f7;
+        border-radius: 2px;
+        margin: 48px 0 80px;
+        overflow: hidden;
+        position: relative;
+        width: 768px;
+        z-index: 25;
+    }
+
+    .close-modal-button {
+        border-radius: 50%;
+        color: $clr6;
+        height: 32px;
+        margin: 4px;
+        overflow: hidden;
+        padding: 4px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: background-color 85ms, color 85ms;
+        width: 32px;
+        z-index: 2;
+        font-size: rem(20px);
+        @include flex();
+        box-sizing: unset;
+        cursor: pointer;
+    }
+
+    .close-modal-button:hover {
+        background-color: #091e4214;
+        color: #42526e;
+    }
+
+    .modal-header {
+        margin: 12px 40px 8px 56px;
+        min-height: 32px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .modal-header-icon {
+        left: -40px;
+        position: absolute;
+        top: 4px;
+        color: $clr6;
+        height: rem(32px);
+        width: rem(32px);
+        @include flex();
+    }
+
+    .modal-header-title {
+        margin: 4px 0 0;
+        padding: 8px 0 0;
+
+        h2 {
+            margin-right: 4px;
+            font-size: 20px;
+            line-height: 24px;
+            margin: 0 0 8px;
+        }
+
+        textarea {
+            border: none;
+            display: block;
+            outline: none;
+            transition-duration: 100ms;
+            transition-property: background-color, border-color, box-shadow;
+            transition-timing-function: ease;
+            background: #0000;
+            border-radius: 3px;
+            font-size: 20px;
+            font-weight: 600;
+            margin: -4px -8px;
+            padding: 4px 8px;
+            resize: none;
+            font-family: roboto, sans-serif;
+            overflow: hidden;
+            overflow-wrap: break-word;
+            height: 32px;
+            width: 100%;
+        }
+
+        textarea:focus {
+            background-color: #fff;
+            box-shadow: inset 0 0 0 2px #0079bf;
+        }
+    }
+
+    .modal-header .inline-content {
+        display: inline-block;
+        margin: 4px 8px 4px 2px;
+        color: #5e6c84;
+    }
+
+    .modal-main-content {
+        float: left;
+        margin: 0;
+        min-height: 24px;
+        padding: 0 8px 8px 16px;
+        position: relative;
+        width: 552px;
+        z-index: 0;
+
+        .card-details {
+            margin-top: 8px;
+            margin-left: 40px;
+
+            .card-details-item {
+                display: block;
+                float: left;
+                margin: 0 8px 8px 0;
+                max-width: 100%;
+
+                h3 {
+                    color: #5e6c84;
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    line-height: 20px;
+                    margin: 0 8px 4px 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: roboto;
+                }
+
+                .member {
+                    cursor: pointer;
+                    display: block;
+                    float: left;
+                    margin: 0 4px 4px 0;
+                    overflow: visible;
+                    text-decoration: none;
+                    z-index: 0;
+                }
+
+                .member img {
+                    border-radius: 25em;
+                    height: 32px;
+                    object-fit: cover;
+                    width: 32px;
+                }
+
+                .add-member {
+                    background-color: #091e420a;
+                    border-radius: 100%;
+                    cursor: pointer;
+                    float: left;
+                    margin: 0 8px 8px 0;
+                    transition-duration: 85ms;
+                    transition-property: background-color, border-color, box-shadow;
+                    transition-timing-function: ease;
+                    @include flex();
+                    height: rem(32px);
+                    width: rem(32px);
+                    color: $clr6;
+
+                    &:hover {
+                        background-color: #091e4214;
+                    }
+                }
+            }
+        }
+
+        .description-container {
+            clear: both;
+            margin-bottom: 24px;
+            position: relative;
+
+            .title {
+                margin: 0 0 4px 40px;
+                padding: 8px 0;
+                position: relative;
+                display: flex;
+                align-items: center;
+                min-height: 32px;
+
+                h3 {
+                    display: inline-block;
+                    margin: 0;
+                    min-height: 18px;
+                    min-width: 40px;
+                    width: auto;
+                    font-size: 1rem;
+                }
+
+                span {
+                    left: -40px;
+                    position: absolute;
+                    top: 2px;
+                    color: $clr6;
+                    @include flex();
+                    height: rem(32px);
+                    width: rem(32px);
+                }
+            }
+
+            .description-input {
+                margin-left: rem(40px);
+
+                .fake-text-area {
+                    background-color: #091e420a;
+                    border-radius: 3px;
+                    min-height: 40px;
+                    padding: 8px 12px;
+
+                    p {
+                        margin-block-end: 10px;
+                        margin-block-start: 0;
+                        font-size: rem(14px);
+                    }
+                }
+
+                textarea {
+                    background: #fff;
+                    box-shadow: none;
+                    min-height: 108px;
+                    overflow: hidden;
+                    overflow-wrap: break-word;
+                    resize: none;
+                    height: 108px;
+                    display: block;
+                    margin-bottom: 4px;
+                    width: 100%;
+                    border: none;
+                    border-radius: 3px;
+                    line-height: 20px;
+                    outline: none;
+                    padding: 8px 12px;
+                    transition-duration: 85ms;
+                    transition-property: background-color, border-color, box-shadow;
+                    transition-timing-function: ease;
+
+                    &:focus {
+                        background-color: #fff;
+                        box-shadow: inset 0 0 0 2px #0079bf;
+                    }
+
+                    &:active {
+                        border-color: #091e4221;
+                        box-shadow: inset 0 0 0 1px #091e4221;
+                        margin-bottom: 4px;
+                    }
+                }
+
+                .save-btn {
+                    background-color: #0079bf;
+                    border: none;
+                    color: #fff;
+                    float: left;
+                    margin: 0 4px 0 0;
+                    align-items: center;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    display: inline-flex;
+                    font-size: 14px;
+                    justify-content: center;
+                    line-height: 20px;
+                    padding: 6px 12px;
+                    transition-duration: 85ms;
+                    transition-property: background-color, border-color, box-shadow;
+                    transition-timing-function: ease;
+                    white-space: normal;
+                    font-family: roboto;
+
+                    &:hover {
+                        background-color: #026aa7;
+                    }
+                }
+
+                span {
+                    height: 32px;
+                    line-height: 32px;
+                    width: 32px;
+                    color: $clr6;
+                    font-size: 24px;
+                    display: inline-block;
+                    @include flex();
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

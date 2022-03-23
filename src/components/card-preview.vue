@@ -1,7 +1,7 @@
 <template>
   <div @click="openCardEdit" class="card-container">
     <p>{{ card.title }}</p>
-    <card-edit v-if="isCardOpen" :card="card"/>
+    <card-edit @closeModal="closeModal" v-if="isCardOpen" :card="card"/>
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
   </div>
 </template>
@@ -27,6 +27,10 @@ export default {
   methods: {
     openCardEdit() {
         this.isCardOpen = true
+    },
+    closeModal() {
+      this.isCardOpen = false
+      console.log('this.isCardOpen',this.isCardOpen);
     }
   },
   computed: {},
