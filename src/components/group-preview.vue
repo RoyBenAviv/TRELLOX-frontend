@@ -11,7 +11,7 @@
       <!-- <button @click="archiveCard(card.id)">Archive card</button> -->
       <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
       <div class="add-card-container" v-else>
-        <textarea class="add-card-textarea" v-model="cardTitle" type="text" placeholder="Enter a title for this card..."></textarea>
+        <textarea @keyup.enter="addCard" autofocus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
         <div class="add-card-actions"><button @click="addCard">Add card</button><span><i class="fa-solid fa-xmark"></i></span></div>
       </div>
       <!-- <button @click="archiveGroup">Archive group</button> -->
@@ -32,7 +32,9 @@ export default {
     cardPreview,
     groupActions
   },
-  created() {},
+  created() {
+
+  },
   data() {
     return {
       isAddCard: false,
@@ -44,6 +46,7 @@ export default {
   methods: {
     addCard() {
       this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
+      this.cardTitle = ''
     },
     archiveGroup() {
       this.$store.dispatch({ type: 'archiveGroup', groupId: this.group.id })
@@ -52,7 +55,8 @@ export default {
       this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
     },
   },
-  computed: {},
-  unmounted() {},
+  computed: {
+
+  },
 }
 </script>
