@@ -50,7 +50,9 @@ function getEmptyBoard() {
       fullname: 'Shani',
       imgUrl: 'img.png',
     },
-    style: {},
+    style: {
+      bgcImgUrl: 'https://images.unsplash.com/photo-1557251407-6356f6384370?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwyNXx8YW1zdGVyZGFtfGVufDB8fHx8MTY0MjQxNDE0Ng&ixlib=rb-1.2.1&q=80&w=200'
+    },
     labels: [
       {
         id: 'l101',
@@ -193,7 +195,9 @@ async function _createData() {
       fullname: 'Shani',
       imgUrl: 'img.png',
     },
-    style: {},
+    style: {
+      bgcImgUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwzfHxjb2Rpbmd8ZW58MHx8fHwxNjQyMzU4NjIz&ixlib=rb-1.2.1&q=80&w=200'
+    },
     labels: [
       {
         id: 'l101',

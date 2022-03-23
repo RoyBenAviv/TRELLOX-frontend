@@ -1,6 +1,10 @@
 <template>
 <section class="board-preview">
-    <router-link :to="'/board/'+board._id"><pre>{{board}}</pre></router-link>
+    <router-link :to="'/board/'+board._id">
+        <img :src="board.style.bgcImgUrl" alt="" class="board-img">
+        <span class="txt-on-borad-img">{{board.title}}</span>
+        <!-- <pre>{{board}}</pre> -->
+    </router-link>
 </section>
 </template>
  
