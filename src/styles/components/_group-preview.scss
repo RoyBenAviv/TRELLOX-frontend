@@ -2,7 +2,7 @@
   @include flex(row, flex-start, flex-start);
   gap: rem(8px);
   .group-preview {
-      position: relative;
+    position: relative;
     width: 272px;
     height: 100%;
     background-color: $clr5;
@@ -13,9 +13,11 @@
         .group-title {
             color: $clr1;
             font-weight: 600;
-            margin: rem(14px) 0;
+            padding: rem(8px) rem(10px);
             font-size: rem(14px);
             letter-spacing: 0.5px;
+            line-height: 2;
+            margin: 0;
         }
         .act-btn {
         border-radius: 3px;
@@ -41,9 +43,9 @@
           font-weight: 400;
           line-height: 20px;
           color: $clr6;
-          top: 51px;
-          left: 200px;
-          width: 100%;
+          top: 45px;
+          left: 235px;
+          width: 304px;
           z-index: 10;
           .grp-act-header {
               display: flex;

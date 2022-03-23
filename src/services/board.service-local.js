@@ -117,7 +117,7 @@ async function archiveGroup(boardId, groupId) {
 }
 
 // card
-async function addCard(boardId, cardId, title) {
+async function addCard(boardId, groupId, title) {
   try {
     var board = await getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === groupId)

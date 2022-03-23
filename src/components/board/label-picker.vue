@@ -1,5 +1,5 @@
 <template>
-  <custom-card v-if="!newLabel">
+  <custom-modal v-if="!newLabel">
     <template v-slot:header> Labels </template>
 
     <input type="search" placeholder="Search labels" />
@@ -14,9 +14,9 @@
     <button @click="startCreating">Create new label</button>
 
     <template v-slot:footer> </template>
-  </custom-card>
+  </custom-modal>
   
-  <custom-card v-else>
+  <custom-modal v-else>
     <template v-slot:header> Create label </template>
 
     <span>name</span>
@@ -33,12 +33,12 @@
     <button @click="createLabel">Create</button>
 
     <template v-slot:footer> </template>
-  </custom-card>
+  </custom-modal>
 
 </template>
 
 <script>
-import customCard from '../components/custom-card.vue'
+import customModal from './custom-modal.vue'
 
 export default {
   props: {
@@ -47,7 +47,7 @@ export default {
     // },
   },
   components: {
-    customCard,
+    customModal,
   },
   created() {},
   data() {
