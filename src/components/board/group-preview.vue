@@ -7,8 +7,13 @@
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
         <group-actions @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
-      <div class="card-preview-container">
-        <card-preview v-for="card in group.cards" :key="card.id" :card="card"></card-preview>
+      <!-- <div class="card-preview-container"> -->
+
+      <Container class="card-preview-container" @drop="onCardDrop($event)">
+        <Draggable v-for="card in group.cards" :key="card.id">
+          <card-preview :card="card" />
+        </Draggable>
+        
         <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
         <div class="add-card-container" v-else>
           <textarea @keyup.enter="addCard" autofocus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
@@ -16,17 +21,17 @@
             <button @click="addCard">Add card</button><span @click="isAddCard = false"><i class="fa-solid fa-xmark"></i></span>
           </div>
         </div>
-      </div>
-      <!-- <button @click="archiveCard(card.id)">Archive card</button> -->
-
-      <!-- <button @click="archiveGroup">Archive group</button> -->
+      </Container>
     </div>
+    <!-- </div> -->
   </section>
 </template>
 
 <script>
 import cardPreview from './card-preview.vue'
 import groupActions from './group-actions.vue'
+import { Container, Draggable } from 'vue3-smooth-dnd'
+import { applyDrag } from '../../services/drag.helpers'
 
 export default {
   name: 'group',
@@ -36,6 +41,8 @@ export default {
   components: {
     cardPreview,
     groupActions,
+    Container,
+    Draggable,
   },
   created() {},
   data() {
@@ -61,6 +68,12 @@ export default {
     },
     archiveCard(cardId) {
       this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
+    },
+    async onCardDrop(dropResult) {
+        const group = Object.assign({}, JSON.parse(JSON.stringify(this.group)))
+        group.cards = applyDrag(group.cards, dropResult)
+
+        this.$emit('onCardDrop', {cards: group.cards, groupId: group.id})
     },
   },
   computed: {},

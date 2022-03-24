@@ -1,42 +1,37 @@
 <template>
   <custom-modal v-if="!newLabel" @closeModal="closeModal">
     <template v-slot:header> Labels </template>
-
     <input ref="input" class="custom-input" type="search" placeholder="Search labels..." />
     <h4>Labels</h4>
     <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
         <span class="edit-label"></span>
-        <!-- <span class="label-hover-tab" :style="{ backgroundColor: label.color }"> </span> -->
         <div class="label" :style="{ backgroundColor: label.color }">
           {{ label.title }}
           <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
         </div>
       </li>
     </ul>
-
     <button class="custom-btn" @click="startCreating">Create new label</button>
-
     <hr />
-
     <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
 
   <custom-modal v-else @closeModal="closeModal">
     <template v-slot:header> Create label </template>
-
-    <span>name</span>
-    <input type="type" />
-
-    <span>Select a color</span>
+    <form @submit.prevent="add" class="form-label">
+      <label for="name">Name</label>
+      <input ref="input" id="name" class="custom-input" type="search" />
+      <label for="color">Select a color</label>
+      <input type="color" id="color" />
+      <button class="create-label-btn">Create</button>
+    </form>
     <!-- <ul>
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
         <span :style="{ backgroundColor: label.color }">0</span>
         <span>{{ label.title }}</span>
       </li>
     </ul> -->
-
-    <button @click="createLabel">Create</button>
   </custom-modal>
 </template>
 
@@ -44,8 +39,8 @@
 import customModal from './custom-modal.vue'
 
 export default {
-    props: {
-    labelIds: Array,
+  props: {
+    currLabelIds: Array,
   },
   components: {
     customModal,
@@ -54,11 +49,11 @@ export default {
   data() {
     return {
       newLabel: null,
-      labelIds: this.labelIds,
+      labelIds: JSON.parse(JSON.stringify(this.currLabelIds)),//
     }
   },
   methods: {
-    closeModal(){
+    closeModal() {
       this.$emit('closeModal')
     },
     focusInput() {
@@ -71,11 +66,10 @@ export default {
       }
     },
     toggleLabel(labelId) {
-      const idx = this.labelIds.find(lId => lId === labelId)
-      if(idx === -1) this.labelIds.push(labelId)
+      const idx = this.labelIds.findIndex((lId) => lId === labelId)
+      if (idx === -1) this.labelIds.push(labelId)
       else this.labelIds.splice(idx, 1)
-      this.$emit('updateKey', 'labelId', this.labelIds)
-      this.save
+      this.save()
     },
     // async addLabel() {
     //   await this.$store.dispatch({
@@ -129,7 +123,7 @@ export default {
       })
     },
     save() {
-      this.$emit('updateKey', 'labelId', this.labelIds)
+      this.$emit('updateKey', 'labelIds', this.labelIds)
     },
   },
   computed: {

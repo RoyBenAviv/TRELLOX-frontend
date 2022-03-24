@@ -109,7 +109,7 @@
             </div>
             <div class="action-container">
               <h3>Add to card</h3>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('member-picker')">
                 <span><i class="fa-solid fa-user"></i></span>
                 <span>Members</span>
               </div>
@@ -117,7 +117,10 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :labelIds="card.labelIds" @cmpChange="cmpChange" @closeModal="closeModal" @updateKey="updateKey"></component>
+              <component v-if="cmpName" :is="cmpName" :currLabelIds="card.labelIds"
+              :currMemberIds="card.memberIds"
+              @closeModal="closeModal" @updateKey="updateKey"
+              ></component>
               <div class="action-btn">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -176,10 +179,12 @@
 
 <script>
 import labelPicker from './label-picker.vue'
+import memberPicker from './member-picker.vue'
 
 export default {
   components: {
     labelPicker,
+    memberPicker,
   },
   data() {
     return {
@@ -201,15 +206,11 @@ export default {
     }
   },
   created() {
-    console.log('here');
     this.cardId = this.$route.params.cardId
     this.boardId = this.$route.params.boardId
     this.loadCard()
   },
   methods: {
-    cmpChange() {
-      this.closeModal
-    },
     openModal(cmpName) {
       this.cmpName = cmpName
     },
@@ -217,7 +218,9 @@ export default {
       this.cmpName = null
     },
     updateKey(key, value){
+      // console.log('updateKey: value',value)
       this.card[key] = value
+      this.updateCard()
     },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)
