@@ -61,8 +61,10 @@
               </div>
               <div>
                 <div v-for="todo in checklist.todos" :key="todo.id" class="checklist-todos-container">
-                  <div class="todo-checkbox">{{todo.isDone}}</div>
-                  <div class="todo-title" :class="(todo.isDone ? 'todo-completed' : '')">{{todo.title}}</div>
+                  <div class="todo-checkbox"><span></span></div>
+                  <div class="todo-title-container" :class="(todo.isDone ? 'todo-completed' : '')">
+                    <div class="todo-title">{{todo.title}}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -77,10 +79,10 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input">
-                  <textarea @focus="toggleCommentsInput()" :class="commentsInputStyle" autofocus v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
                 </div>
-                <pre v-if="card.comments">{{card.comments}}</pre>
+                <pre v-if="card.comments.length">{{card.comments}}</pre>
               </div>
             </div>
           </div>
@@ -178,11 +180,11 @@ export default {
       newComment: {
         id: '',
         txt: '',
-        createdAt: null,
+        createdAt: Date.now(),
         byMember: 'me'
       },
       cmpName: null,
-      description: this.card?.description || '',
+      description: null,
     }
   },
   created() {
@@ -197,6 +199,7 @@ export default {
     async loadCard() {
       const cardDetails = await this.$store.dispatch({ type: 'getCardById', boardId: this.boardId, cardId: this.cardId })
       this.card = cardDetails.card
+      this.description = cardDetails.card?.description || ''
       this.groupId = cardDetails.groupId
     },
     showActivity() {
@@ -211,16 +214,19 @@ export default {
     },
     openModal(cmpName) {
       this.cmpName = cmpName
-    },updateCard(key, action, value) {
+    },
+    updateCard(key, action, value) {
       const changes = {
         key: key,
         action: action,
         value: value
       }
       if (key === 'description') this.isTextArea = false
-      if (key === 'comments') this.toggleCommentsInput()
-      console.log('value',value);
-      this.$store.dispatch({type: 'updateCard1', groupId: this.groupId, cardId: this.card.id, changes})
+      if (key === 'comments'){
+        this.toggleCommentsInput()
+        if (value.txt === '') return
+      } 
+      this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.card.id, changes})
     },
     joinCard() {
       //TODO - finish the updateCard function at the service
@@ -237,9 +243,13 @@ export default {
       // this.card.labels.push(label)
       //this.updateCard()
     },
-    calcProgress(checklist){
-      // should get the checklist and calculate the precentage of checked todos
-      return '87%'
+    calcProgress(todos){
+      const doneTodos = todos.reduce((acc, todo) => {
+        if (todo.isDone) acc++
+        return acc
+      },0 )
+      var precent = ((doneTodos * 100) / todos.length) + '%'
+      return precent
     }
   },
   computed: {

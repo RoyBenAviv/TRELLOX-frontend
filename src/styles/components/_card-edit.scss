@@ -347,6 +347,58 @@
                 }
             }
 
+            .checklist-todos-container {
+                border-radius: 3px;
+                clear: both;
+                padding-left: 40px;
+                position: relative;
+                transform-origin: left bottom;
+                transition-duration: 0.14s;
+                transition-property: transform, opacity, height, padding, margin;
+                transition-timing-function: ease-in;
+
+                &:hover {
+                    background-color: #091e420a;
+                }
+
+                .todo-title-container {
+                    display: inline-flex;
+                    padding: 6px 0;
+                    width: 100%;
+
+                    .todo-title {
+                        align-self: center;
+                        flex: 1;
+                        margin-bottom: 0;
+                        min-height: 20px;
+                    }
+                }
+
+                .todo-completed {
+                    text-decoration: line-through;
+                    color: #5e6c84;
+                }
+
+                .todo-checkbox {
+                    background-color: #fafbfc;
+                    border-radius: 2px;
+                    box-shadow: inset 0 0 0 2px #dfe1e6;
+                    cursor: pointer;
+                    flex-shrink: 0;
+                    height: 16px;
+                    left: 0;
+                    margin: 6px;
+                    overflow: hidden;
+                    position: relative;
+                    position: absolute;
+                    text-align: center;
+                    top: 5px;
+                    transition: all 0.2s ease-in-out;
+                    white-space: nowrap;
+                    width: 16px;
+                }
+            }
+
             .checklist-progress {
                 margin-bottom: 6px;
                 position: relative;
@@ -360,21 +412,6 @@
                     text-align: center;
                     top: -1px;
                     width: 32px;
-                }
-
-                .checklist-todos-container {
-                    border-radius: 3px;
-                    clear: both;
-                    padding-left: 40px;
-                    position: relative;
-                    transform-origin: left bottom;
-                    transition-duration: 0.14s;
-                    transition-property: transform, opacity, height, padding, margin;
-                    transition-timing-function: ease-in;
-
-                    .todo-completed {
-                        text-decoration: line-through;
-                    }
                 }
 
                 .progress-bar {
