@@ -2,13 +2,12 @@
   <custom-modal v-if="!newLabel">
     <template v-slot:header> Labels </template>
 
-    <input class="custom-input" type="search" placeholder="Search labels..." />
-
-    <ul>
+    <input ref="input" class="custom-input" type="search" placeholder="Search labels..." />
+    <h4>Labels</h4>
+    <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
-        <!-- <span></span> -->
-        <span :style="{ backgroundColor: label.color }">0</span>
-        <span>{{ label.title }}</span>
+        <span class="edit-label"></span>
+        <span class="label" :style="{ backgroundColor: label.color }">{{ label.title }}</span>
       </li>
     </ul>
 
@@ -54,6 +53,9 @@ export default {
     }
   },
   methods: {
+    focusInput() {
+      this.$refs.input.focus();
+    },
     startCreating() {
       this.newLabel = {
         title: '',
