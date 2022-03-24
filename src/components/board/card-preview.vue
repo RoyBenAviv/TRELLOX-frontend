@@ -18,7 +18,6 @@
 <script>
 import cardActions from './card-actions.vue'
 import cardEdit from './card-edit.vue'
-// import labelColor from './label-color.vue'
 
 export default {
   name: 'card-preview',
@@ -28,7 +27,6 @@ export default {
   components: {
     cardActions,
     cardEdit,
-    // labelColor,
   },
   data() {
     return {

@@ -49,3 +49,4 @@ const board = {
   activities: [],
   cmpsOrder: [],
 }
+

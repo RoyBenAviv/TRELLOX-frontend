@@ -501,7 +501,7 @@ function _getGroup(title) {
           },
         ],
         comments: [],
-        members: [
+        memberIds: [
           {
             _id: 'u101',
             username: 'Tal',
@@ -544,7 +544,7 @@ function _getGroup(title) {
           },
         ],
         comments: [],
-        members: [
+        memberIds: [
           {
             _id: 'u101',
             username: 'Tal',
@@ -577,7 +577,7 @@ function _getEmptyCard(title = '') {
     createdAt: Date.now(),
     checklists: [],
     comments: [],
-    members: [], // add creator
+    memberIds: [], // add creator
     labelIds: [],
     byMember: {}, // add creator
     style: {},
