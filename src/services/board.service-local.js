@@ -20,6 +20,7 @@ export const boardService = {
   getCardById,
   updateCard,
   archiveCard,
+  updateCard2
 }
 
 // For DEBUG:
@@ -60,17 +61,14 @@ function getEmptyBoard() {
   return {
     title: '',
     createdAt: Date.now(),
-    createdBy: {
-      _id: 'u101',
-      fullname: 'Shani',
-      imgUrl: 'img.png',
-    },
-    style: {
-      bgImgUrl: 'https://images.unsplash.com/photo-1557251407-6356f6384370?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwyNXx8YW1zdGVyZGFtfGVufDB8fHx8MTY0MjQxNDE0Ng&ixlib=rb-1.2.1&q=80&w=200',
-    },
+    isStarred: false,
+    createdBy: {}, //add logged in user
+    style: {},
     labels: _getLabelsForPM(),
-    members: [],
-    groups: [_getGroup('my group')],
+    members: [], //add logged in user
+    groups: [],
+    activities: [],
+    cmpsOrder: [],
   }
 }
 
@@ -132,9 +130,9 @@ async function getCardById(boardId, cardId) {
   try {
     var board = await getBoardById(boardId)
     var cardDetails = null
-    board.groups.forEach(group =>{
-      group.cards.forEach(card => {
-        if (card.id === cardId) cardDetails = {groupId: group.id, card}
+    board.groups.forEach((group) => {
+      group.cards.forEach((card) => {
+        if (card.id === cardId) cardDetails = { groupId: group.id, card }
       })
     })
     return cardDetails
@@ -143,12 +141,6 @@ async function getCardById(boardId, cardId) {
   }
 }
 
-// label
-// add (boardId, groupId, cardId, changes: { label: { action: connect, value: labelId }})
-// remove (boardId, groupId, cardId, changes: { label: { action: remove, value: labelId }})
-// create (boardId, groupId, cardId, changes: { label: { action: create, value: { title, color }}})
-// update (boardId, groupId, cardId, changes: { label: { action: remove, value: updatedLabel }})
-// delete (boardId, groupId, cardId, changes: { label: { action: delete, value: labelId }})
 async function updateCard(boardId, groupId, cardId, changes) {
   try {
     //finding current card
@@ -157,41 +149,72 @@ async function updateCard(boardId, groupId, cardId, changes) {
     const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === cardId)
     var currCard = board.groups[idxGroup].cards[idxCard]
 
-    if (changes.label) {
-      if (changes.label.action === 'toggle') {
-        const idx = currCard.labelIds.findIndex((labelId) => labelId === changes.label.value)
-        if (idx === -1) currCard.labelIds.push(changes.label.value)
-        else currCard.labelIds.splice(idx, 1)
-      } else if (changes.label.action === 'add') {
-        currCard.labelIds.push(changes.label.value)
-      } else if (changes.label.action === 'remove') {
-        const idx = currCard.labelIds.findIndex((labelId) => labelId === changes.label.value)
-        currCard.labelIds.splice(idx, 1)
-      } else if (changes.label.action === 'create') {
-        // create
-        var newLabel = changes.label.value
-        newLabel.id = utilService.makeId()
-        board.labels.push(newLabel)
-        // add
-        currCard.labelIds.push(newLabel.id)
-      } else if (changes.label.action === 'edit') {
-        const idx = board.labels.findIndex((l) => l.id === changes.label.value.id)
-        board.labels.splice(idx, 1, changes.label.value)
-      } else if (changes.label.action === 'delete') {
-        const idx = board.labels.findIndex((l) => l.id === changes.label.value)
-        board.labels.splice(idx, 1)
-        // delete from all cards
-        board.groups = board.groups.map((group) => {
-          group.cards = group.cards.map((card) => {
-            card.labelIds = card.labelIds.filter((labelId) => labelId !== changes.label.value)
-            return card
-          })
-          return group
-        })
-      }
+    const KEY = changes.key
+    console.log('changes',changes);
+    if(changes.action === 'singleVal'){ // singleVal -- if you want to remove val send '' or null
+      currCard[KEY] = changes.value
     }
+
+    // Array -- update and add new val to the array
+    // changes.value should be the new item
+    if (changes.action === 'update') { 
+      if (changes.value.id) {
+        const idx = currCard[KEY].findIndex((item) => item.id === changes.value.id)
+        currCard[KEY].splice(idx, 1, changes.value)
+      }else {
+        changes.value.id = utilService.makeId()
+        currCard[KEY].push(changes.value)
+      }
+    } 
+    // Array -- remove from array
+    // changes.value should be itemId
+    else if (changes.action === 'remove') { 
+      const idx = currCard[KEY].findIndex((item) => item.id === changes.value)
+      currCard[KEY].splice(idx, 1)
+    } 
+    // to labels only!!
+    // changes.value should be --
+    // {
+    //   color: #dede;
+    //   title: 'string'
+    // }
+    else if (changes.action === 'createLabel') {
+      changes.value.id = utilService.makeId()
+      board.labels.push(changes.value)
+      currCard[KEY].push(changes.value.id)
+    } 
     return await updateBoard(board)
   } catch (err) {
+    throw err
+  }
+}
+
+// TODO: CREATE A FUNCTION THAT UPDATES BOARD's LABELS AND MEMBERS -- [key]
+// else if (changes.action === 'editLabel') { // updates label in the board
+//   const idx = board.labels.findIndex((l) => l.id === changes.value.id)
+//   board.labels.splice(idx, 1, changes.value)
+// } else if (changes.action === 'delete') { // delete label in the board
+//   const idx = board.labels.findIndex((l) => l.id === changes.value)
+//   board.labels.splice(idx, 1)
+//   // delete from all cards
+//   board.groups = board.groups.map((group) => {
+//     group.cards = group.cards.map((card) => {
+//       card.labelIds = card.labelIds.filter((labelId) => labelId !== changes.value)
+//       return card
+//     })
+//     return group
+//   })
+// }
+
+async function updateCard2(boardId, groupId, updatedCard) {
+  try {
+    var board = await getBoardById(boardId)
+    const idxGroup = board.groups.findIndex((group) => group.id === groupId)
+    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard.id)
+    board.groups[idxGroup].cards.splice(idxCard, 1, updatedCard)
+    return await updateBoard(board)
+  } catch (err) {
+    console.log('Can not update card')
     throw err
   }
 }
@@ -276,6 +299,7 @@ async function _createData() {
   const b1 = {
     title: 'Best board ever',
     createdAt: 1589983468418,
+    isStarred: false,
     createdBy: {
       _id: 'u101',
       fullname: 'Shani',
@@ -293,6 +317,8 @@ async function _createData() {
       },
     ],
     groups: [_getGroup('Processing'), _getGroup('Done'), _getGroup('Tasks for today'), _getGroup('Others')],
+    activities: [],
+    cmpsOrder: [],
   }
   boards = []
   boards.push(b1)
@@ -300,7 +326,7 @@ async function _createData() {
 }
 
 //project management
-function _getLabelsForPM(){
+function _getLabelsForPM() {
   return [
     {
       id: 'l101',
@@ -341,7 +367,7 @@ function _getLabelsForPM(){
 }
 
 //company overview
-function _getLabelsForCO(){
+function _getLabelsForCO() {
   return [
     {
       id: 'l101',
@@ -372,7 +398,7 @@ function _getLabelsForCO(){
       id: 'l106',
       title: 'IT',
       color: '#0079bf',
-    }
+    },
   ]
 }
 
@@ -391,18 +417,127 @@ function _getGroup(title) {
     cards: [
       {
         id: utilService.makeId(),
-        title: 'card 1',
-        labelIds: ['l101', 'l104', 'l105', 'l106'],
+        title: 'card 1', //1
+        status: 'in-progress', //1
+        description: 'description sdfg sdfg sdfgh sdfgh sdfg', //1
+        dueDate: 16156215211, //1
+        createdAt: 1590999730348,
+        checklists: [
+          {
+            id: 'YEhmF',
+            title: 'Checklist',
+            todos: [
+              {
+                id: '212jX',
+                title: 'To Do 1',
+                isDone: false,
+              },
+              {
+                id: 'sdfghj',
+                title: 'To Do 2',
+                isDone: true,
+              },
+            ],
+          },
+        ],
+        comments: [],
+        memberIds: ['u123', 'u345'],
+        labelIds: [],
+        byMember: {
+          _id: 'u101',
+          username: 'Tal',
+          fullname: 'Tal Tarablus',
+          imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+        },
+        style: {},
       },
       {
         id: utilService.makeId(),
         title: 'card 2',
-        labelIds: ['l102'],
+        status: 'in-progress',
+        description: 'description sdfg sdfg sdfgh sdfgh sdfg',
+        dueDate: 16156215211,
+        createdAt: 1590999730348,
+        checklists: [
+          {
+            id: 'YEhmF',
+            title: 'Checklist',
+            todos: [
+              {
+                id: '212jX',
+                title: 'To Do 1',
+                isDone: false,
+              },
+              {
+                id: 'sdfghj',
+                title: 'To Do 2',
+                isDone: true,
+              },
+            ],
+          },
+        ],
+        comments: [],
+        members: [
+          {
+            _id: 'u101',
+            username: 'Tal',
+            fullname: 'Tal Tarablus',
+            imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+          },
+        ],
+        labelIds: [],
+        byMember: {
+          _id: 'u101',
+          username: 'Tal',
+          fullname: 'Tal Tarablus',
+          imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+        },
+        style: {},
       },
       {
         id: utilService.makeId(),
         title: 'card 3',
-        labelIds: ['l103'],
+        status: 'in-progress',
+        description: 'description sdfg sdfg sdfgh sdfgh sdfg',
+        dueDate: 16156215211,
+        createdAt: 1590999730348,
+        checklists: [
+          {
+            id: 'YEhmF',
+            title: 'Checklist',
+            todos: [
+              {
+                id: '212jX',
+                title: 'To Do 1',
+                isDone: false,
+              },
+              {
+                id: 'sdfghj',
+                title: 'To Do 2',
+                isDone: true,
+              },
+            ],
+          },
+        ],
+        comments: [],
+        members: [
+          {
+            _id: 'u101',
+            username: 'Tal',
+            fullname: 'Tal Tarablus',
+            imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+          },
+        ],
+        labelIds: ['l101', 'l102'],
+        byMember: {
+          _id: 'u101',
+          username: 'Tal',
+          fullname: 'Tal Tarablus',
+          imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+        },
+        style: {
+          bgColor: '#26de81',
+        },
       },
     ],
   }
@@ -412,7 +547,16 @@ function _getEmptyCard(title = '') {
   return {
     id: utilService.makeId(),
     title,
+    status: '',
+    description: '',
+    dueDate: null,
+    createdAt: Date.now(),
+    checklists: [],
+    comments: [],
+    members: [], // add creator
     labelIds: [],
+    byMember: {}, // add creator
+    style: {},
   }
 }
 
