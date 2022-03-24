@@ -25,8 +25,7 @@
         border: none;
         cursor: pointer;
         padding: 6px 12px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
         &:hover {
             background-color: #091e4214;
@@ -126,7 +125,7 @@
             margin: -4px -8px;
             padding: 4px 8px;
             resize: none;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow: hidden;
             overflow-wrap: break-word;
             height: 32px;
@@ -201,6 +200,27 @@
         }
     }
 
+    .add-todo-container {
+        margin: 8px 0 0 40px;
+
+        textarea {
+            overflow: hidden;
+            overflow-wrap: break-word;
+            resize: none;
+            height: 37px;
+            background-color: #fff;
+            box-shadow: inset 0 0 0 2px #0079bf;
+            color: #172b4d;
+            float: none;
+            width: 100%;
+        }
+
+        .add-todo {
+            @include blue-btn;
+            margin: unset;
+        }
+    }
+
     .modal-main-content {
         float: left;
         margin: 0;
@@ -229,8 +249,8 @@
                     margin: 0 8px 4px 0;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    white-space: nowrap;  
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    white-space: nowrap;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                 }
 
                 .add-member {
@@ -250,6 +270,23 @@
                     &:hover {
                         background-color: #091e4214;
                     }
+                }
+
+                .label-span {
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                    display: block;
+                    float: left;
+                    font-weight: 600;
+                    height: 32px;
+                    line-height: 32px;
+                    margin: 0 4px 4px 0;
+                    min-width: 40px;
+                    padding: 0 12px;
+                    width: auto;
+                    cursor: pointer;
+                    color: white;
+                    font-size: 0.875rem;
                 }
             }
         }
@@ -345,7 +382,7 @@
                     overflow: hidden;
                     overflow-wrap: break-word;
                     height: 36px;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                     cursor: pointer;
                 }
 
@@ -360,7 +397,7 @@
                     color: #a5adba;
                     cursor: not-allowed;
                     display: inline-flex;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                     font-size: 14px;
                     font-weight: 400;
                     justify-content: center;
@@ -483,7 +520,7 @@
                 margin-left: rem(40px);
 
                 pre {
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                     font-size: 0.875rem;
                     overflow: hidden;
                 }
@@ -520,7 +557,7 @@
                     transition-duration: 85ms;
                     transition-property: background-color, border-color, box-shadow;
                     transition-timing-function: ease;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                     font-size: 0.875rem;
 
                     &:focus {
