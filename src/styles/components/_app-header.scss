@@ -13,12 +13,16 @@ header {
     img {
       width: 30px;
     }
+    button {
+     
+    }
   }
   nav {
-      
+      @include flex;
     a {
-      @include btn;
+      @include blue-btn(22px);
       font-weight: bold;
+      font-size: 1rem;
       margin: rem(10px);
     }
   }
