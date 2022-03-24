@@ -26,7 +26,7 @@
     <!-- <div > -->
     <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
       <Draggable v-for="group in board.groups" :key="group.id">
-        <group-preview :group="group" />
+        <group-preview :group="group"  @onCardDrop="onCardDrop"/>
       </Draggable>
       <div class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
       <div class="add-group-container" v-else>
@@ -46,7 +46,6 @@
 import groupPreview from '../components/board/group-preview.vue'
 import { Container, Draggable } from 'vue3-smooth-dnd'
 import { applyDrag } from '../services/drag.helpers'
-// import KanbanItem from '../components/KanbanItem.vue'
 import appHeader from '../components/app-header.vue'
 import boardMenu from '../components/board/board-menu.vue'
 
@@ -55,7 +54,6 @@ export default {
     groupPreview,
     Container,
     Draggable,
-    // KanbanItem,
     appHeader,
     boardMenu
   },
@@ -82,6 +80,12 @@ export default {
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
     },
+    onCardDrop({cards, groupId}) {
+        const board = JSON.parse(JSON.stringify(this.board))
+        const idx = this.board.groups.findIndex(group => group.id === groupId)
+        board.groups[idx].cards = cards
+        this.$store.dispatch({ type: 'saveBoard', board })
+    },
     async setBoardBg(boardBg) {;
       // this.board.style.bgImgUrl = boardBg
       const board = JSON.parse(JSON.stringify(this.board))
@@ -94,7 +98,6 @@ export default {
       return this.$store.getters.currBoard
     },
   },
-  unmounted() {},
   watch: {
     boardFromStore: {
       handler() {
