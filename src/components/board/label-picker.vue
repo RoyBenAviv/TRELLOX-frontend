@@ -2,7 +2,7 @@
   <custom-modal v-if="!newLabel">
     <template v-slot:header> Labels </template>
 
-    <input type="search" placeholder="Search labels" />
+    <input class="custom-input" type="search" placeholder="Search labels..." />
 
     <ul>
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
@@ -11,16 +11,18 @@
       </li>
     </ul>
 
-    <button @click="startCreating">Create new label</button>
+    <button class="custom-btn" @click="startCreating">Create new label</button>
 
-    <template v-slot:footer> </template>
+    <hr />
+
+    <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
-  
+
   <custom-modal v-else>
     <template v-slot:header> Create label </template>
 
     <span>name</span>
-    <input type="type"/>
+    <input type="type" />
 
     <span>Select a color</span>
     <!-- <ul>
@@ -31,10 +33,7 @@
     </ul> -->
 
     <button @click="createLabel">Create</button>
-
-    <template v-slot:footer> </template>
   </custom-modal>
-
 </template>
 
 <script>
@@ -58,13 +57,13 @@ export default {
     }
   },
   methods: {
-    startCreating(){
+    startCreating() {
       this.newLabel = {
         title: '',
-        color: null
+        color: null,
       }
     },
-    async toggleLabel(labelId){
+    async toggleLabel(labelId) {
       await this.$store.dispatch({
         type: 'updateCard',
         groupId: this.group.id,
@@ -100,7 +99,7 @@ export default {
         groupId: this.group.id,
         cardId: this.card.id,
         changes: {
-          label: { action: 'create', value: this.newLabel},
+          label: { action: 'create', value: this.newLabel },
         },
       })
       this.newLabel = null
