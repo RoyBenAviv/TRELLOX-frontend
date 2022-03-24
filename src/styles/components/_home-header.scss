@@ -1,0 +1,29 @@
+.home-header {
+  @include flex(row, space-between);
+  padding: 0 rem(20px);
+  position: fixed;
+  // top: 0;
+  width: 100%;
+  height: 68px;
+  .logo {
+    @include flex;
+    h2 {
+      font-family: katahdin, sans-serif;
+    }
+    img {
+      width: 30px;
+    }
+    button {
+     
+    }
+  }
+  nav {
+      @include flex;
+    a {
+      @include blue-btn(22px);
+      font-weight: bold;
+      font-size: 1rem;
+      margin: rem(10px);
+    }
+  }
+}

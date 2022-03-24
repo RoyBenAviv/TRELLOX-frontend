@@ -1,78 +1,115 @@
-.board-view {
+.board-wrapper {
   height: 100vh;
-  padding-block-start: rem(100px);
-  width: max-content;
-  margin-inline-start: rem(28px);
-  .board-nav {
-    position: fixed;
-    top: 50px;
-    width: 100%;
-    h2 {
-      font-size: rem(20px);
-      font-weight: 700;
-      line-height: 32px;
-      padding: 0 12px;
-    }
-    
-    @include flex(row, space-between);
-    .left-nav, .right-nav {
-      @include flex;
-      gap: rem(4px);
-    }
-    .left-nav {
-      .members-container {
+  overflow-x: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -webkit-optimize-contrast;
+  .board-view {
+    height: 100%;
+    padding-block-start: rem(100px);
+    width: max-content;
+    margin-inline-start: rem(28px);
+    .board-nav {
+      position: fixed;
+      top: 53px;
+      width: 100%;
+      h2 {
+        font-size: rem(20px);
+        font-weight: 700;
+        line-height: 32px;
+        padding: 0 12px;
+      }
+      button {
+        @include header-btn;
+        background-color: rgba(0, 0, 0, 0.1);
+        margin: 4px;
+        padding: 10px;
+      }
+      
+      @include flex(row, space-between);
+      .left-nav, .right-nav {
         @include flex;
-        // display: flex;
-        margin-inline-start: 5px;
-        gap: rem(5px);
-        .members {
+        gap: rem(4px);
+      }
+      .left-nav {
+        .star {
+          font-family: trellicons;
+          width: 32px;
+          height: 32px;
+          &::before {
+            content: "\e967";
+            font-size: rem(18px);
+            color: #f2d600;
+          }
+        }
+        .members-container {
           @include flex;
-          gap: rem(2px);
-          .member-pic {
-            width: 28px;
-            height: 28px;
-            background-color: red;
-            border-radius: 50%;
+          // display: flex;
+          margin-inline-start: 5px;
+          gap: rem(5px);
+          .members {
+            @include flex;
+            gap: rem(2px);
+            .member-pic {
+              width: 28px;
+              height: 28px;
+              background-color: red;
+              border-radius: 50%;
+    
+            }
+          }
   
+          .invite {
+            @include blue-btn;
+            i {
+              font-size: em(12px);
+              margin-right: rem(6px)
+            }
           }
         }
-
-        .invite {
-          @include blue-btn;
-          i {
-            font-size: em(12px);
-            margin-right: rem(6px)
-          }
-        }
+  
       }
-
-    }
-  }
-  .group-container {
-    .open-group-container {
-      cursor: pointer;
-      background-color: #00000014;
-      border-radius: 3px;
-      height: auto;
-      min-height: 32px;
-      padding: rem(15px);
-      width: 272px;
-      font-weight: 400;
-      font-size: rem(14px);
-      line-height: rem(13px);
-      transition: background-color 85ms ease-in, opacity 40ms;
-      &:hover {
-          background-color: #00000029;
+      .right-nav {
+        margin-inline-end: rem(32px);
       }
-        span {
-            padding: rem(6px) rem(8px);
-        }
     }
-    .add-group-container {
+    .board-menu {
+      position: fixed;
+      right: 0;
+      width: 339px;
+      height: 893px;
+      background-color: #f4f5f7;
+      z-index: 10;
+    }
+    .group-container {
+      .open-group-container {
+        cursor: pointer;
+        background-color: #00000014;
+        border-radius: 3px;
+        height: auto;
+        min-height: 32px;
+        padding: rem(15px);
         width: 272px;
-        input {
-            width: 100%;
+        font-weight: 400;
+        font-size: rem(14px);
+        line-height: rem(13px);
+        transition: background-color 85ms ease-in, opacity 40ms;
+        &:hover {
+            background-color: #00000029;
         }
+          span {
+              padding: rem(6px) rem(8px);
+          }
+      }
+      .add-group-container {
+          width: 272px;
+          input {
+              width: 100%;
+          }
+      }
     }
   }
 }
+

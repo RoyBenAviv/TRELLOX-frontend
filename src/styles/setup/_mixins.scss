@@ -42,3 +42,50 @@
         background-color: #026aa7;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@mixin header-btn {
+    margin-right: 4px;
+    padding-right: 10px;
+    color: $clr1;
+    background-color: transparent;
+    height: 32px;
+    line-height: 32px;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    @include flex;
+    gap: rem(8px);
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: normal;
+    // background-color: rgba(9, 30, 66, 0.04);
+    box-shadow: none;
+    border: none;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 85ms;
+    transition-timing-function: ease;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+}
