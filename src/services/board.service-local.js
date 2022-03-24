@@ -205,13 +205,13 @@ async function updateCard2(boardId, groupId, cardId, changes) {
 //   })
 // }
 
-async function updateCard(board, groupId, updatedCard) {
+async function updateCard(boardId, groupId, updatedCard) {
   try {
+    const board = await getBoardById(boardId)
     const idxGroup = board.groups.findIndex((group) => group.id === groupId)
     const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard.id)
     board.groups[idxGroup].cards.splice(idxCard, 1, updatedCard)
-    await updateBoard(board)
-    return updatedCard
+    return await updateBoard(board)
   } catch (err) {
     console.log('Can not update card')
     throw err

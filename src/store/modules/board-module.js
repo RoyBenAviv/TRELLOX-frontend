@@ -124,9 +124,8 @@ export default {
     },
     async updateCard({ commit, state }, { groupId, card}) {
       try {
-        const updatedCard = await boardService.updateCard(state.currBoard, groupId, card)
+        const board = await boardService.updateCard(state.currBoard._id, groupId, card)
         commit({ type: 'saveBoard', board })
-        return updatedCard
       } catch (err) {
         console.log('Cannot update card', err)
         throw err
