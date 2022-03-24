@@ -140,12 +140,7 @@ async function getCardById(boardId, cardId) {
   }
 }
 
-// label
-// add (boardId, groupId, cardId, changes: { type: label, action: connect, value: labelId })
-// remove (boardId, groupId, cardId, changes: { type: label, action: remove, value: labelId })
-// create (boardId, groupId, cardId, changes: { type: label, action: create, value: changes.value})
-// update (boardId, groupId, cardId, changes: { type: label, action: remove, value: updatedLabel })
-// delete (boardId, groupId, cardId, changes: { type: label, action: delete, value: labelId })
+// updateCard1(boardId, groupId, cardId, changes: { key: title, action: delete, value: labelId })
 async function updateCard1(boardId, groupId, cardId, changes) {
   try {
     //finding current card
@@ -155,26 +150,34 @@ async function updateCard1(boardId, groupId, cardId, changes) {
     var currCard = board.groups[idxGroup].cards[idxCard]
 
     // if (it's label)
-    const KEY = changes.type === 'label' ? 'labelIds' : ''
+    // const KEY = changes.type === 'label' ? 'labelIds' : ''
+    // const KEY = 'title'
+    const KEY = changes.key
 
-    if (changes.action === 'toggle') {
-      const idx = currCard[KEY].findIndex((index) => index === changes.value)
-      if (idx === -1) currCard[KEY].push(changes.value)
+    if(changes.action === '1'){ // 1
+      currCard[KEY] = changes.value
+    }
+
+    else if (changes.action === 'add2') { // 2 // add
+      const idx = currCard[KEY].findIndex((index) => index.id === changes.value.id)
+      if (idx === -1) {
+        // if(changes.type !== 'labelIds' && changes.type !== 'memberIds') changes.value.id = utilService.makeId()
+        currCard[KEY].push(changes.value)
+      }
       else currCard[KEY].splice(idx, 1)
-    } else if (changes.action === 'add') {
-      currCard[KEY].push(changes.value)
-    } else if (changes.action === 'remove') {
-      const idx = currCard[KEY].findIndex((index) => index === changes.value)
-      currCard[KEY].splice(idx, 1)
-    } else if (changes.action === 'create') {
+    }
+
+    else if (changes.action === 'create') { // only for labels
       changes.value.id = utilService.makeId()
-      // only for labels
       board.labels.push(changes.value)
       currCard[KEY].push(changes.value.id)
-    } else if (changes.action === 'edit') {
+    }
+    else if (changes.action === 'edit') { // only for labels
       const idx = board.labels.findIndex((l) => l.id === changes.value.id)
       board.labels.splice(idx, 1, changes.value)
-    } else if (changes.action === 'delete') {
+    }
+    else if (changes.action === 'delete') { //3
+      const KEY
       const idx = board.labels.findIndex((l) => l.id === changes.value)
       board.labels.splice(idx, 1)
       // delete from all cards
@@ -192,11 +195,11 @@ async function updateCard1(boardId, groupId, cardId, changes) {
   }
 }
 
-async function updateCard(boardId, groupId, updatedCard, changes) {
+async function updateCard(boardId, groupId, updatedCard) {
   try {
     var board = await getBoardById(boardId)
     const idxGroup = board.groups.findIndex((group) => group.id === groupId)
-    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard._id)
+    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard.id)
     board.groups[idxGroup].cards[idxCard] === updatedCard
     return await updateBoard(board)
   } catch (err) {
@@ -403,10 +406,10 @@ function _getGroup(title) {
     cards: [
       {
         id: utilService.makeId(),
-        title: 'card 1',
-        status: 'in-progress',
-        description: 'description sdfg sdfg sdfgh sdfgh sdfg',
-        dueDate: 16156215211,
+        title: 'card 1', //1
+        status: 'in-progress', //1
+        description: 'description sdfg sdfg sdfgh sdfgh sdfg', //1
+        dueDate: 16156215211, //1
         createdAt: 1590999730348,
         checklists: [
           {
