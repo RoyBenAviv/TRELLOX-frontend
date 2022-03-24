@@ -22,7 +22,7 @@
         <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
       </div>
     </nav>
-      <board-menu v-if="openMenu" />
+      <board-menu @setBoardBg="setBoardBg" v-if="openMenu" />
     <!-- <div > -->
     <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
       <Draggable v-for="group in board.groups" :key="group.id">
@@ -82,6 +82,12 @@ export default {
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
     },
+    async setBoardBg(boardBg) {;
+      // this.board.style.bgImgUrl = boardBg
+      const board = JSON.parse(JSON.stringify(this.board))
+      board.style.bgImgUrl = boardBg
+      await this.$store.dispatch({type: 'saveBoard', board })
+    }
   },
   computed: {
     boardFromStore() {

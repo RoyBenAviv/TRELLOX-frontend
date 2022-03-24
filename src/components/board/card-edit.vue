@@ -34,7 +34,7 @@
                 <h3>Description</h3>
               </div>
               <div class="description-input">
-                  <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
+                <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
                 <div v-if="!isTextArea && !card.description" class="fake-text-area" @click="isTextArea = true">
                   <p>Add a more detailed description…</p>
                 </div>
@@ -50,13 +50,13 @@
                 <span style="top: 7px;" >
                   <i class="fa-solid fa-list-check"></i>
                 </span>
-                <h3>{{checklist.title}}</h3>
+                <h3>{{ checklist.title }}</h3>
                 <button class="grey-btn">Delete</button>
               </div>
               <div class="checklist-progress">
-                <span class="progress-precent">{{calcProgress(checklist.todos)}}</span>
+                <span class="progress-precent">{{ calcProgress(checklist.todos) }}</span>
                 <div class="progress-bar">
-                  <div :style="'width:' + calcProgress(checklist.todos)" :class="((calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''))" class="current-progress"></div>
+                  <div :style="'width:' + calcProgress(checklist.todos)" :class="calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''" class="current-progress"></div>
                 </div>
               </div>
               <div>
@@ -82,7 +82,7 @@
                   <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
                 </div>
-                <pre v-if="card.comments.length">{{card.comments}}</pre>
+                <pre v-if="card.comments.length">{{ card.comments }}</pre>
               </div>
             </div>
             <div>
@@ -112,7 +112,7 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName"></component>
+              <component v-if="cmpName" :is="cmpName" :labelIds="card.labelIds" @cmpChange="cmpChange" @closeModal="closeModal" @updateKey="updateKey"></component>
               <div class="action-btn">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -189,7 +189,7 @@ export default {
         id: '',
         txt: '',
         createdAt: Date.now(),
-        byMember: 'me'
+        byMember: 'me',
       },
       cmpName: null,
       description: null,
@@ -202,6 +202,18 @@ export default {
     this.loadCard()
   },
   methods: {
+    cmpChange() {
+      this.closeModal
+    },
+    openModal(cmpName) {
+      this.cmpName = cmpName
+    },
+    closeModal() {
+      this.cmpName = null
+    },
+    updateKey(key, value){
+      this.card[key] = value
+    },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)
     },
@@ -244,12 +256,12 @@ export default {
       // this.card.labels.push(label)
       //this.updateCard()
     },
-    calcProgress(todos){
+    calcProgress(todos) {
       const doneTodos = todos.reduce((acc, todo) => {
         if (todo.isDone) acc++
         return acc
-      },0 )
-      var precent = ((doneTodos * 100) / todos.length) + '%'
+      }, 0)
+      var precent = (doneTodos * 100) / todos.length + '%'
       return precent
     },
     toggleTodo(todoId, checklistId) {

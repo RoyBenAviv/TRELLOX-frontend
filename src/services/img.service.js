@@ -1,3 +1,12 @@
+import axios from "axios";
+
+export const imgService = {
+  getBgImages
+}
+
+
+// Upload support
+
 export const uploadImg = (ev) => {
   //Defining our variables
   const UPLOAD_PRESET = 'Trellox_1'; //insert yours
@@ -16,3 +25,13 @@ export const uploadImg = (ev) => {
     .then((res) => res) //return the res
     .catch((err) => console.error(err));
 };
+
+
+async function getBgImages(search) {
+  try {
+    const res = await axios.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`)
+    return res.data
+  } catch(err) {
+    console.log('cannot get images', err)
+  }
+}

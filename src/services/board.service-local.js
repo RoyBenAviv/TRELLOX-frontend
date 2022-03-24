@@ -188,7 +188,7 @@ async function updateCard2(boardId, groupId, cardId, changes) {
   }
 }
 
-// TODO: CREATE A FUNCTION THAT UPDATES BOARD's LABELS AND MEMBERS -- [key]
+// // TODO: CREATE A FUNCTION THAT UPDATES BOARD's LABELS AND MEMBERS -- [key]
 // else if (changes.action === 'editLabel') { // updates label in the board
 //   const idx = board.labels.findIndex((l) => l.id === changes.value.id)
 //   board.labels.splice(idx, 1, changes.value)
