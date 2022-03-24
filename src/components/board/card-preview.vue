@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     openCardEdit() {
+      console.log('open');
       const currRoute = this.$router.currentRoute._value.fullPath
       this.$router.push(`${currRoute}/edit/${this.card.id}`)
     },

@@ -51,7 +51,6 @@ export default {
       groupId: '4667',
       cardId: '4667',
       newLabel: null,
-      data,
     }
   },
   methods: {
