@@ -429,13 +429,13 @@ async function _archiveItem(item) {
 //   }
 // }
 
-// // This IIFE functions for Dev purposes
-// // It allows testing of real time updates (such as sockets) by groupening to storage events
+// This IIFE functions for Dev purposes
+// It allows testing of real time updates (such as sockets) by listening to storage events
 // ;(async () => {
 //   var boards = await storageService.query('board')
 
 //   // Dev Helper: Groupens to when localStorage changes in OTHER browser
-//   window.addEventGroupener('storage', async () => {
+//   window.addEventListener('storage', async () => {
 //     console.log('Storage updated')
 //     const freshBoards = await storageService.query('board')
 //     if (freshBoards.length === boards.length + 1) {

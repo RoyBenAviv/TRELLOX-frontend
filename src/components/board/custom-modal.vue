@@ -1,16 +1,16 @@
 <template>
   <article class="custom-modal-container">
-    <header class="custom-modal-header">
+    <section class="custom-modal-header">
       <p>
         <slot name="header"></slot>
       </p>
       <span><i class="fa-solid fa-xmark"></i></span>
-    </header>
-    <main>
+    </section>
+    <section>
       <slot name="default"></slot>
-    </main>
-    <footer>
+    </section>
+    <section>
       <slot name="footer"></slot>
-    </footer>
+    </section>
   </article>
 </template>
