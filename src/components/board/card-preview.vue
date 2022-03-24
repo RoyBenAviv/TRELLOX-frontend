@@ -9,7 +9,7 @@
         <!-- <pre>{{label.color}}</pre> -->
       </span>
     </span>
-    <span class="edit-card"><i class="fa-solid fa-pen"></i></span>
+    <span @click="cardOptions" class="edit-card"><i class="fa-solid fa-pen"></i></span>
     <p>{{ card.title }}</p>
     <!-- <card-actions v-if="openActionsMenu"></card-actions> -->
   </div>
@@ -38,13 +38,16 @@ export default {
   },
   methods: {
     openCardEdit() {
+      console.log('open');
       const currRoute = this.$router.currentRoute._value.fullPath
       this.$router.push(`${currRoute}/edit/${this.card.id}`)
     },
     toggleLabelTitle() {
-      console.log('toggeling')
       this.$store.commit({ type: 'toggleLabelTitle' })
     },
+    cardOptions(ev) {
+      ev.stopPropagation()
+    }
   },
   computed: {
     labels() {

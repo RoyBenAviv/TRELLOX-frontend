@@ -20,7 +20,6 @@ export const boardService = {
   getCardById,
   updateCard,
   archiveCard,
-  updateCard2
 }
 
 // For DEBUG:
@@ -141,7 +140,7 @@ async function getCardById(boardId, cardId) {
   }
 }
 
-async function updateCard(boardId, groupId, cardId, changes) {
+async function updateCard2(boardId, groupId, cardId, changes) {
   try {
     //finding current card
     var board = await getBoardById(boardId)
@@ -206,13 +205,13 @@ async function updateCard(boardId, groupId, cardId, changes) {
 //   })
 // }
 
-async function updateCard2(boardId, groupId, updatedCard) {
+async function updateCard(board, groupId, updatedCard) {
   try {
-    var board = await getBoardById(boardId)
     const idxGroup = board.groups.findIndex((group) => group.id === groupId)
     const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard.id)
     board.groups[idxGroup].cards.splice(idxCard, 1, updatedCard)
-    return await updateBoard(board)
+    await updateBoard(board)
+    return updatedCard
   } catch (err) {
     console.log('Can not update card')
     throw err

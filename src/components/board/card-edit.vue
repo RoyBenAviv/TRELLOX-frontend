@@ -188,6 +188,7 @@ export default {
     }
   },
   created() {
+    console.log('here');
     this.cardId = this.$route.params.cardId
     this.boardId = this.$route.params.boardId
     this.loadCard()
@@ -213,6 +214,7 @@ export default {
       this.card = cardDetails.card
       this.description = cardDetails.card?.description || ''
       this.groupId = cardDetails.groupId
+      console.log('cardDetails',cardDetails);
     },
     showActivity() {
       this.isShowActivity = !this.isShowActivity
@@ -234,8 +236,9 @@ export default {
       if (key === 'comments') {
         this.toggleCommentsInput()
         if (value.txt === '') return
-      }
-      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, cardId: this.card.id, changes })
+      } 
+      this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.card.id, changes})
+      // this.$store.dispatch({type: 'updateCard', groupId: this.groupId, card: this.card})
     },
     joinCard() {
       //TODO - finish the updateCard function at the service
