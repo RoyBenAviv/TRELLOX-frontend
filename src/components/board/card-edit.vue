@@ -45,14 +45,35 @@
                 </div>
               </div>
             </div>
+            <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist-container">
+              <div class="title">
+                <span>
+                  <i class="fa-solid fa-list-check"></i>
+                </span>
+                <h3>{{checklist.title}}</h3>
+                <button class="grey-btn">Delete</button>
+              </div>
+              <div class="checklist-progress">
+                <span class="progress-precent">{{calcProgress(checklist.todos)}}</span>
+                <div class="progress-bar">
+                  <div :style="'width:' + calcProgress(checklist.todos)" :class="((calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''))" class="current-progress"></div>
+                </div>
+              </div>
+              <div>
+                <div v-for="todo in checklist.todos" :key="todo.id" class="checklist-todos-container">
+                  <div class="todo-checkbox">{{todo.isDone}}</div>
+                  <div class="todo-title" :class="(todo.isDone ? 'todo-completed' : '')">{{todo.title}}</div>
+                </div>
+              </div>
+            </div>
             <div class="activity-container">
               <div class="title">
                 <span>
                   <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <h3>Activity</h3>
-                <button v-if="isShowActivity" @click="showActivity" class="details-btn">Hide details</button>
-                <button v-else @click="showActivity" class="details-btn">Show details</button>
+                <button v-if="isShowActivity" @click="showActivity" class="grey-btn">Hide details</button>
+                <button v-else @click="showActivity" class="grey-btn">Show details</button>
               </div>
               <div class="comments-frame">
                 <div class="comments-input">
@@ -65,7 +86,7 @@
           <div class="modal-side-bar">
             <div class="action-container">
               <h3>Suggested</h3>
-              <div class="action-btn">
+              <div @click="joinToCard" class="action-btn">
                 <span><i class="fa-solid fa-user"></i></span>
                 <span>Join</span>
               </div>
@@ -187,6 +208,25 @@ export default {
     updateCard() {
       //TODO - finish the updateCard function at the service
       // this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.cardId, changes: ???})
+    },
+    joinCard() {
+      //TODO - finish the updateCard function at the service
+      // this.card.members.push(this.$store.getters.user)
+      //this.updateCard()
+    },
+    addMember(member) {
+      //TODO - finish the updateCard function at the service
+      // this.card.members.push(member)
+      //this.updateCard()
+    },
+    addLabel(label) {
+      //TODO - finish the updateCard function at the service
+      // this.card.labels.push(label)
+      //this.updateCard()
+    },
+    calcProgress(checklist){
+      // should get the checklist and calculate the precentage of checked todos
+      return '87%'
     }
   },
   computed: {
