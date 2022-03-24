@@ -139,6 +139,6 @@ export default {
         console.log('Cannot find card', err)
         throw err
       }
-    }
+    },
   },
 }
