@@ -1,7 +1,7 @@
 <template>
   <section v-if="card" class="card-edit">
-    <div @click="closeEdit" class="window-overlay">
-      <div @click.stop class="card-modal">
+    <div @mousedown="closeEdit" class="window-overlay">
+      <div @mousedown.stop class="card-modal">
         <div class="card-modal-details">
           <i @click="closeEdit" class="fa-solid fa-xmark close-modal-button"></i>
           <div class="modal-header">
@@ -24,6 +24,11 @@
               </div>
               <div class="card-details-item">
                 <h3>Labels</h3>
+                <div>
+                  <span class="label-span" v-for="label in labels" :key="label.id" :style="'background-color: ' + label.color">
+                    <span>{{label.title}}</span>
+                  </span>
+                </div>
               </div>
             </div>
             <div class="description-container">
@@ -34,7 +39,7 @@
                 <h3>Description</h3>
               </div>
               <div class="description-input">
-                <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
+                <pre v-if="!isTextArea && card.description.length" @click="isTextArea = true">{{ card.description }}</pre>
                 <div v-if="!isTextArea && !card.description" class="fake-text-area" @click="isTextArea = true">
                   <p>Add a more detailed description…</p>
                 </div>
@@ -67,6 +72,11 @@
                   </div>
                 </div>
               </div>
+              <div class="add-todo-container">
+                <textarea v-if="isAddTodo" v-model="newTodo.title" autofocus  @blur="isAddTodo = false" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
+                <button v-if="isAddTodo" class="add-todo" @click="addTodo(checklist.id)">Add</button>
+                <button v-else class="grey-btn" @click.stop="isAddTodo = true" style="margin: unset">Add an item</button>
+              </div>
             </div>
             <div class="activity-container">
               <div class="title">
@@ -80,17 +90,22 @@
               <div class="comments-frame">
                 <div class="comments-input">
                   <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
-                  <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
+                  <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
-                <pre v-if="card.comments.length">{{ card.comments }}</pre>
               </div>
             </div>
             <div>
               <div class="card-comment-container" v-for="comment in card.comments" :key="comment.id">
                 <div class="member">
-                  <img :src="getMemberImgUrl(comment.byMember)">
+                  <!-- <img :src="getMemberById(comment.byMember).imgUrl"> -->
+                  <img src="https://trello.com/1/cards/62399dba78ab2987b393bef4/attachments/6239ba94c62cb36ebd4d3023/previews/6239ba95c62cb36ebd4d3042/download/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512.png" alt="" />
                 </div>
-                <div class="card-comment"></div>
+                <div class="card-comment">
+                  <!-- <span class="comment-by">{{getMemberById().fullname}}</span> -->
+                  <span class="comment-by">Tamiros </span>
+                  <span class="comment-date">{{comment.createdAt}}</span>
+                  <div class="the-comment">{{comment.txt}}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -117,7 +132,7 @@
               :currMemberIds="card.memberIds"
               @closeModal="closeModal" @updateKey="updateKey"
               ></component>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('checklist-add')">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
               </div>
@@ -176,11 +191,14 @@
 <script>
 import labelPicker from './label-picker.vue'
 import memberPicker from './member-picker.vue'
+import checklistAdd from './checklist-add.vue'
+import {utilService} from '../../services/util.service.js'
 
 export default {
   components: {
     labelPicker,
     memberPicker,
+    checklistAdd
   },
   data() {
     return {
@@ -192,13 +210,18 @@ export default {
       isShowActivity: false,
       isCommentsInput: false,
       newComment: {
-        id: '',
+        id: null,
         txt: '',
-        createdAt: Date.now(),
-        byMember: 'me',
+        createdAt: null,
+        byMember: 'me', //loggedInUser
       },
       cmpName: null,
       description: null,
+      isAddTodo: false,
+      newTodo: {
+        title: '',
+        isDone: false
+      }
     }
   },
   created() {
@@ -215,7 +238,10 @@ export default {
     },
     updateKey(key, value){
       // console.log('updateKey: value',value)
-      this.card[key] = value
+      if(key === 'checklists'){
+        value.id = utilService.makeId()
+       this.card[key].push(value)
+      }else this.card[key] = value
       this.updateCard()
     },
     closeEdit() {
@@ -234,8 +260,14 @@ export default {
       this.isCommentsInput = !this.isCommentsInput
     },
     postComment() {
-      if (!this.newComment) return
-      console.log('this.newComment', this.newComment)
+      console.log('here');
+      if (!this.newComment.txt) return
+      var comment = JSON.parse(JSON.stringify(this.newComment))
+      comment.createdAt = Date.now()
+      this.card.comments.push(comment)
+      this.updateCard()
+      this.newComment.txt = ''
+      this.isCommentsInput = false
     },
     openModal(cmpName) {
       this.cmpName = cmpName
@@ -260,6 +292,7 @@ export default {
       //this.updateCard()
     },
     calcProgress(todos) {
+      if(!todos.length) return '0%'
       const doneTodos = todos.reduce((acc, todo) => {
         if (todo.isDone) acc++
         return acc
@@ -280,8 +313,16 @@ export default {
       this.updateCard()
       this.isTextArea = false
     },
-    getMemberImgUrl(memberId) {
+    getMemberById(memberId) {
       console.log('memberId',memberId);
+    },
+    addTodo(checklistId) {
+      var newTodo = JSON.parse(JSON.stringify(this.newTodo))
+      newTodo.id = utilService.makeId()
+      const idx = this.card.checklists.findIndex(cl => cl.id === checklistId)
+      this.card.checklists[idx].todos.push(newTodo)
+      this.updateCard()
+      this.newTodo.title = ''
     }
   },
   computed: {
@@ -290,6 +331,10 @@ export default {
     },
     isCommentsText() {
       return this.newComment.txt ? 'save-btn' : 'not-allowed-btn'
+    },
+    labels() {
+      var labels = this.$store.getters.currBoard.labels
+      return labels.filter((l) => this.card.labelIds.includes(l.id))
     },
   },
 }

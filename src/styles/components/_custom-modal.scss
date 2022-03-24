@@ -130,5 +130,11 @@
             margin-top: 16px;
             margin: 0 0 8px;
         }
+        
+        .add-btn {
+            @include blue-btn();
+            padding: 0.5rem 1.5rem;
+        }
     }
+
 }
