@@ -34,7 +34,7 @@
                 <h3>Description</h3>
               </div>
               <div class="description-input">
-                  <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
+                <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
                 <div v-if="!isTextArea && !card.description" class="fake-text-area" @click="isTextArea = true">
                   <p>Add a more detailed description…</p>
                 </div>
@@ -50,20 +50,20 @@
                 <span>
                   <i class="fa-solid fa-list-check"></i>
                 </span>
-                <h3>{{checklist.title}}</h3>
+                <h3>{{ checklist.title }}</h3>
                 <button class="grey-btn">Delete</button>
               </div>
               <div class="checklist-progress">
-                <span class="progress-precent">{{calcProgress(checklist.todos)}}</span>
+                <span class="progress-precent">{{ calcProgress(checklist.todos) }}</span>
                 <div class="progress-bar">
-                  <div :style="'width:' + calcProgress(checklist.todos)" :class="((calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''))" class="current-progress"></div>
+                  <div :style="'width:' + calcProgress(checklist.todos)" :class="calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''" class="current-progress"></div>
                 </div>
               </div>
               <div>
                 <div v-for="todo in checklist.todos" :key="todo.id" class="checklist-todos-container">
                   <div class="todo-checkbox"><span></span></div>
-                  <div class="todo-title-container" :class="(todo.isDone ? 'todo-completed' : '')">
-                    <div class="todo-title">{{todo.title}}</div>
+                  <div class="todo-title-container" :class="todo.isDone ? 'todo-completed' : ''">
+                    <div class="todo-title">{{ todo.title }}</div>
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@
                   <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
                 </div>
-                <pre v-if="card.comments.length">{{card.comments}}</pre>
+                <pre v-if="card.comments.length">{{ card.comments }}</pre>
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName"></component>
+              <component v-if="cmpName" :is="cmpName" :labelIds="card.labelIds" @cmpChange="cmpChange" @closeModal="closeModal" @updateKey="updateKey"></component>
               <div class="action-btn">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -181,7 +181,7 @@ export default {
         id: '',
         txt: '',
         createdAt: Date.now(),
-        byMember: 'me'
+        byMember: 'me',
       },
       cmpName: null,
       description: null,
@@ -193,6 +193,18 @@ export default {
     this.loadCard()
   },
   methods: {
+    cmpChange() {
+      this.closeModal
+    },
+    openModal(cmpName) {
+      this.cmpName = cmpName
+    },
+    closeModal() {
+      this.cmpName = null
+    },
+    updateKey(key, value){
+      this.card[key] = value
+    },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)
     },
@@ -212,22 +224,18 @@ export default {
       if (!this.newComment) return
       console.log('this.newComment', this.newComment)
     },
-    openModal(cmpName) {
-      console.log('open');
-      this.cmpName = cmpName
-    },
     updateCard(key, action, value) {
       const changes = {
         key: key,
         action: action,
-        value: value
+        value: value,
       }
       if (key === 'description') this.isTextArea = false
-      if (key === 'comments'){
+      if (key === 'comments') {
         this.toggleCommentsInput()
         if (value.txt === '') return
-      } 
-      this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.card.id, changes})
+      }
+      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, cardId: this.card.id, changes })
     },
     joinCard() {
       //TODO - finish the updateCard function at the service
@@ -244,14 +252,18 @@ export default {
       // this.card.labels.push(label)
       //this.updateCard()
     },
-    calcProgress(todos){
+    calcProgress(todos) {
       const doneTodos = todos.reduce((acc, todo) => {
         if (todo.isDone) acc++
         return acc
-      },0 )
-      var precent = ((doneTodos * 100) / todos.length) + '%'
+      }, 0)
+      var precent = (doneTodos * 100) / todos.length + '%'
       return precent
-    }
+    },
+    // updateLabels(newLabels){
+    //   this.card.labels= newLabels
+    //   this.dispatch
+    // }
   },
   computed: {
     commentsInputStyle() {

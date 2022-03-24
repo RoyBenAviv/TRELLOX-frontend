@@ -1,5 +1,5 @@
 <template>
-  <custom-modal v-if="!newLabel">
+  <custom-modal v-if="!newLabel" @closeModal="closeModal">
     <template v-slot:header> Labels </template>
 
     <input ref="input" class="custom-input" type="search" placeholder="Search labels..." />
@@ -7,7 +7,11 @@
     <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
         <span class="edit-label"></span>
-        <span class="label" :style="{ backgroundColor: label.color }">{{ label.title }}</span>
+        <!-- <span class="label-hover-tab" :style="{ backgroundColor: label.color }"> </span> -->
+        <div class="label" :style="{ backgroundColor: label.color }">
+          {{ label.title }}
+          <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
+        </div>
       </li>
     </ul>
 
@@ -18,7 +22,7 @@
     <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
 
-  <custom-modal v-else>
+  <custom-modal v-else @closeModal="closeModal">
     <template v-slot:header> Create label </template>
 
     <span>name</span>
@@ -40,21 +44,25 @@
 import customModal from './custom-modal.vue'
 
 export default {
-  props: {},
+    props: {
+    labelIds: Array,
+  },
   components: {
     customModal,
   },
   created() {},
   data() {
     return {
-      groupId: '4667',
-      cardId: '4667',
       newLabel: null,
+      labelIds: this.labelIds,
     }
   },
   methods: {
+    closeModal(){
+      this.$emit('closeModal')
+    },
     focusInput() {
-      this.$refs.input.focus();
+      this.$refs.input.focus()
     },
     startCreating() {
       this.newLabel = {
@@ -62,15 +70,12 @@ export default {
         color: null,
       }
     },
-    async toggleLabel(labelId) {
-      await this.$store.dispatch({
-        type: 'updateCard',
-        groupId: this.group.id,
-        cardId: this.card.id,
-        changes: {
-          label: { action: 'toggle', value: labelId },
-        },
-      })
+    toggleLabel(labelId) {
+      const idx = this.labelIds.find(lId => lId === labelId)
+      if(idx === -1) this.labelIds.push(labelId)
+      else this.labelIds.splice(idx, 1)
+      this.$emit('updateKey', 'labelId', this.labelIds)
+      this.save
     },
     // async addLabel() {
     //   await this.$store.dispatch({
@@ -122,6 +127,9 @@ export default {
           label: { action: 'delete', value: 'l101' },
         },
       })
+    },
+    save() {
+      this.$emit('updateKey', 'labelId', this.labelIds)
     },
   },
   computed: {
