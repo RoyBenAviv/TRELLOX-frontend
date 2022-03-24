@@ -210,8 +210,10 @@ export default {
       console.log('this.newComment', this.newComment)
     },
     openModal(cmpName) {
+      console.log('open');
       this.cmpName = cmpName
-    },updateCard(key, action, value) {
+    },
+    updateCard(key, action, value) {
       const changes = {
         key: key,
         action: action,
