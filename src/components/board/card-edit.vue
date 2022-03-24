@@ -80,17 +80,22 @@
               <div class="comments-frame">
                 <div class="comments-input">
                   <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
-                  <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
+                  <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
-                <pre v-if="card.comments.length">{{ card.comments }}</pre>
               </div>
             </div>
             <div>
               <div class="card-comment-container" v-for="comment in card.comments" :key="comment.id">
                 <div class="member">
-                  <img :src="getMemberImgUrl(comment.byMember)">
+                  <!-- <img :src="getMemberById(comment.byMember).imgUrl"> -->
+                  <img src="https://trello.com/1/cards/62399dba78ab2987b393bef4/attachments/6239ba94c62cb36ebd4d3023/previews/6239ba95c62cb36ebd4d3042/download/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512.png" alt="" />
                 </div>
-                <div class="card-comment"></div>
+                <div class="card-comment">
+                  <!-- <span class="comment-by">{{getMemberById().fullname}}</span> -->
+                  <span class="comment-by">Tamiros </span>
+                  <span class="comment-date">{{comment.createdAt}}</span>
+                  <div class="the-comment">{{comment.txt}}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -186,10 +191,10 @@ export default {
       isShowActivity: false,
       isCommentsInput: false,
       newComment: {
-        id: '',
+        id: null,
         txt: '',
-        createdAt: Date.now(),
-        byMember: 'me',
+        createdAt: null,
+        byMember: 'me', //loggedInUser
       },
       cmpName: null,
       description: null,
@@ -230,11 +235,16 @@ export default {
       this.isCommentsInput = !this.isCommentsInput
     },
     postComment() {
-      if (!this.newComment) return
-      console.log('this.newComment', this.newComment)
+      console.log('here');
+      if (!this.newComment.txt) return
+      var comment = JSON.parse(JSON.stringify(this.newComment))
+      comment.createdAt = Date.now()
+      this.card.comments.push(comment)
+      this.updateCard()
+      this.newComment.txt = ''
+      this.isCommentsInput = false
     },
     openModal(cmpName) {
-      console.log('open');
       this.cmpName = cmpName
     },
     async updateCard() {
@@ -277,7 +287,7 @@ export default {
       this.updateCard()
       this.isTextArea = false
     },
-    getMemberImgUrl(memberId) {
+    getMemberById(memberId) {
       console.log('memberId',memberId);
     }
   },
