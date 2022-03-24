@@ -1,0 +1,59 @@
+.custom-modal-container {
+    .custom-modal-main {
+        .labels-container {
+            margin-bottom: 8px;
+            margin: 0;
+            padding: 0;
+
+            li {
+                padding-right: 36px;
+                position: relative;
+                height: 20px;
+                width: 100%;
+
+                .label {
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-weight: 700;
+                    margin: 0 0 4px;
+                    min-height: 20px;
+                    padding: 6px 12px;
+                    position: relative;
+                    transition: padding 85ms, margin 85ms, box-shadow 85ms;
+
+                    &:hover {
+                        margin-left: 4px;
+                        box-shadow: -8px 0 #b04632;
+                        // -webkit-filter: brightness(70%);
+                    }
+                }
+
+                .edit-label {
+                    border-radius: 3px;
+                    padding: 6px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    color: #42526e;
+                    font-size: 16px;
+                    height: 20px;
+                    line-height: 20px;
+                    width: 20px;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    display: inline-block;
+                    font-family: trellicons;
+                    font-style: normal;
+                    font-weight: 400;
+                    text-align: center;
+                    text-decoration: none;
+                    vertical-align: bottom;
+
+                    ::before {
+                        content: "\e928";
+                    }
+                }
+            }
+        }
+    }
+}
