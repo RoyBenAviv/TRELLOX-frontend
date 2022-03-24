@@ -211,7 +211,6 @@ async function archiveCard(boardId, groupId, cardId) {
 
 //inside func // add try n catch
 async function _createData() {
-  console.log('hi')
   var boards = await query()
   if (boards.length) return
   // board example {
