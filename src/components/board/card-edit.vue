@@ -11,7 +11,7 @@
             <div class="modal-header-title">
               <textarea v-model="card.title" dir="auto" data-autosize="true"></textarea>
             </div>
-            <div class="inline-content">in list {the card list}</div>
+            <div class="inline-content">in list {{groupId}}</div>
           </div>
           <div class="modal-main-content">
             <div class="card-details">
@@ -34,34 +34,34 @@
                 <h3>Description</h3>
               </div>
               <div class="description-input">
-                  <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
+                <pre v-if="!isTextArea && card.description" @click="isTextArea = true">{{ card.description }}</pre>
                 <div v-if="!isTextArea && !card.description" class="fake-text-area" @click="isTextArea = true">
                   <p>Add a more detailed description…</p>
                 </div>
                 <div v-if="isTextArea">
                   <textarea autofocus v-model="description" placeholder="Add a more detailed description…"></textarea>
-                  <button @click="updateCard('description', 'singleVal', description)" class="save-btn">Save</button>
+                  <button @click="updateDescription" class="save-btn">Save</button>
                   <span @click="isTextArea = false"><i class="fa-solid fa-xmark"></i></span>
                 </div>
               </div>
             </div>
             <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist-container">
               <div class="title">
-                <span>
+                <span style="top: 7px;" >
                   <i class="fa-solid fa-list-check"></i>
                 </span>
-                <h3>{{checklist.title}}</h3>
+                <h3>{{ checklist.title }}</h3>
                 <button class="grey-btn">Delete</button>
               </div>
               <div class="checklist-progress">
-                <span class="progress-precent">{{calcProgress(checklist.todos)}}</span>
+                <span class="progress-precent">{{ calcProgress(checklist.todos) }}</span>
                 <div class="progress-bar">
-                  <div :style="'width:' + calcProgress(checklist.todos)" :class="((calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''))" class="current-progress"></div>
+                  <div :style="'width:' + calcProgress(checklist.todos)" :class="calcProgress(checklist.todos) === '100%' ? 'progress-completed' : ''" class="current-progress"></div>
                 </div>
               </div>
               <div>
                 <div v-for="todo in checklist.todos" :key="todo.id" class="checklist-todos-container">
-                  <div class="todo-checkbox"><span></span></div>
+                  <div @click="toggleTodo(todo.id, checklist.id)" class="todo-checkbox" :class="(todo.isDone ? 'completed' : '')"><span :class="(todo.isDone ? 'checked' : '')"></span></div>
                   <div class="todo-title-container" :class="(todo.isDone ? 'todo-completed' : '')">
                     <div class="todo-title">{{todo.title}}</div>
                   </div>
@@ -70,7 +70,7 @@
             </div>
             <div class="activity-container">
               <div class="title">
-                <span>
+                <span style="top: 7px;">
                   <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <h3>Activity</h3>
@@ -82,7 +82,15 @@
                   <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
                 </div>
-                <pre v-if="card.comments.length">{{card.comments}}</pre>
+                <pre v-if="card.comments.length">{{ card.comments }}</pre>
+              </div>
+            </div>
+            <div>
+              <div class="card-comment-container" v-for="comment in card.comments" :key="comment.id">
+                <div class="member">
+                  <img :src="getMemberImgUrl(comment.byMember)">
+                </div>
+                <div class="card-comment"></div>
               </div>
             </div>
           </div>
@@ -104,7 +112,7 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName"></component>
+              <component v-if="cmpName" :is="cmpName" :labelIds="card.labelIds" @cmpChange="cmpChange" @closeModal="closeModal" @updateKey="updateKey"></component>
               <div class="action-btn">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -181,7 +189,7 @@ export default {
         id: '',
         txt: '',
         createdAt: Date.now(),
-        byMember: 'me'
+        byMember: 'me',
       },
       cmpName: null,
       description: null,
@@ -194,6 +202,18 @@ export default {
     this.loadCard()
   },
   methods: {
+    cmpChange() {
+      this.closeModal
+    },
+    openModal(cmpName) {
+      this.cmpName = cmpName
+    },
+    closeModal() {
+      this.cmpName = null
+    },
+    updateKey(key, value){
+      this.card[key] = value
+    },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)
     },
@@ -202,7 +222,6 @@ export default {
       this.card = cardDetails.card
       this.description = cardDetails.card?.description || ''
       this.groupId = cardDetails.groupId
-      console.log('cardDetails',cardDetails);
     },
     showActivity() {
       this.isShowActivity = !this.isShowActivity
@@ -218,19 +237,9 @@ export default {
       console.log('open');
       this.cmpName = cmpName
     },
-    updateCard(key, action, value) {
-      const changes = {
-        key: key,
-        action: action,
-        value: value
-      }
-      if (key === 'description') this.isTextArea = false
-      if (key === 'comments'){
-        this.toggleCommentsInput()
-        if (value.txt === '') return
-      } 
-      this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.card.id, changes})
-      // this.$store.dispatch({type: 'updateCard', groupId: this.groupId, card: this.card})
+    async updateCard() {
+      await this.$store.dispatch({type: 'updateCard', groupId: this.groupId, card: this.card})
+      this.loadCard()
     },
     joinCard() {
       //TODO - finish the updateCard function at the service
@@ -247,13 +256,29 @@ export default {
       // this.card.labels.push(label)
       //this.updateCard()
     },
-    calcProgress(todos){
+    calcProgress(todos) {
       const doneTodos = todos.reduce((acc, todo) => {
         if (todo.isDone) acc++
         return acc
-      },0 )
-      var precent = ((doneTodos * 100) / todos.length) + '%'
+      }, 0)
+      var precent = (doneTodos * 100) / todos.length + '%'
       return precent
+    },
+    toggleTodo(todoId, checklistId) {
+      const clIdx = this.card.checklists.findIndex(cl => cl.id === checklistId)
+      console.log('clIdx',clIdx);
+      console.log('checklistId',checklistId);
+      const todoIdx = this.card.checklists[clIdx].todos.findIndex(t => t.id === todoId)
+      this.card.checklists[clIdx].todos[todoIdx].isDone = !this.card.checklists[clIdx].todos[todoIdx].isDone
+      this.updateCard()
+    },
+    updateDescription() {
+      this.card.description = this.description
+      this.updateCard()
+      this.isTextArea = false
+    },
+    getMemberImgUrl(memberId) {
+      console.log('memberId',memberId);
     }
   },
   computed: {
@@ -261,7 +286,7 @@ export default {
       return this.isCommentsInput ? 'active-input' : ''
     },
     isCommentsText() {
-      return this.newComment ? 'save-btn' : 'not-allowed-btn'
+      return this.newComment.txt ? 'save-btn' : 'not-allowed-btn'
     },
   },
 }
