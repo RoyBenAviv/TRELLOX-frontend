@@ -297,7 +297,7 @@ async function _createData() {
   //   ],
   // }
   const b1 = {
-    title: 'board1',
+    title: 'Best board ever',
     createdAt: 1589983468418,
     isStarred: false,
     createdBy: {
@@ -306,7 +306,7 @@ async function _createData() {
       imgUrl: 'img.png',
     },
     style: {
-      bgcImgUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwzfHxjb2Rpbmd8ZW58MHx8fHwxNjQyMzU4NjIz&ixlib=rb-1.2.1&q=80&w=200',
+      bgImgUrl: 'https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2048&q=80',
     },
     labels: _getLabelsForPM(),
     members: [

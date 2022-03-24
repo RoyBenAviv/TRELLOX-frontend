@@ -15,7 +15,6 @@
             font-weight: 600;
             padding: rem(8px) rem(10px);
             font-size: rem(14px);
-            letter-spacing: 0.5px;
             line-height: 2;
             margin: 0;
         }
@@ -107,6 +106,8 @@
         color: $clr1
       }
       span {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: rem(16px);
         margin-left: rem(8px);
       }
     }
@@ -134,9 +135,19 @@
     }
     .add-card-actions {
       @include flex(row, _);
+      gap: rem(13px);
+      margin-top: 8px;
       button {
         margin-right: rem(4px);
         @include blue-btn
+      }
+      span {
+        cursor: pointer;
+        font-size: rem(24px);
+        color: $clr9;
+        &:hover {
+          color: $clr1;
+        }
       }
     }
 
