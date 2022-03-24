@@ -131,13 +131,13 @@ async function addCard(boardId, groupId, title) {
 async function getCardById(boardId, cardId) {
   try {
     var board = await getBoardById(boardId)
-    var foundCard = null
+    var cardDetails = null
     board.groups.forEach(group =>{
       group.cards.forEach(card => {
-        if (card.id === cardId) foundCard = card
+        if (card.id === cardId) cardDetails = {groupId: group.id, card}
       })
     })
-    return foundCard
+    return cardDetails
   } catch (err) {
     throw err
   }
@@ -211,7 +211,6 @@ async function archiveCard(boardId, groupId, cardId) {
 
 //inside func // add try n catch
 async function _createData() {
-  console.log('hi')
   var boards = await query()
   if (boards.length) return
   // board example {
@@ -430,13 +429,13 @@ async function _archiveItem(item) {
 //   }
 // }
 
-// // This IIFE functions for Dev purposes
-// // It allows testing of real time updates (such as sockets) by groupening to storage events
+// This IIFE functions for Dev purposes
+// It allows testing of real time updates (such as sockets) by listening to storage events
 // ;(async () => {
 //   var boards = await storageService.query('board')
 
 //   // Dev Helper: Groupens to when localStorage changes in OTHER browser
-//   window.addEventGroupener('storage', async () => {
+//   window.addEventListener('storage', async () => {
 //     console.log('Storage updated')
 //     const freshBoards = await storageService.query('board')
 //     if (freshBoards.length === boards.length + 1) {
