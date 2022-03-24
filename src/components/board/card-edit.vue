@@ -112,7 +112,8 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :currLabelIds="card.labelIds"
+              <component v-if="cmpName" :is="cmpName" 
+              :currLabelIds="card.labelIds"
               :currMemberIds="card.memberIds"
               @closeModal="closeModal" @updateKey="updateKey"
               ></component>
