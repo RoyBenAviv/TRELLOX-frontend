@@ -20,6 +20,7 @@ export const boardService = {
   getCardById,
   updateCard,
   archiveCard,
+  updateCard2
 }
 
 // For DEBUG:
@@ -140,13 +141,7 @@ async function getCardById(boardId, cardId) {
   }
 }
 
-// label
-// add (boardId, groupId, cardId, changes: { type: label, action: connect, value: labelId })
-// remove (boardId, groupId, cardId, changes: { type: label, action: remove, value: labelId })
-// create (boardId, groupId, cardId, changes: { type: label, action: create, value: changes.value})
-// update (boardId, groupId, cardId, changes: { type: label, action: remove, value: updatedLabel })
-// delete (boardId, groupId, cardId, changes: { type: label, action: delete, value: labelId })
-async function updateCard1(boardId, groupId, cardId, changes) {
+async function updateCard(boardId, groupId, cardId, changes) {
   try {
     //finding current card
     var board = await getBoardById(boardId)
@@ -154,50 +149,69 @@ async function updateCard1(boardId, groupId, cardId, changes) {
     const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === cardId)
     var currCard = board.groups[idxGroup].cards[idxCard]
 
-    // if (it's label)
-    const KEY = changes.type === 'label' ? 'labelIds' : ''
+    const KEY = changes.key
+    console.log('changes',changes);
+    if(changes.action === 'singleVal'){ // singleVal -- if you want to remove val send '' or null
+      currCard[KEY] = changes.value
+    }
 
-    if (changes.action === 'toggle') {
-      const idx = currCard[KEY].findIndex((index) => index === changes.value)
-      if (idx === -1) currCard[KEY].push(changes.value)
-      else currCard[KEY].splice(idx, 1)
-    } else if (changes.action === 'add') {
-      currCard[KEY].push(changes.value)
-    } else if (changes.action === 'remove') {
-      const idx = currCard[KEY].findIndex((index) => index === changes.value)
+    // Array -- update and add new val to the array
+    // changes.value should be the new item
+    if (changes.action === 'update') { 
+      if (changes.value.id) {
+        const idx = currCard[KEY].findIndex((item) => item.id === changes.value.id)
+        currCard[KEY].splice(idx, 1, changes.value)
+      }else {
+        changes.value.id = utilService.makeId()
+        currCard[KEY].push(changes.value)
+      }
+    } 
+    // Array -- remove from array
+    // changes.value should be itemId
+    else if (changes.action === 'remove') { 
+      const idx = currCard[KEY].findIndex((item) => item.id === changes.value)
       currCard[KEY].splice(idx, 1)
-    } else if (changes.action === 'create') {
+    } 
+    // to labels only!!
+    // changes.value should be --
+    // {
+    //   color: #dede;
+    //   title: 'string'
+    // }
+    else if (changes.action === 'createLabel') {
       changes.value.id = utilService.makeId()
-      // only for labels
       board.labels.push(changes.value)
       currCard[KEY].push(changes.value.id)
-    } else if (changes.action === 'edit') {
-      const idx = board.labels.findIndex((l) => l.id === changes.value.id)
-      board.labels.splice(idx, 1, changes.value)
-    } else if (changes.action === 'delete') {
-      const idx = board.labels.findIndex((l) => l.id === changes.value)
-      board.labels.splice(idx, 1)
-      // delete from all cards
-      board.groups = board.groups.map((group) => {
-        group.cards = group.cards.map((card) => {
-          card.labelIds = card.labelIds.filter((labelId) => labelId !== changes.value)
-          return card
-        })
-        return group
-      })
-    }
+    } 
     return await updateBoard(board)
   } catch (err) {
     throw err
   }
 }
 
-async function updateCard(boardId, groupId, updatedCard, changes) {
+// TODO: CREATE A FUNCTION THAT UPDATES BOARD's LABELS AND MEMBERS -- [key]
+// else if (changes.action === 'editLabel') { // updates label in the board
+//   const idx = board.labels.findIndex((l) => l.id === changes.value.id)
+//   board.labels.splice(idx, 1, changes.value)
+// } else if (changes.action === 'delete') { // delete label in the board
+//   const idx = board.labels.findIndex((l) => l.id === changes.value)
+//   board.labels.splice(idx, 1)
+//   // delete from all cards
+//   board.groups = board.groups.map((group) => {
+//     group.cards = group.cards.map((card) => {
+//       card.labelIds = card.labelIds.filter((labelId) => labelId !== changes.value)
+//       return card
+//     })
+//     return group
+//   })
+// }
+
+async function updateCard2(boardId, groupId, updatedCard) {
   try {
     var board = await getBoardById(boardId)
     const idxGroup = board.groups.findIndex((group) => group.id === groupId)
-    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard._id)
-    board.groups[idxGroup].cards[idxCard] === updatedCard
+    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard.id)
+    board.groups[idxGroup].cards.splice(idxCard, 1, updatedCard)
     return await updateBoard(board)
   } catch (err) {
     console.log('Can not update card')

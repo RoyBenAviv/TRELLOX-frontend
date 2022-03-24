@@ -39,8 +39,8 @@
                   <p>Add a more detailed description…</p>
                 </div>
                 <div v-if="isTextArea">
-                  <textarea autofocus v-model="card.description" placeholder="Add a more detailed description…"></textarea>
-                  <button @click="updateCard" class="save-btn">Save</button>
+                  <textarea autofocus v-model="description" placeholder="Add a more detailed description…"></textarea>
+                  <button @click="updateCard('description', 'singleVal', description)" class="save-btn">Save</button>
                   <span @click="isTextArea = false"><i class="fa-solid fa-xmark"></i></span>
                 </div>
               </div>
@@ -77,9 +77,10 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input">
-                  <textarea @focus="openCommentsInput()" @blur="openCommentsInput()" :class="commentsInputStyle" autofocus v-model="newComment" placeholder="Write a comment..."></textarea>
-                  <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
+                  <textarea @focus="toggleCommentsInput()" :class="commentsInputStyle" autofocus v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <button v-if="isCommentsInput" @click.stop="updateCard('comments', 'update', newComment)" :class="isCommentsText">Save</button>
                 </div>
+                <pre v-if="card.comments">{{card.comments}}</pre>
               </div>
             </div>
           </div>
@@ -174,8 +175,14 @@ export default {
       groupId: null,
       isShowActivity: false,
       isCommentsInput: false,
-      newComment: '',
+      newComment: {
+        id: '',
+        txt: '',
+        createdAt: null,
+        byMember: 'me'
+      },
       cmpName: null,
+      description: this.card?.description || '',
     }
   },
   created() {
@@ -195,7 +202,7 @@ export default {
     showActivity() {
       this.isShowActivity = !this.isShowActivity
     },
-    openCommentsInput() {
+    toggleCommentsInput() {
       this.isCommentsInput = !this.isCommentsInput
     },
     postComment() {
@@ -204,10 +211,16 @@ export default {
     },
     openModal(cmpName) {
       this.cmpName = cmpName
-    },
-    updateCard() {
-      //TODO - finish the updateCard function at the service
-      // this.$store.dispatch({type: 'updateCard', groupId: this.groupId, cardId: this.cardId, changes: ???})
+    },updateCard(key, action, value) {
+      const changes = {
+        key: key,
+        action: action,
+        value: value
+      }
+      if (key === 'description') this.isTextArea = false
+      if (key === 'comments') this.toggleCommentsInput()
+      console.log('value',value);
+      this.$store.dispatch({type: 'updateCard1', groupId: this.groupId, cardId: this.card.id, changes})
     },
     joinCard() {
       //TODO - finish the updateCard function at the service
