@@ -134,8 +134,8 @@ export default {
     },
     async getCardById({commit}, {boardId, cardId}) {
       try {
-        const card = await boardService.getCardById(boardId, cardId)
-        return card
+        const cardDetails = await boardService.getCardById(boardId, cardId)
+        return cardDetails
       } catch (err) {
         console.log('Cannot find card', err)
         throw err
