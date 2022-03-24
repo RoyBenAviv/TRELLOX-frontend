@@ -6,6 +6,7 @@
 
     <ul>
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
+        <!-- <span></span> -->
         <span :style="{ backgroundColor: label.color }">0</span>
         <span>{{ label.title }}</span>
       </li>
@@ -40,11 +41,7 @@
 import customModal from './custom-modal.vue'
 
 export default {
-  props: {
-    // toy: {
-    //   type: Object,
-    // },
-  },
+  props: {},
   components: {
     customModal,
   },
@@ -54,6 +51,7 @@ export default {
       groupId: '4667',
       cardId: '4667',
       newLabel: null,
+      data,
     }
   },
   methods: {

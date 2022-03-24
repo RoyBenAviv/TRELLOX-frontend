@@ -297,7 +297,7 @@ async function _createData() {
   //   ],
   // }
   const b1 = {
-    title: 'board1',
+    title: 'Best board ever',
     createdAt: 1589983468418,
     isStarred: false,
     createdBy: {
@@ -306,7 +306,7 @@ async function _createData() {
       imgUrl: 'img.png',
     },
     style: {
-      bgcImgUrl: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE5MzB8MHwxfHNlYXJjaHwzfHxjb2Rpbmd8ZW58MHx8fHwxNjQyMzU4NjIz&ixlib=rb-1.2.1&q=80&w=200',
+      bgImgUrl: 'https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2048&q=80',
     },
     labels: _getLabelsForPM(),
     members: [
@@ -417,10 +417,10 @@ function _getGroup(title) {
     cards: [
       {
         id: utilService.makeId(),
-        title: 'card 1',
-        status: 'in-progress',
-        description: 'description sdfg sdfg sdfgh sdfgh sdfg',
-        dueDate: 16156215211,
+        title: 'card 1', //1
+        status: 'in-progress', //1
+        description: 'description sdfg sdfg sdfgh sdfgh sdfg', //1
+        dueDate: 16156215211, //1
         createdAt: 1590999730348,
         checklists: [
           {
@@ -441,14 +441,7 @@ function _getGroup(title) {
           },
         ],
         comments: [],
-        members: [
-          {
-            _id: 'u101',
-            username: 'Tal',
-            fullname: 'Tal Tarablus',
-            imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
-          },
-        ],
+        memberIds: ['u123', 'u345'],
         labelIds: [],
         byMember: {
           _id: 'u101',

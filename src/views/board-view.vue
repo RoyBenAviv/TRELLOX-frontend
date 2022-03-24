@@ -1,9 +1,12 @@
 <template>
-  <section v-if="board" class="board-view">
+  <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')'}" v-if="board">
+    <app-header />
+  <div class="board-view">
+
     <nav class="board-nav">
       <div class="left-nav">
         <h2>{{ board.title }}</h2>
-        <button><i class="fa-solid fa-star"></i></button> |
+        <button class="star"></button> |
         <div class="members-container">
           <div class="members">
             <div class="member-pic"></div>
@@ -16,9 +19,10 @@
       </div>
       <div class="right-nav">
         <button><i class="fa-solid fa-filter"></i> Filter</button>
-        <button><i class="fa-solid fa-ellipsis"></i> Show menu</button>
+        <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
       </div>
     </nav>
+      <board-menu v-if="openMenu" />
     <!-- <div > -->
     <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
       <Draggable v-for="group in board.groups" :key="group.id">
@@ -33,7 +37,8 @@
       </div>
     </Container>
     <!-- </div> -->
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
+    </div>
   </section>
 </template>
 
@@ -41,20 +46,25 @@
 import groupPreview from '../components/board/group-preview.vue'
 import { Container, Draggable } from 'vue3-smooth-dnd'
 import { applyDrag } from '../services/drag.helpers'
-import KanbanItem from '../components/KanbanItem.vue'
+// import KanbanItem from '../components/KanbanItem.vue'
+import appHeader from '../components/app-header.vue'
+import boardMenu from '../components/board/board-menu.vue'
 
 export default {
   components: {
     groupPreview,
     Container,
     Draggable,
-    KanbanItem,
+    // KanbanItem,
+    appHeader,
+    boardMenu
   },
   data() {
     return {
       isAddGroup: false,
       groupTitle: '',
       board: null,
+      openMenu: false
     }
   },
   async created() {
@@ -98,4 +108,5 @@ export default {
 .on-dragging {
   transform: rotate(10deg);
 }
+
 </style>

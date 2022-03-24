@@ -1,9 +1,9 @@
-* {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
 html {
-  font-family: roboto, sans-serif; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: lh(26px);
 }
 
@@ -35,4 +35,8 @@ ul {
 
 img {
   width: 100%;
+}
+
+pre, textarea {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }

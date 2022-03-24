@@ -13,7 +13,7 @@
         <div class="add-card-container" v-else>
           <textarea @keyup.enter="addCard" autofocus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
           <div class="add-card-actions">
-            <button @click="addCard">Add card</button><span><i class="fa-solid fa-xmark"></i></span>
+            <button @click="addCard">Add card</button><span @click="isAddCard = false"><i class="fa-solid fa-xmark"></i></span>
           </div>
         </div>
       </div>

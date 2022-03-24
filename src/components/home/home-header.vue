@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="home-header">
     <div class="logo"> <img src="https://res.cloudinary.com/trellox/image/upload/v1648060627/logo_jlbrpj.png" /> <h2>Trellox</h2></div>
       <nav>
         <router-link to="/login">login</router-link>
