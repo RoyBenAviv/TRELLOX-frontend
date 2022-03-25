@@ -1,7 +1,8 @@
 <template>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
     <div class="card-label-container">
-      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label">
+      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle"
+      :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
           <span v-if="labelTitleShown" class="open">{{ label.title }}</span>
       </span>
     </div>
@@ -9,17 +10,17 @@
     <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-icons-container">
       <span>
-        <div class="icon-div">
+        <div title="watch" class="icon-div">
           <span class="eyecon"></span>
         </div>
-        <div v-if="card.description" class="icon-div">
+        <div title="description" v-if="card.description" class="icon-div">
           <span class="desc"></span>
         </div>
-        <div v-if="card.comments.length" class="icon-div">
+        <div title="comments" v-if="card.comments.length" class="icon-div">
           <span class="comment"></span>
           <span class="txt">{{card.comments.length}}</span>
         </div>
-        <div v-if="card.checklists.length" class="icon-div" :class="doneChecklist">
+        <div title="Checklist items" v-if="card.checklists.length" class="icon-div" :class="doneChecklist">
           <span class="check"></span>
           <span class="txt">{{calcProgress()}}</span>
         </div>

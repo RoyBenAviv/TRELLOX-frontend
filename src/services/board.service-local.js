@@ -3,7 +3,7 @@ import { userService } from './user.service-local'
 import { utilService } from './util.service'
 // import { socketService, SOCKET_EVENT_REVIEW_ADDED } from './socket.service'
 
-const entity_key = 'board'
+const entity_key = 'boards'
 const archive_key = 'archive'
 _createDemoBoards()
 
