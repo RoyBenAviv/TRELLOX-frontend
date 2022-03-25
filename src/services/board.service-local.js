@@ -59,7 +59,6 @@ async function updateBoard(board) {
 function getEmptyBoard() {
   return {
     title: '',
-    _id: utilService.makeId(),
     createdAt: Date.now(),
     isStarred: false,
     createdBy: {}, //add logged in user
