@@ -319,8 +319,33 @@ async function _createData() {
     activities: [],
     cmpsOrder: [],
   }
+
+  const b2 = {
+    title: 'Board2',
+    createdAt: 1589953268418,
+    isStarred: true,
+    createdBy: {
+      _id: 'u102',
+      fullname: 'Roy',
+      imgUrl: 'img.png',
+    },
+    style: {
+      bgImgUrl: 'https://images.unsplash.com/photo-1628126235206-5260b9ea6441?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHwyfHxMYXVuY2h8ZW58MHx8fHwxNjQ4MTUyNzkz&ixlib=rb-1.2.1&q=85',
+    },
+    labels: _getLabelsForPM(),
+    members: [
+      {
+        _id: 'u102',
+        fullname: 'Tamir',
+        imgUrl: 'img.png',
+      },
+    ],
+    groups: [_getGroup('Test'), _getGroup('Done'), _getGroup('Tasks for today'), _getGroup('Others')],
+    activities: [],
+    cmpsOrder: [],
+  }
   boards = []
-  boards.push(b1)
+  boards.push(b1, b2)
   storageService.postMany(entity_key, boards)
 }
 

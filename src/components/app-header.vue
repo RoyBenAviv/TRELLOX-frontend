@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <div class="left-header">
-      <div class="logo">
+      <div @click="this.$router.push('/workspace')" class="logo">
         <i class="fa-brands fa-trello"></i>
         <p>Trellox</p>
       </div>

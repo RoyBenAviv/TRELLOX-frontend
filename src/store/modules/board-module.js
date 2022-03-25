@@ -77,6 +77,7 @@ export default {
       }
     },
     async saveBoard({ commit }, { board }) {
+      console.log('board',board);
       try {
         console.log('board is re-loading');
         var board = await boardService.updateBoard(board)
@@ -139,6 +140,6 @@ export default {
         console.log('Cannot find card', err)
         throw err
       }
-    }
+    },
   },
 }
