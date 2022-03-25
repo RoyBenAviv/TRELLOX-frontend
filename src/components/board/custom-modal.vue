@@ -1,12 +1,11 @@
 <template>
   <article class="custom-modal-container">
     <section class="custom-modal-header">
-      <a v-if="!isFirstPage" @click="goBack" class="custom-back"></a>
+      <a v-if="!isFirstPage" @click.stop="goBack" class="custom-back"></a>
       <span class="title">
         <slot name="header"></slot>
       </span>
-      <a @click="closeModal" class="custom-close"></a>
-      <!-- <a @click="closeModal" class="custom-close"><i class="fa-solid fa-xmark"></i></a> -->
+      <a @click.stop="closeModal" class="custom-close"></a>
     </section>
     <section class="custom-modal-main">
       <slot name="default"></slot>
@@ -22,9 +21,7 @@ export default {
       default: true
     },
   },
-  created() {
-    // console.log('this.isFirstPage',this.isFirstPage)
-  },
+  created() {},
   data() {
     return {}
   },
@@ -33,7 +30,6 @@ export default {
       this.$emit('closeModal')
     },
     goBack() {
-      console.log('hi');
       this.$emit('goBack')
     },
   },

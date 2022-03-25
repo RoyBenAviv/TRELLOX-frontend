@@ -5,7 +5,7 @@ import { utilService } from './util.service'
 
 const entity_key = 'board'
 const archive_key = 'archive'
-_createData()
+_createDemoBoards()
 
 export const boardService = {
   query,
@@ -233,7 +233,7 @@ async function archiveCard(boardId, groupId, cardId) {
 }
 
 //inside func // add try n catch
-async function _createData() {
+async function _createDemoBoards() {
   var boards = await query()
   if (boards.length) return
   const b1 = {
@@ -324,37 +324,37 @@ function _getLabelsForPM() {
     {
       id: 'l101',
       title: 'Copy Request',
-      color: '#61bd4f',
+      className: 'color0',
     },
     {
       id: 'l102',
       title: 'One more step',
-      color: '#f2d600',
+      className: 'color1',
     },
     {
       id: 'l103',
       title: 'Priority',
-      color: '#ff9f1a',
+      className: 'color2',
     },
     {
       id: 'l104',
       title: 'Design Team',
-      color: '#eb5a46',
+      className: 'color3',
     },
     {
       id: 'l105',
       title: 'Product Marketing',
-      color: '#c377e0',
+      className: 'color4',
     },
     {
       id: 'l106',
       title: 'Trello Tip',
-      color: '#0079bf',
+      className: 'color5',
     },
     {
       id: 'l107',
       title: 'Help',
-      color: '#00c2e0',
+      className: 'color6',
     },
   ]
 }
@@ -365,32 +365,32 @@ function _getLabelsForCO() {
     {
       id: 'l101',
       title: 'Product',
-      color: '#61bd4f',
+      className: 'color0',
     },
     {
       id: 'l102',
       title: 'Marketing',
-      color: '#f2d600',
+      className: 'color1',
     },
     {
       id: 'l103',
       title: 'Sales',
-      color: '#ff9f1a',
+      className: 'color2',
     },
     {
       id: 'l104',
       title: 'Support',
-      color: '#eb5a46',
+      className: 'color3',
     },
     {
       id: 'l105',
       title: 'People',
-      color: '#c377e0',
+      className: 'color4',
     },
     {
       id: 'l106',
       title: 'IT',
-      color: '#0079bf',
+      className: 'color5',
     },
   ]
 }

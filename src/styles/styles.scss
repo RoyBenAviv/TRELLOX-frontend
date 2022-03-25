@@ -8,20 +8,23 @@
 @import 'basics/base';
 @import 'basics/layout';
 
+// MODALS
+@import 'components/custom-modal';
+@import 'components/member-picker';
+@import 'components/label-picker';
+
 // COMPONENTS
 @import 'components/home-header';
 @import 'components/app-header';
 @import 'components/board-view';
+@import 'components/board-add';
 @import 'components/workspace-view';
 @import 'components/board-preview';
 @import 'components/group-preview';
 @import 'components/card-preview';
 @import 'components/card-edit';
 
-// MODALS
-@import 'components/custom-modal';
-@import 'components/member-picker';
-@import 'components/label-picker';
+
 
 // VIEWS
 @import 'views/home-view';

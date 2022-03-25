@@ -30,7 +30,7 @@ methods: {
       this.$refs.input.focus()
     },
     save() {
-      this.$emit('updateKey', 'checklists', this.checklist)
+      this.$emit('updateKey', 'checklists', JSON.parse(JSON.stringify(this.checklist)))
     },
 },
 computed: {

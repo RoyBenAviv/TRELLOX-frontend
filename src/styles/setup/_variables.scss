@@ -10,14 +10,69 @@ $clr8: #42526e;
 $clr9: #6b778c;
 
 // // COLORS FOR LABELS
-// $label0: #61bd4f;
-// $label1: #f2d600;;
-// $label2: #ff9f1a;
-// $label3: #eb5a46;
-// $label4: #c377e0;
-// $label5: #0079bf;
-// $label6: #00c2e0;
-// $label7: #51e898;
-// $label8: #ff78cb;
-// $label9: #344563;
-// $label10: #b3bac5;
+.color0 {
+    background-color: #61bd4f;
+    &.dark {
+        background-color: #519839;;
+    }
+}
+.color1 {
+    background-color: #f2d600;
+    &.dark {
+        background-color: #f2d600;
+    }
+}
+.color2 {
+    background-color: #ff9f1a;
+    &.dark {
+        background-color: #cd8313;
+    }
+}
+.color3 {
+    background-color: #eb5a46;
+    &.dark {
+        background-color: #b04632;
+    }
+}
+.color4 {
+    background-color: #c377e0;
+    &.dark {
+        background-color: #89609e;
+    }
+}
+.color5 {
+    background-color: #0079bf;
+    &.dark {
+        background-color: #055a8c;
+    }
+}
+.color6 {
+    background-color: #00c2e0;
+    &.dark {
+        background-color: #0098b7;
+    }
+}
+.color7 {
+    background-color: #51e898;
+    &.dark {
+        background-color: #4bbf6b;
+    }
+}
+.color8 {
+    background-color: #ff78cb;
+    &.dark {
+        background-color: #c9558f;
+    }
+}
+.color9 {
+    background-color: #344563;
+    &.dark {
+        background-color: #091e42;
+    }
+}
+.color10 {
+    background-color: #b3bac5;
+    &.dark {
+        background-color: #97a0af;
+    }
+}
