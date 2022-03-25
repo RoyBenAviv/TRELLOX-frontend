@@ -50,7 +50,7 @@ async function getBoardById(boardId) {
 
 async function updateBoard(board) {
   try {
-    return await storageService.put(entity_key, board)
+    return board._id ? await storageService.put(entity_key, board) : await storageService.post(entity_key, board)
   } catch (err) {
     throw err
   }

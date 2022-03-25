@@ -16,7 +16,7 @@
         </div>
       </li>
     </ul>
-    {{memberIds}}
+    <!-- {{memberIds}} -->
   </custom-modal>
 </template>
 
