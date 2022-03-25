@@ -97,12 +97,20 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     moveAllCards(chosenGroup) {
-      
+
+        const currGroup = JSON.parse(JSON.stringify(this.group))
+
         const groupCards = JSON.parse(JSON.stringify(this.group.cards))
         chosenGroup.cards.push(...groupCards)
-        // this.group.cards = []
-        const groupIdx = this.board.groups.findIndex(group => group.id === chosenGroup.id)
-        this.board.groups.splice(groupIdx, 1, chosenGroup)
+        currGroup.cards = []
+
+        const currGroupIdx = this.board.groups.findIndex(group => group.id === currGroup.id)
+        this.board.groups.splice(currGroupIdx, 1, currGroup)
+
+
+
+        const chosenGroupIdx = this.board.groups.findIndex(group => group.id === chosenGroup.id)
+        this.board.groups.splice(chosenGroupIdx, 1, chosenGroup)
         this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     archiveCards() {

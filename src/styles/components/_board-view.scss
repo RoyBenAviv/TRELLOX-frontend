@@ -6,6 +6,10 @@
   background-repeat: no-repeat;
   image-rendering: pixelated;
   image-rendering: -webkit-optimize-contrast;
+
+  .board-header {
+    @include header-color(header);
+  }
   .board-view {
     height: 100%;
     padding-block-start: rem(100px);

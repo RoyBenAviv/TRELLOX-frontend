@@ -1,6 +1,6 @@
 <template>
   <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')'}" v-if="board">
-    <app-header />
+    <app-header class="board-header"/>
   <div class="board-view">
 
     <nav class="board-nav">

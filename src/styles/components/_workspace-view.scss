@@ -1,0 +1,13 @@
+.workspace-view {
+    .workspace-header {
+        @include header-color(workspace);
+        top: 0;
+    }
+    .workspace-wrapper {
+        @include flex(row, center, _);
+        margin-block-start: rem(82px);
+        .board-list-container {
+            margin-left: rem(31px);
+        }
+    }
+}
