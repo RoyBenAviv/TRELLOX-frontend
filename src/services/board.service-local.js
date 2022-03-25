@@ -59,13 +59,17 @@ async function updateBoard(board) {
 function getEmptyBoard() {
   return {
     title: '',
+    _id: utilService.makeId(),
     createdAt: Date.now(),
     isStarred: false,
     createdBy: {}, //add logged in user
-    style: {},
+    style: {
+      bgImUrl: '',
+      bgColor: ''
+    },
     labels: _getLabelsForPM(),
     members: [], //add logged in user
-    groups: [],
+    groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
     activities: [],
     cmpsOrder: [],
   }
