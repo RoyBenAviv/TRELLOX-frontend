@@ -3,7 +3,7 @@ import { userService } from './user.service-local'
 import { utilService } from './util.service'
 // import { socketService, SOCKET_EVENT_REVIEW_ADDED } from './socket.service'
 
-const entity_key = 'board'
+const entity_key = 'boards'
 const archive_key = 'archive'
 _createDemoBoards()
 
@@ -50,7 +50,7 @@ async function getBoardById(boardId) {
 
 async function updateBoard(board) {
   try {
-    return await storageService.put(entity_key, board)
+    return board._id ? await storageService.put(entity_key, board) : await storageService.post(entity_key, board)
   } catch (err) {
     throw err
   }
@@ -62,10 +62,13 @@ function getEmptyBoard() {
     createdAt: Date.now(),
     isStarred: false,
     createdBy: {}, //add logged in user
-    style: {},
+    style: {
+      bgImUrl: '',
+      bgColor: ''
+    },
     labels: _getLabelsForPM(),
     members: [], //add logged in user
-    groups: [],
+    groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
     activities: [],
     cmpsOrder: [],
   }

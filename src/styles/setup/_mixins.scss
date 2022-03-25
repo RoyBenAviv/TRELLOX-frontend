@@ -93,7 +93,7 @@
 
 @mixin lighten {
     &:hover {
-        -webkit-filter: brightness(103%);
+        filter: brightness(103%);
     }
 }
 

@@ -7,6 +7,7 @@
 // BASICS
 @import 'basics/base';
 @import 'basics/layout';
+@import 'basics/helpers';
 
 // MODALS
 @import 'components/custom-modal';
@@ -16,9 +17,7 @@
 // COMPONENTS
 @import 'components/home-header';
 @import 'components/app-header';
-@import 'components/board-view';
 @import 'components/board-add';
-@import 'components/workspace-view';
 @import 'components/board-preview';
 @import 'components/group-preview';
 @import 'components/card-preview';
@@ -28,3 +27,5 @@
 
 // VIEWS
 @import 'views/home-view';
+@import 'views/workspace-view';
+@import 'views/board-view';
