@@ -6,6 +6,10 @@
   background-repeat: no-repeat;
   image-rendering: pixelated;
   image-rendering: -webkit-optimize-contrast;
+
+  .board-header {
+    @include header-color(header);
+  }
   .board-view {
     height: 100%;
     padding-block-start: rem(100px);
@@ -76,12 +80,87 @@
       }
     }
     .board-menu {
+      overflow-y: auto;
+      menu {
+        margin-top: rem(23px);
+        padding: 0;
+      }
       position: fixed;
       right: 0;
       width: 339px;
       height: 893px;
       background-color: #f4f5f7;
       z-index: 10;
+      left: inherit;
+      top: 45px;
+      font-weight: 600; 
+      .header-title {
+        margin: rem(14px) 0;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: rem(16px);
+        color: $clr1;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        color: $clr1;
+      }
+      .menu-options {
+        li {
+          cursor: pointer;
+          @include flex(row, _, center);
+          border-radius: 3px;
+          gap: rem(15px);
+          padding: rem(6px);
+          i {
+            font-size: rem(16px);
+          }
+          &:hover {
+            background-color: #091e4214;
+          }
+          .activity {
+            font-weight: 700;
+          }
+        }
+      }
+      .bg-choose {
+        .bg-choose-top {
+          @include flex;
+          gap: rem(10px);
+          margin-top: rem(10px);
+        }
+        .bg-picker{ 
+          @include flex(column);
+        }
+      }
+      img {
+        width: 135px;
+        height: 96px;
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover {
+          filter: grayscale(50%);
+        }
+      }
+      .bg-choose-img {
+        .search-container {
+          margin-top: rem(10px);
+          // position: relative;
+          label {
+            position: absolute;
+          }
+        }
+        .bg-images {
+          @include flex;
+          flex-wrap: wrap;
+          gap: rem(10px);
+          img {
+            object-fit: cover;
+            object-position: bottom;
+          }
+        }
+      }
     }
     .group-container {
       .open-group-container {

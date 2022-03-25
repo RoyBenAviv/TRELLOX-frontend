@@ -43,28 +43,27 @@
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@mixin header-color($type) {
+    @if $type == board {
+        background-color: #e8e9e2;
+        .left-header, .right-header {
+            >* {
+                color: $clr2; 
+            }
+        }
+    } @else if $type == workspace {
+        background-color: $clr2;
+        .left-header, .right-header {
+            >* {
+                color: $clr4; 
+            }
+        }
+    }
+}
 
 @mixin header-btn {
     margin-right: 4px;
     padding-right: 10px;
-    color: $clr1;
     background-color: transparent;
     height: 32px;
     line-height: 32px;

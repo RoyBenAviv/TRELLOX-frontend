@@ -5,7 +5,7 @@
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <textarea v-if="editTitle" v-model="group.title"></textarea>
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
-        <group-actions @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
+        <group-actions @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
       <!-- <div class="card-preview-container"> -->
 
@@ -88,17 +88,34 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     async moveGroup(moveToBoard, groupPos) {
-      // console.log('currGroup',currGroup);
-      // console.log('groupPos',groupPos);
+
+      moveToBoard.groups.splice(groupPos, 0, JSON.parse(JSON.stringify(this.group)))
+      await this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
+
       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
       this.board.groups.splice(groupIdx, 1)
-      await this.$store.dispatch({ type: 'saveBoard', board: this.board })
-      // console.log('moveToBoard',moveToBoard);
-      console.log('moveToBoard.groups',moveToBoard.groups);
-      moveToBoard.groups.push(JSON.parse(JSON.stringify(this.group)))
-      console.log('moveToBoard.groups',moveToBoard.groups);
-      // this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
+      this.$store.dispatch({ type: 'saveBoard', board: this.board })
+    },
+    moveAllCards(chosenGroup) {
 
+        const currGroup = JSON.parse(JSON.stringify(this.group))
+
+        const groupCards = JSON.parse(JSON.stringify(this.group.cards))
+        chosenGroup.cards.push(...groupCards)
+        currGroup.cards = []
+
+        const currGroupIdx = this.board.groups.findIndex(group => group.id === currGroup.id)
+        this.board.groups.splice(currGroupIdx, 1, currGroup)
+
+
+
+        const chosenGroupIdx = this.board.groups.findIndex(group => group.id === chosenGroup.id)
+        this.board.groups.splice(chosenGroupIdx, 1, chosenGroup)
+        this.$store.dispatch({ type: 'saveBoard', board: this.board })
+    },
+    archiveCards() {
+      this.group.cards = []
+      this.$store.dispatch({ type: 'saveBoard', board: this.board })
     }
   },
   computed: {

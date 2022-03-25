@@ -1,26 +1,7 @@
 .board-preview {
-    cursor: pointer;
-    padding: 4px 8px;
-    position: relative;
-    width: fit-content;
-    background: aliceblue;
-    height: 96px; // why twice??
-    .board-img {
-        width: 200px; //changing
-        border-radius: 3px;
-        height: 96px;
-    }
+    @include flex;
+    flex-wrap: wrap;
+    img {
 
-    .txt-on-borad-img {
-        height: 80px;
-        width: 80%;
-        position: absolute;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-        color: white;
-        // font-size: 16px;
-        // font-weight: 700;
-        // line-height: 20px;
     }
 }

@@ -5,7 +5,6 @@
   justify-content: space-between;
   width: 100%;
   height: 44px;
-  background-color: #e8e9e2;
   opacity: 0.9;
   .left-header,
   .right-header {
@@ -15,17 +14,24 @@
   }
   .left-header {
     .logo {
-      padding-left: rem(42px);
-      margin-right: rem(20px);
+      cursor: pointer;
+      // padding-left: rem(42px);
+      // margin-right: rem(20px);
+      margin: 0 rem(20px) 0 rem(42px);
+      border-radius: 3px;
+      padding: rem(5px);
       @include flex;
       font-family: katahdin, sans-serif;
-      color: $clr1;
+      // color: $clr1;
       gap: rem(6px);
       i {
         font-size: 1.2em;
       }
       p {
           margin: 0;
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
       }
     }
     button:not(:last-child) {
@@ -50,7 +56,7 @@
       label {
           @include flex;
           position: relative;
-          color: $clr1;
+          // color: $clr1;
           width: 256px;
           height: 32px;
           border-radius: 3px;
@@ -89,7 +95,7 @@
   .profile {
     height: 32px;
     width: 32px;
-    background-color: red;
+    background-color: white;
     border-radius: 50%
   }
 }

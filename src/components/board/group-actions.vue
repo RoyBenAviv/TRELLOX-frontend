@@ -20,11 +20,11 @@
         <div v-if="openMoveGroup">
             <form @submit.prevent="moveGroup">
 
-            <select v-model="chosenBoard.groups">
+            <select v-model="chosenBoard">
                 <!-- <optgroup label="Boards">
                     <option selected="selected">{{chosenBoard.title}}</option>
                 </optgroup> -->
-                <option v-for="board in boards" :key="board._id" :value="board.groups">{{board.title}}</option>
+                <option v-for="board in boards" :key="board._id" :value="board">{{board.title}}</option>
             </select>
             <select v-model="groupPos">
                 <option v-for="(group, idx) in chosenBoard.groups" :key="group" :value="idx">{{idx + 1}}</option>
@@ -43,8 +43,18 @@
       <hr />
     </ul>
     <ul>
-      <li><a>Move all cards in this list...</a></li>
-      <li><a>Archive all cards in this list...</a></li>
+      <li @click="openMoveCards = true"><a>Move all cards in this list...</a>
+      
+        <div v-if="openMoveCards">
+            <select v-model="chosenGroup" @change="moveAllCards">
+                <option v-for="group in currentGroups" :key="group.id" :value="group">{{group.title}}</option>
+
+
+            </select>
+        </div>
+      
+      </li>
+      <li @click="archiveCards"><a>Archive all cards in this list...</a></li>
     </ul>
     <ul>
       <hr />
@@ -61,7 +71,10 @@ export default {
       groupTitle: '',
       openCopyGroup: false,
       openMoveGroup: false,
+      openMoveCards: false,
+      currentGroups: this.$store.getters.currBoard.groups,
       chosenBoard: this.$store.getters.currBoard,
+      chosenGroup: null,
       groupPos: null
     }
   },
@@ -77,9 +90,14 @@ export default {
       this.groupTitle = ''
     },
     moveGroup() {
-   
         const moveToBoard = this.boards.find(board => board._id === this.chosenBoard._id)
         this.$emit('moveGroup', moveToBoard, this.groupPos)
+    },
+    moveAllCards() {
+        this.$emit('moveAllCards', this.chosenGroup)
+    },
+    archiveCards() {
+      this.$emit('archiveCards')
     }
   },
   computed: {

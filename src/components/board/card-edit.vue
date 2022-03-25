@@ -293,7 +293,7 @@ export default {
         if (todo.isDone) acc++
         return acc
       }, 0)
-      var precent = (doneTodos * 100) / todos.length + '%'
+      var precent = ((doneTodos * 100) / todos.length).toFixed(2) + '%'
       return precent
     },
     toggleTodo(todoId, checklistId) {
