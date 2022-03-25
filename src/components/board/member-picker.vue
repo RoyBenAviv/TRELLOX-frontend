@@ -13,7 +13,6 @@
           <span>{{member.fullname}}</span>
           <span>({{member.username}})</span>
           <span class="v-icon"></span>
-          <!-- <span class="v-icon" v-if="memberIds.includes(member._id)"></span> -->
         </div>
       </li>
     </ul>
@@ -54,7 +53,7 @@ export default {
       this.save()
     },
     save() {
-      this.$emit('updateKey', 'memberIds', this.memberIds)
+      this.$emit('updateKey', 'memberIds', JSON.parse(JSON.stringify(this.memberIds)))
     },
   },
   computed: {

@@ -23,6 +23,8 @@
             color: #42526e;
             font-family: trellicons;
             cursor: pointer;
+            display: block;
+            z-index: 2;
 
             &:before {
                 content: "\e90a";
@@ -54,6 +56,7 @@
             height: 40px;
             width: 40px;
             font-family: trellicons;
+            cursor: pointer;
 
             &:hover {
                 color: #172b4d;

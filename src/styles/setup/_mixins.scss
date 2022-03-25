@@ -88,3 +88,9 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 }
+
+@mixin lighten {
+    &:hover {
+        -webkit-filter: brightness(103%);
+    }
+}

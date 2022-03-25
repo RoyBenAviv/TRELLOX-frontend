@@ -91,6 +91,7 @@
         overflow: visible;
         text-decoration: none;
         z-index: 0;
+        @include lighten;
     }
 
     .member img {
@@ -272,6 +273,25 @@
                     }
                 }
 
+                .add-label{
+                    background-color: #091e420a;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    float: left;
+                    margin: 0 8px 8px 0;
+                    transition-duration: 85ms;
+                    transition-property: background-color, border-color, box-shadow;
+                    transition-timing-function: ease;
+                    @include flex();
+                    height: rem(32px);
+                    width: rem(32px);
+                    color: $clr8;
+
+                    &:hover {
+                        background-color: #091e4214;
+                    }
+                }
+
                 .label-span {
                     border-radius: 3px;
                     box-sizing: border-box;
@@ -287,6 +307,7 @@
                     cursor: pointer;
                     color: white;
                     font-size: 0.875rem;
+                    @include lighten;
                 }
             }
         }

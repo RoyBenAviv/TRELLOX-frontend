@@ -3,10 +3,10 @@
     <!-- <labelColor v-for="labelId in card.labelIds" :key="labelId" :labelId="labelId" /> -->
     <span class="card-label-container">
       <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle">
-        <span :style="{ backgroundColor: label.color }" class="card-label" :class="{ open: labelTitleShown }">
-          <span v-if="labelTitleShown">{{ label.title }}</span>
+        <span :class="label.className" class="card-label">
+          <!-- :class="{ open: labelTitleShown }" -->
+          <span v-if="labelTitleShown" class="open">{{ label.title }}</span>
         </span>
-        <!-- <pre>{{label.color}}</pre> -->
       </span>
     </span>
     <span @click="cardOptions" class="edit-card"><i class="fa-solid fa-pen"></i></span>

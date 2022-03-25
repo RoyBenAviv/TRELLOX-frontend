@@ -6,7 +6,7 @@
     <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
         <span class="edit-label"></span>
-        <div class="label" :style="{ backgroundColor: label.color }">
+        <div class="label" :class="label.className">
           {{ label.title }}
           <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
         </div>
@@ -29,7 +29,7 @@
     </form>
     <!-- <ul>
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
-        <span :style="{ backgroundColor: label.color }">0</span>
+        <span :class="label.className">0</span>
         <span>{{ label.title }}</span>
       </li>
     </ul> -->
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       newLabel: null,
-      labelIds: JSON.parse(JSON.stringify(this.currLabelIds)),
+      labelIds: this.currLabelIds,
     }
   },
   methods: {
@@ -127,7 +127,7 @@ export default {
       })
     },
     save() {
-      this.$emit('updateKey', 'labelIds', this.labelIds)
+      this.$emit('updateKey', 'labelIds', JSON.parse(JSON.stringify(this.labelIds)))
     },
   },
   computed: {
