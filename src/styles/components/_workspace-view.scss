@@ -4,10 +4,44 @@
         top: 0;
     }
     .workspace-wrapper {
-        @include flex(row, center, _);
+        @include flex(row, _, _);
         margin-block-start: rem(82px);
         .board-list-container {
             margin-left: rem(31px);
+            .recently-viewed {
+
+            }
+            .board-list {
+                ul {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: rem(20px);
+                }
+                .board-preview {
+                    a {
+                        position: relative;
+                    }
+                    span {
+                        position: absolute;
+                        left: 10px;
+                        top: 10px;
+                        color: $clr4;
+                        font-weight: 700;
+                        z-index: 10;
+                    }
+                    img {
+                        width: 200px;
+                        height: 100px;
+                        border-radius: 3px;
+                        object-fit: cover;
+                        transition: all 0.3s;
+                        &:hover {
+                            filter: brightness(70%);
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

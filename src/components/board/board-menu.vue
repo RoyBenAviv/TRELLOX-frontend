@@ -1,22 +1,51 @@
 <template>
-  <menu class="board-menu">
-    <ul>
-      <li><a @click="openChangeBg = true">Change background</a></li>
-    </ul>
-
-    <div v-if="openChangeBg">
-      <input type="text" v-model="search" @input="searchImages(search)" />
-      <ul v-if="images">
-        <li v-for="image in images" :key="image.id">
-          <div @click="setBoardBg(image.urls.full)"><img :src="image.urls.small" /></div>
-        </li>
+  <custom-modal class="board-menu" @closeModal="closeModal">
+    <template v-slot:header> <p class="header-title">Menu</p> </template>
+    <menu v-if="!openChangeBg && !openChangeImg">
+      <ul class="menu-options">
+        <li><i class="fa-brands fa-trello"></i> <a>About this board</a></li>
+        <li @click="openChangeBg = true"><i class="fa-solid fa-image"></i> <a>Change background</a></li>
       </ul>
-    </div>
-  </menu>
+      <hr />
+      <ul class="menu-options">
+        <li><i class="fa-solid fa-list-ul"></i> <a class="activity">Activity</a></li>
+      </ul>
+    </menu>
+    <Transition name="inside-menu">
+      <div class="bg-choose" v-if="openChangeBg && !openChangeImg">
+        <div class="bg-choose-top">
+          <div @click="openChangeImg = true" class="bg-picker">
+            <img src="src/assets//images/background.jpg" alt="background image picker" />
+            <p>Photos</p>
+          </div>
+          <div class="bg-picker">
+            <img src="src/assets//images/colors.jpg" alt="color picker" />
+            <p>Colors</p>
+          </div>
+        </div>
+        <hr />
+        <h2>Custom</h2>
+        <div class="bg-picker"></div>
+      </div>
+    </Transition>
+
+    <Transition name="inside-menu">
+      <div class="bg-choose-img" v-if="openChangeImg">
+        <input class="custom-input" placeholder="Photos" type="text" v-model="search" @input="searchImages(search)" />
+        <ul class="bg-images" v-if="images">
+          <li v-for="image in images" :key="image.id">
+            <div @click="setBoardBg(image.urls.full)"><img :src="image.urls.small" /></div>
+          </li>
+        </ul>
+      </div>
+    </Transition>
+  </custom-modal>
 </template>
 
 <script>
 import { imgService } from '../../services/img.service.js'
+import customModal from './custom-modal.vue'
+
 export default {
   name: '',
   data() {
@@ -24,10 +53,11 @@ export default {
       openChangeBg: false,
       images: null,
       search: '',
+      openChangeImg: false,
     }
   },
   created() {
-      this.searchImages('nature')
+    this.searchImages('nature')
   },
   methods: {
     async searchImages(searchVal) {
@@ -38,12 +68,24 @@ export default {
     setBoardBg(boardBg) {
       this.$emit('setBoardBg', boardBg)
     },
+    closeModal() {
+      this.$emit('closeMenu')
+    },
   },
   computed: {},
   components: {
     imgService,
+    customModal,
   },
 }
 </script>
 
-<style></style>
+<style scoped>
+.inside-menu-enter-active {
+  transition: transform 0.3s ease-out;
+}
+.inside-menu-enter-from,
+.inside-menu-leave-to {
+  transform: translateX(450px);
+}
+</style>

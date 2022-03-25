@@ -19,10 +19,12 @@
       </div>
       <div class="right-nav">
         <button><i class="fa-solid fa-filter"></i> Filter</button>
-        <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
+        <button  @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
       </div>
     </nav>
-      <board-menu @setBoardBg="setBoardBg" v-if="openMenu" />
+    <Transition name="menu">
+      <board-menu @closeMenu="openMenu = false" @setBoardBg="setBoardBg" v-if="openMenu" />
+    </Transition>
     <!-- <div > -->
     <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
       <Draggable v-for="group in board.groups" :key="group.id">
@@ -116,6 +118,16 @@ export default {
 }
 .on-dragging {
   transform: rotate(10deg);
+}
+.menu-enter-active {
+  transition: transform 0.3s ease-out;
+}
+.menu-leave-active {
+  transition: transform 0.5s
+}
+.menu-enter-from,
+.menu-leave-to {
+  transform: translateX(450px);
 }
 
 </style>
