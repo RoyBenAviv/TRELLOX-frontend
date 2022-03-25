@@ -1,5 +1,5 @@
 <template>
-  <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor}" v-if="board">
+  <section class="board-wrapper" :style="{ 'background':  board.style.bgImgUrl ? 'url(' + board.style.bgImgUrl + ')' : board.style.bgColor}" v-if="board">
     <app-header class="board-header"/>
   <div class="board-view">
 

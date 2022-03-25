@@ -6,7 +6,15 @@ export default {
     filterBy: null,
     currBoard: null,
     labelTitleShown: false,
-    colorPalletLength: 11
+    colorPalletLength: 11,
+    imagePicker: [
+      'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHw0fHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
+      'https://images.unsplash.com/photo-1480497490787-505ec076689f?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb',
+      'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHwzfHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
+      'https://images.unsplash.com/photo-1433477155337-9aea4e790195?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb'
+  
+      ],
+    colorPicker: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e']
   },
   getters: {
     boards(state) {
@@ -18,6 +26,12 @@ export default {
     labelTitleShown(state) {
       return state.labelTitleShown
     },
+    imagePicker(state) {
+      return state.imagePicker
+    },
+    colorPicker(state) {
+      return state.colorPicker
+    }
   },
   mutations: {
     setBoards(state, { boards }) {

@@ -27,6 +27,25 @@
             }
             }
         }
+        .color-picker {
+            // border-radius: 10px;
+            @include flex;
+            gap: rem(8px);
+            margin-block-end: rem(25px);
+            >* {
+                margin: 0;
+                cursor: pointer;
+            }
+
+            .color {
+                width: 40px;
+                height: 32px;
+                border-radius: 3px;
+                &:hover {
+                    filter: brightness(70%);
+                }
+            }
+        }
     }
     input {
         @include custom-input;
