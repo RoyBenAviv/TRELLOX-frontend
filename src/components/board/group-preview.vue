@@ -5,7 +5,7 @@
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <textarea v-if="editTitle" v-model="group.title"></textarea>
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
-        <group-actions @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
+        <group-actions @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
       <!-- <div class="card-preview-container"> -->
 
@@ -94,6 +94,19 @@ export default {
 
       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
       this.board.groups.splice(groupIdx, 1)
+      this.$store.dispatch({ type: 'saveBoard', board: this.board })
+    },
+    moveAllCards(chosenGroup) {
+      
+        const groupCards = JSON.parse(JSON.stringify(this.group.cards))
+        chosenGroup.cards.push(...groupCards)
+        // this.group.cards = []
+        const groupIdx = this.board.groups.findIndex(group => group.id === chosenGroup.id)
+        this.board.groups.splice(groupIdx, 1, chosenGroup)
+        this.$store.dispatch({ type: 'saveBoard', board: this.board })
+    },
+    archiveCards() {
+      this.group.cards = []
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     }
   },

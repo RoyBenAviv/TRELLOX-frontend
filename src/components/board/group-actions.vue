@@ -43,8 +43,18 @@
       <hr />
     </ul>
     <ul>
-      <li><a>Move all cards in this list...</a></li>
-      <li><a>Archive all cards in this list...</a></li>
+      <li @click="openMoveCards = true"><a>Move all cards in this list...</a>
+      
+        <div v-if="openMoveCards">
+            <select v-model="chosenGroup" @change="moveAllCards">
+                <option v-for="group in currentGroups" :key="group.id" :value="group">{{group.title}}</option>
+
+
+            </select>
+        </div>
+      
+      </li>
+      <li @click="archiveCards"><a>Archive all cards in this list...</a></li>
     </ul>
     <ul>
       <hr />
@@ -61,7 +71,10 @@ export default {
       groupTitle: '',
       openCopyGroup: false,
       openMoveGroup: false,
+      openMoveCards: false,
+      currentGroups: this.$store.getters.currBoard.groups,
       chosenBoard: this.$store.getters.currBoard,
+      chosenGroup: null,
       groupPos: null
     }
   },
@@ -79,6 +92,12 @@ export default {
     moveGroup() {
         const moveToBoard = this.boards.find(board => board._id === this.chosenBoard._id)
         this.$emit('moveGroup', moveToBoard, this.groupPos)
+    },
+    moveAllCards() {
+        this.$emit('moveAllCards', this.chosenGroup)
+    },
+    archiveCards() {
+      this.$emit('archiveCards')
     }
   },
   computed: {
