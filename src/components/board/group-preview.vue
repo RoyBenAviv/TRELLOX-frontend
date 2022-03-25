@@ -11,7 +11,7 @@
 
       <Container class="card-preview-container" @drop="onCardDrop($event)">
         <Draggable v-for="card in group.cards" :key="card.id">
-          <card-preview :card="card" />
+          <card-preview @openQuickEdit="openQuickEdit" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
 
         <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
@@ -24,6 +24,7 @@
       </Container>
     </div>
     <!-- </div> -->
+    <div name="quick-card-editor" v-if="isQuickEdit.boolean" @click.stop="isQuickEdit.boolean = false" :class="computedQuickEdit"></div>
   </section>
 </template>
 
@@ -52,6 +53,10 @@ export default {
       cardTitle: '',
       editTitle: false,
       openGrpAct: false,
+      isQuickEdit: {
+        boolean: false,
+        cardId: ''
+      }
     }
   },
   methods: {
@@ -116,12 +121,19 @@ export default {
     archiveCards() {
       this.group.cards = []
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
+    },
+    openQuickEdit(cardId) {
+      this.isQuickEdit.boolean = true
+      this.isQuickEdit.cardId = cardId
     }
   },
   computed: {
     board() {
       return this.$store.getters.currBoard
-    } 
+    },
+    computedQuickEdit() {
+      return this.isQuickEdit.boolean ? 'quick-card-editor' : ''
+    }
   },
 }
 </script>
