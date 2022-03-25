@@ -146,7 +146,9 @@
     margin-top: 8px;
 
     &:hover {
-      -webkit-filter: brightness(70%);
+      .card-label{
+        filter: brightness(70%);
+      }
     }
 
     .card-label {

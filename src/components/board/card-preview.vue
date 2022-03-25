@@ -1,14 +1,10 @@
 <template>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
-    <!-- <labelColor v-for="labelId in card.labelIds" :key="labelId" :labelId="labelId" /> -->
-    <span class="card-label-container">
-      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle">
-        <span :class="label.className" class="card-label">
-          <!-- :class="{ open: labelTitleShown }" -->
+    <div class="card-label-container">
+      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label">
           <span v-if="labelTitleShown" class="open">{{ label.title }}</span>
-        </span>
       </span>
-    </span>
+    </div>
     <span @click.stop="openQuickEdit" class="edit-card"></span>
     <span class="card-preview-title">{{ card.title }}</span>
     <div class="card-icons-container">
@@ -88,7 +84,7 @@ export default {
       return labels.filter((l) => this.card.labelIds.includes(l.id))
     },
     labelTitleShown() {
-      return this.$store.getters.labelTitleShown
+      return this.$store.getters.labelTitleShown ? 'open' : ''
     },
     doneChecklist() {
       return (this.isChecklistDone) ? 'completed' : ''
