@@ -1,5 +1,5 @@
 .card-preview-container {
-  max-height: 82vh;
+  max-height: calc(100vh - 11rem);
   overflow-y: auto;
   /* width */
   &::-webkit-scrollbar {
