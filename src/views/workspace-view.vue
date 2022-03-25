@@ -3,7 +3,7 @@
     <app-header class="workspace-header" />
     <div class="workspace-wrapper main-layout">
       <nav class="workspace-nav">
-        <ul>
+        <ul class="nav-options-top">
           <li><a>Home</a></li>
           <li><i class="fa-brands fa-trello"></i><a>Boards</a></li>
           <li><a>Create Workspace</a></li>

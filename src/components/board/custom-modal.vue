@@ -1,11 +1,11 @@
 <template>
   <article class="custom-modal-container">
     <section class="custom-modal-header">
-      <a v-if="!isFirstPage" @click="goBack" class="custom-back"></a>
+      <a v-if="!isFirstPage" @click.stop="goBack" class="custom-back"></a>
       <span class="title">
         <slot name="header"></slot>
       </span>
-      <a @click="closeModal" class="custom-close"></a>
+      <a @click.stop="closeModal" class="custom-close"></a>
     </section>
     <section class="custom-modal-main">
       <slot name="default"></slot>
