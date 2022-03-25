@@ -1,6 +1,16 @@
 .board-wrapper {
   height: 100vh;
   overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #00000026;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #aba59d70;
+    border-radius: 10px;
+  }
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
