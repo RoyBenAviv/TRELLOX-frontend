@@ -1,7 +1,8 @@
 <template>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
     <div class="card-label-container">
-      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label">
+      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle"
+      :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
           <span v-if="labelTitleShown" class="open">{{ label.title }}</span>
       </span>
     </div>

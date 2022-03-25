@@ -1,5 +1,5 @@
 .card-preview-container {
-  max-height: 82vh;
+  max-height: calc(100vh - 11rem);
   overflow-y: auto;
   /* width */
   &::-webkit-scrollbar {
@@ -70,8 +70,6 @@
     margin-left: -2px;
     max-width: 100%;
 
-    
-
     .icon-div {
       color: #5e6c84;
       display: inline-block;
@@ -126,7 +124,6 @@
           content: "\e91a";
         }
       }
-      
     }
 
     .completed {
@@ -138,7 +135,7 @@
       }
     }
   }
-  
+
   .card-label-container {
     // overflow: auto;
     position: relative;
@@ -171,7 +168,7 @@
       transition-timing-function: ease;
       // transition: width 0.5s ease-in;
       // transition: color 1s;
-
+      
       &.open {
         color: white;
         height: 16px;
@@ -186,3 +183,7 @@
     z-index: 15;
   }
 }
+
+// .card-label:hover ~ .card-label {
+//   filter: brightness(70%);
+// }

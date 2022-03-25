@@ -15,19 +15,18 @@
           </div>
           <div class="modal-main-content">
             <div class="card-details">
-              <div class="card-details-item">
-                <!-- add members v-for and add v-if on add -->
+              <div v-if="members.length" class="card-details-item">
                 <h3>Members</h3>
-                <div class="member">
+                <div class="member" v-for="member in members" :key="member.id" :title="member.fullname">
                   <img src="https://trello.com/1/cards/62399dba78ab2987b393bef4/attachments/6239ba94c62cb36ebd4d3023/previews/6239ba95c62cb36ebd4d3042/download/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512.png" alt="" />
                 </div>
                 <div class="add-member" @click="openModal('member-picker')"><i class="fa-solid fa-plus"></i></div>
               </div>
+
               <div v-if="labels.length" class="card-details-item">
                 <h3>Labels</h3>
                 <div>
-                  <span class="label-span" v-for="label in labels" :key="label.id"
-                  :class="label.className">
+                  <span class="label-span" v-for="label in labels" :key="label.id" :class="label.className" :title="label.title">
                     <span @click="openModal('label-picker')">{{ label.title }}</span>
                   </span>
                   <div class="add-label" @click="openModal('label-picker')"><i class="fa-solid fa-plus"></i></div>
@@ -334,6 +333,10 @@ export default {
     labels() {
       var labels = this.$store.getters.currBoard.labels
       return labels.filter((l) => this.card.labelIds.includes(l.id))
+    },
+    members() {
+      var members = this.$store.getters.currBoard.members
+      return members.filter((m) => this.card.memberIds.includes(m._id))
     },
   },
 }
