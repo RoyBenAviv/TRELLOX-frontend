@@ -1,5 +1,5 @@
 <template>
-  <custom-modal v-if="!newLabel" @closeModal="closeModal">
+  <custom-modal v-if="!newLabel" @closeModal="closeModal" @goBack="goBack" :isFirstPage="true">
     <template v-slot:header> Labels </template>
     <input ref="input" class="custom-input" type="search" placeholder="Search labels..." />
     <h4>Labels</h4>
@@ -12,12 +12,13 @@
         </div>
       </li>
     </ul>
+    <!-- {{labelIds}} -->
     <button class="custom-btn" @click="startCreating">Create new label</button>
     <hr />
     <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
 
-  <custom-modal v-else @closeModal="closeModal">
+  <custom-modal v-else @closeModal="closeModal" @goBack="goBack" :isFirstPage="false">
     <template v-slot:header> Create label </template>
     <form @submit.prevent="add" class="form-label">
       <label for="name">Name</label>
@@ -49,10 +50,13 @@ export default {
   data() {
     return {
       newLabel: null,
-      labelIds: JSON.parse(JSON.stringify(this.currLabelIds)),//
+      labelIds: JSON.parse(JSON.stringify(this.currLabelIds)),
     }
   },
   methods: {
+    goBack() {
+      this.newLabel = null
+    },
     closeModal() {
       this.$emit('closeModal')
     },

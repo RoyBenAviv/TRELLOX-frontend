@@ -1,0 +1,63 @@
+.custom-modal-container {
+    .custom-modal-main {
+        .members-container {
+            li {
+                width: 280px;
+                height: 40px;
+
+                .member {
+                    border-radius: 3px;
+                    line-height: 32px;
+                    margin: 0 0 2px 0;
+                    padding: 4px;
+                    width: 100%;
+                    overflow: hidden;
+                    position: relative;
+
+                    &:hover {
+                        background-color: #091e420a;
+                    }
+
+                    .avatar-container {
+                        background-color: #dfe1e6;
+                        border-radius: 25em;
+                        color: #172b4d;
+                        display: block;
+                        float: left;
+                        height: 32px; //?
+                        margin: 0 4px 4px 0;
+                        overflow: visible;
+                        width: 32px;
+
+                        span {
+                            //will change to img
+                            max-width: 100%;
+                            border-radius: 25em;
+                            height: 32px;
+                            object-fit: cover;
+                            width: 32px;
+                            border: 0;
+                        }
+                    }
+
+                    .v-icon {
+                        display: block;
+                        padding: 11px;
+                        right: 0;
+                        top: 0;
+                        color: #42526e;
+                        width: 42px;
+                        display: none;
+                    }
+
+                    &.active {
+                        padding-right: 28px;
+                        .v-icon {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

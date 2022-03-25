@@ -149,28 +149,29 @@ async function updateCard2(boardId, groupId, cardId, changes) {
     var currCard = board.groups[idxGroup].cards[idxCard]
 
     const KEY = changes.key
-    console.log('changes',changes);
-    if(changes.action === 'singleVal'){ // singleVal -- if you want to remove val send '' or null
+    console.log('changes', changes)
+    if (changes.action === 'singleVal') {
+      // singleVal -- if you want to remove val send '' or null
       currCard[KEY] = changes.value
     }
 
     // Array -- update and add new val to the array
     // changes.value should be the new item
-    if (changes.action === 'update') { 
+    if (changes.action === 'update') {
       if (changes.value.id) {
         const idx = currCard[KEY].findIndex((item) => item.id === changes.value.id)
         currCard[KEY].splice(idx, 1, changes.value)
-      }else {
+      } else {
         changes.value.id = utilService.makeId()
         currCard[KEY].push(changes.value)
       }
-    } 
+    }
     // Array -- remove from array
     // changes.value should be itemId
-    else if (changes.action === 'remove') { 
+    else if (changes.action === 'remove') {
       const idx = currCard[KEY].findIndex((item) => item.id === changes.value)
       currCard[KEY].splice(idx, 1)
-    } 
+    }
     // to labels only!!
     // changes.value should be --
     // {
@@ -181,7 +182,7 @@ async function updateCard2(boardId, groupId, cardId, changes) {
       changes.value.id = utilService.makeId()
       board.labels.push(changes.value)
       currCard[KEY].push(changes.value.id)
-    } 
+    }
     return await updateBoard(board)
   } catch (err) {
     throw err
@@ -235,73 +236,14 @@ async function archiveCard(boardId, groupId, cardId) {
 async function _createData() {
   var boards = await query()
   if (boards.length) return
-  // board example {
-  // //_id comes from store
-  //   title: 'board1',
-  //   createdAt: 1589983468418,
-  //   createdBy: {
-  //     _id: 'u101',
-  //     fullname: 'Shani',
-  //     imgUrl: 'img.png',
-  //   },
-  //   style: {},
-  //   labels: [
-  //     {
-  //       id: 'l101',
-  //       title: 'Done',
-  //       color: '#61bd4f',
-  //     },
-  //     {
-  //       id: 'l102',
-  //       title: 'Progress',
-  //       color: '#61bd33',
-  //     },
-  //   ],
-  //   members: [
-  //     {
-  //       _id: 'u102',
-  //       fullname: 'Tamir',
-  //       imgUrl: 'img.png',
-  //     },
-  //   ],
-  //   groups: [
-  //     {
-  //       id: 'g101',
-  //       title: 'Group 1',
-  //       cards: [
-  //         {
-  //           id: 'c101',
-  //           title: 'upload to git',
-  //         },
-  //         {
-  //           id: 'c102',
-  //           title: 'eat food',
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       id: 'g102',
-  //       title: 'Group 2',
-  //       cards: [
-  //         {
-  //           id: 'c102',
-  //           title: 'finish sprint 4',
-  //         },
-  //         {
-  //           id: 'c104',
-  //           title: 'watch tv',
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // }
   const b1 = {
     title: 'Best board ever',
     createdAt: 1589983468418,
     isStarred: false,
     createdBy: {
       _id: 'u101',
-      fullname: 'Shani',
+      fullname: 'Tamir Zozo',
+      username: 'coolTamir',
       imgUrl: 'img.png',
     },
     style: {
@@ -310,8 +252,21 @@ async function _createData() {
     labels: _getLabelsForPM(),
     members: [
       {
+        _id: 'u101',
+        fullname: 'Tamir Zozo',
+        username: 'coolTamir',
+        imgUrl: 'img.png',
+      },
+      {
         _id: 'u102',
-        fullname: 'Tamir',
+        fullname: 'Shani Zozo',
+        username: 'sweetShani',
+        imgUrl: 'img.png',
+      },
+      {
+        _id: 'u103',
+        fullname: 'Roy Zozo',
+        username: 'lovingRoy',
         imgUrl: 'img.png',
       },
     ],
@@ -325,8 +280,9 @@ async function _createData() {
     createdAt: 1589953268418,
     isStarred: true,
     createdBy: {
-      _id: 'u102',
-      fullname: 'Roy',
+      _id: 'u101',
+      fullname: 'Tamir Zozo',
+      username: 'coolTamir',
       imgUrl: 'img.png',
     },
     style: {
@@ -335,8 +291,21 @@ async function _createData() {
     labels: _getLabelsForPM(),
     members: [
       {
+        _id: 'u101',
+        fullname: 'Tamir Zozo',
+        username: 'coolTamir',
+        imgUrl: 'img.png',
+      },
+      {
         _id: 'u102',
-        fullname: 'Tamir',
+        fullname: 'Shani Zozo',
+        username: 'sweetShani',
+        imgUrl: 'img.png',
+      },
+      {
+        _id: 'u103',
+        fullname: 'Roy Zozo',
+        username: 'lovingRoy',
         imgUrl: 'img.png',
       },
     ],
@@ -465,13 +434,13 @@ function _getGroup(title) {
           },
         ],
         comments: [],
-        memberIds: ['u123', 'u345'],
-        labelIds: [],
+        memberIds: ['u101', 'u102'],
+        labelIds: ['l101', 'l102', 'l103', 'l104'],
         byMember: {
           _id: 'u101',
-          username: 'Tal',
-          fullname: 'Tal Tarablus',
-          imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+          fullname: 'Tamir Zozo',
+          username: 'coolTamir',
+          imgUrl: 'img.png',
         },
         style: {},
       },
@@ -501,20 +470,13 @@ function _getGroup(title) {
           },
         ],
         comments: [],
-        memberIds: [
-          {
-            _id: 'u101',
-            username: 'Tal',
-            fullname: 'Tal Tarablus',
-            imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
-          },
-        ],
-        labelIds: [],
+        memberIds: ['u101', 'u103'],
+        labelIds: ['l107', 'l102', 'l105'],
         byMember: {
           _id: 'u101',
-          username: 'Tal',
-          fullname: 'Tal Tarablus',
-          imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+          fullname: 'Tamir Zozo',
+          username: 'coolTamir',
+          imgUrl: 'img.png',
         },
         style: {},
       },
@@ -544,20 +506,13 @@ function _getGroup(title) {
           },
         ],
         comments: [],
-        memberIds: [
-          {
-            _id: 'u101',
-            username: 'Tal',
-            fullname: 'Tal Tarablus',
-            imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
-          },
-        ],
-        labelIds: ['l101', 'l102'],
+        memberIds: ['u103', 'u102'],
+        labelIds: ['l101', 'l106', 'l103'],
         byMember: {
-          _id: 'u101',
-          username: 'Tal',
-          fullname: 'Tal Tarablus',
-          imgUrl: 'http://res.cloudinary.com/shaishar9/image/upload/v1590850482/j1glw3c9jsoz2py0miol.jpg',
+          _id: 'u102',
+          fullname: 'Shani Zozo',
+          username: 'sweetShani',
+          imgUrl: 'img.png',
         },
         style: {
           bgColor: '#26de81',

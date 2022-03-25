@@ -44,22 +44,12 @@
                     }
 
                     .v-icon {
-                        right: 6px;
-                        font-size: 16px;
                         height: 20px;
-                        line-height: 20px;
                         width: 20px;
                         color: #fff;
                         text-decoration: none;
-                        position: absolute;
                         right: 6px;
                         top: 6px;
-                        font-family: trellicons;
-
-                        &::before {
-                            // content: "m";
-                            content: "\e916";
-                        }
                     }
                 }
             }

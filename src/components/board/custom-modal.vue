@@ -1,10 +1,12 @@
 <template>
   <article class="custom-modal-container">
     <section class="custom-modal-header">
-        <span>
-          <slot name="header"></slot>
-        </span>
-        <a @click="closeModal"><i class="fa-solid fa-xmark"></i></a>
+      <a v-if="!isFirstPage" @click="goBack" class="custom-back"></a>
+      <span class="title">
+        <slot name="header"></slot>
+      </span>
+      <a @click="closeModal" class="custom-close"></a>
+      <!-- <a @click="closeModal" class="custom-close"><i class="fa-solid fa-xmark"></i></a> -->
     </section>
     <section class="custom-modal-main">
       <slot name="default"></slot>
@@ -12,18 +14,28 @@
   </article>
 </template>
 
-
 <script>
-
 export default {
-  created() {},
+  props: {
+    isFirstPage: {
+      type: Boolean,
+      default: true
+    },
+  },
+  created() {
+    // console.log('this.isFirstPage',this.isFirstPage)
+  },
   data() {
     return {}
   },
   methods: {
-    closeModal(){
+    closeModal() {
       this.$emit('closeModal')
-    }
+    },
+    goBack() {
+      console.log('hi');
+      this.$emit('goBack')
+    },
   },
   computed: {},
   components: {},

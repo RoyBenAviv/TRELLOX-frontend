@@ -11,7 +11,7 @@
             <div class="modal-header-title">
               <textarea v-model="card.title" dir="auto" data-autosize="true"></textarea>
             </div>
-            <div class="inline-content">in list {{groupId}}</div>
+            <div class="inline-content">in list {{ groupId }}</div>
           </div>
           <div class="modal-main-content">
             <div class="card-details">
@@ -26,7 +26,7 @@
                 <h3>Labels</h3>
                 <div>
                   <span class="label-span" v-for="label in labels" :key="label.id" :style="'background-color: ' + label.color">
-                    <span>{{label.title}}</span>
+                    <span>{{ label.title }}</span>
                   </span>
                 </div>
               </div>
@@ -52,7 +52,7 @@
             </div>
             <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist-container">
               <div class="title">
-                <span style="top: 7px;" >
+                <span style="top: 7px">
                   <i class="fa-solid fa-list-check"></i>
                 </span>
                 <h3>{{ checklist.title }}</h3>
@@ -66,21 +66,21 @@
               </div>
               <div>
                 <div v-for="todo in checklist.todos" :key="todo.id" class="checklist-todos-container">
-                  <div @click="toggleTodo(todo.id, checklist.id)" class="todo-checkbox" :class="(todo.isDone ? 'completed' : '')"><span :class="(todo.isDone ? 'checked' : '')"></span></div>
-                  <div class="todo-title-container" :class="(todo.isDone ? 'todo-completed' : '')">
-                    <div class="todo-title">{{todo.title}}</div>
+                  <div @click="toggleTodo(todo.id, checklist.id)" class="todo-checkbox" :class="todo.isDone ? 'completed' : ''"><span :class="todo.isDone ? 'checked' : ''"></span></div>
+                  <div class="todo-title-container" :class="todo.isDone ? 'todo-completed' : ''">
+                    <div class="todo-title">{{ todo.title }}</div>
                   </div>
                 </div>
               </div>
               <div class="add-todo-container">
-                <textarea v-if="isAddTodo" v-model="newTodo.title" autofocus  @blur="isAddTodo = false" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
+                <textarea v-if="isAddTodo" v-model="newTodo.title" autofocus @blur="isAddTodo = false" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
                 <button v-if="isAddTodo" class="add-todo" @click="addTodo(checklist.id)">Add</button>
                 <button v-else class="grey-btn" @click.stop="isAddTodo = true" style="margin: unset">Add an item</button>
               </div>
             </div>
             <div class="activity-container">
               <div class="title">
-                <span style="top: 7px;">
+                <span style="top: 7px">
                   <i class="fa-solid fa-list-ul"></i>
                 </span>
                 <h3>Activity</h3>
@@ -103,8 +103,8 @@
                 <div class="card-comment">
                   <!-- <span class="comment-by">{{getMemberById().fullname}}</span> -->
                   <span class="comment-by">Tamiros </span>
-                  <span class="comment-date">{{comment.createdAt}}</span>
-                  <div class="the-comment">{{comment.txt}}</div>
+                  <span class="comment-date">{{ comment.createdAt }}</span>
+                  <div class="the-comment">{{ comment.txt }}</div>
                 </div>
               </div>
             </div>
@@ -127,11 +127,7 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" 
-              :currLabelIds="card.labelIds"
-              :currMemberIds="card.memberIds"
-              @closeModal="closeModal" @updateKey="updateKey"
-              ></component>
+              <component v-if="cmpName" :is="cmpName" :currLabelIds="card.labelIds" :currMemberIds="card.memberIds" @closeModal="closeModal" @updateKey="updateKey"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -192,13 +188,13 @@
 import labelPicker from './label-picker.vue'
 import memberPicker from './member-picker.vue'
 import checklistAdd from './checklist-add.vue'
-import {utilService} from '../../services/util.service.js'
+import { utilService } from '../../services/util.service.js'
 
 export default {
   components: {
     labelPicker,
     memberPicker,
-    checklistAdd
+    checklistAdd,
   },
   data() {
     return {
@@ -220,8 +216,8 @@ export default {
       isAddTodo: false,
       newTodo: {
         title: '',
-        isDone: false
-      }
+        isDone: false,
+      },
     }
   },
   created() {
@@ -236,12 +232,12 @@ export default {
     closeModal() {
       this.cmpName = null
     },
-    updateKey(key, value){
+    updateKey(key, value) {
       // console.log('updateKey: value',value)
-      if(key === 'checklists'){
+      if (key === 'checklists') {
         value.id = utilService.makeId()
-       this.card[key].push(value)
-      }else this.card[key] = value
+        this.card[key].push(value)
+      } else this.card[key] = value
       this.updateCard()
     },
     closeEdit() {
@@ -260,7 +256,7 @@ export default {
       this.isCommentsInput = !this.isCommentsInput
     },
     postComment() {
-      console.log('here');
+      console.log('here')
       if (!this.newComment.txt) return
       var comment = JSON.parse(JSON.stringify(this.newComment))
       comment.createdAt = Date.now()
@@ -273,7 +269,7 @@ export default {
       this.cmpName = cmpName
     },
     async updateCard() {
-      await this.$store.dispatch({type: 'updateCard', groupId: this.groupId, card: this.card})
+      await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card: this.card })
       this.loadCard()
     },
     joinCard() {
@@ -292,7 +288,7 @@ export default {
       //this.updateCard()
     },
     calcProgress(todos) {
-      if(!todos.length) return '0%'
+      if (!todos.length) return '0%'
       const doneTodos = todos.reduce((acc, todo) => {
         if (todo.isDone) acc++
         return acc
@@ -301,10 +297,10 @@ export default {
       return precent
     },
     toggleTodo(todoId, checklistId) {
-      const clIdx = this.card.checklists.findIndex(cl => cl.id === checklistId)
-      console.log('clIdx',clIdx);
-      console.log('checklistId',checklistId);
-      const todoIdx = this.card.checklists[clIdx].todos.findIndex(t => t.id === todoId)
+      const clIdx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
+      console.log('clIdx', clIdx)
+      console.log('checklistId', checklistId)
+      const todoIdx = this.card.checklists[clIdx].todos.findIndex((t) => t.id === todoId)
       this.card.checklists[clIdx].todos[todoIdx].isDone = !this.card.checklists[clIdx].todos[todoIdx].isDone
       this.updateCard()
     },
@@ -314,16 +310,16 @@ export default {
       this.isTextArea = false
     },
     getMemberById(memberId) {
-      console.log('memberId',memberId);
+      console.log('memberId', memberId)
     },
     addTodo(checklistId) {
       var newTodo = JSON.parse(JSON.stringify(this.newTodo))
       newTodo.id = utilService.makeId()
-      const idx = this.card.checklists.findIndex(cl => cl.id === checklistId)
+      const idx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
       this.card.checklists[idx].todos.push(newTodo)
       this.updateCard()
       this.newTodo.title = ''
-    }
+    },
   },
   computed: {
     commentsInputStyle() {
