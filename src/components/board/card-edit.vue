@@ -16,18 +16,21 @@
           <div class="modal-main-content">
             <div class="card-details">
               <div class="card-details-item">
+                <!-- add members v-for and add v-if on add -->
                 <h3>Members</h3>
                 <div class="member">
                   <img src="https://trello.com/1/cards/62399dba78ab2987b393bef4/attachments/6239ba94c62cb36ebd4d3023/previews/6239ba95c62cb36ebd4d3042/download/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512.png" alt="" />
                 </div>
-                <div class="add-member"><i class="fa-solid fa-plus"></i></div>
+                <div class="add-member" @click="openModal('member-picker')"><i class="fa-solid fa-plus"></i></div>
               </div>
-              <div class="card-details-item">
+              <div v-if="labels.length" class="card-details-item">
                 <h3>Labels</h3>
                 <div>
-                  <span class="label-span" v-for="label in labels" :key="label.id" :style="'background-color: ' + label.color">
-                    <span>{{ label.title }}</span>
+                  <span class="label-span" v-for="label in labels" :key="label.id"
+                  :class="label.className">
+                    <span @click="openModal('label-picker')">{{ label.title }}</span>
                   </span>
+                  <div class="add-label" @click="openModal('label-picker')"><i class="fa-solid fa-plus"></i></div>
                 </div>
               </div>
             </div>
@@ -293,7 +296,7 @@ export default {
         if (todo.isDone) acc++
         return acc
       }, 0)
-      var precent = ((doneTodos * 100) / todos.length).toFixed(2) + '%'
+      var precent = ((doneTodos * 100) / todos.length).toFixed(0) + '%'
       return precent
     },
     toggleTodo(todoId, checklistId) {

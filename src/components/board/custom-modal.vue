@@ -6,7 +6,6 @@
         <slot name="header"></slot>
       </span>
       <a @click.stop="closeModal" class="custom-close"></a>
-      <!-- <a @click="closeModal" class="custom-close"><i class="fa-solid fa-xmark"></i></a> -->
     </section>
     <section class="custom-modal-main">
       <slot name="default"></slot>
@@ -22,9 +21,7 @@ export default {
       default: true
     },
   },
-  created() {
-    // console.log('this.isFirstPage',this.isFirstPage)
-  },
+  created() {},
   data() {
     return {}
   },
@@ -33,8 +30,7 @@ export default {
       this.$emit('closeModal')
     },
     goBack() {
-      
-    this.$emit('goBack')
+      this.$emit('goBack')
     },
   },
   computed: {},

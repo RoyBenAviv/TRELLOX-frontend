@@ -23,6 +23,8 @@
             color: #42526e;
             font-family: trellicons;
             cursor: pointer;
+            display: block;
+            z-index: 2;
 
             &:before {
                 content: "\e90a";
