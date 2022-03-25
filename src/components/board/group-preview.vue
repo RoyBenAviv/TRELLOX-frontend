@@ -88,17 +88,13 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     async moveGroup(moveToBoard, groupPos) {
-      // console.log('currGroup',currGroup);
-      // console.log('groupPos',groupPos);
+
+      moveToBoard.groups.splice(groupPos, 0, JSON.parse(JSON.stringify(this.group)))
+      await this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
+
       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
       this.board.groups.splice(groupIdx, 1)
-      await this.$store.dispatch({ type: 'saveBoard', board: this.board })
-      // console.log('moveToBoard',moveToBoard);
-      console.log('moveToBoard.groups',moveToBoard.groups);
-      moveToBoard.groups.push(JSON.parse(JSON.stringify(this.group)))
-      console.log('moveToBoard.groups',moveToBoard.groups);
-      // this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
-
+      this.$store.dispatch({ type: 'saveBoard', board: this.board })
     }
   },
   computed: {

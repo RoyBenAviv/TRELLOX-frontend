@@ -20,11 +20,11 @@
         <div v-if="openMoveGroup">
             <form @submit.prevent="moveGroup">
 
-            <select v-model="chosenBoard.groups">
+            <select v-model="chosenBoard">
                 <!-- <optgroup label="Boards">
                     <option selected="selected">{{chosenBoard.title}}</option>
                 </optgroup> -->
-                <option v-for="board in boards" :key="board._id" :value="board.groups">{{board.title}}</option>
+                <option v-for="board in boards" :key="board._id" :value="board">{{board.title}}</option>
             </select>
             <select v-model="groupPos">
                 <option v-for="(group, idx) in chosenBoard.groups" :key="group" :value="idx">{{idx + 1}}</option>
@@ -77,7 +77,6 @@ export default {
       this.groupTitle = ''
     },
     moveGroup() {
-   
         const moveToBoard = this.boards.find(board => board._id === this.chosenBoard._id)
         this.$emit('moveGroup', moveToBoard, this.groupPos)
     }
