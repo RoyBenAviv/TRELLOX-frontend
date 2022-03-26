@@ -3,7 +3,7 @@
     <div class="card-label-container">
       <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle"
       :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
-          <span v-if="labelTitleShown" class="open">{{ label.title }}</span>
+          <span v-if="labelTitleShown">{{ label.title }}</span>
       </span>
     </div>
     <span @click.stop="openQuickEdit" class="edit-card"></span>

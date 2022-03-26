@@ -2,7 +2,7 @@
   <section class="group-actions">
     <div class="grp-act-header">
       <p>List actions</p>
-      <span><i class="fa-solid fa-xmark"></i></span>
+      <span @click="closeGrpAct"><i class="fa-solid fa-xmark"></i></span>
     </div>
     <ul>
       <li @click="addCard"><a>Add card...</a></li>
@@ -98,6 +98,9 @@ export default {
     },
     archiveCards() {
       this.$emit('archiveCards')
+    },
+    closeGrpAct() {
+      this.$emit('closeGrpAct')
     }
   },
   computed: {

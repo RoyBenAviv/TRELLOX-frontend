@@ -3,9 +3,9 @@
     <div>
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
-        <input v-click-outside="() => (editTitle = false)" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="group.title" />
+        <input v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
-        <group-actions @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
+        <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
       <!-- <div class="card-preview-container"> -->
 
@@ -51,6 +51,7 @@ export default {
     return {
       isAddCard: false,
       cardTitle: '',
+      groupTitle: JSON.parse(JSON.stringify(this.group.title)),
       editTitle: false,
       openGrpAct: false,
       isQuickEdit: {
@@ -126,8 +127,8 @@ export default {
       this.isQuickEdit.boolean = true
       this.isQuickEdit.cardId = cardId
     },
-    changeGrpTitle(ev) {
-
+    changeGrpTitle() {
+      this.editTitle = false
     }
   },
   computed: {
