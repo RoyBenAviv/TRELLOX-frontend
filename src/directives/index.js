@@ -5,16 +5,17 @@ export const focusDirective = {
   }
 
 export const clickOutside = {
-  mounted(el, binding, vnode) {
-    el.clickOutsideEvent = function(event) {
-      if (!(el === event.target || el.contains(event.target))) {
-        console.log('binding',binding.value('click'));
-        binding.value(event, el);
-      }
+  beforeMount(el, binding, vnode) {
+    el.clickOutsideEvent = evt => {
+      if (!(el === evt.target || el.contains(evt.target))) {
+        binding.value(evt, el);
+        }
     };
-    document.body.addEventListener('click', el.clickOutsideEvent);
+    window.requestAnimationFrame(() => {
+      document.addEventListener('click', el.clickOutsideEvent)
+    })
   },
   unmounted(el) {
-    document.body.removeEventListener('click', el.clickOutsideEvent);
-  }
+    document.removeEventListener('click', el.clickOutsideEvent)
+  },
 }
