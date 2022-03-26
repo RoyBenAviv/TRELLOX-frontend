@@ -8,7 +8,7 @@
     <div class="colors-container"></div>
     <h4>Attachments</h4>
     <div class="attachments-container">
-        <div v-for="attachment in attachments" :key="attachment"></div>
+        <!-- <div v-for="attachment in attachments" :key="attachment"></div> -->
     </div>
     <input type="file" @input="onUploadImg" />
   </custom-modal>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       style: JSON.parse(JSON.stringify(this.card.style)),
-      attachments = JSON.parse(JSON.stringify(this.card.attachments))
+      attachments: JSON.parse(JSON.stringify(this.card.attachments))
     }
   },
   methods: {
