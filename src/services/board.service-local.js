@@ -50,7 +50,7 @@ async function getBoardById(boardId) {
 
 async function updateBoard(board) {
   try {
-    console.log('updating board', board);
+    console.log('updating board', board)
     return board._id ? await storageService.put(entity_key, board) : await storageService.post(entity_key, board)
   } catch (err) {
     throw err
@@ -65,7 +65,7 @@ function getEmptyBoard() {
     createdBy: {}, //add logged in user
     style: {
       bgImUrl: '',
-      bgColor: ''
+      bgColor: '',
     },
     labels: _getLabelsForPM(),
     members: [], //add logged in user
@@ -447,7 +447,11 @@ function _getGroup(title) {
           username: 'coolTamir',
           imgUrl: 'img.png',
         },
-        style: {},
+        style: {
+          type: '',
+          cover: '',
+          fullCover: false,
+        },
       },
       {
         id: utilService.makeId(),
@@ -484,7 +488,11 @@ function _getGroup(title) {
           username: 'coolTamir',
           imgUrl: 'img.png',
         },
-        style: {},
+        style: {
+          type: '',
+          cover: '',
+          fullCover: false,
+        },
       },
       {
         id: utilService.makeId(),
@@ -522,7 +530,9 @@ function _getGroup(title) {
           imgUrl: 'img.png',
         },
         style: {
-          bgColor: '#26de81',
+          type: '',
+          cover: '',
+          fullCover: false,
         },
       },
     ],
@@ -542,7 +552,11 @@ function _getEmptyCard(title = '') {
     memberIds: [], // add creator
     labelIds: [],
     byMember: {}, // add creator
-    style: {},
+    style: {
+      type: '',
+      cover: '',
+      fullCover: false,
+    },
   }
 }
 
