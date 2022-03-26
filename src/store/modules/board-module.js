@@ -6,15 +6,23 @@ export default {
     filterBy: null,
     currBoard: null,
     labelTitleShown: false,
-    labelColors: ['color0', 'color1', 'color2', 'color3','color4','color5','color6','color7' ,'color8','color9', 'color10'],
+    labelColors: ['color0', 'color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8', 'color9', 'color10'],
     imagePicker: [
       'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHw0fHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
       'https://images.unsplash.com/photo-1480497490787-505ec076689f?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb',
       'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHwzfHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
-      'https://images.unsplash.com/photo-1433477155337-9aea4e790195?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb'
+      'https://images.unsplash.com/photo-1433477155337-9aea4e790195?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb',
     ],
     boardColors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e'],
-    coverColors: ['#7BC86C', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5', '#6DECA9', '#FF8ED4', '#172B4D']
+    coverColors: ['#7BC86C', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5', '#6DECA9', '#FF8ED4', '#172B4D'],
+    coverImages: [
+      'https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+      'https://images.unsplash.com/photo-1500673922987-e212871fec22?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      'https://images.unsplash.com/photo-1518655048521-f130df041f66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      'https://images.unsplash.com/photo-1463584954611-9d8ebd80dfd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      'https://images.unsplash.com/photo-1483835724473-d69ca66efb25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+    ],
   },
   getters: {
     boards(state) {
@@ -35,6 +43,12 @@ export default {
     labelColors(state) {
       return JSON.parse(JSON.stringify(state.labelColors))
     },
+    coverColors(state) {
+      return JSON.parse(JSON.stringify(state.coverColors))
+    },
+    coverImages(state) {
+      return JSON.parse(JSON.stringify(state.coverImages))
+    }
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -53,7 +67,7 @@ export default {
     saveBoard(state, { board }) {
       const idx = state.boards.findIndex((b) => b._id === board._id)
       if (idx !== -1) {
-        if(board._id === state.currBoard._id) state.currBoard = board
+        if (board._id === state.currBoard._id) state.currBoard = board
         state.boards.splice(idx, 1, board)
       } else state.boards.push(board)
     },
@@ -138,7 +152,7 @@ export default {
         throw err
       }
     },
-    async updateCard({ commit, state }, { groupId, card}) {
+    async updateCard({ commit, state }, { groupId, card }) {
       try {
         const board = await boardService.updateCard(state.currBoard._id, groupId, card)
         commit({ type: 'saveBoard', board })
@@ -147,7 +161,7 @@ export default {
         throw err
       }
     },
-    async getCardById({commit}, {boardId, cardId}) {
+    async getCardById({ commit }, { boardId, cardId }) {
       try {
         const cardDetails = await boardService.getCardById(boardId, cardId)
         return cardDetails
