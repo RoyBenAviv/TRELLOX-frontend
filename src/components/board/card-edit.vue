@@ -268,9 +268,6 @@ export default {
       this.updateCard()
       this.newComment.txt = ''
     },
-    openModal(cmpName) {
-      this.cmpName = cmpName
-    },
     async updateCard() {
       await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card: this.card })
       this.loadCard()

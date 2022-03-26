@@ -50,7 +50,6 @@ async function getBoardById(boardId) {
 
 async function updateBoard(board) {
   try {
-    console.log('updating board', board)
     return board._id ? await storageService.put(entity_key, board) : await storageService.post(entity_key, board)
   } catch (err) {
     throw err
@@ -241,6 +240,440 @@ async function _createDemoBoards() {
   var boards = await query()
   if (boards.length) return
   const b1 = {
+    title: 'Sprint Management',
+    createdAt: 1589983468418,
+    isStarred: false,
+    createdBy: {
+      _id: 'u101',
+      fullname: 'Tamir Zozo',
+      username: 'coolTamir',
+      imgUrl: 'img.png',
+    },
+    style: {
+      bgImgUrl: 'https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2048&q=80',
+    },
+    labels: _getLabelsForSM(),
+    members: [
+      {
+        _id: 'u101',
+        fullname: 'Tamir Zozo',
+        username: 'coolTamir',
+        imgUrl: 'img.png',
+      },
+      {
+        _id: 'u102',
+        fullname: 'Shani Zozo',
+        username: 'sweetShani',
+        imgUrl: 'img.png',
+      },
+      {
+        _id: 'u103',
+        fullname: 'Roy Zozo',
+        username: 'lovingRoy',
+        imgUrl: 'img.png',
+      },
+    ],
+    groups: [
+      {
+        id: utilService.makeId(),
+        title: 'Tasks for today',
+        cards: [
+          {
+            id: utilService.makeId(),
+            title: 'finish drag n drop',
+            status: 'in-progress',
+            description: 'we need to work on moving cards', 
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [
+              {
+                id: 'YEhmF',
+                title: 'Checklist',
+                newTodo: '',
+                todos: [
+                  {
+                    id: '212jX',
+                    title: 'moving cards in their group',
+                    isDone: true,
+                  },
+                  {
+                    id: 'sdfghj',
+                    title: 'moving cards from one group to another',
+                    isDone: false,
+                  },
+                ],
+              },
+            ],
+            comments: [],
+            memberIds: ['u101', 'u102'],
+            labelIds: ['l102', 'l104', 'l107'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'add auto focus',
+            status: 'in-progress',
+            description: '',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['u101'],
+            labelIds: ['l103'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'fix scroll bar',
+            status: 'in-progress',
+            description: 'pay attention to the original',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['l102'],
+            labelIds: ['l105'],
+            byMember: {
+              _id: 'u102',
+              fullname: 'Shani Zozo',
+              username: 'sweetShani',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+        ],
+      },
+      {
+        id: utilService.makeId(),
+        title: 'Tasks for today',
+        cards: [
+          {
+            id: utilService.makeId(),
+            title: 'finish drag n drop',
+            status: 'in-progress',
+            description: 'we need to work on moving cards', 
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [
+              {
+                id: 'YEhmF',
+                title: 'Checklist',
+                newTodo: '',
+                todos: [
+                  {
+                    id: '212jX',
+                    title: 'moving cards in their group',
+                    isDone: true,
+                  },
+                  {
+                    id: 'sdfghj',
+                    title: 'moving cards from one group to another',
+                    isDone: false,
+                  },
+                ],
+              },
+            ],
+            comments: [],
+            memberIds: ['u101', 'u102'],
+            labelIds: ['l102', 'l104', 'l107'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'add auto focus',
+            status: 'in-progress',
+            description: '',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['u101'],
+            labelIds: ['l103'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'fix scroll bar',
+            status: 'in-progress',
+            description: 'pay attention to the original',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['l102'],
+            labelIds: ['l105'],
+            byMember: {
+              _id: 'u102',
+              fullname: 'Shani Zozo',
+              username: 'sweetShani',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+        ],
+      },
+      {
+        id: utilService.makeId(),
+        title: 'Processing',
+        cards: [
+          {
+            id: utilService.makeId(),
+            title: 'color-picker cmp',
+            status: 'in-progress',
+            description: '', 
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [
+              {
+                id: 'YEhmF',
+                title: 'Checklist',
+                newTodo: '',
+                todos: [
+                  {
+                    id: '212jX',
+                    title: 'toggle label',
+                    isDone: true,
+                  },
+                  {
+                    id: 'sdfghj',
+                    title: 'create label',
+                    isDone: false,
+                  },
+                  {
+                    id: 'wert',
+                    title: 'edit label',
+                    isDone: false,
+                  },
+                  {
+                    id: 'dfrtghyuj',
+                    title: 'delete label',
+                    isDone: false,
+                  },
+                ],
+              },
+            ],
+            comments: [],
+            memberIds: ['u101', 'u102'],
+            labelIds: ['l102', 'l104', 'l107'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'add auto focus',
+            status: 'in-progress',
+            description: '',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['u101'],
+            labelIds: ['l103'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'fix scroll bar',
+            status: 'in-progress',
+            description: 'pay attention to the original',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['l102'],
+            labelIds: ['l105'],
+            byMember: {
+              _id: 'u102',
+              fullname: 'Shani Zozo',
+              username: 'sweetShani',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+        ],
+      },
+      {
+        id: utilService.makeId(),
+        title: 'Tasks for today',
+        cards: [
+          {
+            id: utilService.makeId(),
+            title: 'finish drag n drop',
+            status: 'in-progress',
+            description: 'we need to work on moving cards', 
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [
+              {
+                id: 'YEhmF',
+                title: 'Checklist',
+                newTodo: '',
+                todos: [
+                  {
+                    id: '212jX',
+                    title: 'moving cards in their group',
+                    isDone: true,
+                  },
+                  {
+                    id: 'sdfghj',
+                    title: 'moving cards from one group to another',
+                    isDone: false,
+                  },
+                ],
+              },
+            ],
+            comments: [],
+            memberIds: ['u101', 'u102'],
+            labelIds: ['l103', 'l104', 'l105'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'add auto focus',
+            status: 'in-progress',
+            description: '',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['u101'],
+            labelIds: ['l103'],
+            byMember: {
+              _id: 'u101',
+              fullname: 'Tamir Zozo',
+              username: 'coolTamir',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+          {
+            id: utilService.makeId(),
+            title: 'fix scroll bar',
+            status: 'in-progress',
+            description: 'pay attention to the original',
+            dueDate: 16156215211,
+            createdAt: 1590999730348,
+            checklists: [],
+            comments: [],
+            memberIds: ['l102'],
+            labelIds: ['l105'],
+            byMember: {
+              _id: 'u102',
+              fullname: 'Shani Zozo',
+              username: 'sweetShani',
+              imgUrl: 'img.png',
+            },
+            attachments: [],
+            style: {
+              type: '',
+              cover: '',
+              fullCover: false,
+            },
+          },
+        ],
+      },
+    ],
+    activities: [],
+    cmpsOrder: [],
+  }
+
+  const b2 = {
     title: 'Best board ever',
     createdAt: 1589983468418,
     isStarred: false,
@@ -279,7 +712,7 @@ async function _createDemoBoards() {
     cmpsOrder: [],
   }
 
-  const b2 = {
+  const b3 = {
     title: 'Board2',
     createdAt: 1589953268418,
     isStarred: true,
@@ -320,6 +753,47 @@ async function _createDemoBoards() {
   boards = []
   boards.push(b1, b2)
   storageService.postMany(entity_key, boards)
+}
+
+//sprint management
+function _getLabelsForSM() {
+  return [
+    {
+      id: 'l101',
+      title: 'Done',
+      className: 'color0',
+    },
+    {
+      id: 'l102',
+      title: 'needs to consult',
+      className: 'color1',
+    },
+    {
+      id: 'l103',
+      title: 'almost done',
+      className: 'color2',
+    },
+    {
+      id: 'l104',
+      title: 'highly important',
+      className: 'color3',
+    },
+    {
+      id: 'l105',
+      title: 'add design',
+      className: 'color4',
+    },
+    {
+      id: 'l106',
+      title: 'BUG',
+      className: 'color5',
+    },
+    {
+      id: 'l107',
+      title: 'extra',
+      className: 'color6',
+    },
+  ]
 }
 
 //project management
@@ -447,6 +921,7 @@ function _getGroup(title) {
           username: 'coolTamir',
           imgUrl: 'img.png',
         },
+        attachments: [],
         style: {
           type: '',
           cover: '',
@@ -488,6 +963,7 @@ function _getGroup(title) {
           username: 'coolTamir',
           imgUrl: 'img.png',
         },
+        attachments: [],
         style: {
           type: '',
           cover: '',
@@ -529,6 +1005,7 @@ function _getGroup(title) {
           username: 'sweetShani',
           imgUrl: 'img.png',
         },
+        attachments: [],
         style: {
           type: '',
           cover: '',
@@ -552,6 +1029,7 @@ function _getEmptyCard(title = '') {
     memberIds: [], // add creator
     labelIds: [],
     byMember: {}, // add creator
+    attachments: [],
     style: {
       type: '',
       cover: '',
