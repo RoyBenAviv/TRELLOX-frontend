@@ -8,4 +8,17 @@
         article{
             flex-basis: 60%;
         }
+        button {
+            margin-top: rem(50px);
+            @include blue-btn;
+            width: 200px;
+            font-size: rem(25px);
+            gap: rem(10px);
+            border: 2px solid transparent;
+            transition: border-color 0.5s;
+            
+            &:hover {
+                border-color: $clr4;
+            }
+           }
 }

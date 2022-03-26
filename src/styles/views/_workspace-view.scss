@@ -5,11 +5,46 @@
     }
     .workspace-wrapper {
         @include flex(row, _, _);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         margin-block-start: rem(82px);
+        .workspace-nav {
+            font-weight: 600;
+            font-size: rem(16px);
+            color: $clr1;
+            .nav-options-top {
+                @include flex(column);
+                margin-top: 0;
+                gap: rem(3px);
+                padding-left: rem(15px);
+                li {
+                    @include flex(row, start);
+                    gap: rem(10px);
+                    cursor: pointer;
+                    width: 200px;
+                    padding: rem(6px) rem(10px);
+                    border-radius: 3px;
+                    transition: background-color 45ms;
+                    &:hover {
+                        background-color: $clr5;
+                    }
+                }
+            }
+        }
         .board-list-container {
-            margin-left: rem(31px);
             .recently-viewed {
-
+                h2 {
+                    font-weight: 700;
+                    font-size: rem(16px);
+                    line-height: 24px;
+                    margin-left: rem(50px);
+                    &::before {
+                        font-family: trellicons;
+                        content: "\e91b";
+                        margin-right: 9px;  
+                        font-size: 1.5em;  
+                        font-weight: normal;
+                    }
+                }
             }
             .board-list {
                 .nav-options-top, .boards {

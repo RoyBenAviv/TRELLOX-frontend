@@ -7,21 +7,21 @@
   height: 68px;
   .logo {
     @include flex;
+    gap: rem(8px);
     h2 {
       font-family: katahdin, sans-serif;
+      font-size: rem(25px);
     }
-    img {
-      width: 30px;
+    span {
+      font-size: 2em;
+      color: $clr2;
     }
-    button {
-     
-    }
+
   }
   nav {
       @include flex;
     a {
       @include blue-btn(22px);
-      font-weight: bold;
       font-size: 1rem;
       margin: rem(10px);
     }
