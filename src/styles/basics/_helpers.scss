@@ -87,3 +87,29 @@
         }
     }
 }
+
+.avatar-container {
+    // background-color: #dfe1e6;
+    background-color: #0052cc;
+    border-radius: 25em;
+    // color: #172b4d;
+    color: white;
+    display: flex;
+    float: left;
+    height: 32px;
+    margin: 0 4px 4px 0;
+    overflow: visible;
+    width: 32px;
+
+    img,
+    span {
+        max-width: 100%;
+        border-radius: 25em;
+        height: 32px;
+        object-fit: cover;
+        width: 32px;
+        border: 0;
+        text-align: center;
+        @include lighten
+    }
+}

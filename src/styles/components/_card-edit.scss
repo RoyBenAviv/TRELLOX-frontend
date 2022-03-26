@@ -102,23 +102,6 @@
         @include flex();
     }
 
-    .member {
-        display: block;
-        float: left;
-        margin: 0 4px 4px 0;
-        overflow: visible;
-        text-decoration: none;
-        z-index: 0;
-        @include lighten;
-    }
-
-    .member img {
-        border-radius: 25em;
-        height: 32px;
-        object-fit: cover;
-        width: 32px;
-    }
-
     .modal-header-title {
         margin: 4px 0 0;
         padding: 8px 0 0;

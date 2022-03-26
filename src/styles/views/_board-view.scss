@@ -63,17 +63,6 @@
           // display: flex;
           margin-inline-start: 5px;
           gap: rem(5px);
-          .members {
-            @include flex;
-            gap: rem(2px);
-            .member-pic {
-              width: 28px;
-              height: 28px;
-              background-color: red;
-              border-radius: 50%;
-    
-            }
-          }
   
           .invite {
             @include blue-btn;
