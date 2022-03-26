@@ -18,6 +18,19 @@
                     gap: rem(20px);
                 }
                 .board-preview {
+                    @include flex;
+                    flex-wrap: wrap;
+                    .board-preview-container {
+                        width: 200px;
+                        height: 100px;
+                        border-radius: 3px;
+                        background-position: center;
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        &:hover {
+                            filter: brightness(70%);
+                        }
+                    }
                     a {
                         position: relative;
                     }
@@ -28,16 +41,6 @@
                         color: $clr4;
                         font-weight: 700;
                         z-index: 10;
-                    }
-                    img {
-                        width: 200px;
-                        height: 100px;
-                        border-radius: 3px;
-                        object-fit: cover;
-                        transition: all 0.3s;
-                        &:hover {
-                            filter: brightness(70%);
-                        }
                     }
                 }
                 .create-board {

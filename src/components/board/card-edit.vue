@@ -52,6 +52,14 @@
                 </div>
               </div>
             </div>
+            <div v-if="card.attachments.length" class="attachments-container">
+              <h3>Attachments</h3>
+              <ul>
+                <li v-for="attachment in card.attachments" :key="attachment">
+                <img :src="attachment" />
+                </li>
+              </ul>
+            </div>
             <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist-container">
               <div class="title">
                 <span style="top: 7px">
@@ -140,7 +148,7 @@
                 <span><i class="fa-solid fa-clock"></i></span>
                 <span>Dates</span>
               </div>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('attachments')">
                 <span><i class="fa-solid fa-paperclip"></i></span>
                 <span>Attachment</span>
               </div>
@@ -193,12 +201,14 @@ import labelPicker from './label-picker.vue'
 import memberPicker from './member-picker.vue'
 import checklistAdd from './checklist-add.vue'
 import { utilService } from '../../services/util.service.js'
+import attachments from './attachments.vue'
 
 export default {
   components: {
     labelPicker,
     memberPicker,
     checklistAdd,
+    attachments
   },
   data() {
     return {
