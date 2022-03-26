@@ -62,10 +62,13 @@
           @include flex;
           // display: flex;
           margin-inline-start: 5px;
-          gap: rem(5px);
+          .avatar-container {
+            margin-right: -3px;
+          }
   
           .invite {
             @include blue-btn;
+            margin-left: rem(11px);
             i {
               font-size: em(12px);
               margin-right: rem(6px)

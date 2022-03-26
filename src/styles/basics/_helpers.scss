@@ -107,9 +107,16 @@
         border-radius: 25em;
         height: 32px;
         object-fit: cover;
+        image-rendering: auto;
         width: 32px;
         border: 0;
         text-align: center;
         @include lighten
+    }
+    span {
+        @include flex;
+        padding: rem(5px);
+        font-size: rem(14px);
+        font-weight: 500;
     }
 }

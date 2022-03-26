@@ -88,10 +88,16 @@
     float: left;
     margin-left: -2px;
     width: 100%;
-
+    
     .avatar-container {
+      width: 28px;
+      height: 28px;
       float: right;
-      margin: 0 5px 8px 6px;
+      margin: 0 5px 4px 6px;
+      img {
+        width: 28px;
+        height: 28px;
+      }
     }
 
     .icon-div {
