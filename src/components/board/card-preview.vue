@@ -1,11 +1,17 @@
 <template>
 <section>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
-    <div v-if="card.style.cover">
-      <div v-if="card.style.type === 'url'" class="card-preview-cover-image"></div>
-      <div v-else class="card-preview-cover-color"></div>
+    <div v-if="card.style.fullCover" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
+      <div class="card-preview-cover-color"></div>
+      <span>{{card.title}}</span>
+      <span @click.stop="openQuickEdit" class="edit-card"></span>
     </div>
-    <img class="card-image" v-if="card.attachments.length" :src="card.attachments[0].url" />
+    <div v-else style="width: 100%">
+    <div v-if="card.style.cover" class="card-preview-cover">
+      <img class="card-image" v-if="card.style.type === 'url'" :src="card.style.cover" />
+      <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover}`"></div>
+    </div>
+    <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
     <div class="card-label-container">
       <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
           <span v-if="labelTitleShown">{{ label.title }}</span>
@@ -37,6 +43,7 @@
         </div>
       </div>
       <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
+    </div>
     </div>
   </section>
 </template>
