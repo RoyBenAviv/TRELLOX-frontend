@@ -1,8 +1,8 @@
 <template>
   <custom-modal class="board-add" @closeModal="closeModal">
     <template v-slot:header> Create board </template>
-    <div :style="{ background: newBoard.style.bgImgUrl ? 'url(' + newBoard.style.bgImgUrl + ')' : newBoard.style.bgColor }" class="demo-board">
-      <img src="src/assets//images/demo-board.svg" alt="demo board" />
+    <div  :style="{ 'background-image':  'url(' + newBoard.style.bgImgUrl + ')', 'background-color': newBoard.style.bgColor}" class="demo-board" >
+            <img src="src/assets//images/demo-board.svg" alt="demo board"/>
     </div>
     <div class="background-picker">
       <h4>Background</h4>

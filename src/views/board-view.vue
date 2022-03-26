@@ -1,11 +1,11 @@
 <template>
-  <section class="board-wrapper" :style="{ 'background':  board.style.bgImgUrl ? 'url(' + board.style.bgImgUrl + ')' : board.style.bgColor}" v-if="board">
+  <section class="board-wrapper" :style="{ 'background-image':  'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor}" v-if="board">
     <app-header class="board-header"/>
   <div class="board-view">
 
     <nav class="board-nav">
       <div class="left-nav">
-        <h2>{{ board.title }}</h2>
+        <h2 @input="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
         <button class="star"></button> |
         <div class="members-container">
           <div class="members">
@@ -32,9 +32,9 @@
       </Draggable>
       <div class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
       <div class="add-group-container" v-else>
-        <input @keyup.enter="addGroup" v-model="groupTitle" autofocus type="text" placeholder="Enter group title" />
+        <input @keyup.enter="addGroup" v-model="groupTitle" v-focus type="text" placeholder="Enter list title..." />
         <div class="add-group-actions">
-          <button @click="addGroup">Add list</button><span><i class="fa-solid fa-xmark"></i></span>
+          <button @click="addGroup">Add list</button><span @click="isAddGroup = false"><i class="fa-solid fa-xmark"></i></span>
         </div>
       </div>
     </Container>
@@ -93,6 +93,11 @@ export default {
       const board = JSON.parse(JSON.stringify(this.board))
       board.style.bgImgUrl = boardBg
       await this.$store.dispatch({type: 'saveBoard', board })
+    },
+    editBoardTitle(ev) {
+      const board = JSON.parse(JSON.stringify(this.board))
+      board.title = ev.currentTarget.textContent
+      this.$store.dispatch({type: 'saveBoard', board })
     }
   },
   computed: {
