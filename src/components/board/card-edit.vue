@@ -144,7 +144,7 @@
                 <span><i class="fa-solid fa-paperclip"></i></span>
                 <span>Attachment</span>
               </div>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('cover-picker')">>
                 <span><i class="fa-solid fa-fill-drip"></i></span>
                 <span>Cover</span>
               </div>
@@ -189,16 +189,18 @@
 </template>
 
 <script>
+import { utilService } from '../../services/util.service.js'
 import labelPicker from './label-picker.vue'
 import memberPicker from './member-picker.vue'
 import checklistAdd from './checklist-add.vue'
-import { utilService } from '../../services/util.service.js'
+import coverPicker from './cover-picker.vue'
 
 export default {
   components: {
     labelPicker,
     memberPicker,
     checklistAdd,
+    coverPicker
   },
   data() {
     return {
