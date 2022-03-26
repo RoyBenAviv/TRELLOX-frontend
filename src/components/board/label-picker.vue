@@ -5,7 +5,7 @@
     <h4>Labels</h4>
     <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
-        <span class="edit-label"></span>
+        <span class="edit-label" @click="startCreating(label)"></span>
         <div class="label-in-label-picker" :class="label.className">
           {{ label.title }}
           <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
@@ -78,11 +78,15 @@ export default {
       else this.labelIds.splice(idx, 1)
       this.save()
     },
-    startCreating() {
-      this.newLabel = {
-        title: '',
-        className: null,
-      }
+    startCreating(labelToEdit) {
+      if (labelToEdit) {
+        this.newLabel = labelToEdit
+        this.selectedColor = labelToEdit.className
+      } else
+        this.newLabel = {
+          title: '',
+          className: null,
+        }
     },
     changeColor(className) {
       this.newLabel.className = className
@@ -92,7 +96,7 @@ export default {
       this.newLabel.id = utilService.makeId()
       var board = this.$store.getters.currBoard
       board.labels.push(this.newLabel)
-      await this.$store.dispatch({type: 'saveBoard', board})
+      await this.$store.dispatch({ type: 'saveBoard', board })
       this.toggleLabel(this.newLabel.id)
       this.goBack()
     },
@@ -124,12 +128,12 @@ export default {
     labels() {
       return this.$store.getters.currBoard.labels
     },
-    classColors(){
+    classColors() {
       var classColors = this.$store.getters.labelColors
       classColors.pop()
       return classColors
     },
-    emptyColor(){
+    emptyColor() {
       return this.$store.getters.labelColors.pop()
     },
   },
