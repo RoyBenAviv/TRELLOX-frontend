@@ -344,9 +344,54 @@
                 width: 32px;
             }
         }
-
+        .attachments-container {
+            ul {
+                li {
+                    @include flex(row, flex-start);
+                    gap: rem(16px);
+                    padding: rem(10px) 0;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: $clr5;
+                    }
+                    .attachment {
+                        width: 112px;
+                        height: 80px;
+                        border-radius: 3px;
+                        background-position: center;
+                        background-size: cover;
+                    }
+                    .attachment-info {
+                        width: 60%;
+                        p {
+                            margin: 0;
+                            color: $clr6;
+                            font-size: rem(14px);
+                            font-weight: 400;
+                        }
+                        h5 {
+                            font-size: rem(14px);
+                            font-weight: 700;
+                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                            span {
+                                font-size: 16px;
+                                height: 20px;
+                                line-height: 20px;
+                                width: 20px;
+                                margin-left: 2px;
+                                font-family: trellicons;
+                                &::before {
+                                    content: '\e92c'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         .description-container,
         .checklist-container,
+        .attachments-container,
         .activity-container {
             clear: both;
             margin-bottom: 24px;

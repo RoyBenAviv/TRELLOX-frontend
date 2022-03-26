@@ -53,10 +53,20 @@
               </div>
             </div>
             <div v-if="card.attachments.length" class="attachments-container">
-              <h3>Attachments</h3>
+              <div class="title">
+                <span>
+                  <i class="fa-solid fa-paperclip"></i>
+                </span>
+                <h3>Attachments</h3>
+              </div>
               <ul>
                 <li v-for="attachment in card.attachments" :key="attachment">
-                  <img :src="attachment" />
+                  <div class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')'}">
+                  </div>
+                  <div class="attachment-info">
+                    <h5>{{ attachment.name.slice(0, 20) }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
+                    <p>Added {{ attachment.createdAt }}</p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -323,6 +333,9 @@ export default {
       checklist.newTodo = ''
       this.isAddTodo = null
     },
+    openUrl(url) {
+      window.open(url)
+    }
   },
   computed: {
     commentsInputStyle() {
