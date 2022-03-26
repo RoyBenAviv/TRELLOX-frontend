@@ -893,6 +893,7 @@ function _getGroup(title) {
         description: 'description sdfg sdfg sdfgh sdfgh sdfg', //1
         dueDate: 16156215211, //1
         createdAt: 1590999730348,
+        attachments: [],
         checklists: [
           {
             id: 'YEhmF',
@@ -935,6 +936,7 @@ function _getGroup(title) {
         description: 'description sdfg sdfg sdfgh sdfgh sdfg',
         dueDate: 16156215211,
         createdAt: 1590999730348,
+        attachments: [],
         checklists: [
           {
             id: 'YEhmF',
@@ -977,6 +979,7 @@ function _getGroup(title) {
         description: 'description sdfg sdfg sdfgh sdfgh sdfg',
         dueDate: 16156215211,
         createdAt: 1590999730348,
+        attachments: [],
         checklists: [
           {
             id: 'YEhmF',
@@ -1024,6 +1027,7 @@ function _getEmptyCard(title = '') {
     description: '',
     dueDate: null,
     createdAt: Date.now(),
+    attachments: [],
     checklists: [],
     comments: [],
     memberIds: [], // add creator

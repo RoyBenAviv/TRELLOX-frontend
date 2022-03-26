@@ -1,13 +1,14 @@
 import axios from "axios";
 
 export const imgService = {
-  getBgImages
+  getBgImages,
+  uploadImg
 }
 
 
 // Upload support
 
-export const uploadImg = (ev) => {
+function uploadImg(ev) {
   //Defining our variables
   const UPLOAD_PRESET = 'Trellox_1';
   const CLOUD_NAME = 'trellox';
