@@ -1,103 +1,116 @@
-.custom-modal-container {
-    .custom-modal-main {
-        .labels-container {
-            margin-bottom: 8px;
-            margin: 0;
-            padding: 0;
-            color: white;
+.custom-modal-container.label-picker {
+    .v-icon {
+        height: 20px;
+        width: 20px;
+        color: #fff;
+        text-decoration: none;
+        right: 6px;
+        top: 6px;
+    }
+    .labels-container {
+        margin-bottom: 8px;
+        margin: 0;
+        padding: 0;
+        color: white;
 
-            li {
-                padding-right: 36px;
-                position: relative;
-                height: 32px;
-                margin: 0 0 4px;
+        li {
+            padding-right: 36px;
+            position: relative;
+            height: 32px;
+            margin: 0 0 4px;
 
-                .label-hover-tab {
-                    width: 8px;
-                    min-height: 20px;
-                }
-
-                .label {
-                    border-radius: 3px;
-                    cursor: pointer;
-                    font-weight: 700;
-                    margin: 0 0 4px;
-                    min-height: 20px;
-                    padding: 6px 12px;
-                    position: relative;
-                    width: 100%;
-                    // transition: padding 85ms, box-shadow 85ms;
-                    // transition: margin-left 85ms;
-                    transition: padding 85ms, margin 85ms, box-shadow 85ms, width 0;
-                    // transition: width 0;
-                    // box-shadow: -8px 0;
-
-                    &:hover {
-                        margin-left: 4px;
-                        // border-left: 8px solid rgb(189, 97, 97);
-                        box-shadow: -8px 0 #b04632;
-
-                        // box-shadow: -8px 0 brightness(70%);
-                        width: calc(100% - 4px);
-                        // border-color:#b04632;
-                        // -webkit-filter: brightness(70%);
-                    }
-
-                    .v-icon {
-                        height: 20px;
-                        width: 20px;
-                        color: #fff;
-                        text-decoration: none;
-                        right: 6px;
-                        top: 6px;
-                    }
-                }
+            .label-hover-tab {
+                width: 8px;
+                min-height: 20px;
             }
 
-            .edit-label {
+            .label-in-label-picker {
                 border-radius: 3px;
-                padding: 6px;
-                position: absolute;
-                right: 0;
-                color: #42526e;
-                font-size: 16px;
-                -moz-osx-font-smoothing: grayscale;
-                font-family: trellicons;
-                width: 32px;
                 cursor: pointer;
-
-                &:before {
-                    content: "\e928";
-                }
+                font-weight: 700;
+                margin: 0 0 4px;
+                min-height: 20px;
+                padding: 6px 12px;
+                position: relative;
+                width: 100%;
+                transition: padding 85ms, margin 85ms, box-shadow 85ms, width 0;
+                // transition: padding 85ms, box-shadow 85ms;
+                // transition: margin-left 85ms;
+                // transition: width 0;
+                // box-shadow: -8px 0;
 
                 &:hover {
-                    background-color: #091e4214;
-                    color: #091e42;
-                    outline: 0;
-                    top: 0;
+                    margin-left: 4px;
+                    width: calc(100% - 4px);
                 }
             }
         }
-        .form-label {
-            label {
-                margin-top: 4px;
-                color: #5e6c84;
-                display: block;
-                font-size: 12px;
-                font-weight: 700;
-                line-height: 16px;
-                margin-bottom: 4px;
+
+        .edit-label {
+            border-radius: 3px;
+            padding: 6px;
+            position: absolute;
+            right: 0;
+            color: #42526e;
+            font-size: 16px;
+            -moz-osx-font-smoothing: grayscale;
+            font-family: trellicons;
+            width: 32px;
+            cursor: pointer;
+
+            &:before {
+                content: "\e928";
             }
 
-            .create-label-btn {
-                @include blue-btn;
-                padding-left: 24px;
-                padding-right: 24px;
-                background-color: #0079bf;
-                border: none;
-                box-shadow: none;
-                color: #fff;
+            &:hover {
+                background-color: #091e4214;
+                color: #091e42;
+                outline: 0;
+                top: 0;
             }
+        }
+    }
+    .form-label {
+        label {
+            margin-top: 4px;
+            color: #5e6c84;
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 16px;
+            margin-bottom: 4px;
+        }
+
+        .colorPalette {
+            float: left;
+            height: 32px;
+            margin: 0 7.5px 8px 0;
+            padding: 0;
+            width: 48px;
+            border-radius: 4px;
+            @include lighten;
+            @include flex;
+        }
+
+        .empty-card-container {
+            display: inline-flex;
+            .colorPalette {
+                width: 55.5px;
+            }
+            p {
+                margin: 0;
+            }
+            p:first-of-type {
+                color: #172b4d;
+            }
+        }
+        .add-btn {
+            margin-top: 7px;
+        }
+
+        .v-icon {
+            position: inherit;
+            width: auto;
         }
     }
 }

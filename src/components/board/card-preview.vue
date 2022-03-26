@@ -82,6 +82,7 @@ export default {
   computed: {
     labels() {
       var labels = this.$store.getters.currBoard.labels
+      labels = labels.filter(({className}) => className !== 'color10')
       return labels.filter((l) => this.card.labelIds.includes(l.id))
     },
     labelTitleShown() {

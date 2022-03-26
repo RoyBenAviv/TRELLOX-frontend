@@ -84,7 +84,6 @@
     }
 
     .member {
-        cursor: pointer;
         display: block;
         float: left;
         margin: 0 4px 4px 0;
@@ -304,7 +303,6 @@
                     min-width: 40px;
                     padding: 0 12px;
                     width: auto;
-                    cursor: pointer;
                     color: white;
                     font-size: 0.875rem;
                     @include lighten;

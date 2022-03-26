@@ -6,7 +6,7 @@ export default {
     filterBy: null,
     currBoard: null,
     labelTitleShown: false,
-    colorPalletLength: 11,
+    labelColors: ['color0', 'color1', 'color2', 'color3','color4','color5','color6','color7' ,'color8','color9', 'color10'],
     imagePicker: [
       'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHw0fHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
       'https://images.unsplash.com/photo-1480497490787-505ec076689f?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb',
@@ -14,7 +14,7 @@ export default {
       'https://images.unsplash.com/photo-1433477155337-9aea4e790195?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb'
   
       ],
-    colorPicker: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e']
+    boardColors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e']
   },
   getters: {
     boards(state) {
@@ -29,9 +29,12 @@ export default {
     imagePicker(state) {
       return state.imagePicker
     },
-    colorPicker(state) {
-      return state.colorPicker
-    }
+    boardColors(state) {
+      return state.boardColors
+    },
+    labelColors(state) {
+      return JSON.parse(JSON.stringify(state.labelColors))
+    },
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -91,9 +94,7 @@ export default {
       }
     },
     async saveBoard({ commit }, { board }) {
-      console.log('board',board);
       try {
-        console.log('board is re-loading');
         var board = await boardService.updateBoard(board)
         commit({ type: 'saveBoard', board })
       } catch (err) {
