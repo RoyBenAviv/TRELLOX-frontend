@@ -8,7 +8,7 @@
       </span>
     </div>
     <span @click.stop="openQuickEdit" class="edit-card"></span>
-    <textarea v-if="checkQuickEdit" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateCard" ></textarea>
+    <textarea v-if="checkQuickEdit" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle" ></textarea>
     <span v-else  class="card-preview-title">{{ card.title }}</span>
     <div class="card-icons-container">
       <span>
@@ -28,7 +28,7 @@
         </div>
       </span>
     </div>
-  <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateCard">Save</button>
+  <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
   </div>
 </section>
 </template>
@@ -82,7 +82,8 @@ export default {
       this.newTitle = JSON.parse(JSON.stringify(this.card.title))
       this.$emit('openQuickEdit', this.card.id)
     },
-    updateCard() {
+    updateTitle() {
+      if(!this.newTitle) return
       const card = JSON.parse(JSON.stringify(this.card))
       card.title = this.newTitle
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })

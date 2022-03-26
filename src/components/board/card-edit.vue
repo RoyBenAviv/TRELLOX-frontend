@@ -45,7 +45,7 @@
                 <div v-if="!isTextArea && !card.description" class="fake-text-area" @click="isTextArea = true">
                   <p>Add a more detailed description…</p>
                 </div>
-                <div v-if="isTextArea">
+                <div v-click-outside="() => (isTextArea = false)" v-if="isTextArea">
                   <textarea v-focus v-model="description" placeholder="Add a more detailed description…"></textarea>
                   <button @click="updateDescription" class="save-btn">Save</button>
                   <span @click="isTextArea = false" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
@@ -74,11 +74,11 @@
                   </div>
                 </div>
               </div>
-              <div class="add-todo-container">
+              <div v-click-outside="() => (isAddTodo = null)" class="add-todo-container">
                 <textarea v-if="isAddTodo === checklist.id" v-model="checklist.newTodo" v-focus @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
                 <button v-if="isAddTodo === checklist.id" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'"  @click.stop="addTodo(checklist.id, checklist)">Add</button>
                 <button v-else class="grey-btn" @click.stop="isAddTodo = checklist.id" style="margin: unset">Add an item</button>
-                  <span v-if="checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
+                  <span v-if="isAddTodo === checklist.id && checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
               </div>
             </div>
             <div class="activity-container">
@@ -91,7 +91,7 @@
                 <button v-else @click="showActivity" class="grey-btn">Show details</button>
               </div>
               <div class="comments-frame">
-                <div class="comments-input">
+                <div class="comments-input" v-click-outside="() => (isCommentsInput = false)">
                   <textarea @focus="isCommentsInput = true" @keydown.prevent.enter="postComment" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
@@ -266,7 +266,6 @@ export default {
       this.card.comments.push(comment)
       this.updateCard()
       this.newComment.txt = ''
-      // this.isCommentsInput = false
     },
     openModal(cmpName) {
       this.cmpName = cmpName
