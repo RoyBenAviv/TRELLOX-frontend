@@ -23,11 +23,7 @@ export default {
   name: '',
   data() {
     return {
-      style: {
-        type: '',
-        cover: '',
-        fullCover: false,
-      },
+      style: JSON.parse(JSON.stringify(this.card.style)),
       attachments = JSON.parse(JSON.stringify(this.card.attachments))
     }
   },

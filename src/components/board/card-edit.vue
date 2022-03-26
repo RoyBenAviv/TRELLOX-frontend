@@ -202,7 +202,6 @@ import labelPicker from './label-picker.vue'
 import memberPicker from './member-picker.vue'
 import checklistAdd from './checklist-add.vue'
 import coverPicker from './cover-picker.vue'
-import { utilService } from '../../services/util.service.js'
 import attachments from './attachments.vue'
 
 export default {
