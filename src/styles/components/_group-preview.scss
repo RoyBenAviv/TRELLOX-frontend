@@ -43,6 +43,7 @@
       }
       .group-actions {
           user-select: none;
+          min-height: 220px;
           position: absolute;
           border: 1px solid $clr5;
           border-radius: 3px;
@@ -99,6 +100,60 @@
             padding: 0;
             width: 100%;
           }
+        .copy-group {
+          margin: 0 rem(15px);
+          @include flex(column, center, flex-start);
+          input {
+            height: 60px;
+            width: 100%;
+          }
+          gap: rem(20px);
+          button {
+            @include blue-btn
+
+          }
+        }  
+        .move-group {
+          @include flex;
+          margin: auto;
+          width: max-content;
+          button {
+            @include blue-btn;
+            margin-top: rem(15px);
+            width: 82px;
+          }
+          label {
+            background-color: red;
+            .board-info {
+              p {
+                margin: 0;
+              }
+              p:nth-child(1) {
+                font-size: em(14px)
+              }
+              p:nth-child(2) {
+                color: $clr1
+              }
+            
+              @include flex(column, center, _);
+              margin-top: rem(10px);
+              position: relative;
+              width: 280px;
+              padding-left: 10px;
+              height: 50px;
+              border-radius: 3px;
+              background-color: $clr5;
+            }
+            select {
+              opacity: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
       }
     }
     .open-card-container {

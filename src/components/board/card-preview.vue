@@ -1,4 +1,5 @@
 <template>
+<section>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
     <div class="card-label-container">
       <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle"
@@ -7,7 +8,7 @@
       </span>
     </div>
     <span @click.stop="openQuickEdit" class="edit-card"></span>
-    <textarea v-if="isQuickEdit.boolean && isQuickEdit.cardId === card.id" v-model="newTitle" @focus="$event.target.select()" ></textarea>
+    <textarea v-if="checkQuickEdit" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle" ></textarea>
     <span v-else  class="card-preview-title">{{ card.title }}</span>
     <div class="card-icons-container">
       <span>
@@ -27,7 +28,9 @@
         </div>
       </span>
     </div>
+  <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
   </div>
+</section>
 </template>
 
 <script>
@@ -38,7 +41,8 @@ export default {
   name: 'card-preview',
   props: {
     card: Object,
-    isQuickEdit: Object
+    isQuickEdit: Object,
+    groupId: String
   },
   components: {
     cardActions,
@@ -77,6 +81,13 @@ export default {
     openQuickEdit() {
       this.newTitle = JSON.parse(JSON.stringify(this.card.title))
       this.$emit('openQuickEdit', this.card.id)
+    },
+    updateTitle() {
+      if(!this.newTitle) return
+      const card = JSON.parse(JSON.stringify(this.card))
+      card.title = this.newTitle
+      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      this.$emit('closeQuickEdit')
     }
   },
   computed: {
@@ -93,6 +104,9 @@ export default {
     },
     computedQuickEdit() {
       return (this.isQuickEdit.boolean && this.isQuickEdit.cardId === this.card.id) ? 'quick-card-editor-open' : ''
+    },
+    checkQuickEdit() {
+      return (this.isQuickEdit.boolean && this.isQuickEdit.cardId === this.card.id)
     }
   },
 }

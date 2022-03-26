@@ -3,15 +3,15 @@
     <div>
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
-        <input v-click-outside="editTitle = false" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="group.title" />
+        <input v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
-        <group-actions @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
+        <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
       <!-- <div class="card-preview-container"> -->
 
-      <Container class="card-preview-container" @drop="onCardDrop($event)">
+      <Container class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
         <Draggable v-for="card in group.cards" :key="card.id">
-          <card-preview @openQuickEdit="openQuickEdit" :isQuickEdit="isQuickEdit" :card="card" />
+          <card-preview @openQuickEdit="openQuickEdit" @closeQuickEdit="closeQuickEdit" :groupId="group.id" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
 
         <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
@@ -51,6 +51,7 @@ export default {
     return {
       isAddCard: false,
       cardTitle: '',
+      groupTitle: JSON.parse(JSON.stringify(this.group.title)),
       editTitle: false,
       openGrpAct: false,
       isQuickEdit: {
@@ -75,11 +76,10 @@ export default {
     archiveCard(cardId) {
       this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
     },
-    async onCardDrop(dropResult) {
-      const group = Object.assign({}, JSON.parse(JSON.stringify(this.group)))
-      group.cards = applyDrag(group.cards, dropResult)
-
-      this.$emit('onCardDrop', { cards: group.cards, groupId: group.id })
+    onCardDrop(group, dropResult) {
+      const newGroup = Object.assign({}, JSON.parse(JSON.stringify(group)))
+      newGroup.cards = applyDrag(newGroup.cards, dropResult)
+      this.$emit('onCardDrop', { cards: newGroup.cards, groupId: newGroup.id })
     },
     copyGroup(title) {
       this.openGrpAct = false
@@ -93,7 +93,7 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     async moveGroup(moveToBoard, groupPos) {
-
+      this.openGrpAct = false
       moveToBoard.groups.splice(groupPos, 0, JSON.parse(JSON.stringify(this.group)))
       await this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
 
@@ -102,7 +102,7 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     moveAllCards(chosenGroup) {
-
+        this.openGrpAct = false
         const currGroup = JSON.parse(JSON.stringify(this.group))
 
         const groupCards = JSON.parse(JSON.stringify(this.group.cards))
@@ -122,12 +122,19 @@ export default {
       this.group.cards = []
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
+    closeQuickEdit() {
+      this.isQuickEdit.boolean = false
+      this.isQuickEdit.cardId = ''
+    },
     openQuickEdit(cardId) {
       this.isQuickEdit.boolean = true
       this.isQuickEdit.cardId = cardId
     },
-    changeGrpTitle(ev) {
-
+    getChildPayload(idx) {
+      return this.group.cards[idx]
+    },
+    changeGrpTitle() {
+      this.editTitle = false
     }
   },
   computed: {
