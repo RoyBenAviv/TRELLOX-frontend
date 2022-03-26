@@ -130,7 +130,8 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :currLabelIds="card.labelIds" :currMemberIds="card.memberIds" @closeModal="closeModal" @updateKey="updateKey"></component>
+              <component v-if="cmpName" :is="cmpName" :card="card"
+              @closeModal="closeModal" @updateKey="updateKey"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -236,7 +237,7 @@ export default {
       this.cmpName = null
     },
     updateKey(key, value) {
-      // console.log('updateKey: value',value)
+      console.log('updateKey: value',value)
       if (key === 'checklists') {
         value.id = utilService.makeId()
         this.card[key].push(value)

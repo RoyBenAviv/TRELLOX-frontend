@@ -113,4 +113,15 @@
             width: auto;
         }
     }
+    &.delete-mode{
+        p{
+            margin: 0 0 8px;
+            color: #172b4d;
+        }
+
+        .delete-btn{
+            width: 100%;
+            justify-content: center;
+        }
+    }
 }

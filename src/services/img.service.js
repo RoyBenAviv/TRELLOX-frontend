@@ -9,8 +9,8 @@ export const imgService = {
 
 export const uploadImg = (ev) => {
   //Defining our variables
-  const UPLOAD_PRESET = 'Trellox_1'; //insert yours
-  const CLOUD_NAME = 'trellox'; //insert yours
+  const UPLOAD_PRESET = 'Trellox_1';
+  const CLOUD_NAME = 'trellox';
   const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
   const FORM_DATA = new FormData();
   //Building the request body

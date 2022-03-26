@@ -1,7 +1,7 @@
 <template>
   <custom-modal @closeModal="closeModal">
     <template v-slot:header> Members </template>
-    <input ref="input" class="custom-input" type="search" placeholder="Search members..." />
+    <input v-focus class="custom-input" type="text" placeholder="Search members..." />
     <h4>Board members</h4>
     <ul class="members-container">
       <li v-for="member in members" :key="member._id" @click="toggleMember(member._id)">
@@ -10,13 +10,12 @@
           <span class="avatar-container">
             <span>SK</span>
           </span>
-          <span>{{member.fullname}}</span>
-          <span>({{member.username}})</span>
+          <span>{{ member.fullname }}</span>
+          <span>({{ member.username }})</span>
           <span class="v-icon"></span>
         </div>
       </li>
     </ul>
-    <!-- {{memberIds}} -->
   </custom-modal>
 </template>
 
@@ -25,7 +24,7 @@ import customModal from './custom-modal.vue'
 
 export default {
   props: {
-    currMemberIds: Array,
+    card: Object,
   },
   components: {
     customModal,
@@ -34,20 +33,15 @@ export default {
   data() {
     return {
       newMember: null,
-      memberIds: JSON.parse(JSON.stringify(this.currMemberIds)),
+      memberIds: JSON.parse(JSON.stringify(this.card.memberIds)),
     }
   },
   methods: {
     closeModal() {
       this.$emit('closeModal')
     },
-    focusInput() {
-      this.$refs.input.focus()
-    },
     toggleMember(memberId) {
       const idx = this.memberIds.findIndex((mId) => mId === memberId)
-      // console.log('idx',idx)
-      // console.log(memberId);
       if (idx === -1) this.memberIds.push(memberId)
       else this.memberIds.splice(idx, 1)
       this.save()
@@ -62,6 +56,5 @@ export default {
     },
   },
   unmounted() {},
-  // emits: ['removeToy'],
 }
 </script>

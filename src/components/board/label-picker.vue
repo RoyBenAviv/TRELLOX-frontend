@@ -1,11 +1,11 @@
 <template>
-  <custom-modal v-if="!newLabel" @closeModal="closeModal" @goBack="goBack" :isFirstPage="true" class="label-picker">
+  <custom-modal v-if="!newLabel" @closeModal="closeModal" @goBack="goBack" class="label-picker">
     <template v-slot:header> Labels </template>
-    <input ref="input" class="custom-input" type="search" placeholder="Search labels..." />
+    <input v-focus class="custom-input" type="text" placeholder="Search labels..." />
     <h4>Labels</h4>
     <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
-        <span class="edit-label" @click="startCreating(label)"></span>
+        <span class="edit-label" @click.stop="startCreating(label)"></span>
         <div class="label-in-label-picker" :class="label.className">
           {{ label.title }}
           <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
@@ -13,16 +13,16 @@
       </li>
     </ul>
     <!-- {{labelIds}} -->
-    <button class="custom-btn" @click="startCreating">Create new label</button>
+    <button class="custom-btn" @click="startCreating(null)">Create new label</button>
     <hr />
     <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
 
-  <custom-modal v-else @closeModal="closeModal" @goBack="goBack" :isFirstPage="false" class="label-picker">
-    <template v-slot:header> Create label </template>
-    <form @submit.prevent="createLabel" class="form-label">
+  <custom-modal v-if="newLabel && !wantToDelete" @closeModal="closeModal" @goBack="goBack" :isFirstPage="false" class="label-picker">
+    <template v-slot:header>{{ titleTxt }}</template>
+    <form @submit.prevent="saveLabel" class="form-label">
       <label for="name">Name</label>
-      <input ref="input" v-model="newLabel.title" id="name" class="custom-input" type="search" />
+      <input v-focus v-model="newLabel.title" id="name" class="custom-input" type="text" />
       <label for="color">Select a color</label>
       <div>
         <span v-for="classColor in classColors" :key="classColor" :class="classColor" class="colorPalette" @click="changeColor(classColor)">
@@ -38,8 +38,15 @@
           <p>This won't show up on the front of cards.</p>
         </div>
       </div>
-      <button class="add-btn">Create</button>
+      <button class="add-btn">{{ btnTxt }}</button>
+      <div v-if="newLabel.id" class="delete-btn" @click="wantToDelete = true">Delete</div>
     </form>
+  </custom-modal>
+
+  <custom-modal v-if="newLabel && wantToDelete" @closeModal="closeModal" @goBack="wantToDelete = false" :isFirstPage="false" class="label-picker delete-mode">
+    <template v-slot:header>Delete label?</template>
+    <p>There is no undo. This will remove this label from all cards and destroy its history.</p>
+    <div class="delete-btn" @click="deleteLabel">Delete</div>
   </custom-modal>
 </template>
 
@@ -49,16 +56,17 @@ import customModal from './custom-modal.vue'
 
 export default {
   props: {
-    currLabelIds: Array,
+    card: Object,
   },
   components: {
     customModal,
   },
   data() {
     return {
-      labelIds: this.currLabelIds,
+      labelIds: JSON.parse(JSON.stringify(this.card.labelIds)),
       newLabel: null,
       selectedColor: null,
+      wantToDelete: false,
     }
   },
   created() {},
@@ -69,10 +77,8 @@ export default {
     closeModal() {
       this.$emit('closeModal')
     },
-    focusInput() {
-      this.$refs.input.focus()
-    },
     toggleLabel(labelId) {
+      console.log('toggeling label')
       const idx = this.labelIds.findIndex((lId) => lId === labelId)
       if (idx === -1) this.labelIds.push(labelId)
       else this.labelIds.splice(idx, 1)
@@ -80,45 +86,62 @@ export default {
     },
     startCreating(labelToEdit) {
       if (labelToEdit) {
+        console.log('edit label', labelToEdit)
         this.newLabel = labelToEdit
         this.selectedColor = labelToEdit.className
-      } else
+      } else {
+        console.log('creating new label', labelToEdit)
         this.newLabel = {
           title: '',
           className: null,
         }
+      }
     },
     changeColor(className) {
       this.newLabel.className = className
       this.selectedColor = className
+      console.log('this.newLabel', this.newLabel)
     },
-    async createLabel() {
-      this.newLabel.id = utilService.makeId()
+    async saveLabel() {
       var board = this.$store.getters.currBoard
-      board.labels.push(this.newLabel)
+      var isCreated = false
+      if (this.newLabel.id) {
+        //edit
+        const idx = board.labels.findIndex((l) => l.id === id)
+        board.labels.splice(idx, 1, this.newLabel)
+      } else {
+        //create
+        this.newLabel.id = utilService.makeId()
+        board.labels.push(this.newLabel)
+        // this.toggleLabel(this.newLabel.id)
+        // this.labelIds.push(this.newLabel.id)
+        console.log('this.newLabel.id', this.newLabel.id)
+        // console.log('this.labelIds',this.labelIds)
+        isCreated = true
+      }
+      console.log('this.newLabel', this.newLabel)
+      console.log('board', board)
       await this.$store.dispatch({ type: 'saveBoard', board })
-      this.toggleLabel(this.newLabel.id)
+      if (isCreated) {
+        this.labelIds.push(this.newLabel.id)
+        this.save()
+      }
       this.goBack()
     },
-    async editLabel() {
-      await this.$store.dispatch({
-        type: 'updateCard',
-        groupId: this.group.id,
-        cardId: this.card.id,
-        changes: {
-          label: { action: 'edit', value: { color: '$label0', id: 'l101', title: 'SHANI!! Request' } },
-        },
-      })
-    },
     async deleteLabel() {
-      await this.$store.dispatch({
-        type: 'updateCard',
-        groupId: this.group.id,
-        cardId: this.card.id,
-        changes: {
-          label: { action: 'delete', value: 'l101' },
-        },
+      var board = this.$store.getters.currBoard
+      const idx = board.labels.findIndex((l) => l.id === this.newLabel.id)
+      board.labels.splice(idx, 1)
+      // delete from all cards
+      board.groups = board.groups.map((group) => {
+        group.cards = group.cards.map((card) => {
+          card.labelIds = card.labelIds.filter((labelId) => labelId !== this.newLabel.id)
+          return card
+        })
+        return group
       })
+      await this.$store.dispatch({ type: 'saveBoard', board })
+      this.goBack()
     },
     save() {
       this.$emit('updateKey', 'labelIds', JSON.parse(JSON.stringify(this.labelIds)))
@@ -136,8 +159,14 @@ export default {
     emptyColor() {
       return this.$store.getters.labelColors.pop()
     },
+    btnTxt() {
+      return this.newLabel.id ? 'Save' : 'Create'
+    },
+    titleTxt() {
+      return this.newLabel.id ? 'Change label' : 'Create label'
+    },
   },
   unmounted() {},
-  // emits: ['removeToy'],
+  emits: ['closeModal', 'updateKey'],
 }
 </script>

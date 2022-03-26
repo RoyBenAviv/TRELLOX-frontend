@@ -18,7 +18,7 @@ export default {
   props: {
     isFirstPage: {
       type: Boolean,
-      default: true
+      default: true,
     },
   },
   created() {},
@@ -36,5 +36,6 @@ export default {
   computed: {},
   components: {},
   unmounted() {},
+  emits: ['closeModal', 'goBack'],
 }
 </script>

@@ -146,7 +146,7 @@
     line-height: 20px;
     outline: none;
     transition-duration: 85ms;
-    transition-property: background-color,border-color,box-shadow;
+    transition-property: background-color, border-color, box-shadow;
     transition-timing-function: ease;
     margin: -1px;
     padding: 0;
@@ -164,7 +164,7 @@
     margin-top: 8px;
 
     &:hover {
-      .card-label{
+      .card-label {
         filter: brightness(70%);
       }
     }
@@ -187,9 +187,7 @@
       transition-duration: 1s;
       transition-property: color, width, height;
       transition-timing-function: ease;
-      // transition: width 0.5s ease-in;
-      // transition: color 1s;
-      
+
       &.open {
         color: white;
         height: 16px;
@@ -204,7 +202,3 @@
     z-index: 15;
   }
 }
-
-// .card-label:hover ~ .card-label {
-//   filter: brightness(70%);
-// }

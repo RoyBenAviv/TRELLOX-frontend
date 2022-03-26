@@ -11,6 +11,8 @@
     left: 404px;
     z-index: 20;
     width: 304px;
+    box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
+    
     .custom-modal-header {
         height: 40px;
         margin-bottom: 8px;
@@ -119,7 +121,7 @@
             }
         }
         .custom-input {
-            @include custom-input
+            @include custom-input;
         }
 
         h4 {
@@ -134,6 +136,12 @@
         .add-btn {
             @include blue-btn();
             padding: 0.5rem 1.5rem;
+            display: inline-block;
+            height: 32px;
+        }
+
+        .delete-btn {
+            @include delete-btn();
         }
 
         .v-icon {
