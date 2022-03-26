@@ -15,6 +15,15 @@
     border-radius: 10px;
   }
 
+  .save-quick-edit {
+    @include blue-btn;
+    padding-left: 24px;
+    padding-right: 24px;
+    position: absolute;
+    bottom: -49px;
+    left: 0;
+  }
+
   .card-preview {
     position: relative;
     @include flex(column, flex-start, flex-start);

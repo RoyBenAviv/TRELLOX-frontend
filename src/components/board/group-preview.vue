@@ -11,7 +11,7 @@
 
       <Container class="card-preview-container" @drop="onCardDrop($event)">
         <Draggable v-for="card in group.cards" :key="card.id">
-          <card-preview @openQuickEdit="openQuickEdit" :isQuickEdit="isQuickEdit" :card="card" />
+          <card-preview @openQuickEdit="openQuickEdit" @closeQuickEdit="closeQuickEdit" :groupId="group.id" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
 
         <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
@@ -122,6 +122,10 @@ export default {
     archiveCards() {
       this.group.cards = []
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
+    },
+    closeQuickEdit() {
+      this.isQuickEdit.boolean = false
+      this.isQuickEdit.cardId = ''
     },
     openQuickEdit(cardId) {
       this.isQuickEdit.boolean = true
