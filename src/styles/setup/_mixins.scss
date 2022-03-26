@@ -92,6 +92,7 @@
 }
 
 @mixin lighten {
+    cursor: pointer;
     &:hover {
         filter: brightness(103%);
     }

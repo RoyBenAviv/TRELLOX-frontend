@@ -9,7 +9,7 @@
               <i class="fa-solid fa-tachograph-digital"></i>
             </span>
             <div class="modal-header-title">
-              <textarea v-model="card.title" dir="auto" data-autosize="true"></textarea>
+              <textarea v-model="card.title" @keyup="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
             <div class="inline-content">in list {{ groupId }}</div>
           </div>
@@ -48,7 +48,7 @@
                 <div v-if="isTextArea">
                   <textarea autofocus v-model="description" placeholder="Add a more detailed description…"></textarea>
                   <button @click="updateDescription" class="save-btn">Save</button>
-                  <span @click="isTextArea = false"><i class="fa-solid fa-xmark"></i></span>
+                  <span @click="isTextArea = false" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
                 </div>
               </div>
             </div>
@@ -75,9 +75,10 @@
                 </div>
               </div>
               <div class="add-todo-container">
-                <textarea v-if="isAddTodo" v-model="newTodo.title" autofocus @blur="isAddTodo = false" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
-                <button v-if="isAddTodo" class="add-todo" @click="addTodo(checklist.id)">Add</button>
-                <button v-else class="grey-btn" @click.stop="isAddTodo = true" style="margin: unset">Add an item</button>
+                <textarea v-if="isAddTodo === checklist.id" v-model="checklist.newTodo" @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
+                <button v-if="isAddTodo === checklist.id" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'"  @click.stop="addTodo(checklist.id, checklist)">Add</button>
+                <button v-else class="grey-btn" @click.stop="isAddTodo = checklist.id" style="margin: unset">Add an item</button>
+                  <span v-if="checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
               </div>
             </div>
             <div class="activity-container">
@@ -91,7 +92,7 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input">
-                  <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <textarea @focus="isCommentsInput = true" @keydown.prevent.enter="postComment" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
               </div>
@@ -215,7 +216,7 @@ export default {
       },
       cmpName: null,
       description: null,
-      isAddTodo: false,
+      isAddTodo: null,
       newTodo: {
         title: '',
         isDone: false,
@@ -314,13 +315,20 @@ export default {
     getMemberById(memberId) {
       console.log('memberId', memberId)
     },
-    addTodo(checklistId) {
+    addTodo(checklistId, checklist) {
       var newTodo = JSON.parse(JSON.stringify(this.newTodo))
+      newTodo.title = JSON.parse(JSON.stringify(checklist.newTodo))
+      checklist.newTodo = ''
+      if(!newTodo.title) return
       newTodo.id = utilService.makeId()
       const idx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
       this.card.checklists[idx].todos.push(newTodo)
       this.updateCard()
-      this.newTodo.title = ''
+      
+    },
+    closeTodoInput(checklist) {
+      checklist.newTodo = ''
+      this.isAddTodo = null
     },
   },
   computed: {

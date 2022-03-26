@@ -7,7 +7,8 @@
       </span>
     </div>
     <span @click.stop="openQuickEdit" class="edit-card"></span>
-    <span class="card-preview-title">{{ card.title }}</span>
+    <textarea v-if="isQuickEdit.boolean && isQuickEdit.cardId === card.id" v-model="newTitle" @focus="$event.target.select()" ></textarea>
+    <span v-else  class="card-preview-title">{{ card.title }}</span>
     <div class="card-icons-container">
       <span>
         <div title="watch" class="icon-div">
@@ -48,19 +49,17 @@ export default {
       // openActionsMenu: false,
       activeColor: 'red',
       isChecklistDone: false,
+      newTitle: '',
     }
   },
   methods: {
     openCardEdit() {
-      console.log('open');
+      if (this.isQuickEdit.boolean) return
       const currRoute = this.$router.currentRoute._value.fullPath
       this.$router.push(`${currRoute}/edit/${this.card.id}`)
     },
     toggleLabelTitle() {
       this.$store.commit({ type: 'toggleLabelTitle' })
-    },
-    cardOptions(ev) {
-      ev.stopPropagation()
     },
     calcProgress() {
       const todosMap = this.card.checklists.reduce((acc, cl)=> {
@@ -76,12 +75,14 @@ export default {
       return `${todosMap.doneTodos}/${todosMap.todosCount}`
     },
     openQuickEdit() {
+      this.newTitle = JSON.parse(JSON.stringify(this.card.title))
       this.$emit('openQuickEdit', this.card.id)
     }
   },
   computed: {
     labels() {
       var labels = this.$store.getters.currBoard.labels
+      labels = labels.filter(({className}) => className !== 'color10')
       return labels.filter((l) => this.card.labelIds.includes(l.id))
     },
     labelTitleShown() {
