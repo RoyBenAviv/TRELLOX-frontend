@@ -142,6 +142,7 @@ export default {
       })
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.goBack()
+      this.wantToDelete = false
     },
     save() {
       this.$emit('updateKey', 'labelIds', JSON.parse(JSON.stringify(this.labelIds)))
