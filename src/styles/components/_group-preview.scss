@@ -10,13 +10,22 @@
     padding: 0 rem(8px);
     .group-header-container {
         @include flex(row, space-between, center);
+        
         .group-title {
+          cursor: pointer;
             color: $clr1;
             font-weight: 600;
             padding: rem(8px) rem(10px);
             font-size: rem(14px);
             line-height: 2;
             margin: 0;
+        }
+        input {
+          @include custom-input;
+          width: 228px;
+          height: 28px;
+          margin-top: rem(8px);
+          margin-bottom: rem(8px);
         }
         .act-btn {
         border-radius: 3px;

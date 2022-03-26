@@ -3,7 +3,7 @@
     <div>
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
-        <textarea v-if="editTitle" v-model="group.title"></textarea>
+        <input v-click-outside="editTitle = false" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="group.title" />
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
         <group-actions @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
@@ -16,7 +16,7 @@
 
         <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
         <div class="add-card-container" v-else>
-          <textarea @keyup.enter="addCard" autofocus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
+          <textarea @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
           <div class="add-card-actions">
             <button @click="addCard">Add card</button><span @click="isAddCard = false"><i class="fa-solid fa-xmark"></i></span>
           </div>
@@ -125,6 +125,9 @@ export default {
     openQuickEdit(cardId) {
       this.isQuickEdit.boolean = true
       this.isQuickEdit.cardId = cardId
+    },
+    changeGrpTitle(ev) {
+
     }
   },
   computed: {
