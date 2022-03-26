@@ -1,6 +1,7 @@
 .card-preview-container {
   max-height: calc(100vh - 11rem);
   overflow-y: auto;
+  overflow-x: hidden;
   /* width */
   &::-webkit-scrollbar {
     width: 8px;
@@ -186,24 +187,27 @@
       line-height: 100px;
       margin: 0 4px 4px 0;
       // max-width: 40px;
-      min-width: 40px;
+      // min-width: 40px;
+      width: 40px;
       padding: 0;
       text-shadow: none;
       border-radius: 4px;
       cursor: pointer;
       position: relative;
-      transition: height 0.6s;
+      transition: all 0.6s;
       
       &.open {   
         color: white;
         // height: 16px;
         line-height: 1;
         // display: inline-block;
-        padding: 2px 12px;
+        padding: 2px 8px;
         // min-width: max-content;
         animation-name: label;
         animation-duration: 0.6s;
         height: 16px;
+        width: 60px;
+        min-width: max-content;
         // animation-fill-mode: both;
         animation-timing-function: ease-out;
       }
@@ -216,13 +220,7 @@
 
 @keyframes label {
   0% {
-    width: 40px;
     color: transparent;
-    // height: 8px;
-  }
-  50% {
-    width: 50px;
-    // height: 12px;
   }
   75% {
     height: 8px;

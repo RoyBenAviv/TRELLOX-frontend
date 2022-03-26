@@ -94,7 +94,7 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     async moveGroup(moveToBoard, groupPos) {
-
+      this.openGrpAct = false
       moveToBoard.groups.splice(groupPos, 0, JSON.parse(JSON.stringify(this.group)))
       await this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
 
@@ -103,7 +103,7 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     moveAllCards(chosenGroup) {
-
+        this.openGrpAct = false
         const currGroup = JSON.parse(JSON.stringify(this.group))
 
         const groupCards = JSON.parse(JSON.stringify(this.group.cards))
