@@ -2,7 +2,7 @@
  <custom-modal @closeModal="closeModal">
     <template v-slot:header> Add checklist </template>
     <h4>Title</h4>
-    <input v-model="checklist.title" ref="input" class="custom-input" type="text" />
+    <input v-model="checklist.title" v-focus class="custom-input" type="text" />
     <h4>Copy items from...</h4>
     <p>to put here dropdown select</p>
     <button class="add-btn" @click="save">Add</button>
@@ -26,9 +26,6 @@ return {
 methods: {
     closeModal() {
       this.$emit('closeModal')
-    },
-    focusInput() {
-      this.$refs.input.focus()
     },
     save() {
       this.$emit('updateKey', 'checklists', JSON.parse(JSON.stringify(this.checklist)))

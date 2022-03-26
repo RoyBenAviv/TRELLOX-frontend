@@ -6,10 +6,10 @@
     <ul class="members-container">
       <li v-for="member in members" :key="member._id" @click="toggleMember(member._id)">
         <div class="member" :class="{ active: memberIds.includes(member._id) }">
-          <!-- <img :src="member.imgUrl" alt=""> -->
-          <span class="avatar-container">
-            <span>SK</span>
-          </span>
+          <div class="avatar-container">
+            <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
+            <span v-else>{{member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0]}}</span>
+          </div>
           <span>{{ member.fullname }}</span>
           <span>({{ member.username }})</span>
           <span class="v-icon"></span>

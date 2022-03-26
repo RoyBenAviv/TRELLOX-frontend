@@ -4,7 +4,12 @@
 export default {
   state: {
     users: [],
-    loggedInUser: null,
+    loggedInUser: {
+      _id: 'u105',
+      fullname: 'Assaf Margalit',
+      username: 'AssafMargalit',
+      imgUrl: null,
+    },
     filterBy: {},
   },
   getters: {

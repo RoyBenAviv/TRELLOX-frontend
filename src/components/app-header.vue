@@ -13,11 +13,14 @@
     </div>
     <div class="right-header">
       <label>
-        <i class="fa-solid fa-magnifying-glass"></i> 
+        <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" placeholder="Search" />
       </label>
-        <button class="notifications"><i class="fa-solid fa-bell"></i></button>
-        <div class="profile" ></div>
+      <button class="notifications"><i class="fa-solid fa-bell"></i></button>
+      <div class="avatar-container" :title="member.fullname">
+        <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
+        <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+      </div>
     </div>
   </header>
 </template>
@@ -31,6 +34,11 @@ export default {
   methods: {},
   computed: {},
   components: {},
+  computed: {
+    member(){
+      return this.$store.getters.loggedInUser
+    },
+  }
 }
 </script>
 

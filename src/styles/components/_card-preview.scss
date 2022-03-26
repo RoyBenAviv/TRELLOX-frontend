@@ -48,6 +48,7 @@
       width: 256px;
       height: 138px;
       margin-left: -8px;
+      object-fit: contain;
     }
     .edit-card {
       position: absolute;
@@ -86,7 +87,12 @@
   .card-icons-container {
     float: left;
     margin-left: -2px;
-    max-width: 100%;
+    width: 100%;
+
+    .avatar-container {
+      float: right;
+      margin: 0 5px 8px 6px;
+    }
 
     .icon-div {
       color: #5e6c84;
@@ -202,8 +208,8 @@
       cursor: pointer;
       position: relative;
       transition: all 0.6s;
-      
-      &.open {   
+
+      &.open {
         color: white;
         // height: 16px;
         line-height: 1;
