@@ -12,7 +12,6 @@
         </div>
       </li>
     </ul>
-    <!-- {{labelIds}} -->
     <button class="custom-btn" @click="startCreating(null)">Create new label</button>
     <hr />
     <button class="custom-btn">Enable color blind friendly mode</button>
@@ -65,7 +64,7 @@ export default {
     return {
       labelIds: JSON.parse(JSON.stringify(this.card.labelIds)),
       newLabel: null,
-      selectedColor: null,
+      selectedColor: 'color0',
       wantToDelete: false,
     }
   },
@@ -78,7 +77,6 @@ export default {
       this.$emit('closeModal')
     },
     toggleLabel(labelId) {
-      console.log('toggeling label')
       const idx = this.labelIds.findIndex((lId) => lId === labelId)
       if (idx === -1) this.labelIds.push(labelId)
       else this.labelIds.splice(idx, 1)
@@ -86,41 +84,38 @@ export default {
     },
     startCreating(labelToEdit) {
       if (labelToEdit) {
-        console.log('edit label', labelToEdit)
         this.newLabel = labelToEdit
         this.selectedColor = labelToEdit.className
       } else {
-        console.log('creating new label', labelToEdit)
         this.newLabel = {
           title: '',
-          className: null,
+          className: this.selectedColor,
         }
       }
     },
     changeColor(className) {
       this.newLabel.className = className
       this.selectedColor = className
-      console.log('this.newLabel', this.newLabel)
     },
     async saveLabel() {
       var board = this.$store.getters.currBoard
       var isCreated = false
       if (this.newLabel.id) {
         //edit
-        const idx = board.labels.findIndex((l) => l.id === id)
+        const idx = board.labels.findIndex((l) => l.id === this.newLabel.id)
         board.labels.splice(idx, 1, this.newLabel)
       } else {
-        //create
-        this.newLabel.id = utilService.makeId()
-        board.labels.push(this.newLabel)
-        // this.toggleLabel(this.newLabel.id)
-        // this.labelIds.push(this.newLabel.id)
-        console.log('this.newLabel.id', this.newLabel.id)
-        // console.log('this.labelIds',this.labelIds)
         isCreated = true
+        const labelIdx = this.labels.findIndex((l) => l.className === this.newLabel.className && l.title === this.newLabel.title)
+        if (labelIdx === -1) {
+          //create
+          this.newLabel.id = utilService.makeId()
+          board.labels.push(this.newLabel)
+        } else {
+          const labelIdIdx = this.labelIds.findIndex((lId) => lId === this.labels[labelIdx].id)
+          if (labelIdIdx === -1) this.labelIds.push(this.labels[labelIdx].id)
+        }
       }
-      console.log('this.newLabel', this.newLabel)
-      console.log('board', board)
       await this.$store.dispatch({ type: 'saveBoard', board })
       if (isCreated) {
         this.labelIds.push(this.newLabel.id)

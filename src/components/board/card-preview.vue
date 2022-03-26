@@ -1,6 +1,7 @@
 <template>
 <section>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
+      <img class="card-image" v-if="card.attachments.length" :src="card.attachments[0]" />
     <div class="card-label-container">
       <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle"
       :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
