@@ -7,7 +7,6 @@
         <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
         <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
-      <!-- <div class="card-preview-container"> -->
 
       <Container class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
         <Draggable v-for="card in group.cards" :key="card.id">
@@ -16,14 +15,13 @@
 
         <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
         <div class="add-card-container" v-else>
-          <textarea @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
+          <textarea v-click-outside="() => addCard()" @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
           <div class="add-card-actions">
             <button @click="addCard">Add card</button><span @click="isAddCard = false"><i class="fa-solid fa-xmark"></i></span>
           </div>
         </div>
       </Container>
     </div>
-    <!-- </div> -->
     <div name="quick-card-editor" v-if="isQuickEdit.boolean" @click.stop="isQuickEdit.boolean = false" :class="computedQuickEdit"></div>
   </section>
 </template>
@@ -50,8 +48,8 @@ export default {
   data() {
     return {
       isAddCard: false,
-      cardTitle: '',
       groupTitle: JSON.parse(JSON.stringify(this.group.title)),
+      cardTitle: '',
       editTitle: false,
       openGrpAct: false,
       isQuickEdit: {
@@ -134,6 +132,11 @@ export default {
       return this.group.cards[idx]
     },
     changeGrpTitle() {
+      const group = JSON.parse(JSON.stringify(this.group))
+      group.title = this.groupTitle
+       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+       this.board.groups.splice(groupIdx, 1, group)
+      this.$store.dispatch({ type: 'saveBoard', board: this.board })
       this.editTitle = false
     }
   },

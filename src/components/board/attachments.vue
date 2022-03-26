@@ -24,7 +24,14 @@ export default {
   methods: {
     async onUploadImg(ev) {
         const res = await imgService.uploadImg(ev)
-        this.attachments.push(res.url)
+        console.log('res',res);
+        const imgAttachment = {
+          name: res.public_id,
+          createdAt: res.created_at,
+          url: res.url,
+          format: res.format
+        }
+        this.attachments.push(imgAttachment)
         this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)))
     },
   },

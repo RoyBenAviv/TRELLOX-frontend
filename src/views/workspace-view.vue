@@ -1,12 +1,11 @@
 <template>
   <section class="workspace-view">
     <app-header class="workspace-header" />
-    <div class="workspace-wrapper main-layout">
+    <div class="workspace-wrapper">
       <nav class="workspace-nav">
         <ul class="nav-options-top">
-          <li><a>Home</a></li>
           <li><i class="fa-brands fa-trello"></i><a>Boards</a></li>
-          <li><a>Create Workspace</a></li>
+          <li @click=" this.$router.push('/')"><i class="fa-solid fa-house-crack"></i><a >Home</a></li>
         </ul>
       </nav>
       <div class="board-list-container">

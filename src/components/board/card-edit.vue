@@ -18,12 +18,12 @@
             <div class="card-details">
               <div v-if="members.length" class="card-details-item">
                 <h3>Members</h3>
-                <div class="member" v-for="member in members" :key="member.id" :title="member.fullname">
-                  <img src="https://trello.com/1/cards/62399dba78ab2987b393bef4/attachments/6239ba94c62cb36ebd4d3023/previews/6239ba95c62cb36ebd4d3042/download/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512.png" alt="" />
+                <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
+                  <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
+                  <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
                 <div class="add-member" @click="openModal('member-picker')"><i class="fa-solid fa-plus"></i></div>
               </div>
-
               <div v-if="labels.length" class="card-details-item">
                 <h3>Labels</h3>
                 <div>
@@ -54,10 +54,20 @@
               </div>
             </div>
             <div v-if="card.attachments.length" class="attachments-container">
-              <h3>Attachments</h3>
+              <div class="title">
+                <span>
+                  <i class="fa-solid fa-paperclip"></i>
+                </span>
+                <h3>Attachments</h3>
+              </div>
               <ul>
                 <li v-for="attachment in card.attachments" :key="attachment">
-                <img :src="attachment" />
+                  <div class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')'}">
+                  </div>
+                  <div class="attachment-info">
+                    <h5>{{ attachment.name.slice(0, 20) }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
+                    <p>Added {{ attachment.createdAt }}</p>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -85,9 +95,9 @@
               </div>
               <div v-click-outside="() => (isAddTodo = null)" class="add-todo-container">
                 <textarea v-if="isAddTodo === checklist.id" v-model="checklist.newTodo" v-focus @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
-                <button v-if="isAddTodo === checklist.id" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'"  @click.stop="addTodo(checklist.id, checklist)">Add</button>
+                <button v-if="isAddTodo === checklist.id" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'" @click.stop="addTodo(checklist.id, checklist)">Add</button>
                 <button v-else class="grey-btn" @click.stop="isAddTodo = checklist.id" style="margin: unset">Add an item</button>
-                  <span v-if="isAddTodo === checklist.id && checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
+                <span v-if="isAddTodo === checklist.id && checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
               </div>
             </div>
             <div class="activity-container">
@@ -139,8 +149,7 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card"
-              @closeModal="closeModal" @updateKey="updateKey"></component>
+              <component v-if="cmpName" :is="cmpName" :card="card" @closeModal="closeModal" @updateKey="updateKey"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
@@ -153,7 +162,8 @@
                 <span><i class="fa-solid fa-paperclip"></i></span>
                 <span>Attachment</span>
               </div>
-              <div class="action-btn" @click="openModal('cover-picker')">>
+              <div class="action-btn" @click="openModal('cover-picker')">
+                >
                 <span><i class="fa-solid fa-fill-drip"></i></span>
                 <span>Cover</span>
               </div>
@@ -211,7 +221,7 @@ export default {
     memberPicker,
     checklistAdd,
     coverPicker,
-    attachments
+    attachments,
   },
   data() {
     return {
@@ -250,7 +260,7 @@ export default {
       this.cmpName = null
     },
     updateKey(key, value) {
-      console.log('updateKey: value',value)
+      console.log('updateKey: value', value)
       if (key === 'checklists') {
         value.id = utilService.makeId()
         this.card[key].push(value)
@@ -314,17 +324,19 @@ export default {
       var newTodo = JSON.parse(JSON.stringify(this.newTodo))
       newTodo.title = JSON.parse(JSON.stringify(checklist.newTodo))
       checklist.newTodo = ''
-      if(!newTodo.title) return
+      if (!newTodo.title) return
       newTodo.id = utilService.makeId()
       const idx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
       this.card.checklists[idx].todos.push(newTodo)
       this.updateCard()
-      
     },
     closeTodoInput(checklist) {
       checklist.newTodo = ''
       this.isAddTodo = null
     },
+    openUrl(url) {
+      window.open(url)
+    }
   },
   computed: {
     commentsInputStyle() {
