@@ -61,6 +61,22 @@
         z-index: 25;
     }
 
+    .card-cover-image {
+        background-size: cover;
+        background-origin: content-box;
+        background-position: center center;
+        height: 160px;
+        min-height: 160px;
+        padding: 0px;
+        cursor: pointer;
+    }
+    .card-cover-color {
+        cursor: pointer;
+        height: 116px;
+        min-height: 116px;
+        padding: 0px;
+    }
+
     .close-modal-button {
         border-radius: 50%;
         color: $clr8;
@@ -95,7 +111,7 @@
     .modal-header-icon {
         left: -40px;
         position: absolute;
-        top: 4px;
+        top: 8px;
         color: $clr8;
         height: rem(32px);
         width: rem(32px);
@@ -233,19 +249,18 @@
             float: none;
             width: 100%;
         }
-
     }
 
     .x-icon {
-            height: 32px;
-            line-height: 32px;
-            width: 32px;
-            color: $clr8;
-            font-size: 24px;
-            @include flex();
-            display: inline-flex;
-            cursor: pointer;
-            transform: translateY(4px);
+        height: 32px;
+        line-height: 32px;
+        width: 32px;
+        color: $clr8;
+        font-size: 24px;
+        @include flex();
+        display: inline-flex;
+        cursor: pointer;
+        transform: translateY(4px);
     }
 
     .modal-main-content {
@@ -299,7 +314,7 @@
                     }
                 }
 
-                .add-label{
+                .add-label {
                     background-color: #091e420a;
                     border-radius: 3px;
                     cursor: pointer;
@@ -435,8 +450,6 @@
                 .active-input {
                     padding: 8px 12px 56px 12px;
                 }
-
-                
             }
 
             .checklist-todos-container {
@@ -600,8 +613,6 @@
                         margin-bottom: 4px;
                     }
                 }
-
-                
             }
         }
     }

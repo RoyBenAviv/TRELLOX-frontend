@@ -1,6 +1,10 @@
 <template>
 <section>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
+    <div v-if="card.style.cover">
+      <div v-if="card.style.type === 'url'" class="card-preview-cover-image"></div>
+      <div v-else class="card-preview-cover-color"></div>
+    </div>
       <img class="card-image" v-if="card.attachments.length" :src="card.attachments[0]" />
     <div class="card-label-container">
       <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle"

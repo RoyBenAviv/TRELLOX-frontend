@@ -25,6 +25,20 @@
     left: 0;
   }
 
+  .card-preview-cover-color {
+    height: 32px;
+    border-radius: 3px 3px 0 0;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .card-preview-cover-color {
+    border-radius: 3px 3px 0px 0px;
+    background-position: 50% center;
+    background-repeat: no-repeat;
+    height: 32px;
+  }
+
   .card-preview {
     position: relative;
     @include flex(column, flex-start, flex-start);
@@ -202,8 +216,8 @@
       cursor: pointer;
       position: relative;
       transition: all 0.6s;
-      
-      &.open {   
+
+      &.open {
         color: white;
         // height: 16px;
         line-height: 1;

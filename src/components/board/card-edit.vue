@@ -3,6 +3,7 @@
     <div @mousedown="closeEdit" class="window-overlay">
       <div @mousedown.stop class="card-modal">
         <div class="card-modal-details">
+          <div v-if="card.style.cover" :style="cover" :class="coverType"></div>
           <i @click="closeEdit" class="fa-solid fa-xmark close-modal-button"></i>
           <div class="modal-header">
             <span class="modal-header-icon">
@@ -11,7 +12,7 @@
             <div class="modal-header-title">
               <textarea v-model="card.title" @keyup="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
-            <div class="inline-content">in list {{ groupId }}</div>
+            <div class="inline-content">in list {{groupTitle}}</div>
           </div>
           <div class="modal-main-content">
             <div class="card-details">
@@ -62,7 +63,7 @@
             </div>
             <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist-container">
               <div class="title">
-                <span style="top: 7px">
+                <span style="top: 8px">
                   <i class="fa-solid fa-list-check"></i>
                 </span>
                 <h3>{{ checklist.title }}</h3>
@@ -340,6 +341,19 @@ export default {
       var members = this.$store.getters.currBoard.members
       return members.filter((m) => this.card.memberIds.includes(m._id))
     },
+    groupTitle() {
+      const board = this.$store.getters.currBoard
+      const group = board.groups.find(group => group.id === this.groupId)
+      return group.title
+    },
+    cover() {
+      if(this.card.style.type === 'url') return `background-image:url('${this.card.style.cover}')`
+      else return `background-color: ${this.card.style.cover}`
+    },
+    coverType() {
+      if(this.card.style.type === 'url') return 'card-cover-image'
+      else return 'card-cover-color'
+    }
   },
 }
 </script>
