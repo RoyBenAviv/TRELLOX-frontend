@@ -46,7 +46,7 @@
                   <p>Add a more detailed description…</p>
                 </div>
                 <div v-if="isTextArea">
-                  <textarea autofocus v-model="description" placeholder="Add a more detailed description…"></textarea>
+                  <textarea v-focus v-model="description" placeholder="Add a more detailed description…"></textarea>
                   <button @click="updateDescription" class="save-btn">Save</button>
                   <span @click="isTextArea = false" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
                 </div>
@@ -75,7 +75,7 @@
                 </div>
               </div>
               <div class="add-todo-container">
-                <textarea v-if="isAddTodo === checklist.id" v-model="checklist.newTodo" @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
+                <textarea v-if="isAddTodo === checklist.id" v-model="checklist.newTodo" v-focus @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
                 <button v-if="isAddTodo === checklist.id" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'"  @click.stop="addTodo(checklist.id, checklist)">Add</button>
                 <button v-else class="grey-btn" @click.stop="isAddTodo = checklist.id" style="margin: unset">Add an item</button>
                   <span v-if="checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
@@ -266,7 +266,7 @@ export default {
       this.card.comments.push(comment)
       this.updateCard()
       this.newComment.txt = ''
-      this.isCommentsInput = false
+      // this.isCommentsInput = false
     },
     openModal(cmpName) {
       this.cmpName = cmpName
@@ -274,21 +274,6 @@ export default {
     async updateCard() {
       await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card: this.card })
       this.loadCard()
-    },
-    joinCard() {
-      //TODO - finish the updateCard function at the service
-      // this.card.members.push(this.$store.getters.user)
-      //this.updateCard()
-    },
-    addMember(member) {
-      //TODO - finish the updateCard function at the service
-      // this.card.members.push(member)
-      //this.updateCard()
-    },
-    addLabel(label) {
-      //TODO - finish the updateCard function at the service
-      // this.card.labels.push(label)
-      //this.updateCard()
     },
     calcProgress(todos) {
       if (!todos.length) return '0%'
