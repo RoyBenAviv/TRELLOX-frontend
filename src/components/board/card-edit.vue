@@ -75,9 +75,9 @@
                 </div>
               </div>
               <div class="add-todo-container">
-                <textarea v-if="isAddTodo" v-model="checklist.newTodo" @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
-                <button v-if="isAddTodo" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'"  @click.stop="addTodo(checklist.id, checklist)">Add</button>
-                <button v-else class="grey-btn" @click.stop="isAddTodo = true" style="margin: unset">Add an item</button>
+                <textarea v-if="isAddTodo === checklist.id" v-model="checklist.newTodo" @keydown.prevent.enter="addTodo(checklist.id, checklist)" placeholder="Add an item" :hidden="!isAddTodo"></textarea>
+                <button v-if="isAddTodo === checklist.id" :class="checklist.newTodo ? 'save-btn' : 'not-allowed-btn'"  @click.stop="addTodo(checklist.id, checklist)">Add</button>
+                <button v-else class="grey-btn" @click.stop="isAddTodo = checklist.id" style="margin: unset">Add an item</button>
                   <span v-if="checklist.newTodo" @click="closeTodoInput(checklist)" class="x-icon"><i class="fa-solid fa-xmark"></i></span>
               </div>
             </div>
@@ -216,7 +216,7 @@ export default {
       },
       cmpName: null,
       description: null,
-      isAddTodo: false,
+      isAddTodo: null,
       newTodo: {
         title: '',
         isDone: false,
@@ -328,7 +328,7 @@ export default {
     },
     closeTodoInput(checklist) {
       checklist.newTodo = ''
-      this.isAddTodo = false
+      this.isAddTodo = null
     },
   },
   computed: {
