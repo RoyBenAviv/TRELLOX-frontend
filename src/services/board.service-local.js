@@ -422,6 +422,7 @@ function _getGroup(title) {
           {
             id: 'YEhmF',
             title: 'Checklist',
+            newTodo: '',
             todos: [
               {
                 id: '212jX',
@@ -458,6 +459,7 @@ function _getGroup(title) {
           {
             id: 'YEhmF',
             title: 'Checklist',
+            newTodo: '',
             todos: [
               {
                 id: '212jX',
@@ -494,6 +496,7 @@ function _getGroup(title) {
           {
             id: 'YEhmF',
             title: 'Checklist',
+            newTodo: '',
             todos: [
               {
                 id: '212jX',

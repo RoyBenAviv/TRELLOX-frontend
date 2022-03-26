@@ -18,6 +18,7 @@ name: '',
 return {
  checklist: {
      title: 'Checklist', 
+     newTodo: '',
      todos: []
  }
 };
