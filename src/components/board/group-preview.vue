@@ -9,7 +9,7 @@
       </div>
       <!-- <div class="card-preview-container"> -->
 
-      <Container class="card-preview-container" @drop="onCardDrop($event)">
+      <Container class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
         <Draggable v-for="card in group.cards" :key="card.id">
           <card-preview @openQuickEdit="openQuickEdit" @closeQuickEdit="closeQuickEdit" :groupId="group.id" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
@@ -76,11 +76,10 @@ export default {
     archiveCard(cardId) {
       this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
     },
-    async onCardDrop(dropResult) {
-      const group = Object.assign({}, JSON.parse(JSON.stringify(this.group)))
-      group.cards = applyDrag(group.cards, dropResult)
-
-      this.$emit('onCardDrop', { cards: group.cards, groupId: group.id })
+    onCardDrop(group, dropResult) {
+      const newGroup = Object.assign({}, JSON.parse(JSON.stringify(group)))
+      newGroup.cards = applyDrag(newGroup.cards, dropResult)
+      this.$emit('onCardDrop', { cards: newGroup.cards, groupId: newGroup.id })
     },
     copyGroup(title) {
       this.openGrpAct = false
@@ -130,6 +129,9 @@ export default {
     openQuickEdit(cardId) {
       this.isQuickEdit.boolean = true
       this.isQuickEdit.cardId = cardId
+    },
+    getChildPayload(idx) {
+      return this.group.cards[idx]
     },
     changeGrpTitle() {
       this.editTitle = false
