@@ -64,7 +64,8 @@ export default {
       isAddGroup: false,
       groupTitle: '',
       board: null,
-      openMenu: false
+      openMenu: false,
+      savingGroup: false
     }
   },
   async created() {
@@ -83,10 +84,11 @@ export default {
       this.board = board
     },
     onCardDrop({cards, groupId}) {
-        const board = JSON.parse(JSON.stringify(this.board))
-        const idx = this.board.groups.findIndex(group => group.id === groupId)
-        board.groups[idx].cards = cards
-        this.$store.dispatch({ type: 'saveBoard', board })
+      const board = JSON.parse(JSON.stringify(this.board))
+      const idx = this.board.groups.findIndex(group => group.id === groupId)
+      board.groups[idx].cards = cards
+      this.board = board
+      this.$store.dispatch({ type: 'saveBoard', board })
     },
     async setBoardBg(boardBg) {;
       // this.board.style.bgImgUrl = boardBg
