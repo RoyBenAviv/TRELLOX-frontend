@@ -307,7 +307,15 @@ async function _createDemoBoards() {
               username: 'coolTamir',
               imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
             },
-            attachments: ['https://res.cloudinary.com/trellox/image/upload/v1648323982/Trello-Symbol_a4clmx.png'],
+            attachments: [
+              {
+                name: 'Trello',
+                createdAt: 1590999730348,
+                url: 'https://res.cloudinary.com/trellox/image/upload/v1648323982/Trello-Symbol_a4clmx.png',
+                format: 'png'
+              }
+              
+            ],
             style: {
               type: '',
               cover: '',
@@ -355,7 +363,14 @@ async function _createDemoBoards() {
               username: 'coolTamir',
               imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
             },
-            attachments: ['https://res.cloudinary.com/trellox/image/upload/v1648323965/%D7%94%D7%95%D7%A8%D7%93%D7%94_oy2dsi.png'],
+            attachments: [ {
+              name: 'Drag and drop',
+              createdAt: 32871123131333,
+              url: 'https://res.cloudinary.com/trellox/image/upload/v1648323965/%D7%94%D7%95%D7%A8%D7%93%D7%94_oy2dsi.png',
+              format: 'png'
+            }
+            
+            ],
             style: {
               type: '',
               cover: '',
@@ -485,7 +500,16 @@ async function _createDemoBoards() {
               username: 'coolTamir',
               imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
             },
-            attachments: ['https://res.cloudinary.com/trellox/image/upload/v1648324369/ui-color-palette-analogous-color-palette_em7ou8.jpg'],
+            attachments: [
+              
+              {
+                name: 'Color Pallete',
+                createdAt: 16156215211,
+                url: 'https://res.cloudinary.com/trellox/image/upload/v1648324369/ui-color-palette-analogous-color-palette_em7ou8.jpg',
+                format: 'jpg'
+              }
+            
+            ],
             style: {
               type: '',
               cover: '',
@@ -683,7 +707,16 @@ async function _createDemoBoards() {
               username: 'coolTamir',
               imgUrl: 'img.png',
             },
-            attachments: ['https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png'],
+            attachments: [
+              
+              {
+                name: 'Tamir',
+                createdAt: 1590999730348,
+                url: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
+                format: 'png'
+              }
+            
+            ],
             style: {
               type: '',
               cover: '',
@@ -707,7 +740,15 @@ async function _createDemoBoards() {
               username: 'coolTamir',
               imgUrl: 'img.png',
             },
-            attachments: ['https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg'],
+            attachments: [
+              {
+                name: 'Shani',
+                createdAt: 1590999730348,
+                url: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
+                format: 'jpg'
+              }
+              
+          ],
             style: {
               type: '',
               cover: '',
@@ -731,7 +772,15 @@ async function _createDemoBoards() {
               username: 'coolTamir',
               imgUrl: 'img.png',
             },
-            attachments: ['https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg'],
+            attachments: [
+              
+              {
+                name: 'Roy',
+                createdAt: 1590999730348,
+                url: 'https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg',
+                format: 'jpg'
+              }
+            ],
             style: {
               type: '',
               cover: '',
