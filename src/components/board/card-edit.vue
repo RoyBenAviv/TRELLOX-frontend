@@ -65,7 +65,7 @@
                   <div class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')'}">
                   </div>
                   <div class="attachment-info">
-                    <h5>{{ attachment.name.slice(0, 20) }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
+                    <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
                     <p>Added {{ attachment.createdAt }}</p>
                   </div>
                 </li>
