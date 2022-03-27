@@ -98,6 +98,7 @@ export default {
         { todosCount: 0, doneTodos: 0 }
       )
       if (todosMap.todosCount === todosMap.doneTodos) this.isChecklistDone = true
+      else this.isChecklistDone = false
       return `${todosMap.doneTodos}/${todosMap.todosCount}`
     },
     openQuickEdit() {

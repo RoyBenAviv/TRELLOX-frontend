@@ -70,13 +70,13 @@
                 </li>
               </ul>
             </div>
-            <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist-container">
+            <div v-for="(checklist, idx) in card.checklists" :key="checklist.id" class="checklist-container">
               <div class="title">
                 <span style="top: 8px">
                   <i class="fa-solid fa-list-check"></i>
                 </span>
                 <h3>{{ checklist.title }}</h3>
-                <button class="grey-btn">Delete</button>
+                <button @click="removeChecklist(idx)" class="grey-btn">Delete</button>
               </div>
               <div class="checklist-progress">
                 <span class="progress-precent">{{ calcProgress(checklist.todos) }}</span>
@@ -334,6 +334,10 @@ export default {
     openUrl(url) {
       window.open(url)
     },
+    removeChecklist(idx){
+      this.card.checklists.splice(idx, 1)
+      this.updateCard()
+    }
   },
   computed: {
     commentsInputStyle() {
