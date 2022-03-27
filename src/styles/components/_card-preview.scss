@@ -182,6 +182,11 @@
           content: "\e91e";
         }
       }
+      .attachment {
+        &::before {
+          content: "\e908";
+        }
+      }
       .check {
         &::before {
           content: "\e91a";

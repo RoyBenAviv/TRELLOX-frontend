@@ -1,6 +1,7 @@
 import { storageService } from './async-storage.service'
 import { userService } from './user.service-local'
 import { utilService } from './util.service'
+import demoData from './demo-data-board'
 // import { socketService, SOCKET_EVENT_REVIEW_ADDED } from './socket.service'
 
 const entity_key = 'boards'
@@ -235,565 +236,11 @@ async function archiveCard(boardId, groupId, cardId) {
   }
 }
 
-//inside func // add try n catch
+//inside func
 async function _createDemoBoards() {
   var boards = await query()
   if (boards.length) return
-  const b1 = {
-    title: 'Sprint Management',
-    createdAt: 1589983468418,
-    isStarred: false,
-    createdBy: {
-      _id: 'u101',
-      fullname: 'Tamir Belisha',
-      username: 'coolTamir',
-      imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-    },
-    style: {
-      bgImgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648326010/pexels-photo-1008000_swgsfk.jpg',
-    },
-    labels: _getLabelsForSM(),
-    members: [
-      {
-        _id: 'u101',
-        fullname: 'Tamir Belisha',
-        username: 'coolTamir',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-      },
-      {
-        _id: 'u102',
-        fullname: 'Shani kupiec',
-        username: 'sweetShani',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-      },
-      {
-        _id: 'u103',
-        fullname: 'Roy Ben Aviv',
-        username: 'cutieRoy',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg',
-      },
-      {
-        _id: 'u104',
-        fullname: 'Lihi Sered',
-        username: 'lovingLihi',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648322593/pp_zkt6ee.jpg',
-      },
-      {
-        _id: 'u105',
-        fullname: 'Assaf Margalit',
-        username: 'AssafMargalit',
-        imgUrl: null,
-      },
-    ],
-    groups: [
-      {
-        id: utilService.makeId(),
-        title: 'Sprint 4 Trello',
-        cards: [
-          {
-            id: utilService.makeId(),
-            title: '',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: [],
-            labelIds: [],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-            },
-            attachments: [
-              {
-                name: 'Trello',
-                createdAt: 1590999730348,
-                url: 'https://res.cloudinary.com/trellox/image/upload/v1648323982/Trello-Symbol_a4clmx.png',
-                format: 'png'
-              }
-              
-            ],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-        ],
-      },
-      {
-        id: utilService.makeId(),
-        title: 'Tasks for today',
-        cards: [
-          {
-            id: utilService.makeId(),
-            title: 'finish drag n drop',
-            status: 'in-progress',
-            description: 'we need to work on moving cards',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [
-              {
-                id: 'YEhmF',
-                title: 'Checklist',
-                newTodo: '',
-                todos: [
-                  {
-                    id: '212jX',
-                    title: 'moving cards in their group',
-                    isDone: true,
-                  },
-                  {
-                    id: 'sdfghj',
-                    title: 'moving cards from one group to another',
-                    isDone: false,
-                  },
-                ],
-              },
-            ],
-            comments: [],
-            memberIds: ['u101'],
-            labelIds: ['l102', 'l104', 'l107'],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-            },
-            attachments: [ {
-              name: 'Drag and drop',
-              createdAt: 32871123131333,
-              url: 'https://res.cloudinary.com/trellox/image/upload/v1648323965/%D7%94%D7%95%D7%A8%D7%93%D7%94_oy2dsi.png',
-              format: 'png'
-            }
-            
-            ],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'add auto focus',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: ['l104'],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'fix scroll bar',
-            status: 'in-progress',
-            description: 'pay attention to the original',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u103'],
-            labelIds: ['l105'],
-            byMember: {
-              _id: 'u102',
-              fullname: 'Shani kupiec',
-              username: 'sweetShani',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-        ],
-      },
-      {
-        id: utilService.makeId(),
-        title: 'Processing',
-        cards: [
-          {
-            id: utilService.makeId(),
-            title: 'fix- group name preview in card edit',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u101'],
-            labelIds: ['l101'],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'color-picker cmp',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [
-              {
-                id: 'YEhmF',
-                title: 'Checklist',
-                newTodo: '',
-                todos: [
-                  {
-                    id: '212jX',
-                    title: 'toggle label',
-                    isDone: true,
-                  },
-                  {
-                    id: 'sdfghj',
-                    title: 'create label',
-                    isDone: false,
-                  },
-                  {
-                    id: 'wert',
-                    title: 'edit label',
-                    isDone: false,
-                  },
-                  {
-                    id: 'dfrtghyuj',
-                    title: 'delete label',
-                    isDone: false,
-                  },
-                ],
-              },
-            ],
-            comments: [],
-            memberIds: ['u101', 'u102'],
-            labelIds: ['l102', 'l104', 'l107'],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-            },
-            attachments: [
-              
-              {
-                name: 'Color Pallete',
-                createdAt: 16156215211,
-                url: 'https://res.cloudinary.com/trellox/image/upload/v1648324369/ui-color-palette-analogous-color-palette_em7ou8.jpg',
-                format: 'jpg'
-              }
-            
-            ],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'attachment',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [
-              {
-                id: 'YEhmF',
-                title: 'Checklist',
-                newTodo: '',
-                todos: [
-                  {
-                    id: '212jX',
-                    title: 'cloudinary',
-                    isDone: true,
-                  },
-                  {
-                    id: 'sdfghj',
-                    title: 'testing',
-                    isDone: false,
-                  },
-                ],
-              },
-            ],
-            comments: [],
-            memberIds: ['u103'],
-            labelIds: ['l105', 'l106',],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-        ],
-      },
-      {
-        id: utilService.makeId(),
-        title: 'DONE',
-        cards: [
-          {
-            id: utilService.makeId(),
-            title: 'api imgs',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: ['l101'],
-            byMember: {
-              _id: 'u102',
-              fullname: 'Shani kupiec',
-              username: 'sweetShani',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'header',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: ['l101'],
-            byMember: {
-              _id: 'u102',
-              fullname: 'Shani kupiec',
-              username: 'sweetShani',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'upper nav',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: ['l101'],
-            byMember: {
-              _id: 'u102',
-              fullname: 'Shani kupiec',
-              username: 'sweetShani',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'delete console log',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: ['l101'],
-            byMember: {
-              _id: 'u102',
-              fullname: 'Shani kupiec',
-              username: 'sweetShani',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: 'update out team header',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: ['l101'],
-            byMember: {
-              _id: 'u102',
-              fullname: 'Shani kupiec',
-              username: 'sweetShani',
-              imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-            },
-            attachments: [],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-        ],
-      },
-      {
-        id: utilService.makeId(),
-        title: 'Members',
-        cards: [
-          {
-            id: utilService.makeId(),
-            title: '',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u101'],
-            labelIds: [],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'img.png',
-            },
-            attachments: [
-              
-              {
-                name: 'Tamir',
-                createdAt: 1590999730348,
-                url: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-                format: 'png'
-              }
-            
-            ],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: '',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u102'],
-            labelIds: [],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'img.png',
-            },
-            attachments: [
-              {
-                name: 'Shani',
-                createdAt: 1590999730348,
-                url: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-                format: 'jpg'
-              }
-              
-          ],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-          {
-            id: utilService.makeId(),
-            title: '',
-            status: 'in-progress',
-            description: '',
-            dueDate: 16156215211,
-            createdAt: 1590999730348,
-            checklists: [],
-            comments: [],
-            memberIds: ['u103'],
-            labelIds: [],
-            byMember: {
-              _id: 'u101',
-              fullname: 'Tamir Belisha',
-              username: 'coolTamir',
-              imgUrl: 'img.png',
-            },
-            attachments: [
-              
-              {
-                name: 'Roy',
-                createdAt: 1590999730348,
-                url: 'https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg',
-                format: 'jpg'
-              }
-            ],
-            style: {
-              type: '',
-              cover: '',
-              fullCover: false,
-            },
-          },
-        ],
-      },
-    ],
-    activities: [],
-    cmpsOrder: [],
-  }
-
+  const b1 = demoData
   const b2 = {
     title: 'Best board ever',
     createdAt: 1589983468418,
@@ -1017,17 +464,17 @@ function _getGroup(title) {
         attachments: [],
         checklists: [
           {
-            id: 'YEhmF',
+            id: utilService.makeId(),
             title: 'Checklist',
             newTodo: '',
             todos: [
               {
-                id: '212jX',
+                id: utilService.makeId(),
                 title: 'To Do 1',
                 isDone: false,
               },
               {
-                id: 'sdfghj',
+                id: utilService.makeId(),
                 title: 'To Do 2',
                 isDone: true,
               },
@@ -1060,17 +507,17 @@ function _getGroup(title) {
         attachments: [],
         checklists: [
           {
-            id: 'YEhmF',
+            id: utilService.makeId(),
             title: 'Checklist',
             newTodo: '',
             todos: [
               {
-                id: '212jX',
+                id: utilService.makeId(),
                 title: 'To Do 1',
                 isDone: false,
               },
               {
-                id: 'sdfghj',
+                id: utilService.makeId(),
                 title: 'To Do 2',
                 isDone: true,
               },
@@ -1103,17 +550,17 @@ function _getGroup(title) {
         attachments: [],
         checklists: [
           {
-            id: 'YEhmF',
+            id: utilService.makeId(),
             title: 'Checklist',
             newTodo: '',
             todos: [
               {
-                id: '212jX',
+                id: utilService.makeId(),
                 title: 'To Do 1',
                 isDone: false,
               },
               {
-                id: 'sdfghj',
+                id: utilService.makeId(),
                 title: 'To Do 2',
                 isDone: true,
               },
@@ -1154,7 +601,6 @@ function _getEmptyCard(title = '') {
     memberIds: [], // add creator
     labelIds: [],
     byMember: {}, // add creator
-    attachments: [],
     style: {
       type: '',
       cover: '',
@@ -1167,14 +613,6 @@ async function _archiveItem(item) {
   const archive = (await storageService.query(archive_key)) || []
   storageService.post(archive_key, item)
 }
-
-// function _createLabel({ title, color }) {
-//   return {
-//     id: utilService.makeId(),
-//     title,
-//     color,
-//   }
-// }
 
 // This IIFE functions for Dev purposes
 // It allows testing of real time updates (such as sockets) by listening to storage events
