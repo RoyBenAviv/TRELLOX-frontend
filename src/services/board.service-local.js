@@ -1,19 +1,11 @@
 import { storageService } from './async-storage.service'
-import { userService } from './user.service-local'
 import { utilService } from './util.service'
-import demoData from './demo-data-board'
-// import { socketService, SOCKET_EVENT_REVIEW_ADDED } from './socket.service'
+import { boardService } from './board.service'
 
-const entity_key = 'boards'
 const archive_key = 'archive'
-_createDemoBoards()
 
-export const boardService = {
-  query,
-  getBoardById,
-  updateBoard,
+export const localService = {
   getEmptyBoard,
-  removeBoard,
   addGroup,
   editGroup,
   archiveGroup,
@@ -21,40 +13,6 @@ export const boardService = {
   getCardById,
   updateCard,
   archiveCard,
-}
-
-// For DEBUG:
-window.boardService = boardService
-// window.boardService.getCardById(boardId, cardId)
-
-// board
-async function query(filterBy) {
-  try {
-    // var queryStr = !filterBy ? '' : `?name=${filterBy.name}&sort=anaAref`
-    var boards = await storageService.query(entity_key)
-    if (filterBy) {
-      // filtering
-    }
-    return boards
-  } catch (err) {
-    throw err
-  }
-}
-
-async function getBoardById(boardId) {
-  try {
-    return await storageService.get(entity_key, boardId)
-  } catch (err) {
-    throw err
-  }
-}
-
-async function updateBoard(board) {
-  try {
-    return board._id ? await storageService.put(entity_key, board) : await storageService.post(entity_key, board)
-  } catch (err) {
-    throw err
-  }
 }
 
 function getEmptyBoard() {
@@ -75,20 +33,12 @@ function getEmptyBoard() {
   }
 }
 
-async function removeBoard(boardId) {
-  try {
-    return await storageService.delete(entity_key, boardId)
-  } catch (err) {
-    throw err
-  }
-}
-
 // group
 async function addGroup(boardId, title) {
   try {
-    var board = await getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     board.groups.push(_getEmptyGroup(title))
-    return await updateBoard(board)
+    return await boardService.updateBoard(board)
   } catch (err) {
     throw err
   }
@@ -96,10 +46,10 @@ async function addGroup(boardId, title) {
 
 async function editGroup(boardId, newGroup) {
   try {
-    var board = getBoardById(boardId)
+    var board = boardService.getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === newGroup.id)
     board.groups[idx] = newGroup
-    return await updateBoard(board)
+    return await boardService.updateBoard(board)
   } catch (err) {
     throw err
   }
@@ -107,11 +57,11 @@ async function editGroup(boardId, newGroup) {
 
 async function archiveGroup(boardId, groupId) {
   try {
-    var board = await getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === groupId)
     const groupToArchive = board.groups.splice(idx, 1)[0]
     _archiveItem(groupToArchive)
-    return await updateBoard(board)
+    return await boardService.updateBoard(board)
   } catch (err) {
     throw err
   }
@@ -120,10 +70,10 @@ async function archiveGroup(boardId, groupId) {
 // card
 async function addCard(boardId, groupId, title) {
   try {
-    var board = await getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === groupId)
     board.groups[idx].cards.push(_getEmptyCard(title))
-    return await updateBoard(board)
+    return await boardService.updateBoard(board)
   } catch (err) {
     throw err
   }
@@ -131,7 +81,7 @@ async function addCard(boardId, groupId, title) {
 
 async function getCardById(boardId, cardId) {
   try {
-    var board = await getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     var cardDetails = null
     board.groups.forEach((group) => {
       group.cards.forEach((card) => {
@@ -144,79 +94,13 @@ async function getCardById(boardId, cardId) {
   }
 }
 
-async function updateCard2(boardId, groupId, cardId, changes) {
-  try {
-    //finding current card
-    var board = await getBoardById(boardId)
-    const idxGroup = board.groups.findIndex((group) => group.id === groupId)
-    const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === cardId)
-    var currCard = board.groups[idxGroup].cards[idxCard]
-
-    const KEY = changes.key
-    console.log('changes', changes)
-    if (changes.action === 'singleVal') {
-      // singleVal -- if you want to remove val send '' or null
-      currCard[KEY] = changes.value
-    }
-
-    // Array -- update and add new val to the array
-    // changes.value should be the new item
-    if (changes.action === 'update') {
-      if (changes.value.id) {
-        const idx = currCard[KEY].findIndex((item) => item.id === changes.value.id)
-        currCard[KEY].splice(idx, 1, changes.value)
-      } else {
-        changes.value.id = utilService.makeId()
-        currCard[KEY].push(changes.value)
-      }
-    }
-    // Array -- remove from array
-    // changes.value should be itemId
-    else if (changes.action === 'remove') {
-      const idx = currCard[KEY].findIndex((item) => item.id === changes.value)
-      currCard[KEY].splice(idx, 1)
-    }
-    // to labels only!!
-    // changes.value should be --
-    // {
-    //   color: #dede;
-    //   title: 'string'
-    // }
-    else if (changes.action === 'createLabel') {
-      changes.value.id = utilService.makeId()
-      board.labels.push(changes.value)
-      currCard[KEY].push(changes.value.id)
-    }
-    return await updateBoard(board)
-  } catch (err) {
-    throw err
-  }
-}
-
-// // TODO: CREATE A FUNCTION THAT UPDATES BOARD's LABELS AND MEMBERS -- [key]
-// else if (changes.action === 'editLabel') { // updates label in the board
-//   const idx = board.labels.findIndex((l) => l.id === changes.value.id)
-//   board.labels.splice(idx, 1, changes.value)
-// } else if (changes.action === 'delete') { // delete label in the board
-//   const idx = board.labels.findIndex((l) => l.id === changes.value)
-//   board.labels.splice(idx, 1)
-//   // delete from all cards
-//   board.groups = board.groups.map((group) => {
-//     group.cards = group.cards.map((card) => {
-//       card.labelIds = card.labelIds.filter((labelId) => labelId !== changes.value)
-//       return card
-//     })
-//     return group
-//   })
-// }
-
 async function updateCard(boardId, groupId, updatedCard) {
   try {
-    const board = await getBoardById(boardId)
+    const board = await boardService.getBoardById(boardId)
     const idxGroup = board.groups.findIndex((group) => group.id === groupId)
     const idxCard = board.groups[idxGroup].cards.findIndex((card) => card.id === updatedCard.id)
     board.groups[idxGroup].cards.splice(idxCard, 1, updatedCard)
-    return await updateBoard(board)
+    return await boardService.updateBoard(board)
   } catch (err) {
     console.log('Can not update card')
     throw err
@@ -225,143 +109,15 @@ async function updateCard(boardId, groupId, updatedCard) {
 
 async function archiveCard(boardId, groupId, cardId) {
   try {
-    var board = await getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     const groupIdx = board.groups.findIndex((group) => group.id === groupId)
     const cardIdx = board.groups[groupIdx].cards.findIndex((card) => card.id === cardId)
     const cardToArchive = board.groups[groupIdx].cards.splice(cardIdx, 1)[0]
     _archiveItem(cardToArchive)
-    return await updateBoard(board)
+    return await boardService.updateBoard(board)
   } catch (err) {
     throw err
   }
-}
-
-//inside func
-async function _createDemoBoards() {
-  var boards = await query()
-  if (boards.length) return
-  const b1 = demoData
-  const b2 = {
-    title: 'Best board ever',
-    createdAt: 1589983468418,
-    isStarred: false,
-    createdBy: {
-      _id: 'u101',
-      fullname: 'Tamir Belisha',
-      username: 'coolTamir',
-      imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-    },
-    style: {
-      bgImgUrl: 'https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2048&q=80',
-    },
-    labels: _getLabelsForPM(),
-    members: [
-      {
-        _id: 'u101',
-        fullname: 'Tamir Belisha',
-        username: 'coolTamir',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-      },
-      {
-        _id: 'u102',
-        fullname: 'Shani kupiec',
-        username: 'sweetShani',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-      },
-      {
-        _id: 'u103',
-        fullname: 'Roy Ben Aviv',
-        username: 'lovingRoy',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg',
-      },
-    ],
-    groups: [_getGroup('Processing'), _getGroup('Done'), _getGroup('Tasks for today'), _getGroup('Others')],
-    activities: [],
-    cmpsOrder: [],
-  }
-
-  const b3 = {
-    title: 'Board2',
-    createdAt: 1589953268418,
-    isStarred: true,
-    createdBy: {
-      _id: 'u101',
-      fullname: 'Tamir Belisha',
-      username: 'coolTamir',
-      imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-    },
-    style: {
-      bgImgUrl: 'https://images.unsplash.com/photo-1628126235206-5260b9ea6441?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHwyfHxMYXVuY2h8ZW58MHx8fHwxNjQ4MTUyNzkz&ixlib=rb-1.2.1&q=85',
-    },
-    labels: _getLabelsForPM(),
-    members: [
-      {
-        _id: 'u101',
-        fullname: 'Tamir Belisha',
-        username: 'coolTamir',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-      },
-      {
-        _id: 'u102',
-        fullname: 'Shani kupiec',
-        username: 'sweetShani',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-      },
-      {
-        _id: 'u103',
-        fullname: 'Roy Ben Aviv',
-        username: 'lovingRoy',
-        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg',
-      },
-    ],
-    groups: [_getGroup('Test'), _getGroup('Done'), _getGroup('Tasks for today'), _getGroup('Others')],
-    activities: [],
-    cmpsOrder: [],
-  }
-  boards = []
-  boards.push(b1, b2, b3)
-  storageService.postMany(entity_key, boards)
-}
-
-//sprint management
-function _getLabelsForSM() {
-  return [
-    {
-      id: 'l101',
-      title: 'Done',
-      className: 'color0',
-    },
-    {
-      id: 'l102',
-      title: 'needs to consult',
-      className: 'color1',
-    },
-    {
-      id: 'l103',
-      title: 'almost done',
-      className: 'color2',
-    },
-    {
-      id: 'l104',
-      title: 'highly important',
-      className: 'color3',
-    },
-    {
-      id: 'l105',
-      title: 'add design',
-      className: 'color4',
-    },
-    {
-      id: 'l106',
-      title: 'BUG',
-      className: 'color5',
-    },
-    {
-      id: 'l107',
-      title: 'extra',
-      className: 'color6',
-    },
-  ]
 }
 
 //project management
@@ -405,185 +161,11 @@ function _getLabelsForPM() {
   ]
 }
 
-//company overview
-function _getLabelsForCO() {
-  return [
-    {
-      id: 'l101',
-      title: 'Product',
-      className: 'color0',
-    },
-    {
-      id: 'l102',
-      title: 'Marketing',
-      className: 'color1',
-    },
-    {
-      id: 'l103',
-      title: 'Sales',
-      className: 'color2',
-    },
-    {
-      id: 'l104',
-      title: 'Support',
-      className: 'color3',
-    },
-    {
-      id: 'l105',
-      title: 'People',
-      className: 'color4',
-    },
-    {
-      id: 'l106',
-      title: 'IT',
-      className: 'color5',
-    },
-  ]
-}
-
 function _getEmptyGroup(title = '') {
   return {
     id: utilService.makeId(),
     title,
     cards: [],
-  }
-}
-
-function _getGroup(title) {
-  return {
-    id: utilService.makeId(),
-    title,
-    cards: [
-      {
-        id: utilService.makeId(),
-        title: 'card 1', //1
-        status: 'in-progress', //1
-        description: 'description sdfg sdfg sdfgh sdfgh sdfg', //1
-        dueDate: 16156215211, //1
-        createdAt: 1590999730348,
-        attachments: [],
-        checklists: [
-          {
-            id: utilService.makeId(),
-            title: 'Checklist',
-            newTodo: '',
-            todos: [
-              {
-                id: utilService.makeId(),
-                title: 'To Do 1',
-                isDone: false,
-              },
-              {
-                id: utilService.makeId(),
-                title: 'To Do 2',
-                isDone: true,
-              },
-            ],
-          },
-        ],
-        comments: [],
-        memberIds: ['u101', 'u102'],
-        labelIds: ['l101', 'l102', 'l103', 'l104'],
-        byMember: {
-          _id: 'u101',
-          fullname: 'Tamir Belisha',
-          username: 'coolTamir',
-          imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-        },
-        attachments: [],
-        style: {
-          type: '',
-          cover: '',
-          fullCover: false,
-        },
-      },
-      {
-        id: utilService.makeId(),
-        title: 'card 2',
-        status: 'in-progress',
-        description: 'description sdfg sdfg sdfgh sdfgh sdfg',
-        dueDate: 16156215211,
-        createdAt: 1590999730348,
-        attachments: [],
-        checklists: [
-          {
-            id: utilService.makeId(),
-            title: 'Checklist',
-            newTodo: '',
-            todos: [
-              {
-                id: utilService.makeId(),
-                title: 'To Do 1',
-                isDone: false,
-              },
-              {
-                id: utilService.makeId(),
-                title: 'To Do 2',
-                isDone: true,
-              },
-            ],
-          },
-        ],
-        comments: [],
-        memberIds: ['u101', 'u103'],
-        labelIds: ['l107', 'l102', 'l105'],
-        byMember: {
-          _id: 'u101',
-          fullname: 'Tamir Belisha',
-          username: 'coolTamir',
-          imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
-        },
-        attachments: [],
-        style: {
-          type: '',
-          cover: '',
-          fullCover: false,
-        },
-      },
-      {
-        id: utilService.makeId(),
-        title: 'card 3',
-        status: 'in-progress',
-        description: 'description sdfg sdfg sdfgh sdfgh sdfg',
-        dueDate: 16156215211,
-        createdAt: 1590999730348,
-        attachments: [],
-        checklists: [
-          {
-            id: utilService.makeId(),
-            title: 'Checklist',
-            newTodo: '',
-            todos: [
-              {
-                id: utilService.makeId(),
-                title: 'To Do 1',
-                isDone: false,
-              },
-              {
-                id: utilService.makeId(),
-                title: 'To Do 2',
-                isDone: true,
-              },
-            ],
-          },
-        ],
-        comments: [],
-        memberIds: ['u103', 'u102'],
-        labelIds: ['l101', 'l106', 'l103'],
-        byMember: {
-          _id: 'u102',
-          fullname: 'Shani kupiec',
-          username: 'sweetShani',
-          imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
-        },
-        attachments: [],
-        style: {
-          type: '',
-          cover: '',
-          fullCover: false,
-        },
-      },
-    ],
   }
 }
 
@@ -613,20 +195,3 @@ async function _archiveItem(item) {
   const archive = (await storageService.query(archive_key)) || []
   storageService.post(archive_key, item)
 }
-
-// This IIFE functions for Dev purposes
-// It allows testing of real time updates (such as sockets) by listening to storage events
-// ;(async () => {
-//   var boards = await storageService.query('board')
-
-//   // Dev Helper: Groupens to when localStorage changes in OTHER browser
-//   window.addEventListener('storage', async () => {
-//     console.log('Storage updated')
-//     const freshBoards = await storageService.query('board')
-//     if (freshBoards.length === boards.length + 1) {
-//       console.log('Board Added - localStorage updated from another browser')
-//       socketService.emit(SOCKET_EVENT_REVIEW_ADDED, freshBoards[freshBoards.length - 1])
-//     }
-//     boards = freshBoards
-//   })
-// })()

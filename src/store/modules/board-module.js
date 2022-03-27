@@ -1,4 +1,5 @@
-import { boardService } from '../../services/board.service-local'
+import { localService } from '../../services/board.service-local'
+import { boardService } from '../../services/board.service'
 
 export default {
   state: {
@@ -81,7 +82,7 @@ export default {
   actions: {
     async loadBoards({ commit, state }) {
       try {
-        var boards = await boardService.query(state.filterBy)
+        var boards = await boardService.query()
         commit({ type: 'setBoards', boards })
       } catch (err) {
         console.error('Cannot Load boards', err)
@@ -118,7 +119,7 @@ export default {
     },
     async addGroup({ commit, state }, { title }) {
       try {
-        const board = await boardService.addGroup(state.currBoard._id, title)
+        const board = await localService.addGroup(state.currBoard._id, title)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('Cannot add group', err)
@@ -127,7 +128,7 @@ export default {
     },
     async addCard({ commit, state }, { groupId, title }) {
       try {
-        const board = await boardService.addCard(state.currBoard._id, groupId, title)
+        const board = await localService.addCard(state.currBoard._id, groupId, title)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('Cannot add card', err)
@@ -136,7 +137,7 @@ export default {
     },
     async archiveGroup({ commit, state }, { groupId }) {
       try {
-        const board = await boardService.archiveGroup(state.currBoard._id, groupId)
+        const board = await localService.archiveGroup(state.currBoard._id, groupId)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('Cannot archive group', err)
@@ -145,7 +146,7 @@ export default {
     },
     async archiveCard({ commit, state }, { groupId, cardId }) {
       try {
-        const board = await boardService.archiveCard(state.currBoard._id, groupId, cardId)
+        const board = await localService.archiveCard(state.currBoard._id, groupId, cardId)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('Cannot archive group', err)
@@ -154,7 +155,7 @@ export default {
     },
     async updateCard({ commit, state }, { groupId, card }) {
       try {
-        const board = await boardService.updateCard(state.currBoard._id, groupId, card)
+        const board = await localService.updateCard(state.currBoard._id, groupId, card)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('Cannot update card', err)
@@ -163,7 +164,7 @@ export default {
     },
     async getCardById({ commit }, { boardId, cardId }) {
       try {
-        const cardDetails = await boardService.getCardById(boardId, cardId)
+        const cardDetails = await localService.getCardById(boardId, cardId)
         return cardDetails
       } catch (err) {
         console.log('Cannot find card', err)

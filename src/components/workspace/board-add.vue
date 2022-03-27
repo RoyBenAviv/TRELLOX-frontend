@@ -25,12 +25,12 @@
 
 <script>
 import customModal from '../board/custom-modal.vue'
-import { boardService } from '../../services/board.service-local'
+import { localService } from '../../services/board.service-local'
 export default {
   name: '',
   data() {
     return {
-      newBoard: boardService.getEmptyBoard(),
+      newBoard: localService.getEmptyBoard(),
       imagePicker: this.$store.getters.imagePicker,
       colorPicker: this.$store.getters.boardColors.slice(0, 5),
     }
@@ -50,14 +50,14 @@ export default {
     async createBoard() {
       await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
       this.$router.push(`/board/${this.newBoard._id}`)
-      this.newBoard = boardService.getEmptyBoard()
+      this.newBoard = localService.getEmptyBoard()
     },
   },
   created() {},
   computed: {},
   components: {
     customModal,
-    boardService,
+    localService,
   },
 }
 </script>
