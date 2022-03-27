@@ -1,8 +1,8 @@
 <template>
   <custom-modal class="board-add" @closeModal="closeModal">
     <template v-slot:header> Create board </template>
-    <div  :style="{ 'background-image':  'url(' + newBoard.style.bgImgUrl + ')', 'background-color': newBoard.style.bgColor}" class="demo-board" >
-            <img src="src/assets//images/demo-board.svg" alt="demo board"/>
+    <div :style="{ 'background-image': 'url(' + newBoard.style.bgImgUrl + ')', 'background-color': newBoard.style.bgColor }" class="demo-board">
+      <img src="https://res.cloudinary.com/trellox/image/upload/v1648370075/demo-board_kga9ov.svg" alt="demo board" />
     </div>
     <div class="background-picker">
       <h4>Background</h4>

@@ -15,11 +15,11 @@
       <div class="bg-choose" v-if="openChangeBg && !openChangeImg">
         <div class="bg-choose-top">
           <div @click="openChangeImg = true" class="bg-picker">
-            <img src="src/assets//images/background.jpg" alt="background image picker" />
+            <img src="https://res.cloudinary.com/trellox/image/upload/v1648369955/background_ffsmh3.jpg" alt="background image picker" />
             <p>Photos</p>
           </div>
           <div class="bg-picker">
-            <img src="src/assets//images/colors.jpg" alt="color picker" />
+            <img src="https://res.cloudinary.com/trellox/image/upload/v1648369959/colors_ucac3l.jpg" alt="color picker" />
             <p>Colors</p>
           </div>
         </div>
