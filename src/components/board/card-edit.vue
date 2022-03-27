@@ -4,15 +4,14 @@
       <div @mousedown.stop class="card-modal">
         <div class="card-modal-details">
           <div v-if="card.style.cover" :style="cover" :class="coverType"></div>
-          <i @click="closeEdit" class="fa-solid fa-xmark close-modal-button"></i>
+          <span @click="closeEdit" class=" close-modal-button"></span>
           <div class="modal-header">
             <span class="modal-header-icon">
-              <i class="fa-solid fa-tachograph-digital"></i>
             </span>
             <div class="modal-header-title">
               <textarea v-model="card.title" @keyup="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
-            <div class="inline-content">in list {{ groupTitle }}</div>
+            <div class="inline-content">in list <span style="text-decoration: underline;">{{ groupTitle }}</span></div>
           </div>
           <div class="modal-main-content">
             <div class="card-details">
@@ -36,8 +35,7 @@
             </div>
             <div class="description-container">
               <div class="title">
-                <span>
-                  <i class="fa-solid fa-align-left"></i>
+                <span class="icon-description">
                 </span>
                 <h3>Description</h3>
               </div>
@@ -55,9 +53,7 @@
             </div>
             <div v-if="card.attachments.length" class="attachments-container">
               <div class="title">
-                <span>
-                  <i class="fa-solid fa-paperclip"></i>
-                </span>
+                <span class="icon-attachment"></span>
                 <h3>Attachments</h3>
               </div>
               <ul>
@@ -72,9 +68,7 @@
             </div>
             <div v-for="(checklist, idx) in card.checklists" :key="checklist.id" class="checklist-container">
               <div class="title">
-                <span style="top: 8px">
-                  <i class="fa-solid fa-list-check"></i>
-                </span>
+                <span style="top: 7px" class="icon-checklist"></span>
                 <h3>{{ checklist.title }}</h3>
                 <button @click="removeChecklist(idx)" class="grey-btn">Delete</button>
               </div>
@@ -101,9 +95,7 @@
             </div>
             <div class="activity-container">
               <div class="title">
-                <span style="top: 7px">
-                  <i class="fa-solid fa-list-ul"></i>
-                </span>
+                <span style="top: 7px" class="icon-activity"></span>
                 <h3>Activity</h3>
                 <button v-if="isShowActivity" @click="showActivity" class="grey-btn">Hide details</button>
                 <button v-else @click="showActivity" class="grey-btn">Show details</button>
@@ -133,36 +125,35 @@
             <div class="action-container">
               <h3>Suggested</h3>
               <div @click="joinToCard" class="action-btn">
-                <span><i class="fa-solid fa-user"></i></span>
+                <span class="icon ic-join"></span>
                 <span>Join</span>
               </div>
             </div>
             <div class="action-container">
               <h3>Add to card</h3>
               <div class="action-btn" @click="openModal('member-picker')">
-                <span><i class="fa-solid fa-user"></i></span>
+                <span class="icon ic-join"></span>
                 <span>Members</span>
               </div>
               <div class="action-btn" @click="openModal('label-picker')">
-                <span><i class="fa-solid fa-tags"></i></span>
+                <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
               <component v-if="cmpName" :is="cmpName" :card="card" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
-                <span><i class="fa-solid fa-list-check"></i></span>
+                <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
               </div>
               <div class="action-btn">
-                <span><i class="fa-solid fa-clock"></i></span>
+                <span class="icon ic-date"></span>
                 <span>Dates</span>
               </div>
               <div class="action-btn" @click="openModal('attachments')">
-                <span><i class="fa-solid fa-paperclip"></i></span>
+                <span class="icon ic-attachment"></span>
                 <span>Attachment</span>
               </div>
               <div class="action-btn" @click="openModal('cover-picker')">
-                >
-                <span><i class="fa-solid fa-fill-drip"></i></span>
+                <span class="icon ic-cover"></span>
                 <span>Cover</span>
               </div>
               <!-- <div class="action-btn">
@@ -173,28 +164,28 @@
             <div class="action-container">
               <h3>Actions</h3>
               <div class="action-btn">
-                <span><i class="fa-solid fa-arrow-right"></i></span>
+                <span class="icon ic-move"></span>
                 <span>Move</span>
               </div>
               <div class="action-btn">
-                <span><i class="fa-solid fa-copy"></i></span>
+                <span class="icon ic-copy"></span>
                 <span>Copy</span>
               </div>
               <div class="action-btn">
-                <span><i class="fa-solid fa-file-export"></i></span>
+                <span class="icon ic-template"></span>
                 <span>Make template</span>
               </div>
               <div class="action-btn">
-                <span><i class="fa-solid fa-eye"></i></span>
+                <span class="icon ic-watch"></span>
                 <span>Watch</span>
               </div>
               <hr />
               <div class="action-btn">
-                <span><i class="fa-solid fa-box-archive"></i></span>
+                <span class="icon ic-archive"></span>
                 <span>Archive</span>
               </div>
               <div class="action-btn">
-                <span><i class="fa-solid fa-share-nodes"></i></span>
+                <span class="icon ic-share"></span>
                 <span>Share</span>
               </div>
             </div>

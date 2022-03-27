@@ -6,7 +6,7 @@
       <span>{{card.title}}</span>
       <span @click.stop="openQuickEdit" class="edit-card"></span>
     </div>
-    <div v-else style="width: 100%">
+    <div v-else class="card-preview-inside-container">
     <div v-if="card.style.cover" class="card-preview-cover">
       <img class="card-image" v-if="card.style.type === 'url'" :src="card.style.cover" />
       <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover}`"></div>

@@ -93,6 +93,11 @@
         @include flex();
         box-sizing: unset;
         cursor: pointer;
+        font-family: trellicons;
+
+        &::before {
+            content: "\e91c";
+        }
     }
 
     .close-modal-button:hover {
@@ -110,11 +115,18 @@
     .modal-header-icon {
         left: -40px;
         position: absolute;
-        top: 8px;
+        top: 7px;
         color: $clr8;
         height: rem(32px);
         width: rem(32px);
         @include flex();
+        font-family: trellicons;
+        font-size: rem(24px);
+        color: #42526e;
+
+        &::before {
+            content: "\e912";
+        }
     }
 
     .modal-header-title {
@@ -129,6 +141,7 @@
         }
 
         textarea {
+            color: #172b4d;
             border: none;
             display: block;
             outline: none;
@@ -165,7 +178,7 @@
         float: right;
         overflow: hidden;
         padding: 0 16px 8px 8px;
-        width: calc(100% - 600px);
+        width: calc(100% - 575px);
         z-index: 10;
 
         .action-container {
@@ -190,12 +203,6 @@
                 color: $clr8;
                 display: flex;
 
-                i {
-                    margin: 0 6px 0 -6px;
-                    height: 20px;
-                    line-height: 20px;
-                    width: 20px;
-                }
                 span {
                     font-size: rem(14px);
                 }
@@ -251,7 +258,7 @@
         min-height: 24px;
         padding: 0 8px 8px 16px;
         position: relative;
-        width: 552px;
+        width: 575px;
         z-index: 0;
         .card-details {
             margin-top: 8px;
@@ -451,6 +458,21 @@
                     @include flex();
                     height: rem(32px);
                     width: rem(32px);
+                    font-family: trellicons;
+                    font-size: rem(24px);
+
+                    &.icon-description::before {
+                        content: "\e922";
+                    }
+                    &.icon-attachment::before {
+                        content: "\e908";
+                    }
+                    &.icon-checklist::before {
+                        content: "\e91a";
+                    }
+                    &.icon-activity::before {
+                        content: "\e900";
+                    }
                 }
             }
 
@@ -655,6 +677,57 @@
                     }
                 }
             }
+        }
+    }
+
+    .icon {
+        display: inline-block;
+        font-family: trellicons;
+        text-align: center;
+        vertical-align: bottom;
+        height: 20px;
+        line-height: 22px;
+        width: 20px;
+        font-size: 1rem !important;
+        font-family: trellicons;
+        margin: 0 6px 0 -6px;
+        color: #42526e;
+
+        &.ic-join::before {
+            content: "\e946";
+        }
+        &.ic-label::before {
+            content: "\e93f";
+        }
+        &.ic-checklist::before {
+            content: "\e91a";
+        }
+        &.ic-date::before {
+            content: "\e91b";
+        }
+        &.ic-attachment::before {
+            content: "\e908";
+        }
+        &.ic-cover::before {
+            content: "\e914";
+        }
+        &.ic-move::before {
+            content: "\e94a";
+        }
+        &.ic-copy::before {
+            content: "\e91f";
+        }
+        &.ic-template::before {
+            content: "\e96e";
+        }
+        &.ic-watch::before {
+            content: "\e969";
+        }
+        &.ic-archive::before {
+            content: "\e907";
+        }
+        &.ic-share::before {
+            content: "\e963";
         }
     }
 }
