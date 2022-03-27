@@ -4,7 +4,7 @@
       <div @mousedown.stop class="card-modal">
         <div class="card-modal-details">
           <div v-if="card.style.cover" :style="cover" :class="coverType"></div>
-          <span @click="closeEdit" class=" close-modal-button"></span>
+          <span @click="closeEdit" class=" close-modal-button" :class="coverButtonClass"></span>
           <div class="modal-header">
             <span class="modal-header-icon">
             </span>
@@ -203,6 +203,7 @@ import memberPicker from './member-picker.vue'
 import checklistAdd from './checklist-add.vue'
 import coverPicker from './cover-picker.vue'
 import attachments from './attachments.vue'
+import FastAverageColor from 'fast-average-color'
 
 export default {
   components: {
@@ -233,6 +234,7 @@ export default {
         title: '',
         isDone: false,
       },
+      coverColor: null
     }
   },
   created() {
@@ -262,6 +264,7 @@ export default {
       this.card = cardDetails.card
       this.description = cardDetails.card?.description || ''
       this.groupId = cardDetails.groupId
+      this.checkCover()
     },
     showActivity() {
       this.isShowActivity = !this.isShowActivity
@@ -328,6 +331,15 @@ export default {
     removeChecklist(idx){
       this.card.checklists.splice(idx, 1)
       this.updateCard()
+    },
+    async checkCover() {
+      if(!this.card.style.cover) return ''
+      try {
+      const fac = new FastAverageColor()
+      if (this.card.style.type === 'url') this.coverColor = await fac.getColorAsync(this.card.style.cover)
+    } catch (err) {
+      console.log(err)
+    }
     }
   },
   computed: {
@@ -367,6 +379,12 @@ export default {
       if (this.card.style.type === 'url') return 'card-cover-image'
       else return 'card-cover-color'
     },
+    coverButtonClass() {
+      if(!this.card.style.cover) return ''
+      if(this.card.style.type === 'color') {
+        return this.card.style.cover === '#172B4D' ? 'on-cover-icon-dark' : 'on-cover-icon'
+      } else return (this.coverColor.isDark) ? 'on-cover-icon-dark' : 'on-cover-icon'
+    }
   },
 }
 </script>

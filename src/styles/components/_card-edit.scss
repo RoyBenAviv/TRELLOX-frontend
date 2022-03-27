@@ -680,6 +680,23 @@
         }
     }
 
+    .on-cover-icon {
+        background-color: #00000014;
+
+        &:hover {
+            background-color: #00000029;
+        }
+    }
+    .on-cover-icon-dark {
+        background-color: #ffffff3d;
+        color: #fff;
+
+        &:hover {
+            background-color: #ffffff52;
+            color: #fff;
+        }
+    }
+
     .icon {
         display: inline-block;
         font-family: trellicons;
