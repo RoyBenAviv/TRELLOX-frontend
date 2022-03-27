@@ -32,7 +32,7 @@ export default {
     return {
       newBoard: boardService.getEmptyBoard(),
       imagePicker: this.$store.getters.imagePicker,
-      colorPicker: this.$store.getters.boardColors,
+      colorPicker: this.$store.getters.boardColors.slice(0, 5),
     }
   },
   methods: {
