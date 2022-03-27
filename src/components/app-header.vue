@@ -9,7 +9,7 @@
       <button>Recent <i class="fa-solid fa-chevron-down"></i></button>
       <button>Starred <i class="fa-solid fa-chevron-down"></i></button>
       <button>Templates <i class="fa-solid fa-chevron-down"></i></button>
-      <button>Create</button>
+      <button @click="openCreate = true">Create</button>
     </div>
     <div class="right-header">
       <label>
@@ -22,18 +22,28 @@
         <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
       </div>
     </div>
+
+    <!-- <custom-modal>
+
+
+
+    </custom-modal> -->
+
   </header>
 </template>
 
 <script>
+import CustomModal from "./board/custom-modal.vue"
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      openCreate: false
+    }
   },
   methods: {},
   computed: {},
-  components: {},
+  components: { CustomModal },
   computed: {
     member(){
       return this.$store.getters.loggedInUser

@@ -1,7 +1,7 @@
 <template>
   <custom-modal class="board-menu" @closeModal="closeModal">
     <template v-slot:header> <p class="header-title">Menu</p> </template>
-    <menu v-if="!openChangeBg && !openChangeImg">
+    <menu v-if="!openChangeBg && !openChangeImg && !openChangeColor">
       <ul class="menu-options">
         <li><i class="fa-brands fa-trello"></i> <a>About this board</a></li>
         <li @click="openChangeBg = true"><i class="fa-solid fa-image"></i> <a>Change background</a></li>
@@ -18,7 +18,7 @@
             <img src="src/assets//images/background.jpg" alt="background image picker" />
             <p>Photos</p>
           </div>
-          <div class="bg-picker">
+          <div @click="openChangeColor = true" class="bg-picker">
             <img src="src/assets//images/colors.jpg" alt="color picker" />
             <p>Colors</p>
           </div>
@@ -39,6 +39,11 @@
         </ul>
       </div>
     </Transition>
+    <Transition name="inside menu">
+      <div class="bg-choose-color" v-if="openChangeColor">
+          <h1>TEST</h1>
+      </div>
+    </Transition>
   </custom-modal>
 </template>
 
@@ -54,6 +59,7 @@ export default {
       images: null,
       search: '',
       openChangeImg: false,
+      openChangeColor: false
     }
   },
   created() {
