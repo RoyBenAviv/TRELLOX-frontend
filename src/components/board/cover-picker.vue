@@ -3,27 +3,27 @@
     <template v-slot:header> Cover </template>
     <h4>Size</h4>
     <div class="cover-preview-container">
-        <div @click="setCoverSize(false)" class="cover-preview" :class="(style.fullCover) ? '' : 'active'">
-            <div class="cover-top" :style="background">
-                <div class="cover-bottom">
-                    <div class="wide"></div>
-                    <div class="narrow"></div>
-                    <div class="content-container">
-                        <div class="content"></div>
-                        <div class="content"></div>
-                    </div>
-                    <div class="member"></div>
-                </div>
+      <div @click="setCoverSize(false)" class="cover-preview" :class="(!style.fullCover && style.cover) ? 'active' : ''">
+        <div class="cover-top" :style="background">
+          <div class="cover-bottom">
+            <div class="wide"></div>
+            <div class="narrow"></div>
+            <div class="content-container">
+              <div class="content"></div>
+              <div class="content"></div>
             </div>
+            <div class="member"></div>
+          </div>
         </div>
-        <div @click="setCoverSize(true)" class="full-cover-preview" :class="(style.fullCover) ? 'active' : '' ">
-            <div class="cover-top" :style="background" >
-                <div class="full-content-container" >
-                    <div class="wide"></div>
-                    <div class="narrow"></div>
-                </div>
-            </div>
+      </div>
+      <div @click="setCoverSize(true)" class="full-cover-preview" :class="(style.fullCover && style.cover) ? 'active' : ''">
+        <div class="cover-top" :style="background">
+          <div class="full-content-container">
+            <div class="wide"></div>
+            <div class="narrow"></div>
+          </div>
         </div>
+      </div>
     </div>
     <button v-if="style.cover" class="custom-btn">Remove cover</button>
     <h4>Colors</h4>
@@ -32,14 +32,7 @@
     </div>
     <h4>Attachments</h4>
     <div class="attachment-container">
-      <div
-        v-for="attachment in attachments"
-        :key="attachment"
-        class="attachment-preview"
-        @click="setBgUrl(attachment)"
-        :style="`background-image: url('${attachment}')`"
-        :class="attachment === style.cover ? 'active' : ''"
-      ></div>
+      <div v-for="attachment in attachments" :key="attachment" class="attachment-preview" @click="setBgUrl(attachment.url)" :style="`background-image: url('${attachment.url}')`" :class="attachment.url === style.cover ? 'active' : ''"></div>
     </div>
     <label for="file-input" class="custom-btn">
       Upload a cover image
@@ -76,8 +69,14 @@ export default {
     },
     async onUploadImg(ev) {
       const res = await imgService.uploadImg(ev)
-      this.attachments.push(res.url)
-      this.$emit('updateKey', 'attachments', this.attachments)
+      const imgAttachment = {
+        name: res.public_id,
+        createdAt: res.created_at,
+        url: res.url,
+        format: res.format,
+      }
+      this.attachments.push(imgAttachment)
+      this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)))
       this.style.cover = res.url
       this.style.type = 'url'
       this.save()
@@ -93,23 +92,28 @@ export default {
       this.save()
     },
     setBgUrl(url) {
-      this.style.cover = url
-      this.style.type = 'url'
+      if(this.style.cover === url) {
+        this.style.cover = ''
+        this.style.type = ''
+      } else {
+        this.style.cover = url
+        this.style.type = 'url'
+      }
       this.save()
     },
     setCoverSize(value) {
-        this.style.fullCover = value
-        this.save()
+      this.style.fullCover = value
+      this.save()
     },
     save() {
       this.$emit('updateKey', 'style', JSON.parse(JSON.stringify(this.style)))
     },
   },
   computed: {
-      background() {
-          if(this.style.type === 'url') return `background-image:url('${this.style.cover}')`
-          else return `background-color: ${this.style.cover}`
-      }
+    background() {
+      if (this.style.type === 'url') return `background-image:url('${this.style.cover}')`
+      else return `background-color: ${this.style.cover}`
+    },
   },
   components: {
     customModal,
