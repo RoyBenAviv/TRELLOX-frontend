@@ -12,7 +12,6 @@
         width: 100%;
         z-index: 20;
     }
-
     .save-btn {
         @include blue-btn;
         display: inline-flex;
@@ -254,7 +253,6 @@
         position: relative;
         width: 552px;
         z-index: 0;
-
         .card-details {
             margin-top: 8px;
             margin-left: 40px;

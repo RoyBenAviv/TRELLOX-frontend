@@ -1,9 +1,13 @@
 <template>
-  <custom-modal>
+  <custom-modal class="attachment-container">
     <template v-slot:header> Attach from... </template>
-    <ul>
-      <!-- <li>Computer</li> -->
-      <input type="file" @change="onUploadImg" />
+    <ul class="attachment-picker">
+      <li><label>Computer
+
+        <input type="file" @change="onUploadImg" />
+      </label></li>
+            <li><label>Google Drive
+      </label></li>
     </ul>
   </custom-modal>
 </template>

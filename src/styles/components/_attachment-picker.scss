@@ -1,0 +1,24 @@
+.attachment-container {
+    height: 150px;
+    .custom-modal-main {
+        padding: 0;
+        .attachment-picker {
+            li {
+                padding: rem(6px) rem(12px);
+                &:hover {
+                    background-color: $clr5;
+                }
+            }
+            label {
+                position: relative;
+                input {
+                    position: absolute;
+                    left: 0;
+                    opacity: 0;
+                    width: 302px;
+                }
+            }
+        }
+    }
+
+}
