@@ -29,6 +29,7 @@ methods: {
     },
     save() {
       this.$emit('updateKey', 'checklists', JSON.parse(JSON.stringify(this.checklist)))
+      this.$emit('closeModal')
     },
 },
 computed: {

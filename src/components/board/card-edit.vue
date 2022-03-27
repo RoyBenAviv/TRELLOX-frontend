@@ -147,7 +147,7 @@
                 <span><i class="fa-solid fa-tags"></i></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card" @closeModal="closeModal" @updateKey="updateKey"></component>
+              <component v-if="cmpName" :is="cmpName" :card="card" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span><i class="fa-solid fa-list-check"></i></span>
                 <span>Checklist</span>
