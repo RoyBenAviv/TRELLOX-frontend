@@ -1,21 +1,25 @@
 <template>
-  <div class="boards-name">
-    <span class="icon"></span>
-    <slot name="boards-name" class="title"></slot>
-  </div>
+  <section class="boards-area">
+    <div class="boards-name">
+      <span class="icon"></span>
+      <h3 class="title">
+        <slot name="boards-name"></slot>
+      </h3>
+    </div>
 
-  <section class="board-list">
-    <ul class="boards">
-      <li v-for="board in boards" :key="board._id">
-        <board-preview :board="board" />
-      </li>
-      <li style="position: relative" @click="openBoardCreation = true">
-        <div class="create-board">
-          <span>Create new board</span>
-        </div>
-        <board-add @closeModal="openBoardCreation = false" v-if="openBoardCreation" />
-      </li>
-    </ul>
+    <section class="board-list">
+      <ul class="boards">
+        <li v-for="board in boards" :key="board._id">
+          <board-preview :board="board" />
+        </li>
+        <li style="position: relative" @click="openBoardCreation = true">
+          <div class="create-board">
+            <span>Create new board</span>
+          </div>
+          <board-add @closeModal="openBoardCreation = false" v-if="openBoardCreation" />
+        </li>
+      </ul>
+    </section>
   </section>
 </template>
 
