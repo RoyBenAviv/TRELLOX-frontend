@@ -136,7 +136,37 @@
           margin-top: rem(10px);
         }
         .bg-picker{ 
-          @include flex(column);
+          @include flex(column, center);
+          .custom-bg {
+            float: left;
+            align-self: flex-start;
+            margin-top: 3px;
+            margin-left: 12px;
+            @include flex;
+            background-color: #eaecf0;
+            width: 150px;
+            height: 96px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: rem(25px);
+            &:hover {
+              background-color: darken(#eaecf0, 5%);
+            }
+            label {
+              width: 100%;
+              height: 100%;
+              @include flex;
+              position: relative;
+              input {
+                width: 100%;
+                height: 100%;
+                  position: absolute;
+                  left: 0;
+                  opacity: 0;
+                  // width: 302px;
+              }
+          }
+          }
         }
       }
       img {
@@ -148,6 +178,11 @@
           filter: grayscale(50%);
         }
       }
+      .bg-images, .bg-colors {
+        @include flex;
+        flex-wrap: wrap;
+        gap: rem(10px);
+      }
       .bg-choose-img {
         .search-container {
           margin-top: rem(10px);
@@ -156,15 +191,22 @@
             position: absolute;
           }
         }
-        .bg-images {
-          @include flex;
-          flex-wrap: wrap;
-          gap: rem(10px);
           img {
             object-fit: cover;
             object-position: bottom;
-          }
         }
+      }
+      .bg-choose-color {
+        margin-top: rem(15px);
+          .bg-color {
+            cursor: pointer;
+            width: 150px;
+            height: 95px;
+            border-radius: 10px;
+            &:hover {
+              opacity: 0.7;
+            }
+          }
       }
     }
     .group-container {

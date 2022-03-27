@@ -21,7 +21,7 @@
         </div>
       </nav>
       <Transition name="menu">
-        <board-menu @closeMenu="openMenu = false" @setBoardBg="setBoardBg" v-if="openMenu" />
+        <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
       </Transition>
       <!-- <div > -->
       <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
@@ -88,11 +88,19 @@ export default {
       this.board = board
       this.$store.dispatch({ type: 'saveBoard', board })
     },
-    async setBoardBg(boardBg) {
+      setBoardBg(boardBg) {
       // this.board.style.bgImgUrl = boardBg
       const board = JSON.parse(JSON.stringify(this.board))
+      board.style.bgColor = ''
       board.style.bgImgUrl = boardBg
-      await this.$store.dispatch({ type: 'saveBoard', board })
+      this.$store.dispatch({ type: 'saveBoard', board })
+    },
+      setBoardClr(boardClr) {
+      console.log('boardClr',boardClr);
+      const board = JSON.parse(JSON.stringify(this.board))
+      board.style.bgImgUrl = ''
+      board.style.bgColor = boardClr
+      this.$store.dispatch({ type: 'saveBoard', board })
     },
     editBoardTitle(ev) {
       const board = JSON.parse(JSON.stringify(this.board))

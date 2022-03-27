@@ -66,6 +66,7 @@
 @mixin header-color($type) {
     @if $type == board {
         background-color: #e8e9e2;
+
         .left-header,
         .right-header {
             > * {
@@ -73,7 +74,10 @@
             }
         }
     } @else if $type == workspace {
-        background-color: $clr2;
+        background-color: #026aa7;
+        ::placeholder {
+            color: $clr4 !important;
+        }
         .left-header,
         .right-header {
             > * {
