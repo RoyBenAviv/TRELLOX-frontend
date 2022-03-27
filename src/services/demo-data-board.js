@@ -253,9 +253,9 @@ export default {
           },
           attachments: [],
           style: {
-            cover: "#F5DD29",
+            cover: '#F5DD29',
             fullCover: true,
-            type: "color",
+            type: 'color',
           },
         },
         {
@@ -476,9 +476,9 @@ export default {
           },
           attachments: [],
           style: {
-            cover: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+            cover: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
             fullCover: false,
-            type: "url",
+            type: 'url',
           },
         },
         {
@@ -564,9 +564,9 @@ export default {
           },
           attachments: [],
           style: {
-            type: '',
-            cover: '',
-            fullCover: false,
+            cover: '#6DECA9',
+            fullCover: true,
+            type: 'color',
           },
         },
         {
@@ -641,7 +641,7 @@ export default {
           id: utilService.makeId(),
           title: '',
           status: 'in-progress',
-          description: "Hi :) my name is Shani Kupiec 20 ys from Rehovot, I am a full-stack developer and my favorite hobby is to bake cakes",
+          description: 'Hi :) my name is Shani Kupiec 20 ys from Rehovot, I am a full-stack developer and my favorite hobby is to bake cakes',
           dueDate: 16156215211,
           createdAt: 1590999730348,
           checklists: [],
@@ -790,9 +790,9 @@ export default {
           },
           attachments: [],
           style: {
-            cover: "#6DECA9",
+            cover: '#6DECA9',
             fullCover: false,
-            type: "color",
+            type: 'color',
           },
         },
         {
