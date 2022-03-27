@@ -51,45 +51,25 @@
                     background-position: center;
                     background-size: cover;
                     background-repeat: no-repeat;
+                    .star-icon {
+                        content: "\e966";
+                    }
 
                     &:hover {
                         filter: brightness(70%);
-                        span {
-                            color: white;
-
-                            // filter: brightness(100%);
-                            filter: unset !important;
-                            z-index: 700;
-                        }
-
-                        // background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5));
-                        // &::before {
-                        //     background: none;
-                        // }
                     }
 
-                    // &::before {
-                    //     content: "";
-                    //     display: block;
-                    //     position: absolute;
-                    //     top: 0;
-                    //     bottom: 0;
-                    //     left: 0;
-                    //     right: 0;
-                    //     background: rgba(0, 0, 0, 0.1);
-                    //     transition: all 0.2s linear;
-                    // }
+                    .txt-on-borad-img {
+                        position: absolute;
+                        left: 10px;
+                        top: 10px;
+                        color: $clr4;
+                        font-weight: 700;
+                        z-index: 10;
+                    }
                 }
                 a {
                     position: relative;
-                }
-                span {
-                    position: absolute;
-                    left: 10px;
-                    top: 10px;
-                    color: $clr4;
-                    font-weight: 700;
-                    z-index: 10;
                 }
             }
             .create-board {

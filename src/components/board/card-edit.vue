@@ -119,6 +119,7 @@
                   <div class="the-comment">{{ comment.txt }}</div>
                 </div>
               </div>
+              <pre>{{comments}} </pre>
             </div>
           </div>
           <div class="modal-side-bar">
@@ -358,11 +359,12 @@ export default {
       return members.filter((m) => this.card.memberIds.includes(m._id))
     },
     comments() {
-      var members = this.$store.getters.currBoard.members
-      return this.card.comments.map((c) => {
+      var members = JSON.parse(JSON.stringify(this.$store.getters.currBoard.members))
+      const card = JSON.parse(JSON.stringify(this.card))
+      return card.comments.map((c) => {
         var currMember = members.find((m) => m._id === c.byMemberId)
         c.byMember = currMember
-        delete c.byMemberId
+        // delete c.byMemberId
         return c
       })
     },

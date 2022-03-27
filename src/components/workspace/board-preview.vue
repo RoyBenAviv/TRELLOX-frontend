@@ -4,6 +4,7 @@
       <!-- <div :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container"> -->
       <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container">
         <span class="txt-on-borad-img">{{ board.title }}</span>
+        <span class="star-icon"></span>
       </div>
     </router-link>
   </section>
@@ -39,7 +40,7 @@ export default {
     linearGradient() {
       var num;
       if (this.color) {
-        num = this.color.isDark ? '0.1' : '0.3'
+        num = this.color.isDark ? '0.05' : '0.3'
         console.log('num', num);
         // const num = '0.1'
       } else num = '0.1'
