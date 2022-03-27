@@ -19,22 +19,10 @@
         </div>
       </nav>
       <div class="board-list-container">
-        <!-- <div class="recently-viewed"> -->
-        <!-- <h2>Recently viewed</h2> -->
+        <!-- v-for -->
         <board-list :boards="boards">
           <template v-slot:boards-name>Recently viewed</template>
         </board-list>
-        <!-- </div> -->
-
-        <!-- <div class="recently-viewed">
-          <h2>Recently viewed</h2>
-          <board-list :boards="boards" />
-        </div> -->
-        <!-- <div class="your-workspaces">
-          <h2>your workspaces</h2>
-          <board-list :boards="boards" />
-          <div class="create-board"><p>Create new board</p></div>
-        </div> -->
       </div>
     </div>
   </section>

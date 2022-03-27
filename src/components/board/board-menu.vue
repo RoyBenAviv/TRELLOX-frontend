@@ -12,7 +12,7 @@
       </ul>
     </menu>
     <Transition name="inside-menu">
-      <div class="bg-choose" v-if="openChangeBg && !openChangeImg">
+      <div class="bg-choose" v-if="openChangeBg && !openChangeImg && !openChangeColor">
         <div class="bg-choose-top">
           <div @click="openChangeImg = true" class="bg-picker">
             <img src="https://res.cloudinary.com/trellox/image/upload/v1648369955/background_ffsmh3.jpg" alt="background image picker" />
@@ -25,7 +25,14 @@
         </div>
         <hr />
         <h2>Custom</h2>
-        <div class="bg-picker"></div>
+        <div class="bg-picker">
+          <div class="custom-bg">
+            <label>
+              <i class="fa-solid fa-plus"></i>
+              <input type="file" @change="onUploadImg" />
+            </label>
+          </div>
+        </div>
       </div>
     </Transition>
 
@@ -39,9 +46,13 @@
         </ul>
       </div>
     </Transition>
-    <Transition name="inside menu">
+    <Transition name="inside-menu">
       <div class="bg-choose-color" v-if="openChangeColor">
-          <h1>TEST</h1>
+        <ul class="bg-colors" v-if="images">
+          <li v-for="color in colors" :key="color">
+            <div @click="setBoardClr(color)" class="bg-color" :style="{ 'background-color': color }"></div>
+          </li>
+        </ul>
       </div>
     </Transition>
   </custom-modal>
@@ -57,9 +68,10 @@ export default {
     return {
       openChangeBg: false,
       images: null,
+      colors: this.$store.getters.boardColors,
       search: '',
       openChangeImg: false,
-      openChangeColor: false
+      openChangeColor: false,
     }
   },
   created() {
@@ -71,8 +83,16 @@ export default {
       console.log('images.photos.results', images.photos.results)
       this.images = images.photos.results
     },
+    async onUploadImg(ev) {
+      const res = await imgService.uploadImg(ev)
+
+      this.$emit('setBoardBg', res.url)
+    },
     setBoardBg(boardBg) {
       this.$emit('setBoardBg', boardBg)
+    },
+    setBoardClr(boardClr) {
+      this.$emit('setBoardClr', boardClr)
     },
     closeModal() {
       this.$emit('closeMenu')
