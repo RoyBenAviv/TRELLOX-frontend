@@ -60,6 +60,7 @@ export default {
   },
   methods: {
     addCard() {
+      if(!this.cardTitle) return
       this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
       this.cardTitle = ''
     },
