@@ -33,7 +33,6 @@
         font-size: rem(20px);
         font-weight: 700;
         line-height: 32px;
-        padding: 0 12px;
       }
       button {
         @include header-btn;
@@ -48,6 +47,10 @@
         gap: rem(4px);
       }
       .left-nav {
+        .seperator {
+          color: $clr3;
+          font-weight: 200;
+        }
         .star {
           font-family: trellicons;
           width: 32px;
@@ -63,16 +66,16 @@
           // display: flex;
           margin-inline-start: 5px;
           .avatar-container {
-            margin-right: -3px;
+            // margin-right: -3px;
+            margin: 0 rem(-3px) 0 0;
           }
-  
-          .invite {
-            @include blue-btn;
-            margin-left: rem(11px);
-            i {
-              font-size: em(12px);
-              margin-right: rem(6px)
-            }
+        }
+        .invite {
+          @include blue-btn;
+          margin-left: rem(11px);
+          i {
+            font-size: em(12px);
+            margin-right: rem(6px)
           }
         }
   

@@ -5,15 +5,15 @@
       <nav class="board-nav">
         <div class="left-nav">
           <h2 @input="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
-          <button class="star"></button> |
+          <button class="star"></button> <span class="seperator">|</span>
           <div class="members-container">
             <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
               <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </div>
 
-            <button class="invite"><i class="fa-solid fa-user-plus"></i> Invite</button>
           </div>
+            <button class="invite"><i class="fa-solid fa-user-plus"></i> Invite</button>
         </div>
         <div class="right-nav">
           <button><i class="fa-solid fa-filter"></i> Filter</button>

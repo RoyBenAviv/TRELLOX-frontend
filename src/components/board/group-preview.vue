@@ -4,7 +4,7 @@
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <input v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
-        <span class="act-btn" @click="openGrpAct = !openGrpAct"><i class="fa-solid fa-ellipsis"></i></span>
+        <span class="act-btn" @click="openGrpAct = !openGrpAct"></span>
         <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
 
@@ -13,14 +13,15 @@
           <card-preview @openQuickEdit="openQuickEdit" @closeQuickEdit="closeQuickEdit" :groupId="group.id" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
 
-        <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
-        <div class="add-card-container" v-else>
+        
+        <div class="add-card-container" v-if="isAddCard">
           <textarea v-click-outside="() => addCard()" @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
           <div class="add-card-actions">
             <button @click="addCard">Add card</button><span @click="isAddCard = false"><i class="fa-solid fa-xmark"></i></span>
           </div>
         </div>
       </Container>
+      <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><div class="add-card-btn"><i class="fa-solid fa-plus"></i><span>Add a card</span></div></div>
     </div>
     <div name="quick-card-editor" v-if="isQuickEdit.boolean" @click.stop="isQuickEdit.boolean = false" :class="computedQuickEdit"></div>
   </section>

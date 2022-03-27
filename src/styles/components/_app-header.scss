@@ -5,19 +5,23 @@
   justify-content: space-between;
   width: 100%;
   height: 44px;
-  opacity: 0.9;
+  background-color: rgba(245, 245, 245, 0.24);
   .left-header,
   .right-header {
     display: flex;
     height: 100%;
     align-items: center;
+    color: $clr1;
+    button {
+      color: $clr1;
+    }
   }
   .left-header {
     .logo {
       cursor: pointer;
       // padding-left: rem(42px);
       // margin-right: rem(20px);
-      margin: 0 rem(20px) 0 rem(42px);
+      margin: 0 rem(20px) 0 rem(25px);
       border-radius: 3px;
       padding: rem(5px);
       @include flex;
@@ -25,7 +29,7 @@
       // color: $clr1;
       gap: rem(6px);
       i {
-        font-size: 1.2em;
+        font-size: 1.3em;
       }
       p {
           margin: 0;
