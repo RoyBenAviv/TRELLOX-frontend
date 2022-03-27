@@ -12,7 +12,7 @@
             <div class="modal-header-title">
               <textarea v-model="card.title" @keyup="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
-            <div class="inline-content">in list {{groupTitle}}</div>
+            <div class="inline-content">in list {{ groupTitle }}</div>
           </div>
           <div class="modal-main-content">
             <div class="card-details">
@@ -62,8 +62,7 @@
               </div>
               <ul>
                 <li v-for="attachment in card.attachments" :key="attachment">
-                  <div class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')'}">
-                  </div>
+                  <div class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">
                     <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
                     <p>Added {{ attachment.createdAt }}</p>
@@ -117,15 +116,14 @@
               </div>
             </div>
             <div>
-              <div class="card-comment-container" v-for="comment in card.comments" :key="comment.id">
-                <div class="member">
-                  <!-- <img :src="getMemberById(comment.byMember).imgUrl"> -->
-                  <img src="https://trello.com/1/cards/62399dba78ab2987b393bef4/attachments/6239ba94c62cb36ebd4d3023/previews/6239ba95c62cb36ebd4d3042/download/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512.png" alt="" />
+              <div class="card-comment-container" v-for="comment in comments" :key="comment.id">
+                <div class="avatar-container">
+                  <img v-if="comment.byMember.imgUrl" :src="comment.byMember.imgUrl" alt="" />
+                  <span v-else>{{ comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
                 <div class="card-comment">
-                  <!-- <span class="comment-by">{{getMemberById().fullname}}</span> -->
-                  <span class="comment-by">Tamiros </span>
-                  <span class="comment-date">{{ comment.createdAt }}</span>
+                  <span class="comment-by">{{ comment.byMember.username }}</span>
+                  <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
                   <div class="the-comment">{{ comment.txt }}</div>
                 </div>
               </div>
@@ -233,10 +231,9 @@ export default {
       isShowActivity: false,
       isCommentsInput: false,
       newComment: {
-        id: null,
         txt: '',
         createdAt: null,
-        byMember: 'me', //loggedInUser
+        byMemberId: 'u101', //loggedInUserId
       },
       cmpName: null,
       description: null,
@@ -260,7 +257,6 @@ export default {
       this.cmpName = null
     },
     updateKey(key, value) {
-      console.log('updateKey: value', value)
       if (key === 'checklists') {
         value.id = utilService.makeId()
         this.card[key].push(value)
@@ -286,8 +282,9 @@ export default {
       console.log('here')
       if (!this.newComment.txt) return
       var comment = JSON.parse(JSON.stringify(this.newComment))
-      comment.createdAt = Date.now()
-      this.card.comments.push(comment)
+      comment.createdAt = Date.now();
+      comment.id = utilService.makeId()
+      this.card.comments.unshift(comment)
       this.updateCard()
       this.newComment.txt = ''
     },
@@ -306,8 +303,8 @@ export default {
     },
     toggleTodo(todoId, checklistId) {
       const clIdx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
-      console.log('clIdx', clIdx)
-      console.log('checklistId', checklistId)
+      // console.log('clIdx', clIdx)
+      // console.log('checklistId', checklistId)
       const todoIdx = this.card.checklists[clIdx].todos.findIndex((t) => t.id === todoId)
       this.card.checklists[clIdx].todos[todoIdx].isDone = !this.card.checklists[clIdx].todos[todoIdx].isDone
       this.updateCard()
@@ -336,7 +333,7 @@ export default {
     },
     openUrl(url) {
       window.open(url)
-    }
+    },
   },
   computed: {
     commentsInputStyle() {
@@ -353,19 +350,28 @@ export default {
       var members = this.$store.getters.currBoard.members
       return members.filter((m) => this.card.memberIds.includes(m._id))
     },
+    comments() {
+      var members = this.$store.getters.currBoard.members
+      return this.card.comments.map((c) => {
+        var currMember = members.find((m) => m._id === c.byMemberId)
+        c.byMember = currMember
+        delete c.byMemberId
+        return c
+      })
+    },
     groupTitle() {
       const board = this.$store.getters.currBoard
-      const group = board.groups.find(group => group.id === this.groupId)
+      const group = board.groups.find((group) => group.id === this.groupId)
       return group.title
     },
     cover() {
-      if(this.card.style.type === 'url') return `background-image:url('${this.card.style.cover}')`
+      if (this.card.style.type === 'url') return `background-image:url('${this.card.style.cover}')`
       else return `background-color: ${this.card.style.cover}`
     },
     coverType() {
-      if(this.card.style.type === 'url') return 'card-cover-image'
+      if (this.card.style.type === 'url') return 'card-cover-image'
       else return 'card-cover-color'
-    }
+    },
   },
 }
 </script>
