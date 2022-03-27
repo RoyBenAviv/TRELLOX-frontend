@@ -119,7 +119,6 @@
                   <div class="the-comment">{{ comment.txt }}</div>
                 </div>
               </div>
-              <pre>{{comments}} </pre>
             </div>
           </div>
           <div class="modal-side-bar">

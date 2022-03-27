@@ -318,8 +318,47 @@ async function _createDemoBoards() {
     activities: [],
     cmpsOrder: [],
   }
+
+  const b4 = {
+    title: 'Board2',
+    createdAt: 1589953268418,
+    isStarred: true,
+    createdBy: {
+      _id: 'u101',
+      fullname: 'Tamir Belisha',
+      username: 'coolTamir',
+      imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
+    },
+    style: {
+      bgImgUrl: 'https://images.unsplash.com/photo-1628126235206-5260b9ea6441?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHwyfHxMYXVuY2h8ZW58MHx8fHwxNjQ4MTUyNzkz&ixlib=rb-1.2.1&q=85',
+    },
+    labels: _getLabelsForPM(),
+    members: [
+      {
+        _id: 'u101',
+        fullname: 'Tamir Belisha',
+        username: 'coolTamir',
+        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319060/T02L3AYJGN4-U02RAGA3ZJP-0b63d8a04626-512_egzn78.png',
+      },
+      {
+        _id: 'u102',
+        fullname: 'Shani kupiec',
+        username: 'sweetShani',
+        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648320502/WhatsApp_Image_2022-03-26_at_21.47.47_iqjsub.jpg',
+      },
+      {
+        _id: 'u103',
+        fullname: 'Roy Ben Aviv',
+        username: 'lovingRoy',
+        imgUrl: 'https://res.cloudinary.com/trellox/image/upload/v1648319087/IMG_2471_wz94xb.jpg',
+      },
+    ],
+    groups: [_getGroup('Test'), _getGroup('Done'), _getGroup('Tasks for today'), _getGroup('Others')],
+    activities: [],
+    cmpsOrder: [],
+  }
   boards = []
-  boards.push(b1, b2, b3)
+  boards.push(b1, b2, b3, b4)
   storageService.postMany(entity_key, boards)
 }
 
