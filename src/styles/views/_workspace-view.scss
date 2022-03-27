@@ -1,98 +1,107 @@
 .workspace-view {
+    color: #172b4d;
     .workspace-header {
         @include header-color(workspace);
         top: 0;
     }
     .workspace-wrapper {
         @include flex(row, _, _);
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        margin-block-start: rem(82px);
+        margin-block-start: 44px;
+
         .workspace-nav {
             font-weight: 600;
             font-size: rem(16px);
-            color: $clr1;
+            margin: 40px 0 0;
+            padding: 0 16px;
+
             .nav-options-top {
                 @include flex(column);
                 margin-top: 0;
                 gap: rem(3px);
-                padding-left: rem(15px);
-                li {
+
+                a {
+                    color: #172b4d;
                     @include flex(row, start);
-                    gap: rem(10px);
                     cursor: pointer;
                     width: 200px;
-                    padding: rem(6px) rem(10px);
-                    border-radius: 3px;
                     transition: background-color 45ms;
+                    text-decoration: none;
+                    align-items: center;
+                    border-radius: 4px;
+                    box-shadow: none;
+                    font-weight: bold;
+                    margin: 0 0 4px 0;
+                    min-height: 20px;
+                    overflow: hidden;
+                    padding: 6px 8px 6px 0;
+                    height: 36px;
+                    width: 240px;
+
+                    &.active {
+                        background-color: #e4f0f6;
+                        color: #0079bf;
+                    }
+
                     &:hover {
                         background-color: $clr5;
+                    }
+
+                    .icon {
+                        font-family: trellicons;
+                        display: block;
+                        flex: 0 0 auto;
+                        text-align: center;
+                        width: 32px;
+                        font-weight: 100;
+                    }
+                    .board-icon {
+                        &:before {
+                            content: "\e90b";
+                        }
+                    }
+                    .template-icon {
+                        &:before {
+                            content: "\e96d";
+                        }
+                    }
+                    .home-icon {
+                        &:before {
+                            content: "\e938";
+                        }
+                    }
+
+                    .view-name {
+                        flex: 1 1 auto;
+                        width: min-content;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
             }
         }
+
         .board-list-container {
-            .recently-viewed {
-                h2 {
-                    font-weight: 700;
-                    font-size: rem(16px);
-                    line-height: 24px;
-                    margin-left: rem(50px);
-                    &::before {
-                        font-family: trellicons;
-                        content: "\e91b";
-                        margin-right: 9px;  
-                        font-size: 1.5em;  
-                        font-weight: normal;
-                    }
-                }
-            }
-            .board-list {
-                .nav-options-top, .boards {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: rem(20px);
-                }
-                .board-preview {
-                    @include flex;
-                    flex-wrap: wrap;
-                    .board-preview-container {
-                        width: 200px;
-                        height: 100px;
-                        border-radius: 3px;
-                        background-position: center;
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        &:hover {
-                            filter: brightness(70%);
-                        }
-                    }
-                    a {
-                        position: relative;
-                    }
-                    span {
-                        position: absolute;
-                        left: 10px;
-                        top: 10px;
-                        color: $clr4;
-                        font-weight: 700;
-                        z-index: 10;
-                    }
-                }
-                .create-board {
-                    @include flex;
-                    font-size: rem(14px);
-                    color: $clr1;
-                    cursor: pointer;
-                    width: 200px;
-                    height: 100px;
-                    border-radius: 3%;
-                    background-color: #091e420a;
-                    transition: all 0.3s;
-                    &:hover {
-                        background-color: darken($clr5, 5%);
-                    }
-                }
-            }
+            margin: 40px 16px 0;
+            max-width: 825px;
+            min-width: 288px;
+            width: 100%;
+
+            // .recently-viewed {
+            //     h2 {
+            //         font-weight: 700;
+            //         font-size: rem(16px);
+            //         line-height: 24px;
+            //         // margin-left: rem(50px);
+            //         &::before {
+            //             font-family: trellicons;
+            //             content: "\e91b";
+            //             margin-right: 9px;
+            //             font-size: 1.5em;
+            //             font-weight: normal;
+            //         }
+            //     }
+            // }
+            
         }
     }
 }
