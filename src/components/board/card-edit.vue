@@ -117,7 +117,7 @@
             </div>
             <div>
               <div class="card-comment-container" v-for="comment in comments" :key="comment.id">
-                <div class="avatar-container">
+                <div class="avatar-container member">
                   <img v-if="comment.byMember.imgUrl" :src="comment.byMember.imgUrl" alt="" />
                   <span v-else>{{ comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
