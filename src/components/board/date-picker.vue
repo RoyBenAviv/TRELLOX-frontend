@@ -1,22 +1,22 @@
 <template>
   <custom-modal @closeModal="closeModal">
-    <template v-slot:header> Members </template>
-    <input v-focus class="custom-input" type="text" placeholder="Search members..." />
-    <h4>Board members</h4>
-    <ul class="members-container">
-      <li v-for="member in members" :key="member._id" @click="toggleMember(member._id)">
-        <div class="member" :class="{ active: memberIds.includes(member._id) }">
-          <div class="avatar-container">
-            <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-            <span v-else>{{member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0]}}</span>
-          </div>
-          <span>{{ member.fullname }}</span>
-          <span>({{ member.username }})</span>
-          <span class="v-icon"></span>
-        </div>
-      </li>
-    </ul>
-    <button class="custom-btn">Show other Workspace members</button>
+    <template v-slot:header> Dates </template>
+
+    <label for="reminder">Set due date reminder</label>
+    <select name="reminder">
+      <option>None</option>
+      <option>At time of due date</option>
+      <option>5 Minutes before</option>
+      <option>10 Minutes before</option>
+      <option>15 Minutes before</option>
+      <option>1 Hour before</option>
+      <option>2 Hour before</option>
+      <option>1 Day before</option>
+      <option>2 Day before</option>
+    </select>
+    <h4>Reminders will be sent to all members and watchers of this card.</h4>
+    <button class="custom-btn">Save</button>
+    <button class="custom-btn">Remove</button>
   </custom-modal>
 </template>
 
