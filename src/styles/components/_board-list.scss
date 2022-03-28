@@ -47,6 +47,13 @@
                     width: 23%;
                     .board-preview {
                         position: relative;
+
+                        &:hover {
+                            .board-preview-container {
+                                filter: brightness(90%);
+                            }
+                        }
+
                         .board-preview-container {
                             height: 96px;
                             border-radius: 3px;
@@ -54,11 +61,8 @@
                             background-repeat: no-repeat;
                             background-color: #97a0af;
                             background-position: 50%;
-
-                            &:hover {
-                                filter: brightness(90%);
-                            }
                         }
+
                         .txt-on-borad-img {
                             position: absolute;
                             left: 10px;
@@ -70,19 +74,46 @@
 
                         .star-icon {
                             position: absolute;
+                            color: white;
+                            width: 16px;
+                            height: 16px;
                             right: 10px;
-                            bottom: 10px;
+                            bottom: 14px;
                             font-family: trellicons;
-                            // -webkit-transform: translateZ(0);
+                            transform: translateX(0);
                             transition-duration: 0.15s;
                             transition-property: color, background, opacity, transform, width, margin;
                             width: 0;
+                            opacity: 0;
+                            z-index: 10;
+                            cursor: pointer;
                             &::before {
                                 content: "\e966";
                             }
                         }
-                        a {
-                            position: relative;
+
+                        &:hover {
+                            .star-icon {
+                                opacity: 1;
+                                transform: translateX(-14px);
+                                &:hover {
+                                    transform: scale(1.1);
+                                    width: 16px;
+                                    height: 16px;
+                                }
+                            }
+                        }
+
+                        &.new-board {
+                            cursor: pointer;
+                            .board-preview-container {
+                                background-color: #091e420a;
+                            }
+
+                            .txt-on-borad-img {
+                                color: #172b4d;
+                                font-weight: 400;
+                            }
                         }
                     }
                 }

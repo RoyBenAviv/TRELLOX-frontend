@@ -67,6 +67,8 @@ export default {
     },
     saveBoard(state, { board }) {
       const idx = state.boards.findIndex((b) => b._id === board._id)
+      console.log('idx', idx);
+      console.log('board._id',board._id)
       if (idx !== -1) {
         if (board._id === state.currBoard._id) state.currBoard = board
         state.boards.splice(idx, 1, board)
@@ -120,6 +122,7 @@ export default {
     async addGroup({ commit, state }, { title }) {
       try {
         const board = await localService.addGroup(state.currBoard._id, title)
+        console.log('store addGroup board', board);
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('Cannot add group', err)

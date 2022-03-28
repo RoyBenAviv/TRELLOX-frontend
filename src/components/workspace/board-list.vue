@@ -12,10 +12,11 @@
         <li v-for="board in boards" :key="board._id">
           <board-preview :board="board" />
         </li>
-        <li style="position: relative" @click="openBoardCreation = true">
-          <div class="create-board">
-            <span>Create new board</span>
-          </div>
+        <li @click="openBoardCreation = true">
+          <section class="board-preview new-board">
+            <div class="board-preview-container"></div>
+            <span class="txt-on-borad-img">Create new board</span>
+          </section>
           <board-add @closeModal="openBoardCreation = false" v-if="openBoardCreation" />
         </li>
       </ul>
@@ -45,5 +46,3 @@ export default {
   },
 }
 </script>
-
-<style></style>
