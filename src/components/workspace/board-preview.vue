@@ -1,13 +1,14 @@
 <template>
   <section class="board-preview">
     <router-link :to="'/board/' + board._id">
-      <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container">
-        <div>
-          <span class="txt-on-borad-img">{{ board.title }}</span>
-          <span class="star-icon"></span>
-        </div>
-      </div>
+      <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container"></div>
+      <!-- <div> -->
+      <span class="txt-on-borad-img">{{ board.title }}
+
+      </span>
+      <!-- </div> -->
     </router-link>
+      <span class="star-icon"></span>
   </section>
 </template>
 

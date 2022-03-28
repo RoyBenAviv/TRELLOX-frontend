@@ -44,8 +44,9 @@
                     margin: 0 2% 2% 0;
                     padding: 0;
                     transform: translate(0);
-                    width: 22.5%;
+                    width: 23%;
                     .board-preview {
+                        position: relative;
                         .board-preview-container {
                             height: 96px;
                             border-radius: 3px;
@@ -68,19 +69,11 @@
                         }
 
                         .star-icon {
-                            margin-right: 6px;
-                            opacity: 1;
-                            width: 18px;
-                            bottom: 0;
-                            color: #fff;
-                            display: block;
-                            font-size: 14px;
-                            height: 18px;
-                            line-height: 18px;
-                            opacity: 0;
-                            right: 0;
-                            top: 0;
-                            -webkit-transform: translateZ(0);
+                            position: absolute;
+                            right: 10px;
+                            bottom: 10px;
+                            font-family: trellicons;
+                            // -webkit-transform: translateZ(0);
                             transition-duration: 0.15s;
                             transition-property: color, background, opacity, transform, width, margin;
                             width: 0;
