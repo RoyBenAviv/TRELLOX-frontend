@@ -350,11 +350,12 @@
                 font-size: 0.875rem;
                 font-weight: 700;
                 margin-right: 4px;
+                color: #172b4d;
             }
             .comment-date {
                 font-size: rem(12px);
                 color: #5e6c84;
-                font-weight: 200;
+                font-weight: 400;
             }
 
             .the-comment {
@@ -367,14 +368,23 @@
                 margin: 4px 2px 4px 0;
                 max-width: 100%;
                 overflow: hidden;
+                word-wrap: break-word;
                 text-overflow: ellipsis;
+                line-height: 20px;
+                font-size: 0.875rem;
+                color: #172b4d;
+
+                pre {
+                    margin-block-end: 0;
+                    margin-block-start: 0;
+                }
             }
 
             .member {
                 height: 32px;
                 left: -40px;
                 position: absolute;
-                top: 8px;
+                top: 12px;
                 width: 32px;
             }
         }

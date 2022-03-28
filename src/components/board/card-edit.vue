@@ -102,7 +102,7 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input" v-click-outside="() => (isCommentsInput = false)">
-                  <textarea @focus="isCommentsInput = true" @keydown.prevent.enter="postComment" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <textarea @focus="isCommentsInput = true"  :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
               </div>
@@ -114,9 +114,9 @@
                   <span v-else>{{ comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
                 <div class="card-comment">
-                  <span class="comment-by">{{ comment.byMember.username }}</span>
+                  <span class="comment-by">{{ comment.byMember.fullname }}</span>
                   <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
-                  <div class="the-comment">{{ comment.txt }}</div>
+                  <div class="the-comment"><pre>{{ comment.txt }}</pre></div>
                 </div>
               </div>
             </div>
@@ -276,6 +276,7 @@ export default {
       console.log('here')
       if (!this.newComment.txt) return
       var comment = JSON.parse(JSON.stringify(this.newComment))
+      comment.txt.trim()
       comment.createdAt = Date.now();
       comment.id = utilService.makeId()
       this.card.comments.unshift(comment)
