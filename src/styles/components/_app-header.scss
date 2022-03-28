@@ -9,6 +9,7 @@
   .left-header,
   .right-header {
     display: flex;
+    position: relative;
     height: 100%;
     align-items: center;
     color: $clr1;

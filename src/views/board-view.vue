@@ -80,6 +80,7 @@ export default {
       this.board = board
     },
     async addGroup() {
+      if(!this.groupTitle) return
       await this.$store.dispatch({ type: 'addGroup', title: this.groupTitle })
       this.groupTitle = ''
     },
