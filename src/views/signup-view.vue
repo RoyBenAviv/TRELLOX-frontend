@@ -5,8 +5,13 @@
       <h2>Trellox</h2>
     </div>
     <div class="login-container">
-      <h3>Log in to Trello</h3>
-      <form @submit.prevent="signup" class="user-crad">
+      <Transition name="failed">
+        <div class="failed" v-if="failed">
+          <p>Sign up failed. Please enter valid email or password.</p>
+        </div>
+      </Transition>
+      <h3>Sign up to Trellox</h3>
+      <form @keyup.enter="signup" @submit.prevent="signup" class="user-crad">
         <input v-focus type="text" v-model="signupCred.fullname" placeholder="Enter fullname" />
         <input type="email" v-model="signupCred.email" placeholder="Enter email" />
         <input type="password" v-model="signupCred.password" placeholder="Enter password" />
@@ -16,6 +21,7 @@
       <hr />
       <router-link to="/login">Already have an acount? Log in</router-link>
     </div>
+    {{signupCred}}
   </section>
 </template>
 
@@ -24,18 +30,29 @@ export default {
   name: '',
   data() {
     return {
-        signupCred: {email: '', username: '', password: '', fullname: ''},
+      failed: false,
+      signupCred: { email: '', username: '', password: '', fullname: '' },
     }
   },
   methods: {
     async signup() {
+      if(!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) this.failedLog()
+      if (this.signupCred.fullname.split(" ").length <= 1) return
       try {
-        this.signupCred.username = this.signupCred.fullname.split(" ").join("").toLowerCase()
+        this.signupCred.username = this.signupCred.fullname.split(' ').join('').toLowerCase()
         await this.$store.dispatch({ type: 'signup', userCred: this.signupCred })
         this.$router.push('/workspace')
       } catch (err) {
-        console.log(err)
+        // this.failedLog()
+        console.log('error')
       }
+    },
+    failedLog() {
+      this.failed = true
+      setTimeout(() => {
+        this.failed = false
+      }, 6000)
+      return
     },
   },
   computed: {},

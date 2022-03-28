@@ -17,35 +17,42 @@
         <input type="text" placeholder="Search" />
       </label>
       <button class="notifications"><i class="fa-solid fa-bell"></i></button>
-      <div @click="openUser = !openUser" class="avatar-container" :title="member ? member.fullname : 'Guest'">
+      <div @click="openModal('user-modal')" class="avatar-container" :title="member ? member.fullname : 'Guest'">
         <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
         <span v-else>{{ checkMember }}</span>
       </div>
+      <component
+    v-if="cmpName" :is="cmpName" @closeModal="closeModal"
+      v-click-outside="() => closeModal()"> </component>
     </div>
-    <custom-modal v-if="openUser && member">
-      <template v-slot:header> Acount </template>
-           <div class="avatar-container" :title="member ? member.fullname : 'Guest'">
-        <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
-        <span v-else>{{ checkMember }}</span>
-        <p>{{member.fullname}}</p>
-      </div>
-    </custom-modal>
+
+ 
   </header>
 </template>
 
 <script>
-import CustomModal from './board/custom-modal.vue'
+import userModal from './board/user-modal.vue'
 export default {
   name: '',
   data() {
     return {
       openCreate: false,
       openUser: false,
+       cmpName: null,
     }
   },
-  methods: {},
+  methods: {
+        openModal(cmpName) {
+      this.cmpName = cmpName
+    },
+    closeModal() {
+      this.cmpName = null
+    },
+  },
   computed: {},
-  components: { CustomModal },
+  components: {
+    userModal
+  },
   computed: {
     member() {
       return this.$store.getters.loggedinUser

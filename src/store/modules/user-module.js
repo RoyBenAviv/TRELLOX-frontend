@@ -22,6 +22,7 @@ export default {
         return user
       } catch (err) {
         console.log('cannot set user', err)
+        throw err
       }
     },
     async logout({ commit }) {
@@ -38,6 +39,7 @@ export default {
         commit({ type: 'setLoggedinUser', user })
       } catch (err) {
         console.log('signup failed', err)
+        throw err
       }
     },
   },

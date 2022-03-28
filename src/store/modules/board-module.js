@@ -1,6 +1,6 @@
 import { localService } from '../../services/board.service-local'
 import { boardService } from '../../services/board.service'
-
+import { socketService, SOCKET_EVENT_BOARD_CHANGED } from '../../services/socket.service'
 export default {
   state: {
     boards: null,
@@ -86,6 +86,10 @@ export default {
       try {
         var boards = await boardService.query()
         commit({ type: 'setBoards', boards })
+        socketService.off(SOCKET_EVENT_BOARD_CHANGED)
+        socketService.on(SOCKET_EVENT_BOARD_CHANGED, board => {
+          commit({ type: 'saveBoard', board })
+        })
       } catch (err) {
         console.error('Cannot Load boards', err)
         throw err
