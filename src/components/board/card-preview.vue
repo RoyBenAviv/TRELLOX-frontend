@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
+    <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit" >
       <div v-if="card.style.fullCover && !checkQuickEdit" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
         <div class="card-preview-cover-color"></div>
         <span>{{ card.title }}</span>
@@ -49,7 +49,7 @@
         </div>
         <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
         <quick-edit-actions @mousedown.stop @openCard="openCard" @openModal="openModal" :hidden="!checkQuickEdit" :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
-        <component v-if="cmpName" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
+        <component v-if="cmpName && checkQuickEdit" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
       </div>
     </div>
   </section>

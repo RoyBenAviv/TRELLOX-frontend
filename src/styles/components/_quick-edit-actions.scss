@@ -6,7 +6,7 @@
     transform: translateX(-20px);
     transition: opacity 85ms ease-in, transform 85ms ease-in, visibility 85ms ease-in;
     visibility: hidden;
-    width: 240px;
+    width: fit-content;
     z-index: 0;
 
     &.fade-in {
