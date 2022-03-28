@@ -28,6 +28,7 @@
   .card-preview-cover {
     margin-left: -8px;
     width: calc(100% + 8px);
+    overflow-x: hidden;
   }
   .card-preview-cover-color {
     border-radius: 3px 3px 0px 0px;
@@ -273,6 +274,9 @@
   }
   .quick-card-editor-open {
     z-index: 15;
+    position: fixed;
+    width: 243px;
+    height: max-content;
   }
 }
 

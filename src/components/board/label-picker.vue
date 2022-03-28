@@ -12,7 +12,8 @@
         </div>
       </li>
     </ul>
-    <button class="custom-btn" @click="startCreating(null)">Create new {{x}} label</button>
+    <button v-if="labels.length" class="custom-btn" @click="startCreating(null)">Create new label</button>
+    <button v-else class="custom-btn" @click="startCreating(filterBy, true)">Create new "{{ filterBy }}"" label</button>
     <hr />
     <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
@@ -66,7 +67,7 @@ export default {
       newLabel: null,
       selectedColor: 'color0',
       wantToDelete: false,
-      x:'"5"'
+      filterBy: '',
     }
   },
   created() {},
@@ -83,13 +84,13 @@ export default {
       else this.labelIds.splice(idx, 1)
       this.save()
     },
-    startCreating(labelToEdit) {
-      if (labelToEdit) {
+    startCreating(labelToEdit, isNew = false) {
+      if (labelToEdit && !isNew) {
         this.newLabel = labelToEdit
         this.selectedColor = labelToEdit.className
       } else {
         this.newLabel = {
-          title: '',
+          title: isNew ? labelToEdit: '',
           className: this.selectedColor,
         }
       }
@@ -166,7 +167,6 @@ export default {
       return this.newLabel.id ? 'Change label' : 'Create label'
     },
   },
-  unmounted() {},
   emits: ['closeModal', 'updateKey'],
 }
 </script>
