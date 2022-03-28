@@ -28,11 +28,29 @@ function uploadImg(ev) {
 };
 
 
+// async function getBgImages(search) {
+//   try {
+//     const res = await axios.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`, {
+//       headers: {
+//         'Access-Control-Allow-Origin': true,
+//       }
+//     })
+//     return res.data
+//   } catch(err) {
+//     console.log('cannot get images', err)
+//   }
+// }
+
 async function getBgImages(search) {
-  try {
-    const res = await axios.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`)
-    return res.data
-  } catch(err) {
-    console.log('cannot get images', err)
-  }
+  const apiClinet = axios.create({
+    baseURL: 'https://api.unsplash.com',
+    headers: {
+      Accept: 'applictaion/json',
+      'Content-Type': 'applictaion/json',
+      'Access-Control-Allow-Origin': true,
+        withCredentials: true
+    }
+  })
+  const res = await apiClinet.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`)
+  return res.data
 }
