@@ -4,15 +4,15 @@
       <p>List actions</p>
       <span @click="closeGrpAct"><i class="fa-solid fa-xmark"></i></span>
     </div>
-    <div v-if="!openCopyGroup && !openMoveGroup && !openMoveCards">
+    <div v-if="!openCopyGroup && !openMoveGroup && !openMoveCards && !openSortCards">
       <ul>
         <li @click="addCard"><a>Add card...</a></li>
         <li @click.stop="openCopyGroup = true"><a>Copy list...</a></li>
         <li @click.stop="openMoveGroup = true"><a>Move list...</a></li>
       </ul>
       <ul>
-        <hr />
-        <li><a>Sort By...</a></li>
+        <hr v-if="isSort" />
+        <li v-if="isSort" @click.stop="openSortCards = true"><a>Sort By...</a></li>
         <hr />
       </ul>
       <ul>
@@ -25,8 +25,7 @@
       </ul>
     </div>
     <div class="copy-group" v-if="openCopyGroup">
-    
-      <input v-focus v-model="groupTitle" type="text" placeholder="Enter list title"/>
+      <input v-focus v-model="groupTitle" type="text" placeholder="Enter list title" />
       <button @click="copyGroup">Create list</button>
     </div>
 
@@ -56,7 +55,16 @@
 
     <div v-if="openMoveCards">
       <ul>
-        <li @click="moveAllCards(group)" v-for="group in currentGroups" :key="group.id">{{group.title}}</li>
+        <li @click="moveAllCards(group)" v-for="group in currentGroups" :key="group.id">{{ group.title }}</li>
+      </ul>
+    </div>
+
+    <div v-if="openSortCards">
+      <ul class="sort">
+        <li @click="sortBy('createdNew')">Date created (newest first)</li>
+        <li @click="sortBy('createdOld')">Date created (oldest first)</li>
+        <li @click="sortBy('name')">Card name (alphabetically)</li>
+        <li @click="sortBy('dueDate')">Due date</li>
       </ul>
     </div>
   </section>
@@ -65,12 +73,16 @@
 <script>
 export default {
   name: 'group-actions',
+  props: {
+    isSort: Boolean,
+  },
   data() {
     return {
       groupTitle: '',
       openCopyGroup: false,
       openMoveGroup: false,
       openMoveCards: false,
+      openSortCards: false,
       currentGroups: this.$store.getters.currBoard.groups,
       chosenBoard: this.$store.getters.currBoard,
       groupPos: null,
@@ -100,6 +112,9 @@ export default {
     closeGrpAct() {
       this.$emit('closeGrpAct')
     },
+    sortBy(sortBy){
+      this.$emit('sortBy', sortBy)
+    }
   },
   computed: {
     boards() {

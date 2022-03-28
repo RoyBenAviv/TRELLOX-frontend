@@ -5,7 +5,19 @@
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <input v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
         <span class="act-btn" @click="openGrpAct = !openGrpAct"></span>
-        <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @removeCards="removeCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @removeGroup="removeGroup" @addCard="actionAdd" v-if="openGrpAct" />
+        <group-actions
+          :isSort="group.cards.length > 1 ? true : false"
+          @closeGrpAct="openGrpAct = false"
+          v-click-outside="() => (openGrpAct = false)"
+          @removeCards="removeCards"
+          @moveAllCards="moveAllCards"
+          @moveGroup="moveGroup"
+          @copyGroup="copyGroup"
+          @removeGroup="removeGroup"
+          @addCard="actionAdd"
+          @sortCards="sortCards"
+          v-if="openGrpAct"
+        />
       </div>
 
       <Container class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
@@ -13,7 +25,6 @@
           <card-preview @openQuickEdit="openQuickEdit" @closeQuickEdit="closeQuickEdit" :groupId="group.id" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
 
-        
         <div class="add-card-container" v-if="isAddCard">
           <textarea v-click-outside="() => addCard()" @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
           <div class="add-card-actions">
@@ -21,7 +32,9 @@
           </div>
         </div>
       </Container>
-      <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><div class="add-card-btn"><i class="fa-solid fa-plus"></i><span>Add a card</span></div></div>
+      <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard">
+        <div class="add-card-btn"><i class="fa-solid fa-plus"></i><span>Add a card</span></div>
+      </div>
     </div>
     <div name="quick-card-editor" v-if="isQuickEdit.boolean" @mousedown.stop @click.stop="isQuickEdit.boolean = false" :class="computedQuickEdit"></div>
   </section>
@@ -55,13 +68,13 @@ export default {
       openGrpAct: false,
       isQuickEdit: {
         boolean: false,
-        cardId: ''
-      }
+        cardId: '',
+      },
     }
   },
   methods: {
     addCard() {
-      if(!this.cardTitle) return
+      if (!this.cardTitle) return
       this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
       this.cardTitle = ''
     },
@@ -83,7 +96,7 @@ export default {
     },
     copyGroup(title) {
       this.openGrpAct = false
-      const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+      const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
 
       const newGroup = JSON.parse(JSON.stringify(this.group))
       newGroup.title = title
@@ -97,31 +110,29 @@ export default {
       moveToBoard.groups.splice(groupPos, 0, JSON.parse(JSON.stringify(this.group)))
       await this.$store.dispatch({ type: 'saveBoard', board: moveToBoard })
 
-      const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+      const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
       this.board.groups.splice(groupIdx, 1)
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     moveAllCards(chosenGroup) {
-        this.openGrpAct = false
-        const currGroup = JSON.parse(JSON.stringify(this.group))
+      this.openGrpAct = false
+      const currGroup = JSON.parse(JSON.stringify(this.group))
 
-        const groupCards = JSON.parse(JSON.stringify(this.group.cards))
-        chosenGroup.cards.push(...groupCards)
-        currGroup.cards = []
+      const groupCards = JSON.parse(JSON.stringify(this.group.cards))
+      chosenGroup.cards.push(...groupCards)
+      currGroup.cards = []
 
-        const currGroupIdx = this.board.groups.findIndex(group => group.id === currGroup.id)
-        this.board.groups.splice(currGroupIdx, 1, currGroup)
+      const currGroupIdx = this.board.groups.findIndex((group) => group.id === currGroup.id)
+      this.board.groups.splice(currGroupIdx, 1, currGroup)
 
-
-
-        const chosenGroupIdx = this.board.groups.findIndex(group => group.id === chosenGroup.id)
-        this.board.groups.splice(chosenGroupIdx, 1, chosenGroup)
-        this.$store.dispatch({ type: 'saveBoard', board: this.board })
+      const chosenGroupIdx = this.board.groups.findIndex((group) => group.id === chosenGroup.id)
+      this.board.groups.splice(chosenGroupIdx, 1, chosenGroup)
+      this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     removeCards() {
       const group = JSON.parse(JSON.stringify(this.group))
       group.cards = []
-      const idx = this.board.groups.findIndex(g => g.id === this.group.id)
+      const idx = this.board.groups.findIndex((g) => g.id === this.group.id)
       this.board.groups[idx] = group
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
@@ -139,11 +150,20 @@ export default {
     changeGrpTitle() {
       const group = JSON.parse(JSON.stringify(this.group))
       group.title = this.groupTitle
-       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-       this.board.groups.splice(groupIdx, 1, group)
+      const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
+      this.board.groups.splice(groupIdx, 1, group)
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
       this.editTitle = false
-    }
+    },
+    sortCards(value) {
+      this.openGrpAct = false
+      console.log('sortBy', sortBy)
+      var filterBy = {
+        type: 'sort',
+        sortBy: value
+      }
+      this.$store.dispatch({type: 'filterBoard', boardId: this.board._id, filterBy})
+    },
   },
   computed: {
     board() {
@@ -151,7 +171,7 @@ export default {
     },
     computedQuickEdit() {
       return this.isQuickEdit.boolean ? 'quick-card-editor' : ''
-    }
+    },
   },
 }
 </script>
