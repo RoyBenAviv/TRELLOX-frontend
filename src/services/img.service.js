@@ -52,7 +52,6 @@ function uploadImg(ev) {
 // }
 
 async function getBgImages(search) {
-<<<<<<< HEAD
   try {
     const res = await fetch(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`, {method: 'GET'})
     console.log('res',res);
@@ -61,17 +60,3 @@ async function getBgImages(search) {
     console.log('cannot get images', err)
   }
 }
-=======
-  const apiClinet = axios.create({
-    baseURL: 'https://api.unsplash.com',
-    headers: {
-      Accept: 'applictaion/json',
-      'Content-Type': 'applictaion/json',
-      'Access-Control-Allow-Origin': true,
-        withCredentials: true
-    }
-  })
-  const res = await apiClinet.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`)
-  return res.data
-}
->>>>>>> 406b279c38ffb2a8347751e1b09cc3e328cfbdc7
