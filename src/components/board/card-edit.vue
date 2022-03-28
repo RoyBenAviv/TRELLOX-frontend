@@ -139,7 +139,7 @@
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
+              <component v-if="cmpName" :is="cmpName" :card="card" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
@@ -180,9 +180,9 @@
                 <span>Watch</span>
               </div>
               <hr />
-              <div class="action-btn">
-                <span class="icon ic-archive"></span>
-                <span>Archive</span>
+              <div class="action-btn remove" @click="openModal('confirm-delete')">
+                <span class="icon ic-remove remove"></span>
+                <span>Delete</span>
               </div>
               <div class="action-btn">
                 <span class="icon ic-share"></span>
@@ -204,6 +204,7 @@ import checklistAdd from './checklist-add.vue'
 import coverPicker from './cover-picker.vue'
 import attachments from './attachments.vue'
 import FastAverageColor from 'fast-average-color'
+import confirmDelete from './confirm-delete.vue'
 
 export default {
   components: {
@@ -212,6 +213,7 @@ export default {
     checklistAdd,
     coverPicker,
     attachments,
+    confirmDelete
   },
   data() {
     return {
@@ -341,6 +343,10 @@ export default {
     } catch (err) {
       console.log(err)
     }
+    },
+    async removeCard() {
+      await this.$store.dispatch('removeCard', {groupId: this.groupId, cardId: this.cardId})
+      this.closeEdit()
     }
   },
   computed: {

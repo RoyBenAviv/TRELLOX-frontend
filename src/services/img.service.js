@@ -38,15 +38,29 @@ function uploadImg(ev) {
 //   }
 // }
 
-async function getBgImages({ page = 1, perPage = 1, orderBy = 1, query = 'wallpaper' }) {
-  const PHOTOS_API = 'oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX'
-  const apiClient = axios.create({
+// async function getBgImages(search) {
+//   try {
+//     const res = await axios.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`, {
+//       headers: {
+//         'Access-Control-Allow-Origin': true,
+//       }
+//     })
+//     return res.data
+//   } catch(err) {
+//     console.log('cannot get images', err)
+//   }
+// }
+
+async function getBgImages(search) {
+  const apiClinet = axios.create({
     baseURL: 'https://api.unsplash.com',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin":true
-    },
+      Accept: 'applictaion/json',
+      'Content-Type': 'applictaion/json',
+      'Access-Control-Allow-Origin': true,
+        withCredentials: true
+    }
   })
-  return apiClient.get(`/search/photos?client_id=${PHOTOS_API}&page=${page}&per_page=${perPage}&order_by=${orderBy}&query=${query}`)
+  const res = await apiClinet.get(`https://api.unsplash.com/search?query=${search}&client_id=oMe4LiG85eXMR9Nf7b8cxU6jsTRHCtO81O_MjX-J4L0`)
+  return res.data
 }
