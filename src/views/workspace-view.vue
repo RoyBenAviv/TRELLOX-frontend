@@ -18,10 +18,20 @@
           </router-link>
         </div>
       </nav>
-      <div class="board-list-container">
-        <!-- v-for -->
-        <board-list :boards="boards">
+      <div v-if="currpage === 'board'" class="board-list-container">
+        <board-list :boards="starredBoards" :showCreate="false">
           <template v-slot:boards-name>Recently viewed</template>
+        </board-list>
+        <board-list :boards="recentlyViewd" :showCreate="false">
+          <template v-slot:boards-name>Recently viewed</template>
+        </board-list>
+        <board-list :boards="yourWorkspace" :showCreate="true">
+          <template v-slot:boards-name>YOUR WORKSPACES</template>
+        </board-list>
+      </div>
+      <div v-if="currpage === 'template'" class="board-list-container">
+        <board-list :boards="templates" :showCreate="false">
+          <template v-slot:boards-name>Templates</template>
         </board-list>
       </div>
     </div>
@@ -53,6 +63,18 @@ export default {
   computed: {
     boards() {
       return this.$store.getters.boards
+    },
+    starredBoards(){
+      return this.boards
+    },
+    recentlyViewd(){
+      return this.boards
+    },
+    yourWorkspace(){
+      return this.boards
+    },
+    templates(){
+      return this.boards
     },
   },
 }

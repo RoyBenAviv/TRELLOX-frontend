@@ -1,7 +1,7 @@
 <template>
   <custom-modal v-if="!newLabel" @closeModal="closeModal" @goBack="goBack" class="label-picker">
     <template v-slot:header> Labels </template>
-    <input v-focus class="custom-input" type="text" placeholder="Search labels..." />
+    <input v-focus v-model="filterBy" class="custom-input" type="text" placeholder="Search labels..." />
     <h4>Labels</h4>
     <ul class="labels-container">
       <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
@@ -12,7 +12,7 @@
         </div>
       </li>
     </ul>
-    <button class="custom-btn" @click="startCreating(null)">Create new label</button>
+    <button class="custom-btn" @click="startCreating(null)">Create new {{x}} label</button>
     <hr />
     <button class="custom-btn">Enable color blind friendly mode</button>
   </custom-modal>
@@ -66,6 +66,7 @@ export default {
       newLabel: null,
       selectedColor: 'color0',
       wantToDelete: false,
+      x:'"5"'
     }
   },
   created() {},
@@ -145,7 +146,10 @@ export default {
   },
   computed: {
     labels() {
-      return this.$store.getters.currBoard.labels
+      var labels = this.$store.getters.currBoard.labels
+      if (!this.filterBy) return labels
+      const regex = new RegExp(this.filterBy, 'i')
+      return labels.filter((l) => regex.test(l.title))
     },
     classColors() {
       var classColors = this.$store.getters.labelColors

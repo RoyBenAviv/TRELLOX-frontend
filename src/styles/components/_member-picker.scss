@@ -17,8 +17,8 @@
                     width: 100%;
                     overflow: hidden;
                     position: relative;
-                    
-                    span{
+
+                    span {
                         padding-left: 5px;
                     }
 
@@ -40,6 +40,17 @@
                     }
                 }
             }
+        }
+
+        p {
+            padding: 24px 6px;
+            width: 280px;
+            height: 108px;
+            background-color: #091e420a;
+            border-radius: 3px;
+            color: #5e6c84;
+            display: block;
+            text-align: center;
         }
     }
 }
