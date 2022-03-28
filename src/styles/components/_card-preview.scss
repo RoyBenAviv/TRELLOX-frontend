@@ -255,7 +255,8 @@
       border-radius: 4px;
       cursor: pointer;
       position: relative;
-      transition: all 0.6s;
+      transition-property: heigth, color, width, padding, line-heigth, ;
+      transition-duration: 0.6s;
 
       &.open {
         color: white;

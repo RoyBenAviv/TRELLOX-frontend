@@ -1,7 +1,7 @@
 <template>
 <section>
   <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
-    <div v-if="card.style.fullCover" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
+    <div v-if="card.style.fullCover && !checkQuickEdit" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
       <div class="card-preview-cover-color"></div>
       <span>{{card.title}}</span>
       <span @click.stop="openQuickEdit" class="edit-card"></span>
@@ -9,7 +9,7 @@
     <div v-else class="card-preview-inside-container">
     <div v-if="card.style.cover" class="card-preview-cover">
       <img class="card-image" v-if="card.style.type === 'url'" :src="card.style.cover" />
-      <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover}`"></div>
+      <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
     </div>
     <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
     <div class="card-label-container">
@@ -48,6 +48,7 @@
         </div>
       </div>
       <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
+      <quick-edit-actions :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
     </div>
     </div>
   </section>
@@ -56,6 +57,7 @@
 <script>
 import cardActions from './card-actions.vue'
 import cardEdit from './card-edit.vue'
+import quickEditActions from './quick-edit-actions.vue'
 
 export default {
   name: 'card-preview',
@@ -67,6 +69,7 @@ export default {
   components: {
     cardActions,
     cardEdit,
+    quickEditActions
   },
   data() {
     return {

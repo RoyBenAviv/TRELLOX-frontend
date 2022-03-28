@@ -64,6 +64,8 @@ export default {
       board: null,
       openMenu: false,
       savingGroup: false,
+      lastBoard: null,
+      groupsCount: 0
     }
   },
   async created() {
@@ -76,17 +78,35 @@ export default {
       this.groupTitle = ''
     },
     async onGroupDrop(dropResult) {
-      const board = Object.assign({}, this.board)
-      board.groups = applyDrag(board.groups, dropResult)
-      await this.$store.dispatch({ type: 'saveBoard', board })
-      this.board = board
+      try {
+        const board = Object.assign({}, this.board)
+        board.groups = applyDrag(board.groups, dropResult)
+        this.lastBoard = JSON.parse(JSON.stringify(this.board))
+        this.board = board
+        await this.$store.dispatch({ type: 'saveBoard', board })
+      } catch(err) {
+        console.log('err',err);
+        this.board = this.lastBoard
+      }
     },
-    onCardDrop({ cards, groupId }) {
-      const board = JSON.parse(JSON.stringify(this.board))
-      const idx = this.board.groups.findIndex((group) => group.id === groupId)
-      board.groups[idx].cards = cards
-      this.board = board
-      this.$store.dispatch({ type: 'saveBoard', board })
+    async onCardDrop({ cards, groupId }) {
+      try {
+        const board = JSON.parse(JSON.stringify(this.board))
+        const idx = this.board.groups.findIndex((group) => group.id === groupId)
+        board.groups[idx].cards = cards
+        if(this.groupsCount === 0) {
+          this.lastBoard = JSON.parse(JSON.stringify(this.board))
+        }
+        this.board = board
+        this.groupsCount++
+        if(this.groupsCount === this.board.groups.length) {
+          await this.$store.dispatch({ type: 'saveBoard', board })
+          this.groupsCount = 0
+        }
+      } catch(err) {
+        console.log('err',err);
+        this.board = this.lastBoard
+      }
     },
       setBoardBg(boardBg) {
       // this.board.style.bgImgUrl = boardBg
