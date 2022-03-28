@@ -2,13 +2,9 @@
   <section class="board-preview">
     <router-link :to="'/board/' + board._id">
       <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container"></div>
-      <!-- <div> -->
-      <span class="txt-on-borad-img">{{ board.title }}
-
-      </span>
-      <!-- </div> -->
+      <span class="txt-on-borad-img">{{ board.title }} </span>
     </router-link>
-      <span class="star-icon"></span>
+    <span class="star-icon"></span>
   </section>
 </template>
 
@@ -29,11 +25,6 @@ export default {
     try {
       const fac = new FastAverageColor()
       this.color = await fac.getColorAsync(this.board.style.bgImgUrl)
-      console.log('this.color', this.color)
-      console.log('this.color.isDark', this.color.isDark)
-      // this.linearGradient()
-      // color = color.isDark ? '#fff' : '#000'
-      // backgroundColor = color.rgba // hex
     } catch (err) {
       console.log(e)
     }
@@ -41,11 +32,8 @@ export default {
   methods: {
     linearGradient() {
       var num
-      if (this.color) {
-        num = this.color.isDark ? '0.05' : '0.3'
-        console.log('num', num)
-        // const num = '0.1'
-      } else num = '0.1'
+      if (this.color) num = this.color.isDark ? '0.05' : '0.3'
+      else num = '0.1'
       return `linear-gradient(rgba(0, 0, 0, ${num}),rgba(0, 0, 0, ${num})), `
     },
   },
@@ -53,10 +41,3 @@ export default {
   components: {},
 }
 </script>
-
-<style>
-.board-preview-container:hover {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
-  /* background-color: board.style.bgColor */
-}
-</style>

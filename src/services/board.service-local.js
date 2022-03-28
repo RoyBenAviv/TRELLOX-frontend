@@ -44,7 +44,7 @@ async function addGroup(boardId, title) {
 
 async function editGroup(boardId, newGroup) {
   try {
-    var board = boardService.getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === newGroup.id)
     board.groups[idx] = newGroup
     return await boardService.updateBoard(board)
