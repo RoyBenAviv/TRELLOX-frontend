@@ -48,7 +48,7 @@
         </div>
       </div>
       <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
-      <quick-edit-actions :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
+      <quick-edit-actions @removeCard="removeCard" @openCard="openCard" @openCmp="openCmp" :hidden="!checkQuickEdit" :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
     </div>
     </div>
   </section>
@@ -77,9 +77,13 @@ export default {
       activeColor: 'red',
       isChecklistDone: false,
       newTitle: '',
+      cmpType: null
     }
   },
   methods: {
+    openCard() {
+      this.$emit('closeQuickEdit')
+    },
     openCardEdit() {
       if (this.isQuickEdit.boolean) return
       const currRoute = this.$router.currentRoute._value.fullPath
@@ -116,6 +120,12 @@ export default {
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       this.$emit('closeQuickEdit')
     },
+    removeCard() {
+      console.log('removing');
+    },
+    openCmp(cmpName) {
+      this.cmpType = cmpName
+    }
   },
   computed: {
     labels() {

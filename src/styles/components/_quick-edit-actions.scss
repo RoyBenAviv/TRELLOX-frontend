@@ -4,11 +4,13 @@
     position: absolute;
     top: 0;
     transform: translateX(-20px);
-    transition: opacity 85ms ease-in, transform 85ms ease-in;
+    transition: opacity 85ms ease-in, transform 85ms ease-in, visibility 85ms ease-in;
+    visibility: hidden;
     width: 240px;
     z-index: 0;
 
     &.fade-in {
+        visibility: visible;
         opacity: 1;
         transform: translateX(0);
     }
@@ -18,7 +20,8 @@
         border-radius: 3px;
         clear: both;
         color: #e6e6e6;
-        display: block;
+        display: flex;
+        align-items: center;
         float: left;
         margin: 0 0 4px 8px;
         padding: 6px 12px 6px 8px;
@@ -26,6 +29,7 @@
         transition: transform 85ms ease-in;
         cursor: pointer;
 
+        
         &:hover {
             background: #000c;
             color: #fff;
@@ -38,6 +42,48 @@
             line-height: 20px;
             width: 20px;
             color: #fff;
+            font-family: trellicons;
+
+            &.card {
+                &::before {
+                    content: "\e912";
+                }
+            }
+            &.label {
+                &::before {
+                    content: "\e93f";
+                }
+            }
+            &.member {
+                &::before {
+                    content: "\e946";
+                }
+            }
+            &.cover {
+                &::before {
+                    content: "\e914";
+                }
+            }
+            &.move {
+                &::before {
+                    content: "\e94a";
+                }
+            }
+            &.copy {
+                &::before {
+                    content: "\e912";
+                }
+            }
+            &.date {
+                &::before {
+                    content: "\e91b";
+                }
+            }
+            &.remove {
+                &::before {
+                    content: "\e95c";
+                }
+            }
         }
 
         .txt {
