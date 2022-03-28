@@ -17,11 +17,11 @@
       </ul>
       <ul>
         <li @click.stop="openMoveCards = true"><a>Move all cards in this list...</a></li>
-        <li @click="archiveCards"><a>Archive all cards in this list...</a></li>
+        <li @click="removeCards"><a>Remove all cards in this list...</a></li>
       </ul>
       <ul>
         <hr />
-        <li @click="archiveGroup"><a>Archive this list</a></li>
+        <li @click="removeGroup"><a>Remove this list</a></li>
       </ul>
     </div>
     <div class="copy-group" v-if="openCopyGroup">
@@ -80,8 +80,8 @@ export default {
     addCard() {
       this.$emit('addCard')
     },
-    archiveGroup() {
-      this.$emit('archiveGroup')
+    removeGroup() {
+      this.$emit('removeGroup')
     },
     copyGroup() {
       this.$emit('copyGroup', this.groupTitle)
@@ -94,8 +94,8 @@ export default {
     moveAllCards(group) {
       this.$emit('moveAllCards', group)
     },
-    archiveCards() {
-      this.$emit('archiveCards')
+    removeCards() {
+      this.$emit('removeCards')
     },
     closeGrpAct() {
       this.$emit('closeGrpAct')

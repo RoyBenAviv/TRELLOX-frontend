@@ -135,21 +135,21 @@ export default {
         throw err
       }
     },
-    async archiveGroup({ commit, state }, { groupId }) {
+    async removeGroup({ commit, state }, { groupId }) {
       try {
-        const board = await localService.archiveGroup(state.currBoard._id, groupId)
+        const board = await localService.removeGroup(state.currBoard._id, groupId)
         commit({ type: 'saveBoard', board })
       } catch (err) {
-        console.log('Cannot archive group', err)
+        console.log('Cannot remove group', err)
         throw err
       }
     },
-    async archiveCard({ commit, state }, { groupId, cardId }) {
+    async removeCard({ commit, state }, { groupId, cardId }) {
       try {
-        const board = await localService.archiveCard(state.currBoard._id, groupId, cardId)
+        const board = await localService.removeCard(state.currBoard._id, groupId, cardId)
         commit({ type: 'saveBoard', board })
       } catch (err) {
-        console.log('Cannot archive group', err)
+        console.log('Cannot remove group', err)
         throw err
       }
     },

@@ -8,7 +8,7 @@
           <li>Move</li>
           <li>Copy</li>
           <li>Edit dates</li>
-          <li>Archive</li>
+          <li>Remove</li>
       </ul>
   </section>
 </template>
