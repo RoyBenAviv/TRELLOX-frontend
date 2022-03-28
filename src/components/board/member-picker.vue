@@ -16,7 +16,7 @@
         </div>
       </li>
     </ul>
-    <p v-else>Looks like that person isn't a member yet. Enter their email address to add them to the card and board.</p>
+    <p v-else class="msg-no-members">Looks like that person isn't a member yet. Enter their email address to add them to the card and board.</p>
     <button v-if="members.length" class="custom-btn">Show other Workspace members</button>
   </custom-modal>
 </template>

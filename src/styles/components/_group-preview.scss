@@ -9,35 +9,36 @@
     border-radius: 3px;
     padding: 0 rem(8px);
     .group-header-container {
-        @include flex(row, space-between, center);
-        
-        .group-title {
-          cursor: pointer;
-            color: $clr1;
-            font-weight: 600;
-            padding: rem(6px) rem(8px);
-            font-size: rem(14px);
-            line-height: 2;
-            margin: 0;
+      @include flex(row, space-between, center);
+
+      .group-title {
+        cursor: pointer;
+        color: $clr1;
+        font-weight: 600;
+        padding: rem(6px) rem(8px);
+        font-size: rem(14px);
+        line-height: 2;
+        margin: 0;
+      }
+      input {
+        @include custom-input;
+        width: 228px;
+        height: 28px;
+        margin-top: rem(8px);
+        margin-bottom: rem(8px);
+        color: $clr1;
+        font-weight: 600;
+        font-size: rem(14px);
+        padding-left: rem(10px);
+        padding-top: rem(6px);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+          "Helvetica Neue", sans-serif;
+      }
+      .act-btn {
+        &::before {
+          font-family: trellicons;
+          content: "\e952";
         }
-        input {
-          @include custom-input;
-          width: 228px;
-          height: 28px;
-          margin-top: rem(8px);
-          margin-bottom: rem(8px);
-          color: $clr1;
-          font-weight: 600;
-          font-size: rem(14px);
-          padding-left: rem(10px);
-          padding-top: rem(6px);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        .act-btn {
-          &::before {
-            font-family: trellicons;
-            content: "\e952"
-          }
         color: $clr3;
         border-radius: 3px;
         height: 30px;
@@ -49,68 +50,71 @@
         cursor: pointer;
         transition: background-color 0.5s;
         &:hover {
-            background-color: darken($clr5, 5%)
+          background-color: darken($clr5, 5%);
         }
       }
       .group-actions {
-          user-select: none;
-          min-height: 220px;
-          position: absolute;
-          border: 1px solid $clr5;
-          border-radius: 3px;
-          background-color: $clr4;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 20px;
-          color: $clr6;
-          top: 45px;
-          left: 235px;
-          width: 304px;
-          z-index: 10;
-          .grp-act-header {
-              display: flex;
-              align-items: center;
-              height: 40px;
-              border-bottom: 1px solid #091e4221;
-              margin: 0 12px;
-              p {
-                width: 100%;
-                text-align: center;
-                margin: 0;
-              }
-              span {
-                  cursor: pointer;
-                  font-size: em(18px);
-              }
+        user-select: none;
+        min-height: 150px;
+        position: absolute;
+        border: 1px solid $clr5;
+        border-radius: 3px;
+        background-color: $clr4;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: $clr6;
+        top: 45px;
+        left: 235px;
+        width: 304px;
+        z-index: 10;
+        .grp-act-header {
+          display: flex;
+          align-items: center;
+          height: 40px;
+          border-bottom: 1px solid #091e4221;
+          margin: 0 12px;
+          p {
+            width: 100%;
+            text-align: center;
+            margin: 0;
           }
-          ul {
-            color: $clr1;
-            padding: 0 12px 0px;
-            li {
-                height: 100%;
-                margin: 0 -12px;
-                padding: 6px 12px;
-                cursor: pointer;
-                transition: background-color 0.3s;
-                &:hover {
-                    background-color: darken($clr5, 1%);
-                }
-                &:active {
-                    background-color: lighten($clr2, 40%);
-                }
-                a {
-                    line-height: 1.5;
-                }
+          span {
+            cursor: pointer;
+            font-size: em(18px);
+          }
+        }
+        ul {
+          color: $clr1;
+          padding: 0 12px 0px;
+          li {
+            height: 100%;
+            margin: 0 -12px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            &:hover {
+              background-color: #091e420a;
+            }
+            &:active {
+              background-color: lighten($clr2, 40%);
+            }
+            a {
+              line-height: 1.5;
             }
           }
-          hr {
-            background-color: #091e4221;
-            border: 0;
-            height: 1px;
-            // margin: 16px 0;
-            padding: 0;
-            width: 100%;
-          }
+        }
+        hr {
+          background-color: #091e4221;
+          border: 0;
+          height: 1px;
+          // margin: 16px 0;
+          padding: 0;
+          width: 100%;
+        }
+        .sort {
+          margin: 8px 0 12px 0;
+        }
         .copy-group {
           margin: 0 rem(15px);
           @include flex(column, center, flex-start);
@@ -120,10 +124,9 @@
           }
           gap: rem(20px);
           button {
-            @include blue-btn
-
+            @include blue-btn;
           }
-        }  
+        }
         .move-group {
           @include flex;
           margin: auto;
@@ -140,12 +143,12 @@
                 margin: 0;
               }
               p:nth-child(1) {
-                font-size: em(14px)
+                font-size: em(14px);
               }
               p:nth-child(2) {
-                color: $clr1
+                color: $clr1;
               }
-            
+
               @include flex(column, center, _);
               margin-top: rem(10px);
               position: relative;
@@ -179,14 +182,15 @@
         width: 90%;
         &:hover {
           background-color: darken($clr5, 5%);
-          color: $clr1
+          color: $clr1;
         }
       }
 
       span {
         font-weight: 400;
         line-height: 20px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+          "Helvetica Neue", sans-serif;
         font-size: rem(14px);
         margin-left: rem(8px);
       }
@@ -213,29 +217,28 @@
           outline: none;
         }
         &::placeholder {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
-        }
-    }
-    .add-card-actions {
-      @include flex(row, _);
-      gap: rem(13px);
-      margin-top: 8px;
-      button {
-        margin-right: rem(4px);
-        @include blue-btn
-      }
-      span {
-        cursor: pointer;
-        font-size: rem(24px);
-        color: $clr9;
-        &:hover {
-          color: $clr1;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+            "Helvetica Neue", sans-serif;
         }
       }
+      .add-card-actions {
+        @include flex(row, _);
+        gap: rem(13px);
+        margin-top: 8px;
+        button {
+          margin-right: rem(4px);
+          @include blue-btn;
+        }
+        span {
+          cursor: pointer;
+          font-size: rem(24px);
+          color: $clr9;
+          &:hover {
+            color: $clr1;
+          }
+        }
+      }
     }
-
-    }
-    
   }
 
   .quick-card-editor {

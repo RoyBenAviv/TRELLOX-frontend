@@ -15,9 +15,9 @@ async function query() {
     return await httpService.get('board')
 }
 
-async function getBoardById(boardId) {
+async function getBoardById(boardId, filterBy = {}) {
     console.log('getBoardById front');
-    return await httpService.get(`board/${boardId}`)
+    return await httpService.get(`board/${boardId}`, filterBy)
 }
 
 async function removeBoard(boardId) {
