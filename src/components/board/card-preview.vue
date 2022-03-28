@@ -1,55 +1,56 @@
 <template>
-<section>
-  <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
-    <div v-if="card.style.fullCover && !checkQuickEdit" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
-      <div class="card-preview-cover-color"></div>
-      <span>{{card.title}}</span>
-      <span @click.stop="openQuickEdit" class="edit-card"></span>
-    </div>
-    <div v-else class="card-preview-inside-container">
-    <div v-if="card.style.cover" class="card-preview-cover">
-      <img class="card-image" v-if="card.style.type === 'url'" :src="card.style.cover" />
-      <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
-    </div>
-    <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
-    <div class="card-label-container">
-      <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
-          <span v-if="labelTitleShown">{{ label.title }}</span>
-        </span>
+  <section>
+    <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit">
+      <div v-if="card.style.fullCover && !checkQuickEdit" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
+        <div class="card-preview-cover-color"></div>
+        <span>{{ card.title }}</span>
+        <span @click.stop="openQuickEdit" class="edit-card"></span>
       </div>
-      <br v-if="checkQuickEdit && labels.length">
-      <span @click.stop="openQuickEdit" class="edit-card"></span>
-      <textarea v-if="checkQuickEdit" :style="labels.length ? 'transform: translateY(-9px)' : 'transform: translateY(3px);'" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle"></textarea>
-      <span v-else class="card-preview-title">{{ card.title }}</span>
-      <div class="card-icons-container">
-        <div>
-          <!-- <div title="watch" class="icon-div">
+      <div v-else class="card-preview-inside-container">
+        <div v-if="card.style.cover" class="card-preview-cover">
+          <img class="card-image" v-if="card.style.type === 'url'" :src="card.style.cover" />
+          <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
+        </div>
+        <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
+        <div class="card-label-container">
+          <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
+            <span v-if="labelTitleShown">{{ label.title }}</span>
+          </span>
+        </div>
+        <br v-if="checkQuickEdit && labels.length" />
+        <span @click.stop="openQuickEdit" class="edit-card"></span>
+        <textarea v-if="checkQuickEdit" :style="labels.length ? 'transform: translateY(-9px)' : 'transform: translateY(3px);'" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle"></textarea>
+        <span v-else class="card-preview-title">{{ card.title }}</span>
+        <div class="card-icons-container">
+          <div>
+            <!-- <div title="watch" class="icon-div">
             <span class="eyecon"></span>
           </div> -->
-          <div title="description" v-if="card.description" class="icon-div">
-            <span class="desc"></span>
-          </div>
-          <div title="comments" v-if="card.comments.length" class="icon-div">
-            <span class="comment"></span>
-            <span class="txt">{{ card.comments.length }}</span>
-          </div>
-          <div title="attachments" v-if="card.attachments.length" class="icon-div">
-            <span class="attachment"></span>
-            <span class="txt">{{ card.attachments.length }}</span>
-          </div>
-          <div title="Checklist items" v-if="card.checklists.length" class="icon-div" :class="doneChecklist">
-            <span class="check"></span>
-            <span class="txt">{{ calcProgress() }}</span>
-          </div>
-          <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
-            <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-            <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+            <div title="description" v-if="card.description" class="icon-div">
+              <span class="desc"></span>
+            </div>
+            <div title="comments" v-if="card.comments.length" class="icon-div">
+              <span class="comment"></span>
+              <span class="txt">{{ card.comments.length }}</span>
+            </div>
+            <div title="attachments" v-if="card.attachments.length" class="icon-div">
+              <span class="attachment"></span>
+              <span class="txt">{{ card.attachments.length }}</span>
+            </div>
+            <div title="Checklist items" v-if="card.checklists.length" class="icon-div" :class="doneChecklist">
+              <span class="check"></span>
+              <span class="txt">{{ calcProgress() }}</span>
+            </div>
+            <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
+              <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
+              <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+            </div>
           </div>
         </div>
+        <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
+        <quick-edit-actions @mousedown.stop @openCard="openCard" @openModal="openModal" :hidden="!checkQuickEdit" :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
+        <component v-if="cmpName" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
       </div>
-      <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
-      <quick-edit-actions @removeCard="removeCard" @openCard="openCard" @openCmp="openCmp" :hidden="!checkQuickEdit" :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
-    </div>
     </div>
   </section>
 </template>
@@ -58,6 +59,11 @@
 import cardActions from './card-actions.vue'
 import cardEdit from './card-edit.vue'
 import quickEditActions from './quick-edit-actions.vue'
+import labelPicker from './label-picker.vue'
+import memberPicker from './member-picker.vue'
+import coverPicker from './cover-picker.vue'
+import datePicker from './date-picker.vue'
+import confirmDelete from './confirm-delete.vue'
 
 export default {
   name: 'card-preview',
@@ -69,7 +75,12 @@ export default {
   components: {
     cardActions,
     cardEdit,
-    quickEditActions
+    quickEditActions,
+    labelPicker,
+    memberPicker,
+    coverPicker,
+    datePicker,
+    confirmDelete,
   },
   data() {
     return {
@@ -77,7 +88,7 @@ export default {
       activeColor: 'red',
       isChecklistDone: false,
       newTitle: '',
-      cmpType: null
+      cmpName: null,
     }
   },
   methods: {
@@ -121,11 +132,26 @@ export default {
       this.$emit('closeQuickEdit')
     },
     removeCard() {
-      console.log('removing');
+      console.log('removing')
     },
-    openCmp(cmpName) {
-      this.cmpType = cmpName
-    }
+    openModal(cmpName) {
+      this.cmpName = cmpName
+    },
+    closeModal() {
+      this.cmpName = null
+    },
+    updateKey(key, value) {
+      const card = JSON.parse(JSON.stringify(this.card))
+      if (key === 'checklists') {
+        value.id = utilService.makeId()
+        card[key].push(value)
+      } else card[key] = value
+      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+    },
+    async removeCard() {
+      await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
+      this.$emit('closeQuickEdit')
+    },
   },
   computed: {
     labels() {
