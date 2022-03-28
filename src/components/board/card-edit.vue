@@ -102,7 +102,7 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input" v-click-outside="() => (isCommentsInput = false)">
-                  <textarea @focus="isCommentsInput = true" @keydown.prevent.enter="postComment" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <textarea @focus="isCommentsInput = true"  :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
               </div>
@@ -114,12 +114,11 @@
                   <span v-else>{{ comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
                 <div class="card-comment">
-                  <span class="comment-by">{{ comment.byMember.username }}</span>
+                  <span class="comment-by">{{ comment.byMember.fullname }}</span>
                   <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
-                  <div class="the-comment">{{ comment.txt }}</div>
+                  <div class="the-comment"><pre>{{ comment.txt }}</pre></div>
                 </div>
               </div>
-              <pre>{{comments}} </pre>
             </div>
           </div>
           <div class="modal-side-bar">
@@ -140,7 +139,7 @@
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
+              <component v-if="cmpName" :is="cmpName" :card="card" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
@@ -181,9 +180,9 @@
                 <span>Watch</span>
               </div>
               <hr />
-              <div class="action-btn">
-                <span class="icon ic-archive"></span>
-                <span>Archive</span>
+              <div class="action-btn remove" @click="openModal('confirm-delete')">
+                <span class="icon ic-remove remove"></span>
+                <span>Delete</span>
               </div>
               <div class="action-btn">
                 <span class="icon ic-share"></span>
@@ -205,6 +204,7 @@ import checklistAdd from './checklist-add.vue'
 import coverPicker from './cover-picker.vue'
 import attachments from './attachments.vue'
 import FastAverageColor from 'fast-average-color'
+import confirmDelete from './confirm-delete.vue'
 
 export default {
   components: {
@@ -213,6 +213,7 @@ export default {
     checklistAdd,
     coverPicker,
     attachments,
+    confirmDelete
   },
   data() {
     return {
@@ -277,6 +278,7 @@ export default {
       console.log('here')
       if (!this.newComment.txt) return
       var comment = JSON.parse(JSON.stringify(this.newComment))
+      comment.txt.trim()
       comment.createdAt = Date.now();
       comment.id = utilService.makeId()
       this.card.comments.unshift(comment)
@@ -341,6 +343,10 @@ export default {
     } catch (err) {
       console.log(err)
     }
+    },
+    async removeCard() {
+      await this.$store.dispatch('removeCard', {groupId: this.groupId, cardId: this.cardId})
+      this.closeEdit()
     }
   },
   computed: {

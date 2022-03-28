@@ -2,17 +2,15 @@ import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 import { boardService } from './board.service'
 
-const archive_key = 'archive'
-
 export const localService = {
   getEmptyBoard,
   addGroup,
   editGroup,
-  archiveGroup,
+  removeGroup,
   addCard,
   getCardById,
   updateCard,
-  archiveCard,
+  removeCard,
 }
 
 function getEmptyBoard() {
@@ -46,7 +44,7 @@ async function addGroup(boardId, title) {
 
 async function editGroup(boardId, newGroup) {
   try {
-    var board = boardService.getBoardById(boardId)
+    var board = await boardService.getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === newGroup.id)
     board.groups[idx] = newGroup
     return await boardService.updateBoard(board)
@@ -55,12 +53,11 @@ async function editGroup(boardId, newGroup) {
   }
 }
 
-async function archiveGroup(boardId, groupId) {
+async function removeGroup(boardId, groupId) {
   try {
     var board = await boardService.getBoardById(boardId)
     const idx = board.groups.findIndex((group) => group.id === groupId)
-    const groupToArchive = board.groups.splice(idx, 1)[0]
-    _archiveItem(groupToArchive)
+    board.groups.splice(idx, 1)[0]
     return await boardService.updateBoard(board)
   } catch (err) {
     throw err
@@ -107,13 +104,12 @@ async function updateCard(boardId, groupId, updatedCard) {
   }
 }
 
-async function archiveCard(boardId, groupId, cardId) {
+async function removeCard(boardId, groupId, cardId) {
   try {
     var board = await boardService.getBoardById(boardId)
     const groupIdx = board.groups.findIndex((group) => group.id === groupId)
     const cardIdx = board.groups[groupIdx].cards.findIndex((card) => card.id === cardId)
-    const cardToArchive = board.groups[groupIdx].cards.splice(cardIdx, 1)[0]
-    _archiveItem(cardToArchive)
+    board.groups[groupIdx].cards.splice(cardIdx, 1)[0]
     return await boardService.updateBoard(board)
   } catch (err) {
     throw err
@@ -189,9 +185,4 @@ function _getEmptyCard(title = '') {
       fullCover: false,
     },
   }
-}
-
-async function _archiveItem(item) {
-  const archive = (await storageService.query(archive_key)) || []
-  storageService.post(archive_key, item)
 }

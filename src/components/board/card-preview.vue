@@ -17,8 +17,9 @@
           <span v-if="labelTitleShown">{{ label.title }}</span>
         </span>
       </div>
+      <br v-if="checkQuickEdit && labels.length">
       <span @click.stop="openQuickEdit" class="edit-card"></span>
-      <textarea v-if="checkQuickEdit" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle"></textarea>
+      <textarea v-if="checkQuickEdit" :style="labels.length ? 'transform: translateY(-9px)' : 'transform: translateY(3px);'" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle"></textarea>
       <span v-else class="card-preview-title">{{ card.title }}</span>
       <div class="card-icons-container">
         <div>

@@ -5,7 +5,7 @@
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <input v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
         <span class="act-btn" @click="openGrpAct = !openGrpAct"></span>
-        <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @archiveCards="archiveCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @archiveGroup="archiveGroup" @addCard="actionAdd" v-if="openGrpAct" />
+        <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @removeCards="removeCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @removeGroup="removeGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>
 
       <Container class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
@@ -23,7 +23,7 @@
       </Container>
       <div class="open-card-container" @click="isAddCard = true" v-if="!isAddCard"><div class="add-card-btn"><i class="fa-solid fa-plus"></i><span>Add a card</span></div></div>
     </div>
-    <div name="quick-card-editor" v-if="isQuickEdit.boolean" @click.stop="isQuickEdit.boolean = false" :class="computedQuickEdit"></div>
+    <div name="quick-card-editor" v-if="isQuickEdit.boolean" @mousedown.stop @click.stop="isQuickEdit.boolean = false" :class="computedQuickEdit"></div>
   </section>
 </template>
 
@@ -69,12 +69,12 @@ export default {
       this.isAddCard = true
       this.openGrpAct = false
     },
-    archiveGroup() {
-      this.$store.dispatch({ type: 'archiveGroup', groupId: this.group.id })
+    removeGroup() {
+      this.$store.dispatch({ type: 'removeGroup', groupId: this.group.id })
       this.openGrpAct = false
     },
-    archiveCard(cardId) {
-      this.$store.dispatch({ type: 'archiveCard', groupId: this.group.id, cardId })
+    removeCard(cardId) {
+      this.$store.dispatch({ type: 'removeCard', groupId: this.group.id, cardId })
     },
     onCardDrop(group, dropResult) {
       const newGroup = Object.assign({}, JSON.parse(JSON.stringify(group)))
@@ -118,8 +118,11 @@ export default {
         this.board.groups.splice(chosenGroupIdx, 1, chosenGroup)
         this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
-    archiveCards() {
-      this.group.cards = []
+    removeCards() {
+      const group = JSON.parse(JSON.stringify(this.group))
+      group.cards = []
+      const idx = this.board.groups.findIndex(g => g.id === this.group.id)
+      this.board.groups[idx] = group
       this.$store.dispatch({ type: 'saveBoard', board: this.board })
     },
     closeQuickEdit() {

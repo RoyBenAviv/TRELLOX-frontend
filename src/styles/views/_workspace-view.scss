@@ -5,9 +5,9 @@
         top: 0;
     }
     .workspace-wrapper {
-        @include flex(row, _, _);
+        @include flex(row, center, flex-start);
         margin-block-start: 44px;
-
+        
         .workspace-nav {
             font-weight: 600;
             font-size: rem(16px);

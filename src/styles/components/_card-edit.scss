@@ -202,6 +202,15 @@
                 padding: 6px 12px;
                 color: $clr8;
                 display: flex;
+                
+                &.remove {
+                    background-color: #b04632;
+                    color: #fff;
+
+                    &:hover {
+                        background-color: darken(#b04632, 5%);
+                    }
+                }
 
                 span {
                     font-size: rem(14px);
@@ -350,11 +359,12 @@
                 font-size: 0.875rem;
                 font-weight: 700;
                 margin-right: 4px;
+                color: #172b4d;
             }
             .comment-date {
                 font-size: rem(12px);
                 color: #5e6c84;
-                font-weight: 200;
+                font-weight: 400;
             }
 
             .the-comment {
@@ -367,14 +377,23 @@
                 margin: 4px 2px 4px 0;
                 max-width: 100%;
                 overflow: hidden;
+                word-wrap: break-word;
                 text-overflow: ellipsis;
+                line-height: 20px;
+                font-size: 0.875rem;
+                color: #172b4d;
+
+                pre {
+                    margin-block-end: 0;
+                    margin-block-start: 0;
+                }
             }
 
             .member {
                 height: 32px;
                 left: -40px;
                 position: absolute;
-                top: 8px;
+                top: 12px;
                 width: 32px;
             }
         }
@@ -710,6 +729,10 @@
         margin: 0 6px 0 -6px;
         color: #42526e;
 
+        &.remove {
+            color: #fff;
+        }
+
         &.ic-join::before {
             content: "\e946";
         }
@@ -740,8 +763,8 @@
         &.ic-watch::before {
             content: "\e969";
         }
-        &.ic-archive::before {
-            content: "\e907";
+        &.ic-remove::before {
+            content: "\e95c";
         }
         &.ic-share::before {
             content: "\e963";
