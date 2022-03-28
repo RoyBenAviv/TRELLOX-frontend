@@ -3,7 +3,7 @@
     <div>
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
-        <input v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
+        <input @keyup.enter="changeGrpTitle" v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
         <span class="act-btn" @click="openGrpAct = !openGrpAct"></span>
         <group-actions @closeGrpAct="openGrpAct = false" v-click-outside="() => (openGrpAct = false)" @removeCards="removeCards" @moveAllCards="moveAllCards" @moveGroup="moveGroup" @copyGroup="copyGroup" @removeGroup="removeGroup" @addCard="actionAdd" v-if="openGrpAct" />
       </div>

@@ -20,6 +20,17 @@
     border-radius: 3px;
     padding: 25px 40px;
     box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
+    .failed {
+      background: #eb5a46;
+      color: #fbedeb;
+      padding: rem(7px) rem(14px);
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      p {
+        margin: 0;
+      }
+    }
     h3 {
       color: $clr6;
       margin-bottom: rem(25px);
@@ -62,4 +73,14 @@
       }
     }
   }
+}
+
+.failed-enter-active,
+.failed-leave-active {
+  transition: opacity 1s ease;
+}
+
+.failed-enter-from,
+.failed-leave-to {
+  opacity: 0;
 }

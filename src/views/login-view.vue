@@ -5,8 +5,13 @@
       <h2>Trellox</h2>
     </div>
     <div class="login-container">
-      <h3>Log in to Trello</h3>
-      <form @submit.prevent="login" class="user-crad">
+      <Transition name="failed">
+        <div class="failed" v-if="failed">
+          <p >Logged in failed. Please enter valid email or password.</p>
+        </div>
+      </Transition>
+      <h3>Log in to Trellox</h3>
+      <form @keyup.enter="login" @submit.prevent="login" class="user-crad">
         <input v-focus type="email" v-model="loginCred.email" placeholder="Enter email" />
         <input type="password" v-model="loginCred.password" placeholder="Enter password" />
       </form>
@@ -23,6 +28,7 @@ export default {
   name: 'login-view',
   data() {
     return {
+      failed: false,
       loginCred: {
         email: '',
         password: ''
@@ -31,13 +37,21 @@ export default {
   },
   methods: {
     async login() {
+      if(!this.loginCred.email || !this.loginCred.password) this.failedLog()
       try {
         await this.$store.dispatch({ type: 'login', userCred: this.loginCred})
         this.$router.push('/workspace');
-      } catch {
-          console.log(err)
+      } catch(err) {
+          this.failedLog()
       }
 
+    },
+    failedLog() {
+      this.failed = true
+      setTimeout(() => {
+        this.failed = false
+          }, 6000)
+      return
     }
   },
   computed: {},
