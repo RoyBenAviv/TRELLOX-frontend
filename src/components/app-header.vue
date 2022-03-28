@@ -17,38 +17,43 @@
         <input type="text" placeholder="Search" />
       </label>
       <button class="notifications"><i class="fa-solid fa-bell"></i></button>
-      <div class="avatar-container" :title="member.fullname">
-        <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-        <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+      <div @click="openUser = !openUser" class="avatar-container" :title="member ? member.fullname : 'Guest'">
+        <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
+        <span v-else>{{ checkMember }}</span>
       </div>
     </div>
-
-    <!-- <custom-modal>
-
-
-
-    </custom-modal> -->
-
+    <custom-modal v-if="openUser && member">
+      <template v-slot:header> Acount </template>
+           <div class="avatar-container" :title="member ? member.fullname : 'Guest'">
+        <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
+        <span v-else>{{ checkMember }}</span>
+        <p>{{member.fullname}}</p>
+      </div>
+    </custom-modal>
   </header>
 </template>
 
 <script>
-import CustomModal from "./board/custom-modal.vue"
+import CustomModal from './board/custom-modal.vue'
 export default {
   name: '',
   data() {
     return {
-      openCreate: false
+      openCreate: false,
+      openUser: false,
     }
   },
   methods: {},
   computed: {},
   components: { CustomModal },
   computed: {
-    member(){
-      return this.$store.getters.loggedInUser
+    member() {
+      return this.$store.getters.loggedinUser
     },
-  }
+    checkMember() {
+      return this.member ? this.member.fullname.split(' ')[0].split('')[0] + this.member.fullname.split(' ')[1].split('')[0] : 'G'
+    },
+  },
 }
 </script>
 

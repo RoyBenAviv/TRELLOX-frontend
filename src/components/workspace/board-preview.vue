@@ -4,7 +4,7 @@
       <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container"></div>
       <span class="txt-on-borad-img">{{ board.title }} </span>
     </router-link>
-    <span class="star-icon"></span>
+    <span class="star" :class="{ full: board.isStarred }" @click="toggleStar()"></span>
   </section>
 </template>
 
@@ -26,7 +26,7 @@ export default {
       const fac = new FastAverageColor()
       this.color = await fac.getColorAsync(this.board.style.bgImgUrl)
     } catch (err) {
-      console.log(e)
+      console.log(err)
     }
   },
   methods: {
@@ -35,6 +35,12 @@ export default {
       if (this.color) num = this.color.isDark ? '0.05' : '0.3'
       else num = '0.1'
       return `linear-gradient(rgba(0, 0, 0, ${num}),rgba(0, 0, 0, ${num})), `
+    },
+    async toggleStar() {
+      const board = JSON.parse(JSON.stringify(this.board))
+      board.isStarred = !board.isStarred
+      await this.$store.dispatch({ type: 'saveBoard', board })
+      this.board = board
     },
   },
   computed: {},

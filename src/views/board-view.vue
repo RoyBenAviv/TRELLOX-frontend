@@ -5,15 +5,15 @@
       <nav class="board-nav">
         <div class="left-nav">
           <h2 @input="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
-          <button class="star"></button> <span class="seperator">|</span>
+          <button class="star" :class="{ full: board.isStarred }" @click="toggleStar()"></button>
+          <span class="seperator">|</span>
           <div class="members-container">
             <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
               <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </div>
-
           </div>
-            <button class="invite"><i class="fa-solid fa-user-plus"></i> Invite</button>
+          <button class="invite">Invite</button>
         </div>
         <div class="right-nav">
           <button><i class="fa-solid fa-filter"></i> Filter</button>
@@ -73,6 +73,12 @@ export default {
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
   },
   methods: {
+    async toggleStar() {
+      const board = JSON.parse(JSON.stringify(this.board))
+      board.isStarred = !board.isStarred
+      await this.$store.dispatch({ type: 'saveBoard', board })
+      this.board = board
+    },
     async addGroup() {
       await this.$store.dispatch({ type: 'addGroup', title: this.groupTitle })
       this.groupTitle = ''
@@ -108,15 +114,15 @@ export default {
         this.board = this.lastBoard
       }
     },
-      setBoardBg(boardBg) {
+    setBoardBg(boardBg) {
       // this.board.style.bgImgUrl = boardBg
       const board = JSON.parse(JSON.stringify(this.board))
       board.style.bgColor = ''
       board.style.bgImgUrl = boardBg
       this.$store.dispatch({ type: 'saveBoard', board })
     },
-      setBoardClr(boardClr) {
-      console.log('boardClr',boardClr);
+    setBoardClr(boardClr) {
+      console.log('boardClr', boardClr)
       const board = JSON.parse(JSON.stringify(this.board))
       board.style.bgImgUrl = ''
       board.style.bgColor = boardClr
@@ -139,7 +145,6 @@ export default {
   watch: {
     boardFromStore: {
       handler() {
-        console.log('boardFromStore is reloading')
         this.board = this.boardFromStore
       },
       deep: true,

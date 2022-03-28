@@ -12,10 +12,11 @@
         <li v-for="board in boards" :key="board._id">
           <board-preview :board="board" />
         </li>
-        <li @click="openBoardCreation = true">
+        <li v-if="showCreate" @click="openBoardCreation = true">
           <section class="board-preview new-board">
-            <div class="board-preview-container"></div>
-            <span class="txt-on-borad-img">Create new board</span>
+            <div class="board-preview-container">
+              <span class="txt-on-borad-img">Create new board</span>
+            </div>
           </section>
           <board-add @closeModal="openBoardCreation = false" v-if="openBoardCreation" />
         </li>
@@ -32,6 +33,7 @@ export default {
   name: 'board-list',
   props: {
     boards: Array,
+    showCreate: Boolean
   },
   data() {
     return {

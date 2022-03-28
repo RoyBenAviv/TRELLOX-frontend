@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import homeView from '../views/home-view.vue'
 import loginView from '../views/login-view.vue'
+import signupView from '../views/signup-view.vue'
 import workspaceView from '../views/workspace-view.vue'
 import boardView from '../views/board-view.vue'
 import cardEdit from '../components/board/card-edit.vue'
@@ -17,6 +18,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: loginView
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: signupView
     },
     {
       path: '/workspace',
