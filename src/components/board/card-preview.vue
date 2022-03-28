@@ -131,9 +131,6 @@ export default {
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       this.$emit('closeQuickEdit')
     },
-    removeCard() {
-      console.log('removing')
-    },
     openModal(cmpName) {
       this.cmpName = cmpName
     },
