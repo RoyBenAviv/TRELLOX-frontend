@@ -161,7 +161,7 @@ export default {
   display: flex;
 }
 .on-dragging {
-  transform: rotate(10deg);
+  transform: rotate(6deg);
 }
 .menu-enter-active {
   transition: transform 0.3s ease-out;

@@ -1,5 +1,5 @@
 <template>
-  <custom-modal class="board-menu" @closeModal="closeModal">
+  <custom-modal :isFirstPage="isFirstPage" @goBack="goBack" class="board-menu" @closeModal="closeModal">
     <template v-slot:header> <p class="header-title">Menu</p> </template>
     <menu v-if="!openChangeBg && !openChangeImg && !openChangeColor">
       <ul class="menu-options">
@@ -97,8 +97,18 @@ export default {
     closeModal() {
       this.$emit('closeMenu')
     },
+    goBack() {
+      if (this.openChangeImg || this.openChangeColor) {
+        this.openChangeImg = false
+        this.openChangeColor = false
+      } else this.openChangeBg = false
+    }
   },
-  computed: {},
+  computed: {
+    isFirstPage() {
+      return (this.openChangeBg || this.openChangeImg || this.openChangeColor) ? false : true
+    }
+  },
   components: {
     imgService,
     customModal,

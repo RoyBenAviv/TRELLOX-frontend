@@ -1,5 +1,21 @@
 <template>
-  <custom-modal class="board-add" @closeModal="closeModal">
+  <custom-modal @closeModal="closeModal" v-if="!openBoardCreation" class="create-board-modal">
+    <template v-slot:header> Create </template>
+    <template v-slot:main>
+      <ul>
+        <li @click.stop="openBoardCreation = true" class="create">
+          <h3>Create Board</h3>
+          <p>A board is made up of cards ordered on lists. Use it to manage projects, track information, or organize anything.</p>
+        </li>
+        <li class="template">
+          <h3>Start with a template</h3>
+          <p>Get started with a board template</p>
+        </li>
+      </ul>
+    </template>
+  </custom-modal>
+
+  <custom-modal @closeModal="closeModal" v-if="openBoardCreation" class="create-board-modal board-add">
     <template v-slot:header> Create board </template>
     <div :style="{ 'background-image': 'url(' + newBoard.style.bgImgUrl + ')', 'background-color': newBoard.style.bgColor }" class="demo-board">
       <img src="https://res.cloudinary.com/trellox/image/upload/v1648370075/demo-board_kga9ov.svg" alt="demo board" />
@@ -24,12 +40,13 @@
 </template>
 
 <script>
-import customModal from '../board/custom-modal.vue'
+import customModal from './custom-modal.vue'
 import { localService } from '../../services/board.service-local'
 export default {
   name: '',
   data() {
     return {
+      openBoardCreation: false,
       newBoard: localService.getEmptyBoard(),
       imagePicker: this.$store.getters.imagePicker,
       colorPicker: this.$store.getters.boardColors.slice(0, 5),
@@ -53,10 +70,10 @@ export default {
       this.newBoard = localService.getEmptyBoard()
     },
   },
-  created() {},
   computed: {},
   components: {
     customModal,
+    localService,
   },
 }
 </script>

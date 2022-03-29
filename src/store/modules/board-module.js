@@ -118,6 +118,7 @@ export default {
       try {
         var board = await boardService.updateBoard(board)
         commit({ type: 'saveBoard', board })
+        return board
       } catch (err) {
         console.error('Cannot Edit/Add board', err)
         throw err

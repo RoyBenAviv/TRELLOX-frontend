@@ -1,15 +1,26 @@
 <template>
-  <home-header />
-  <main class="home-view main-layout">
-    
+<main class="home-wrapper">
+    <home-header />
+  <div class="home-view main-layout">
+    <div class="topside">
     <article>
       <h1>Trellox helps teams move work forward.</h1>
       <p>Collaborate, manage projects, and reach new productivity peaks. From high rises to the home office, the way your team works is unique—accomplish it all with Trello.</p>
       <button @click="toWorkSpace">Start now <span><i class="fa-solid fa-arrow-right"></i></span></button>
     </article>
-    <img src="https://res.cloudinary.com/trellox/image/upload/v1648060642/cooperation_rdrrnf.png" />
+    <div class="background"></div>
+    </div>
+  <div class="middle">
+    <h1>It’s more than work. It’s a way of working together.</h1>
+    <p>
+      It’s more than work. It’s a way of working together.
+Start with a Trello board, lists, and cards. Customize and expand with more features as your teamwork grows. Manage projects, organize tasks, and build team spirit—all in one place.
+    </p>
+    <img src="https://res.cloudinary.com/trellox/image/upload/v1648555830/board_esjncu.png" />
+  </div>
+      </div>
+</main>
 
-  </main>
 </template>
  
 <script>

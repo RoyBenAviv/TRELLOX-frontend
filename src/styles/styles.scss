@@ -26,8 +26,15 @@
 @import 'components/board-list';
 @import 'components/quick-edit-actions';
 @import 'components/board-preview';
-@import 'components/user-modal';
 @import 'components/board-filter';
+
+// app-header-cmps
+@import 'components/user-modal';
+@import 'components/create-board-modal';
+@import 'components/templates-modal';
+@import 'components/starred-modal';
+@import 'components/recent-modal';
+@import 'components/workspaces-modal';
 
 // VIEWS
 @import 'views/home-view';

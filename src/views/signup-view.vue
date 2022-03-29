@@ -21,7 +21,6 @@
       <hr />
       <router-link to="/login">Already have an acount? Log in</router-link>
     </div>
-    {{signupCred}}
   </section>
 </template>
 

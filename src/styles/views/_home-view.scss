@@ -1,24 +1,95 @@
-.home-view {
-        padding-block-start: rem(150px);
+.home-wrapper {
+  background: linear-gradient(0deg, #fff, #eae6ff 100%);
+  .home-view {
+    padding-block-start: rem(150px);
+    >* {
         @include flex;
-        gap: rem(100px);
+    }
+    h1 {
+      font-size: rem(48px);
+    }
+    p {
+      margin-top: rem(5px);
+      font-size: rem(20px);
+    }
+    .middle {
+        margin-top: 300px;
+        flex-direction: column;
+        text-align: center;
         img {
-            width: 370px;
+            width: 50%;
         }
-        article{
-            flex-basis: 60%;
-        }
-        button {
-            margin-top: rem(50px);
-            @include blue-btn;
-            width: 200px;
-            font-size: rem(25px);
-            gap: rem(10px);
-            border: 2px solid transparent;
-            transition: border-color 0.5s;
-            
-            &:hover {
-                border-color: $clr4;
-            }
+    }
+    gap: rem(100px);
+    .background {
+      background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552621/Digital_presentation-bro_1_fsqxlp.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 520px;
+      height: 520px;
+      animation-name: switchbg;
+      animation-direction: alternate-reverse;
+      animation-duration: 8s;
+      // animation-fill-mode: forwards;
+      animation-play-state: running;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+    article {
+      flex-basis: 60%;
+    }
+    button {
+        position: relative;
+      // @include flex;
+      margin-top: rem(50px);
+      @include blue-btn;
+      background-color: $clr2;
+      width: 300px;
+      font-size: rem(34px);
+      gap: rem(20px);
+      transition: all 0.5s;
+      padding: 10px 0;
+      &::after {
+        background: $clr4 none repeat scroll 0 0;
+        content: "";
+        height: 100%;
+        left: 0;
+        opacity: 0.2;
+        position: absolute;
+        top: 0;
+        width: 0;
+    }
+      &:hover {
+           span {
+               transform: translateX(30px);
            }
+            &::after {
+                animation: 0.6s ease 0s normal forwards 1 running fillToRight;
+            }
+            background-color: $clr2
+      }
+      span {
+        font-size: 0.9em;
+        margin-top: 4px;
+        transition: transform 0.8s;
+      }
+
+
+  }
+  }
+}
+
+@keyframes fillToRight {
+    to {
+      width: 100%;
+    }
+  }
+@keyframes switchbg {
+    0% {
+        background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552621/Digital_presentation-bro_1_fsqxlp.png');
+    }
+    100% {
+        background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552650/Design_team-amico_1_du6hao.png');
+    }
 }

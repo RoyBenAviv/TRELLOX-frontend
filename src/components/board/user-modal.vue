@@ -36,11 +36,7 @@ export default {
       return this.member ? this.member.fullname.split(' ')[0].split('')[0] + this.member.fullname.split(' ')[1].split('')[0] : 'G'
     },
     async logout() {
-      try {
-        await this.$store.dispatch('logout')
-      } catch (err) {
-        console.log(err)
-      }
+      this.$emit('logout')
     },
   },
   components: {
