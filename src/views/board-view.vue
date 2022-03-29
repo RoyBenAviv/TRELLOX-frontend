@@ -5,7 +5,7 @@
       <nav class="board-nav">
         <div class="left-nav">
           <h2 @input="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
-          <button class="star" :class="{ full: board.isStarred }" @click="toggleStar()"></button>
+          <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
           <div class="members-container">
             <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
@@ -19,8 +19,7 @@
           <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
           <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
         </div>
-        <boardFilter v-if="openFilter" @closeModal="openFilter = false"
-        v-click-outside="() => openFilter = false"></boardFilter>
+        <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
       </nav>
       <Transition name="menu">
         <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
@@ -68,6 +67,7 @@ export default {
       savingGroup: false,
       lastBoard: null,
       groupsCount: 0,
+      openFilter: false,
     }
   },
   async created() {
@@ -75,9 +75,11 @@ export default {
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
   },
   methods: {
-    async toggleStar() {
+    async updateKey(key, value) {
       const board = JSON.parse(JSON.stringify(this.board))
-      board.isStarred = !board.isStarred
+      if (value === 'toggle') {
+        board[key] = !board[key]
+      } else board[key] = value
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
     },

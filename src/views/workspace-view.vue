@@ -20,7 +20,7 @@
       </nav>
       <div v-if="currpage === 'board'" class="board-list-container">
         <board-list :boards="starredBoards" :showCreate="false">
-          <template v-slot:boards-name>Recently viewed</template>
+          <template v-slot:boards-name>Starred</template>
         </board-list>
         <board-list :boards="recentlyViewd" :showCreate="false">
           <template v-slot:boards-name>Recently viewed</template>
@@ -53,9 +53,18 @@ export default {
   data() {
     return {
       currpage: 'board',
+      starredBoards: null,
+      yourWorkspace: null,
     }
   },
+  created() {
+    this.loadBoards()
+  },
   methods: {
+    async loadBoards(){
+      this.starredBoards = await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: true } })
+    this.yourWorkspace = await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: false } })
+    },
     setCurrpage(value) {
       this.currpage = value
     },
@@ -64,17 +73,25 @@ export default {
     boards() {
       return this.$store.getters.boards
     },
-    starredBoards(){
-      return this.boards
-    },
+    // async starredBoards(){
+    //   return await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: true } })
+    // },
     recentlyViewd(){
       return this.boards
     },
-    yourWorkspace(){
-      return this.boards
-    },
+    // yourWorkspace(){
+    //   return await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: false } })
+    // },
     templates(){
       return this.boards
+    },
+  },
+  watch: {
+    filterBy: {
+      handler() {
+        this.created()
+      },
+      deep: true,
     },
   },
 }

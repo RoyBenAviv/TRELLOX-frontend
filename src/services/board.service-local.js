@@ -27,7 +27,7 @@ function getEmptyBoard() {
     members: [], //add logged in user
     groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
     activities: [],
-    cmpsOrder: [],
+    filterBy: {},
   }
 }
 

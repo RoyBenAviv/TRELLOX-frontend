@@ -28,6 +28,14 @@
             <!-- <div title="watch" class="icon-div">
             <span class="eyecon"></span>
           </div> -->
+            <div :class="{complete: card.dueDate.isCompleted}" title="date" 
+            v-if="card.dueDate" class="icon-div date-preview" 
+            @click.stop="completeDate">
+            
+              <span v-if="card.dueDate.isCompleted" class="date-complete-icon"></span>
+              <span v-else class="date-icon"></span>
+              <span class="date">{{formattedDate}}</span>
+            </div>
             <div title="description" v-if="card.description" class="icon-div">
               <span class="desc"></span>
             </div>
@@ -151,6 +159,11 @@ export default {
       await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
       this.$emit('closeQuickEdit')
     },
+    completeDate() {
+      const card = JSON.parse(JSON.stringify(this.card))
+      card.dueDate.isCompleted = !card.dueDate.isCompleted
+      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
+    }
   },
   computed: {
     labels() {
@@ -174,6 +187,12 @@ export default {
       var members = this.$store.getters.currBoard.members
       return members.filter((m) => this.card.memberIds.includes(m._id))
     },
+    formattedDate() {
+      const date = new Date(this.card.dueDate.date)
+      const month = date.toLocaleString('en-US', { month: 'short' })
+      const day = date.getDate()
+      return `${month} ${day}`
+    }
   },
 }
 </script>

@@ -26,7 +26,7 @@ export default {
       const fac = new FastAverageColor()
       this.color = await fac.getColorAsync(this.board.style.bgImgUrl)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   },
   methods: {
@@ -40,7 +40,6 @@ export default {
       const board = JSON.parse(JSON.stringify(this.board))
       board.isStarred = !board.isStarred
       await this.$store.dispatch({ type: 'saveBoard', board })
-      this.board = board
     },
   },
   computed: {},

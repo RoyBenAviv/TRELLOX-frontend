@@ -4,14 +4,15 @@
       <div @mousedown.stop class="card-modal">
         <div class="card-modal-details">
           <div v-if="card.style.cover" :style="cover" :class="coverType"></div>
-          <span @click="closeEdit" class=" close-modal-button" :class="coverButtonClass"></span>
+          <span @click="closeEdit" class="close-modal-button" :class="coverButtonClass"></span>
           <div class="modal-header">
-            <span class="modal-header-icon">
-            </span>
+            <span class="modal-header-icon"> </span>
             <div class="modal-header-title">
               <textarea v-model="card.title" @keyup="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
-            <div class="inline-content">in list <span style="text-decoration: underline;">{{ groupTitle }}</span></div>
+            <div class="inline-content">
+              in list <span style="text-decoration: underline">{{ groupTitle }}</span>
+            </div>
           </div>
           <div class="modal-main-content">
             <div class="card-details">
@@ -32,11 +33,15 @@
                   <div class="add-label" @click="openModal('label-picker')"><i class="fa-solid fa-plus"></i></div>
                 </div>
               </div>
+              <div v-if="card.dueDate?.date" class="card-details-item card-date">
+                <h3>Due date</h3>
+                <input @input="updateCard" v-model="card.dueDate.isCompleted" type="checkbox" :class="{full: card.dueDate.isCompleted}"/>
+                <span class="date-info" @click="openModal('date-picker')">{{formattedDate}}<span class="complete" v-if="card.dueDate.isCompleted">complete</span><i class="fa-solid fa-angle-down"></i></span>
+              </div>
             </div>
             <div class="description-container">
               <div class="title">
-                <span class="icon-description">
-                </span>
+                <span class="icon-description"> </span>
                 <h3>Description</h3>
               </div>
               <div class="description-input">
@@ -102,7 +107,7 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input" v-click-outside="() => (isCommentsInput = false)">
-                  <textarea @focus="isCommentsInput = true"  :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
               </div>
@@ -116,7 +121,9 @@
                 <div class="card-comment">
                   <span class="comment-by">{{ comment.byMember.fullname }}</span>
                   <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
-                  <div class="the-comment"><pre>{{ comment.txt }}</pre></div>
+                  <div class="the-comment">
+                    <pre>{{ comment.txt }}</pre>
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,7 +151,7 @@
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
               </div>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('date-picker')">
                 <span class="icon ic-date"></span>
                 <span>Dates</span>
               </div>
@@ -200,6 +207,7 @@
 import { utilService } from '../../services/util.service.js'
 import labelPicker from './label-picker.vue'
 import memberPicker from './member-picker.vue'
+import datePicker from './date-picker.vue'
 import checklistAdd from './checklist-add.vue'
 import coverPicker from './cover-picker.vue'
 import attachments from './attachments.vue'
@@ -213,7 +221,8 @@ export default {
     checklistAdd,
     coverPicker,
     attachments,
-    confirmDelete
+    confirmDelete,
+    datePicker,
   },
   data() {
     return {
@@ -236,7 +245,7 @@ export default {
         title: '',
         isDone: false,
       },
-      coverColor: null
+      coverColor: null,
     }
   },
   created() {
@@ -279,7 +288,7 @@ export default {
       if (!this.newComment.txt) return
       var comment = JSON.parse(JSON.stringify(this.newComment))
       comment.txt.trim()
-      comment.createdAt = Date.now();
+      comment.createdAt = Date.now()
       comment.id = utilService.makeId()
       this.card.comments.unshift(comment)
       this.updateCard()
@@ -300,8 +309,6 @@ export default {
     },
     toggleTodo(todoId, checklistId) {
       const clIdx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
-      // console.log('clIdx', clIdx)
-      // console.log('checklistId', checklistId)
       const todoIdx = this.card.checklists[clIdx].todos.findIndex((t) => t.id === todoId)
       this.card.checklists[clIdx].todos[todoIdx].isDone = !this.card.checklists[clIdx].todos[todoIdx].isDone
       this.updateCard()
@@ -331,23 +338,23 @@ export default {
     openUrl(url) {
       window.open(url)
     },
-    removeChecklist(idx){
+    removeChecklist(idx) {
       this.card.checklists.splice(idx, 1)
       this.updateCard()
     },
     async checkCover() {
-      if(!this.card.style.cover) return ''
+      if (!this.card.style.cover) return ''
       try {
-      const fac = new FastAverageColor()
-      if (this.card.style.type === 'url') this.coverColor = await fac.getColorAsync(this.card.style.cover)
-    } catch (err) {
-      console.log(err)
-    }
+        const fac = new FastAverageColor()
+        if (this.card.style.type === 'url') this.coverColor = await fac.getColorAsync(this.card.style.cover)
+      } catch (err) {
+        console.log(err)
+      }
     },
     async removeCard() {
-      await this.$store.dispatch('removeCard', {groupId: this.groupId, cardId: this.cardId})
+      await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
       this.closeEdit()
-    }
+    },
   },
   computed: {
     commentsInputStyle() {
@@ -388,13 +395,18 @@ export default {
       else return 'card-cover-color'
     },
     coverButtonClass() {
-      if(!this.card.style.cover) return ''
-      if(this.card.style.type === 'color') {
+      if (!this.card.style.cover) return ''
+      if (this.card.style.type === 'color') {
         return this.card.style.cover === '#172B4D' ? 'on-cover-icon-dark' : 'on-cover-icon'
-      } else return (this.coverColor.isDark) ? 'on-cover-icon-dark' : 'on-cover-icon'
+      } else return this.coverColor.isDark ? 'on-cover-icon-dark' : 'on-cover-icon'
+    },
+    formattedDate() {
+      const date = new Date(this.card.dueDate.date)
+      const month = date.toLocaleString('en-US', { month: 'short' })
+      const day = date.getDate()
+      const hour = this.card.dueDate.time
+      return `${month} ${day} at ${hour}`
     }
   },
 }
 </script>
-
-<style></style>
