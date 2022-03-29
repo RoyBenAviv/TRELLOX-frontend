@@ -1,35 +1,32 @@
-import axios from 'axios';
-import { httpService } from './http.service';
+import axios from 'axios'
+import { httpService } from './http.service'
 
 axios.defaults.withCredentials = true
 
 export const boardService = {
-    query,
-    getBoardById,
-    removeBoard,
-    updateBoard
-};
-
-async function query() {
-    console.log('query front');
-    return await httpService.get('board')
+  query,
+  getBoardById,
+  removeBoard,
+  updateBoard,
 }
 
-async function getBoardById(boardId, filterBy = {type: 'none'}) {
-    console.log('getBoardById front', filterBy);
-    return await httpService.get(`board/${boardId}`, filterBy)
+async function query(filterBy) {
+  return await httpService.get('board', filterBy)
+}
+
+async function getBoardById(boardId, filterBy = { type: 'none' }) {
+  console.log('getBoardById front', filterBy)
+  return await httpService.get(`board/${boardId}`, filterBy)
 }
 
 async function removeBoard(boardId) {
-    return await httpService.delete(`board/${boardId}`)
+  return await httpService.delete(`board/${boardId}`)
 }
 
 async function updateBoard(board) {
-    if (board._id) {
-        console.log('updateBoard front');
-        return await httpService.put(`board/${board._id}`, board)
-    } 
-    else {
-        return await httpService.post('board', board)
-    }
+  if (board._id) {
+    return await httpService.put(`board/${board._id}`, board)
+  } else {
+    return await httpService.post('board', board)
+  }
 }

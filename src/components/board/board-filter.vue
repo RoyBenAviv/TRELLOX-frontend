@@ -5,10 +5,10 @@
       <p>Keyword</p>
       <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." />
       <p class="mini">Search cards, members, labels, and more.</p>
-      <div v-if="!filterBy.txt">
+      <div>
         <p>Members</p>
         <ul>
-          <li>
+          <li v-if="!filterBy.txt">
             <label>
               <input v-model="filterBy.by.noOne" :class="{ full: filterBy.by.noOne }" type="checkbox" />
               <div class="avatar-container custom">
@@ -51,26 +51,10 @@
           </li> -->
         </ul>
       </div>
-      <div v-else>
-        <ul v-if="members.length">
-          <p>Members</p>
-          <li v-for="member in members" :key="member._id" @click="toggleMember(member._id)">
-            <div class="member" :class="{ active: memberIds.includes(member._id) }">
-              <div class="avatar-container">
-                <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-                <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
-              </div>
-              <span>{{ member.fullname }}</span>
-              <span>({{ member.username }})</span>
-              <span class="v-icon"></span>
-            </div>
-          </li>
-        </ul>
-      </div>
       <div>
         <p>Due date</p>
         <ul>
-          <li>
+          <li v-if="!filterBy.txt">
             <label>
               <input v-model="filterBy.due.none" :class="{ full: filterBy.due.none }" type="checkbox" />
               <div class="avatar-container custom">
@@ -102,7 +86,7 @@
       <div v-if="labels.length">
         <p>Labels</p>
         <ul>
-          <li>
+          <li v-if="!filterBy.txt">
             <label>
               <input v-model="filterBy.label.none" :class="{ full: filterBy.label.none }" type="checkbox" />
               <div class="avatar-container custom">
@@ -127,7 +111,6 @@
 
 <script>
 import customModal from './custom-modal.vue'
-import { ref } from 'vue'
 
 export default {
   props: {
@@ -155,17 +138,18 @@ export default {
           options: [],
         },
       },
-      checked1: ref(true),
     }
   },
   methods: {
     closeModal() {
       this.$emit('closeModal')
     },
+    updateKey() {
+      this.$emit('updateKey', 'filterBy', this.filterBy)
+    },
   },
   computed: {
     members() {
-      console.log('this.$store.getters.currBoard.members', this.$store.getters.currBoard.members)
       return this.$store.getters.currBoard.members
     },
     labels() {
@@ -176,5 +160,13 @@ export default {
     },
   },
   unmounted() {},
+  watch: {
+    filterBy: {
+      handler() {
+        this.updateKey()
+      },
+      deep: true,
+    },
+  },
 }
 </script>

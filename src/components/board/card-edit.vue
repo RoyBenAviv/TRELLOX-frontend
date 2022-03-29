@@ -300,8 +300,6 @@ export default {
     },
     toggleTodo(todoId, checklistId) {
       const clIdx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
-      // console.log('clIdx', clIdx)
-      // console.log('checklistId', checklistId)
       const todoIdx = this.card.checklists[clIdx].todos.findIndex((t) => t.id === todoId)
       this.card.checklists[clIdx].todos[todoIdx].isDone = !this.card.checklists[clIdx].todos[todoIdx].isDone
       this.updateCard()
@@ -396,5 +394,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

@@ -4,7 +4,6 @@ import { socketService, SOCKET_EVENT_BOARD_CHANGED } from '../../services/socket
 export default {
   state: {
     boards: null,
-    filterBy: null,
     currBoard: null,
     labelTitleShown: false,
     labelColors: ['color0', 'color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8', 'color9', 'color10'],
@@ -67,31 +66,34 @@ export default {
     },
     saveBoard(state, { board }) {
       const idx = state.boards.findIndex((b) => b._id === board._id)
-      console.log('idx', idx)
-      console.log('board._id', board._id)
       if (idx !== -1) {
-        if (board._id === state.currBoard._id) state.currBoard = board
+        if (state.currBoard && board._id === state.currBoard._id) state.currBoard = board
         state.boards.splice(idx, 1, board)
       } else state.boards.push(board)
     },
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
     },
-    // setFilter(state, { filterBy }) {
-    //   state.filterBy = filterBy;
-    // },
   },
   actions: {
     async loadBoards({ commit, state }) {
       try {
-        var boards = await boardService.query()
+        var boards = await boardService.query({})
         commit({ type: 'setBoards', boards })
         socketService.off(SOCKET_EVENT_BOARD_CHANGED)
-        socketService.on(SOCKET_EVENT_BOARD_CHANGED, board => {
+        socketService.on(SOCKET_EVENT_BOARD_CHANGED, (board) => {
           commit({ type: 'saveBoard', board })
         })
       } catch (err) {
         console.error('Cannot Load boards', err)
+        throw err
+      }
+    },
+    async getBoards(_, { filterBy }) {
+      try {
+        return await await boardService.query(filterBy)
+      } catch (err) {
+        console.log('Cannot find board', err)
         throw err
       }
     },
@@ -118,7 +120,6 @@ export default {
       try {
         var board = await boardService.updateBoard(board)
         commit({ type: 'saveBoard', board })
-        return board
       } catch (err) {
         console.error('Cannot Edit/Add board', err)
         throw err
