@@ -1,29 +1,60 @@
 .home-header {
+  transition: all 0.6s ease-in;
   @include flex(row, space-between);
   padding: 0 rem(20px);
   position: fixed;
-  // top: 0;
+  z-index: 100;
   width: 100%;
-  height: 68px;
+  height: 90px;
   .logo {
     @include flex;
-    gap: rem(8px);
+    gap: rem(12px);
     h2 {
       font-family: katahdin, sans-serif;
-      font-size: rem(25px);
+      font-size: rem(40px);
+      line-height: 1;
+      margin-top: 4px;
     }
     span {
-      font-size: 2em;
+      font-size: 2.5em;
       color: $clr2;
     }
 
   }
   nav {
+     .guest-nav {
       @include flex;
-    a {
+      gap: rem(5px)
+     }
+     .member-nav {
+      @include flex(row-reverse);
+      gap: rem(5px)
+     }
+     a {
+      cursor: pointer;
+      color: $clr2;
+      font-size: rem(18px);
+      font-weight: 600;
+      text-decoration: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      &:hover {
+        text-decoration:underline;
+      }
+     }
+    a:nth-child(2) {
       @include blue-btn(22px);
       font-size: 1rem;
+      background-color: $clr2;
       margin: rem(10px);
+      font-size: rem(18px);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+      line-height: 20px;
+      padding: 0.5em rem(10px);
+      transition: background-color 0.2s ease-in;
+      &:hover {
+        background-color: darken($clr2, 10%);
+      }
     }
   }
 }

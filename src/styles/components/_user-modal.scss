@@ -1,9 +1,9 @@
 
 .user-modal {
-z-index: 14000;
-left: 70px;
-top: 50px;
+left: 81%;
+top: 45px;
 .member-container {
+    margin-left: rem(12px);
     @include flex(row, flex-start);
     gap: rem(8px);
     .avatar-container {
@@ -14,7 +14,6 @@ top: 50px;
         height: 40px;
         span, img {
             font-size: 1.3em;
-            // @include flex;
             
         }
     }
@@ -45,6 +44,7 @@ top: 50px;
     }
 }
 hr {
-    margin-top: rem(8px) !important;
+    margin: rem(12px) auto !important ;
+    width: 92% !important;
 }
 }

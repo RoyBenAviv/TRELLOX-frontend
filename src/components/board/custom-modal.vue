@@ -10,6 +10,9 @@
     <section class="custom-modal-main">
       <slot name="default"></slot>
     </section>
+        <section class="custom-modal-app-header">
+      <slot name="main"></slot>
+    </section>
   </article>
 </template>
 

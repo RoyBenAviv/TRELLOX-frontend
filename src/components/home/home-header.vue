@@ -1,10 +1,15 @@
 <template>
-  <header class="home-header">
+  <header id="header" class="home-header">
     <div class="logo"><span><i class="fa-brands fa-trello"></i></span> <h2>Trellox</h2></div>
       <nav>
-        <router-link to="/login">login</router-link>
-        <router-link to="/">Home</router-link>
-        <!-- <router-link to="/workspace">workspace</router-link> -->
+        <div class="guest-nav" v-if="!member">
+        <router-link to="/login">Log in</router-link>
+        <router-link to="/">Sign up</router-link>
+        </div>
+        <div class="member-nav" v-else>
+          <a>Log out</a>
+          <a>Welcome {{member.fullname.split(' ')[0]}}</a>
+        </div>
       </nav>
   </header>
 </template>
@@ -15,8 +20,25 @@ export default {
   data() {
     return {}
   },
-  methods: {},
-  computed: {},
+  created() {
+    window.onscroll = function() {
+      var header = document.getElementById('header')
+      if (window.scrollY > 10) {
+      header.style.backgroundColor = 'white'
+      header.style.boxShadow = '0px 3px 3px 0px rgba(0,0,0,0.3)'
+      }
+
+      else {
+        header.style.backgroundColor = ''
+        header.style.boxShadow = ''
+      }
+    }
+  },
+  computed: {
+    member() {
+      return this.$store.getters.loggedinUser
+    },
+  },
   components: {},
 }
 </script>

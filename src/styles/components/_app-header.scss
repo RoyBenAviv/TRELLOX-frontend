@@ -1,5 +1,12 @@
 .app-header {
+  .app-header-modals {
+    top: 45px;
+    .custom-modal-main {
+      padding: 0;
+    }
+  }
   position: fixed;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -60,8 +67,6 @@
     gap: rem(6px);
     label {
       @include flex;
-      position: relative;
-      // color: $clr1;
       width: 256px;
       height: 32px;
       border-radius: 3px;
@@ -73,7 +78,6 @@
       i {
         position: absolute;
         left: 10px;
-        top: 25%;
         font-size: 1em;
       }
       input {
