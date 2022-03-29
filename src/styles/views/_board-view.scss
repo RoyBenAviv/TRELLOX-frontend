@@ -26,6 +26,7 @@
     width: max-content;
     margin-inline-start: rem(28px);
     .board-nav {
+      z-index: 11;
       position: fixed;
       top: 53px;
       width: 100%;

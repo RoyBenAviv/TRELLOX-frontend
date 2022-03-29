@@ -19,8 +19,7 @@
           <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
           <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
         </div>
-        <boardFilter v-if="openFilter" @closeModal="openFilter = false"
-        v-click-outside="() => openFilter = false"></boardFilter>
+        <boardFilter v-if="openFilter" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
       </nav>
       <Transition name="menu">
         <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
@@ -68,6 +67,7 @@ export default {
       savingGroup: false,
       lastBoard: null,
       groupsCount: 0,
+      openFilter: false,
     }
   },
   async created() {
