@@ -1,0 +1,30 @@
+.date-picker {
+//    @include flex(column)
+   .calendar-container {
+    @include flex(column);
+    >* {
+        width: 100%;
+        border: none;
+
+    }
+   }
+   .save {
+    background-color: $clr7 !important;
+    color: $clr4 !important;
+    }
+    .date-options {
+        @include flex(row, flex-start);
+        gap: rem(6px);
+        input {
+            padding: 5px !important;
+            border: 2px solid $clr7 !important;
+
+        }
+        input:nth-child(1) {
+            width: 56% !important;
+        }
+        input:nth-child(2) {
+            width: 40% !important;
+        }
+    }
+}

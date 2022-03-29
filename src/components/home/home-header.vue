@@ -7,7 +7,7 @@
         <router-link to="/">Sign up</router-link>
         </div>
         <div class="member-nav" v-else>
-          <a>Log out</a>
+          <a @click="logout">Log out</a>
           <a>Welcome {{member.fullname.split(' ')[0]}}</a>
         </div>
       </nav>
@@ -19,6 +19,15 @@ export default {
   name: 'app header',
   data() {
     return {}
+  },
+  methods: {
+      async logout() {
+        try {
+        await this.$store.dispatch('logout')
+      } catch (err) {
+        console.log(err)
+      }
+    },
   },
   created() {
     window.onscroll = function() {
