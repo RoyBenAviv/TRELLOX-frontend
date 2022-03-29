@@ -1,9 +1,11 @@
 <template>
   <section>
     <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit" >
-      <div v-if="card.style.fullCover && !checkQuickEdit" :style="`background: ${card.style.cover}`" class="card-preview-full-cover">
+      <div v-if="card.style.fullCover && !checkQuickEdit" :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`" class="card-preview-full-cover" :class="card.style.type === 'color' ? '' : 'imgUrl'">
         <div class="card-preview-cover-color"></div>
-        <span>{{ card.title }}</span>
+        <div class="full-cover-title" >
+        <span >{{ card.title }}</span>
+        </div>
         <span @click.stop="openQuickEdit" class="edit-card"></span>
       </div>
       <div v-else class="card-preview-inside-container">

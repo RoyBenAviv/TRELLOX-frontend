@@ -16,14 +16,15 @@
           <button class="invite">Invite</button>
         </div>
         <div class="right-nav">
-          <button><i class="fa-solid fa-filter"></i> Filter</button>
+          <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
           <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
         </div>
+        <boardFilter v-if="openFilter" @closeModal="openFilter = false"
+        v-click-outside="() => openFilter = false"></boardFilter>
       </nav>
       <Transition name="menu">
         <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
       </Transition>
-      <!-- <div > -->
       <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
         <Draggable v-for="group in board.groups" :key="group.id">
           <group-preview :group="group" @onCardDrop="onCardDrop" />
@@ -36,7 +37,6 @@
           </div>
         </div>
       </Container>
-      <!-- </div> -->
       <router-view></router-view>
     </div>
   </section>
@@ -48,6 +48,7 @@ import { Container, Draggable } from 'vue3-smooth-dnd'
 import { applyDrag } from '../services/drag.helpers'
 import appHeader from '../components/app-header.vue'
 import boardMenu from '../components/board/board-menu.vue'
+import boardFilter from '../components/board/board-filter.vue'
 
 export default {
   components: {
@@ -56,6 +57,7 @@ export default {
     Draggable,
     appHeader,
     boardMenu,
+    boardFilter,
   },
   data() {
     return {
@@ -65,7 +67,7 @@ export default {
       openMenu: false,
       savingGroup: false,
       lastBoard: null,
-      groupsCount: 0
+      groupsCount: 0,
     }
   },
   async created() {
@@ -80,7 +82,7 @@ export default {
       this.board = board
     },
     async addGroup() {
-      if(!this.groupTitle) return
+      if (!this.groupTitle) return
       await this.$store.dispatch({ type: 'addGroup', title: this.groupTitle })
       this.groupTitle = ''
     },
@@ -91,8 +93,8 @@ export default {
         this.lastBoard = JSON.parse(JSON.stringify(this.board))
         this.board = board
         await this.$store.dispatch({ type: 'saveBoard', board })
-      } catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.board = this.lastBoard
       }
     },
@@ -101,17 +103,17 @@ export default {
         const board = JSON.parse(JSON.stringify(this.board))
         const idx = this.board.groups.findIndex((group) => group.id === groupId)
         board.groups[idx].cards = cards
-        if(this.groupsCount === 0) {
+        if (this.groupsCount === 0) {
           this.lastBoard = JSON.parse(JSON.stringify(this.board))
         }
         this.board = board
         this.groupsCount++
-        if(this.groupsCount === this.board.groups.length) {
+        if (this.groupsCount === this.board.groups.length) {
           await this.$store.dispatch({ type: 'saveBoard', board })
           this.groupsCount = 0
         }
-      } catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.board = this.lastBoard
       }
     },
@@ -159,7 +161,7 @@ export default {
   display: flex;
 }
 .on-dragging {
-  transform: rotate(10deg);
+  transform: rotate(6deg);
 }
 .menu-enter-active {
   transition: transform 0.3s ease-out;

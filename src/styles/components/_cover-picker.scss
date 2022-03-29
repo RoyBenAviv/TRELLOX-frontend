@@ -95,6 +95,10 @@
         height: 48px;
         width: 88px;
         cursor: pointer;
+
+        &:hover {
+            filter: saturate(85%) brightness(85%);
+        }
     }
     .images-container {
         position: relative;
@@ -145,5 +149,107 @@
         line-height: 16px;
         margin-top: 12px;
         color: #5e6c84;
+    }
+}
+
+.image-picker {
+    .buttons-container {
+        .grey-btn {
+            margin: 0 0 0 8px;
+            border-radius: 3px;
+            line-height: 20px;
+            background-color: #091e420a;
+            border: none;
+            cursor: pointer;
+            padding: 6px 12px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0 4px 4px 0;
+    
+            &:hover {
+                background-color: #091e4214;
+            }
+        }
+    }
+
+    .unsplash-txt {
+        font-size: 12px;
+        line-height: 16px;
+        margin-top: 12px;
+        color: #5e6c84;
+        float: right;
+
+        a {
+            color: #5e6c84;
+        }
+    }
+
+    .images-container {
+        display: grid;
+        gap: 8px;
+        padding: 4px;
+        margin: 0 -4px;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    h4.images-header {
+        margin-top: 16px;
+        margin-bottom: 4px;
+    }
+    .attachment-preview {
+        margin: 0;
+        border-radius: 3px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        height: 48px;
+        width: 88px;
+        cursor: pointer;
+        &:hover {
+            filter: saturate(85%) brightness(85%);
+        }
+    }
+    .active {
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #0079bf;
+        filter: none;
+
+        &:hover {
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #5ba4cf;
+            filter: none;
+        }
+    }
+    .large-image-container {
+        -webkit-overflow-scrolling: touch;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 4px;
+        margin: 0 -4px;
+        overflow-x: hidden;
+        max-height: 512px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        &::-webkit-scrollbar-track-piece {
+            background: rgba(9, 30, 66, 0.08);
+        }
+        &::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .large-preview {
+            border-radius: 3px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            box-shadow: none;
+            height: 81px;
+            width: 136px;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+
+            &:hover {
+                filter: saturate(85%) brightness(85%);
+            }
+        }
     }
 }

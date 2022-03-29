@@ -139,7 +139,7 @@
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
+              <component v-if="cmpName" :is="cmpName" :card="card" @mousedown.prevent @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
               <div class="action-btn" @click="openModal('checklist-add')">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
