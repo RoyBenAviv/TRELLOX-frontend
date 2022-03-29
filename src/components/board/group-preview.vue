@@ -20,7 +20,7 @@
         />
       </div>
 
-      <Container class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
+      <Container drag-class="on-dragging" class="card-preview-container" @drop="onCardDrop(group, $event)" group-name="1" :get-child-payload="getChildPayload">
         <Draggable v-for="card in group.cards" :key="card.id">
           <card-preview @openQuickEdit="openQuickEdit" @closeQuickEdit="closeQuickEdit" :groupId="group.id" :isQuickEdit="isQuickEdit" :card="card" />
         </Draggable>
@@ -175,3 +175,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.on-dragging {
+  transform: rotate(5deg);
+}
+</style>
