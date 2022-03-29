@@ -3,7 +3,7 @@
     <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit" >
       <div v-if="card.style.fullCover && !checkQuickEdit" :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`" class="card-preview-full-cover" :class="card.style.type === 'color' ? '' : 'imgUrl'">
         <div class="card-preview-cover-color"></div>
-        <div class="full-cover-title" >
+        <div class="full-cover-title" :class="card.style.isDark ? 'dark' : 'light'">
         <span >{{ card.title }}</span>
         </div>
         <span @click.stop="openQuickEdit" class="edit-card"></span>
