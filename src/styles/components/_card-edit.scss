@@ -273,6 +273,44 @@
             margin-top: 8px;
             margin-left: 40px;
 
+            .card-date {
+                    @include checkbox;
+                    &:hover {
+                        input {
+                            box-shadow: inset 0 0 0 10px #ebecf0;
+                            &.full {
+                                box-shadow: inset 0 0 0 2px #0079bf;
+                            }
+                        }
+                    }
+                .date-info {
+                    // @include flex;
+                    color: #172b4d;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-weight: 400;
+                    border-radius: 3px;
+                    background-color: rgba(9, 30, 66, 0.04);
+                    cursor: pointer;
+                    padding: 6px 12px;
+                    i {
+                        margin-left: 10px;
+                    }
+                    .complete {
+                        color: #FFFFFF;
+                        background-color: #61BD4F;
+                        font-size: 12px;
+                        line-height: 16px;
+                        padding: 0 4px;
+                        border-radius: 2px;
+                        margin: auto 0 auto 8px;
+                    }
+
+                    
+                }
+
+            }
             .card-details-item {
                 display: block;
                 float: left;
