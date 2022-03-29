@@ -10,7 +10,6 @@ export const socketService = createSocketService()
 // window.socketService = socketService
 socketService.setup()
 
-
 function createSocketService() {
   var socket = null;
   const socketService = {
@@ -35,7 +34,6 @@ function createSocketService() {
   return socketService
 }
 
-
 // Basic Tests
 // function cb(x) {console.log('Got Baba:', x)}
 // socketService.on('baba', cb)
@@ -43,4 +41,3 @@ function createSocketService() {
 // socketService.on('mama', alert)
 // socketService.emit('baba', 'DATA123')
 // socketService.off('baba', cb)
-

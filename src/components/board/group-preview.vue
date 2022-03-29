@@ -15,7 +15,7 @@
           @copyGroup="copyGroup"
           @removeGroup="removeGroup"
           @addCard="actionAdd"
-          @sortCards="sortCards"
+          @sortBy="sortCards"
           v-if="openGrpAct"
         />
       </div>
@@ -157,9 +157,9 @@ export default {
     },
     sortCards(value) {
       this.openGrpAct = false
-      console.log('sortBy', sortBy)
       var filterBy = {
         type: 'sort',
+        groupId: this.group.id,
         sortBy: value
       }
       this.$store.dispatch({type: 'filterBoard', boardId: this.board._id, filterBy})
