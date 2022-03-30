@@ -27,9 +27,7 @@
   .left-header {
     .logo {
       cursor: pointer;
-      // padding-left: rem(42px);
-      // margin-right: rem(20px);
-      margin: 0 rem(20px) 0 rem(25px);
+      margin: 0 rem(20px) 0 rem(16px);
       border-radius: 3px;
       padding: rem(5px);
       @include flex;
