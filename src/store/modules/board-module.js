@@ -194,15 +194,15 @@ export default {
         throw err
       }
     },
-    addActivity({ commit, getters, dispatch }, { txt, card }) {
+    async addActivity({ commit, getters, dispatch }, { txt, card }) {
       const activity = {
         id: utilService.makeId(),
         txt: txt,
         createdAt: Date.now(),
         byMember: {
-          _id: getters.loggedinUser._id,
-          fullname: getters.loggedinUser.fullname,
-          imgUrl: getters.loggedinUser?.imgUrl,
+          _id: getters.loggedinUser?._id || '',
+          fullname: getters.loggedinUser?.fullname || 'Guest',
+          imgUrl: getters.loggedinUser?.imgUrl || '',
         },
         card: {
           id: card.id,
@@ -210,7 +210,7 @@ export default {
         },
       }
       commit({type:'addActivity', activity})
-      dispatch({type: 'saveBoard', board: getters.currBoard})
+      await dispatch({type: 'saveBoard', board: getters.currBoard})
     },
   },
 }

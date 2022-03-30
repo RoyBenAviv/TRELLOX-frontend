@@ -118,7 +118,7 @@ export default {
         format: res.format,
       }
       this.attachments.push(imgAttachment)
-      this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)))
+      this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)), `added an attachment`)
       this.style.cover = res.url
       this.style.type = 'url'
       this.save()
@@ -149,7 +149,8 @@ export default {
       this.save()
     },
     save() {
-      this.$emit('updateKey', 'style', JSON.parse(JSON.stringify(this.style)))
+      const activity = (this.style.cover) ? 'updated card cover' : 'removed card cover'
+      this.$emit('updateKey', 'style', JSON.parse(JSON.stringify(this.style)), activity)
     },
     async searchImages(searchVal, firstSearch = false) {
       if (!firstSearch) this.searchVal = searchVal

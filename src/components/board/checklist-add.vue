@@ -28,7 +28,8 @@ methods: {
       this.$emit('closeModal')
     },
     save() {
-      this.$emit('updateKey', 'checklists', JSON.parse(JSON.stringify(this.checklist)))
+      if(!this.checklist.title) return
+      this.$emit('updateKey', 'checklists', JSON.parse(JSON.stringify(this.checklist)), `added checklist ${this.checklist.title}`)
       this.$emit('closeModal')
     },
 },
