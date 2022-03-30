@@ -415,15 +415,13 @@ export default {
     async addActivity(txt) {
       await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
-<<<<<<< HEAD
     async joinToCard() {
       this.card.memberIds.push(this.$store.getters.loggedinUser._id)
       await this.addActivity(`${this.$store.getters.loggedinUser.fullname} Joined card`)
       this.updateCard()
-=======
+    },
     formattedTime(time) {
       return utilService.getFormattedTime(time)
->>>>>>> 432c84b8d5a013a9c1ca0a863c652d157ca7aacb
     }
   },
   computed: {
