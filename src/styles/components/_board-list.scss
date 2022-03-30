@@ -10,7 +10,7 @@
             padding: 0 0 11px;
             position: relative;
 
-            span {
+            .icon {
                 font-family: trellicons;
                 text-align: center;
                 left: -40px;
@@ -18,9 +18,6 @@
                 font-size: 24px;
                 line-height: 32px;
                 width: 32px;
-                &:before {
-                    content: "\e91b";
-                }
             }
             .title {
                 font-weight: 700;
@@ -45,8 +42,36 @@
                     padding: 0;
                     transform: translate(0);
                     width: 23%;
-                    
                 }
+            }
+        }
+    }
+
+    .starred {
+        .icon {
+            &:before {
+                content: "\e966";
+            }
+        }
+    }
+    .recentlyViewd {
+        .icon {
+            &:before {
+                content: "\e91b";
+            }
+        }
+    }
+    .yourWorkspace {
+        .icon {
+            &:before {
+                content: "\e91b";
+            }
+        }
+    }
+    .templates {
+        .icon {
+            &:before {
+                content: "\e91b";
             }
         }
     }

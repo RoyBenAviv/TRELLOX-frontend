@@ -31,3 +31,45 @@ function makeId(length = 5) {
   }
   return txt
 }
+
+function _filter(board) {
+  const filterBy = board.filterBy
+  // if (filterBy.txt) {
+
+  // }
+  logger.info('start to filter', filterBy)
+  if (filterBy.by.noOne) {
+    board.groups = board.groups.map((group) => {
+      group.cards = group.cards.filter((card) => card.memberIds.length === 0)
+      return group
+    })
+  } else {
+    if (filterBy.by.options.length) {
+      board.groups = board.groups.map((group) => {
+        group.cards = group.cards.map((card) => {
+          card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
+          return card
+        })
+        return group
+      })
+    }
+  }
+  return board
+}
+
+// filterBy: {
+//   txt: '',
+//   by: {
+//     noOne: false,
+//     options: [],
+//   },
+//   due: {
+//     none: false,
+//     over: false,
+//     tommarow: false,
+//   },
+//   label: {
+//     none: false,
+//     options: [],
+//   },
+// },

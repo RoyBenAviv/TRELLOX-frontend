@@ -81,8 +81,35 @@ export default {
         board[key] = !board[key]
       } else board[key] = value
       await this.$store.dispatch({ type: 'saveBoard', board })
+      // this.board = this._filter(board)
       this.board = board
     },
+    // _filter(board) {
+    //   const filterBy = board.filterBy
+    //   console.log('filterBy', filterBy)
+    //   // if (filterBy.txt) {
+
+    //   // }
+    //   if (filterBy.by.noOne) {
+    //     board.groups = board.groups.map((group) => {
+    //       group.cards = group.cards.filter((card) => card.memberIds.length === 0)
+    //       return group
+    //     })
+    //     // console.log('here1 board', board)
+    //   } else {
+    //     if (filterBy.by.options.length) {
+    //       board.groups = board.groups.map((group) => {
+    //         group.cards = group.cards.filter((card) => {
+    //           card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
+    //           if(card.memberIds.length) return card
+    //         })
+    //         return group
+    //       })
+    //       // console.log('here2 board', board)
+    //     }
+    //   }
+    //   return board
+    // },
     async addGroup() {
       if (!this.groupTitle) return
       await this.$store.dispatch({ type: 'addGroup', title: this.groupTitle })

@@ -19,18 +19,18 @@
         </div>
       </nav>
       <div v-if="currpage === 'board'" class="board-list-container">
-        <board-list :boards="starredBoards" :showCreate="false">
+        <board-list :boards="starredBoards" :showCreate="false" class="starred">
           <template v-slot:boards-name>Starred</template>
         </board-list>
-        <board-list :boards="recentlyViewd" :showCreate="false">
+        <board-list :boards="recentlyViewd" :showCreate="false" class="recentlyViewd">
           <template v-slot:boards-name>Recently viewed</template>
         </board-list>
-        <board-list :boards="yourWorkspace" :showCreate="true">
+        <board-list :boards="yourWorkspace" :showCreate="true" class="yourWorkspace">
           <template v-slot:boards-name>YOUR WORKSPACES</template>
         </board-list>
       </div>
       <div v-if="currpage === 'template'" class="board-list-container">
-        <board-list :boards="templates" :showCreate="false">
+        <board-list :boards="templates" :showCreate="false" class="templates">
           <template v-slot:boards-name>Templates</template>
         </board-list>
       </div>
@@ -41,14 +41,12 @@
 <script>
 import boardList from '../components/workspace/board-list.vue'
 import AppHeader from '../components/app-header.vue'
-import BoardList from '../components/workspace/board-list.vue'
 
 export default {
   name: 'workspace-view',
   components: {
     boardList,
     AppHeader,
-    BoardList,
   },
   data() {
     return {
@@ -87,9 +85,9 @@ export default {
     },
   },
   watch: {
-    filterBy: {
+    boards: {
       handler() {
-        this.created()
+        this.loadBoards()
       },
       deep: true,
     },

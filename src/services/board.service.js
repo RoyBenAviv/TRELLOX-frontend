@@ -15,7 +15,6 @@ async function query(filterBy) {
 }
 
 async function getBoardById(boardId, filterBy = { type: 'none' }) {
-  console.log('getBoardById front', filterBy)
   return await httpService.get(`board/${boardId}`, filterBy)
 }
 
