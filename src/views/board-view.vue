@@ -73,6 +73,7 @@ export default {
   async created() {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+    this.updateKey('recentlyViewed', Date.now())
   },
   methods: {
     async updateKey(key, value) {
@@ -80,9 +81,9 @@ export default {
       if (value === 'toggle') {
         board[key] = !board[key]
       } else board[key] = value
-      // await this.$store.dispatch({ type: 'saveBoard', board })
-      this.board = this._filter(board)
-      // this.board = board
+      await this.$store.dispatch({ type: 'saveBoard', board })
+      this.board = board
+      // this.board = this._filter(board)
     },
     _filter(board) {
       const filterBy = board.filterBy

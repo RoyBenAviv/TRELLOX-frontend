@@ -1,6 +1,6 @@
 .board-add {
-    left: 105%;
-    top: 0;
+    // left: 105%;
+    // top: 0;
     .demo-board {
         margin: auto;
         width: 200px;
@@ -16,21 +16,21 @@
             }
         }
         .image-picker {
-            >* {
-            margin: 0;
-            cursor: pointer;
-            }   
+            > * {
+                margin: 0;
+                cursor: pointer;
+            }
             border-radius: 3px;
             @include flex;
             gap: rem(8px);
             img {
-            width: 64px;
-            height: 40px;
-            border-radius: 3px;
-            transition: all 0.3s;
-            &:hover {
-                filter: brightness(70%);
-            }
+                width: 64px;
+                height: 40px;
+                border-radius: 3px;
+                transition: all 0.3s;
+                &:hover {
+                    filter: brightness(70%);
+                }
             }
         }
         .color-picker {
@@ -38,7 +38,7 @@
             @include flex;
             gap: rem(8px);
             margin-block-end: rem(25px);
-            >* {
+            > * {
                 margin: 0;
                 cursor: pointer;
             }
