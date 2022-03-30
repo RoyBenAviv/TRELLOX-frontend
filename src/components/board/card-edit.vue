@@ -273,7 +273,7 @@ export default {
     closeModal() {
       this.cmpName = null
     },
-    updateKey(key, value) {
+    async updateKey(key, value, activity) {
       if (key === 'checklists' || key === 'attachments') {
         value.id = utilService.makeId()
         this.card[key].push(value)
