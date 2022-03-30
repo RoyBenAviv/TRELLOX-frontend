@@ -68,7 +68,7 @@ export default {
       }
     },
     calcPosition(rect) {
-      var { left} = rect
+      var { left } = rect
       this.posTop = 50
       this.posLeft = left
     },
