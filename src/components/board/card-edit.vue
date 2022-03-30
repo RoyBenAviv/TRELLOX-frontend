@@ -120,7 +120,7 @@
                 </div>
                 <div class="card-comment">
                   <span class="comment-by">{{ comment.byMember.fullname }}</span>
-                  <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
+                  <span class="comment-date">{{ formattedTime(comment.createdAt) }}</span>
                   <div class="the-comment">
                     <p>{{ comment.txt }}</p>
                   </div>
@@ -138,7 +138,7 @@
                     <span class="comment-by">{{ activity.byMember.fullname }}</span>
                     <span class="activity-txt">{{ activity.txt }}</span>
                   </div>
-                  <span class="comment-date">{{ new Date(activity.createdAt) }}</span>
+                  <span class="comment-date">{{ formattedTime(activity.createdAt) }}</span>
                 </div>
               </div>
             </div>
@@ -414,6 +414,9 @@ export default {
     async addActivity(txt) {
       await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
+    formattedTime(time) {
+      return utilService.getFormattedTime(time)
+    }
   },
   computed: {
     commentsInputStyle() {
