@@ -20,7 +20,7 @@
                 <h3>Members</h3>
                 <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
                   <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-                  <span v-else>{{member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0]}}</span>
+                  <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
                 <div class="add-member" @click="openModal('member-picker')"><i class="fa-solid fa-plus"></i></div>
               </div>
@@ -35,8 +35,8 @@
               </div>
               <div v-if="card.dueDate?.date" class="card-details-item card-date">
                 <h3>Due date</h3>
-                <input @input="updateCard" v-model="card.dueDate.isCompleted" type="checkbox" :class="{full: card.dueDate.isCompleted}"/>
-                <span class="date-info" @click="openModal('date-picker')">{{formattedDate}}<span class="complete" v-if="card.dueDate.isCompleted">complete</span><i class="fa-solid fa-angle-down"></i></span>
+                <input @input="updateCard" v-model="card.dueDate.isCompleted" type="checkbox" :class="{ full: card.dueDate.isCompleted }" />
+                <span class="date-info" @click="openModal('date-picker')">{{ formattedDate }}<span class="complete" v-if="card.dueDate.isCompleted">complete</span><i class="fa-solid fa-angle-down"></i></span>
               </div>
             </div>
             <div class="description-container">
@@ -116,7 +116,7 @@
               <div class="card-comment-container" v-for="comment in comments" :key="comment.id">
                 <div class="avatar-container member">
                   <img v-if="comment.byMember.imgUrl" :src="comment.byMember.imgUrl" alt="" />
-                  <span v-else>{{ comment.byMember._id ? (comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0]) : 'G' }}</span>
+                  <span v-else>{{ comment.byMember._id ? comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
                 </div>
                 <div class="card-comment">
                   <span class="comment-by">{{ comment.byMember.fullname }}</span>
@@ -131,12 +131,12 @@
               <div class="card-comment-container" v-for="activity in activities" :key="activity.id">
                 <div class="avatar-container member">
                   <img v-if="activity.byMember.imgUrl" :src="activity.byMember.imgUrl" alt="" />
-                  <span v-else>{{ activity.byMember._id ? (activity.byMember.fullname.split(' ')[0].split('')[0] + activity.byMember.fullname.split(' ')[1].split('')[0]) : 'G' }}</span>
+                  <span v-else>{{ activity.byMember._id ? activity.byMember.fullname.split(' ')[0].split('')[0] + activity.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
                 </div>
                 <div class="card-comment activities">
                   <div>
                     <span class="comment-by">{{ activity.byMember.fullname }}</span>
-                    <span class="activity-txt">{{activity.txt}}</span>
+                    <span class="activity-txt">{{ activity.txt }}</span>
                   </div>
                   <span class="comment-date">{{ new Date(activity.createdAt) }}</span>
                 </div>
@@ -161,7 +161,18 @@
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card" :isCopyCard="isCopyCard" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" :style="`top: ${posTop}px; left: ${posLeft}px`"></component>
+              <component
+                v-if="cmpName"
+                :is="cmpName"
+                :card="card"
+                :posLeft="posLeft"
+                :isCopyCard="isCopyCard"
+                @removeCard="removeCard"
+                @closeModal="closeModal"
+                @updateKey="updateKey"
+                v-click-outside="() => closeModal()"
+                :style="`top: ${posTop}px; left: ${posLeft}px`"
+              ></component>
               <div class="action-btn" @click="openModal('checklist-add', $event)">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
@@ -181,7 +192,7 @@
             </div>
             <div class="action-container">
               <h3>Actions</h3>
-              <div class="action-btn" @click="openModal('move-card',$event)">
+              <div class="action-btn" @click="openModal('move-card', $event)">
                 <span class="icon ic-move"></span>
                 <span>Move</span>
               </div>
@@ -237,7 +248,7 @@ export default {
     confirmDelete,
     datePicker,
     moveCard,
-    shareCard
+    shareCard,
   },
   data() {
     return {
@@ -263,7 +274,7 @@ export default {
       coverColor: null,
       isCopyCard: false,
       posTop: null,
-      posLeft: null
+      posLeft: null,
     }
   },
   created() {
@@ -274,19 +285,22 @@ export default {
   methods: {
     openModal(cmpName, ev) {
       this.calcPosition(ev.target.getBoundingClientRect())
-      if(cmpName === 'copy-card') {
+      if (cmpName === 'copy-card') {
         this.isCopyCard = true
         cmpName = 'move-card'
       } else this.isCopyCard = false
-      console.log('cmpName',cmpName);
+      console.log('cmpName', cmpName)
       this.cmpName = cmpName
     },
     calcPosition(rect) {
-      console.log('rect',rect);
-      var {top, bottom, right, left, x, y} = rect
+      var { top, bottom, right, left, x, y } = rect
+      // console.log('rect', rect)
       const winHeight = window.innerHeight
       const winWidth = window.innerWidth
-      if(winWidth - left < 300) {
+      console.log('winWidth - left',winWidth - left)
+      console.log('winWidth',winWidth)
+      console.log('left',left)
+      if (winWidth - left < 300) {
         left = winWidth - 330
       }
       this.posTop = winHeight - 630
@@ -300,7 +314,7 @@ export default {
         value.id = utilService.makeId()
         this.card[key].push(value)
       } else this.card[key] = value
-      if(activity) await this.addActivity(activity)
+      if (activity) await this.addActivity(activity)
       this.updateCard()
     },
     closeEdit() {
@@ -398,8 +412,8 @@ export default {
       this.closeEdit()
     },
     async addActivity(txt) {
-      await this.$store.dispatch({type: 'addActivity', txt, card: this.card})
-    }
+      await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
+    },
   },
   computed: {
     commentsInputStyle() {
@@ -454,8 +468,8 @@ export default {
     },
     activities() {
       const activities = this.$store.getters.currBoard.activities
-      return activities.length ? activities.filter(ac => ac.card.id === this.card.id) : []
-    }
+      return activities.length ? activities.filter((ac) => ac.card.id === this.card.id) : []
+    },
   },
 }
 </script>

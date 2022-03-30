@@ -19,19 +19,18 @@ import customModal from './custom-modal.vue'
 export default {
   name: '',
   data() {
-    return {
-      starredBoards: this.starBoards(),
-    }
+    return {}
   },
   components: {
     customModal,
   },
-  methods: {
-    async starBoards() {
-      this.starredBoards = await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: true } })
+  methods: {},
+  computed: {
+    starredBoards() {
+      var boards = this.$store.getters.boards
+      return boards.filter((b) => b.isStarred)
     },
   },
-  computed: {},
 }
 </script>
 

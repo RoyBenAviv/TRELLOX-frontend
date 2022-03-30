@@ -73,7 +73,6 @@ export default {
   computed: {},
   components: {
     customModal,
-    localService,
   },
 }
 </script>

@@ -44,19 +44,9 @@ export default {
     AppHeader,
   },
   data() {
-    return {
-      starredBoards: null,
-      noneStarredBoards: null,
-    }
-  },
-  created() {
-    this.loadBoards()
+    return {}
   },
   methods: {
-    async loadBoards() {
-      this.starredBoards = await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: true } })
-      this.noneStarredBoards = await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: false } })
-    },
     setCurrpage(value) {
       this.currpage = value
     },
@@ -65,13 +55,13 @@ export default {
     boards() {
       return this.$store.getters.boards
     },
-  },
-  watch: {
-    boards: {
-      handler() {
-        this.loadBoards()
-      },
-      deep: true,
+    starredBoards() {
+      var boards = this.$store.getters.boards
+      return boards.filter((b) => b.isStarred)
+    },
+    noneStarredBoards() {
+      var boards = this.$store.getters.boards
+      return boards.filter((b) => !b.isStarred)
     },
   },
 }

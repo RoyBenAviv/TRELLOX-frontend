@@ -96,14 +96,6 @@ export default {
         throw err
       }
     },
-    async getBoards(_, { filterBy }) {
-      try {
-        return await await boardService.query(filterBy)
-      } catch (err) {
-        console.log('Cannot find board', err)
-        throw err
-      }
-    },
     async setCurrBoard({ commit }, { boardId }) {
       try {
         const board = await boardService.getBoardById(boardId)

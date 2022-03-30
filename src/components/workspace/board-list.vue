@@ -33,18 +33,18 @@ export default {
   name: 'board-list',
   props: {
     boards: Array,
-    showCreate: Boolean
+    showCreate: Boolean,
   },
   data() {
     return {
       openBoardCreation: false,
     }
   },
-  methods: {},
-  computed: {},
   components: {
     boardPreview,
     boardAdd,
   },
+  methods: {},
+  computed: {},
 }
 </script>
