@@ -3,8 +3,12 @@ import { userService } from '../../services/user.service'
 export default {
   state: {
     loggedinUser: userService.getLoggedinUser(),
+    users: [],
   },
   getters: {
+    users({ users }) {
+       return users 
+      },
     loggedinUser({ loggedinUser }) {
       return loggedinUser
     },
@@ -13,8 +17,20 @@ export default {
     setLoggedinUser(state, { user }) {
       state.loggedinUser = user ? { ...user } : null
     },
+    setUsers(state, { users }) {
+      state.users = users;
+  },
   },
   actions: {
+    async loadUsers({ commit }) {
+      try {
+          const users = await userService.getUsers();
+          commit({ type: 'setUsers', users })
+      } catch (err) {
+          console.log('Error load users', err)
+          throw err
+      }
+  }, 
     async login({ commit }, { userCred }) {
       try {
         const user = await userService.login(userCred)

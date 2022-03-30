@@ -33,10 +33,13 @@
       }
       i {
         font-size: 1.3em;
+        @media (max-width: 550px) {
+          font-size: 1.8em;
+        }
       }
       p {
         margin: 0;
-        @media (max-width: 700px) {
+        @media (max-width: 550px) {
           display: none;
         }
       }
@@ -53,6 +56,11 @@
       @include header-btn;
       i {
         font-size: 0.8em;
+        @media (max-width: 900px) {
+          display: none;
+        }
+      
+      
       }
     }
     .recent {
@@ -84,18 +92,21 @@
     button:last-child {
       &::before {
         font-family: trellicons;
+        font-size: 18px;
         content: '\e901';
         @media(min-width: 900px) {
           font-family: Arial, Helvetica, sans-serif;
           content: 'Create';
+          font-size: 14px;
         }
       }
       @include header-btn;
       background-color: rgba(9, 30, 66, 0.04);
       margin: 4px;
       padding: 10px;
-      i {
-        font-size: 0.8em;
+      @media(max-width: 900px) {
+        background-color: transparent !important;
+        margin: 0;
       }
     }
   }

@@ -6,8 +6,13 @@ export const userService = {
     login,
     signup,
     logout,
-    getLoggedinUser
+    getLoggedinUser,
+    getUsers
 };
+
+async function getUsers() {
+    return await httpService.get('user')
+  }
 
 async function login(userCred) {
     const user = await httpService.post('auth/login', userCred)
