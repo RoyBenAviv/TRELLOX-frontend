@@ -17,26 +17,20 @@ import customModal from './custom-modal.vue'
 import { imgService } from '../../services/img.service.js'
 export default {
   name: '',
-  props: {
-    card: Object
-  },
   data() {
     return {
-        attachments: JSON.parse(JSON.stringify(this.card.attachments))
     }
   },
   methods: {
     async onUploadImg(ev) {
         const res = await imgService.uploadImg(ev)
-        console.log('res',res);
         const imgAttachment = {
           name: res.public_id,
           createdAt: res.created_at,
           url: res.url,
           format: res.format
         }
-        this.attachments.push(imgAttachment)
-        this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)))
+        this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(imgAttachment)))
     },
   },
   components: {
