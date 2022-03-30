@@ -10,6 +10,21 @@
       <ul class="menu-options">
         <li><i class="fa-solid fa-list-ul"></i> <a class="activity">Activity</a></li>
       </ul>
+      <div class="activities-container" v-if="activities.length">
+        <div class="card-comment-container" v-for="activity in activities.splice(0,20)" :key="activity.id">
+          <div class="avatar-container member">
+            <img v-if="activity.byMember.imgUrl" :src="activity.byMember.imgUrl" alt="" />
+            <span v-else>{{ activity.byMember._id ? activity.byMember.fullname.split(' ')[0].split('')[0] + activity.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
+          </div>
+          <div class="card-comment activities">
+            <div>
+              <span class="comment-by">{{ activity.byMember.fullname }}</span>
+              <span class="activity-txt"> {{ activity.txt }}</span>
+            </div>
+            <span class="comment-date">{{ new Date(activity.createdAt) }}</span>
+          </div>
+        </div>
+      </div>
     </menu>
     <Transition name="inside-menu">
       <div class="bg-choose" v-if="openChangeBg && !openChangeImg && !openChangeColor">
@@ -101,13 +116,17 @@ export default {
         this.openChangeImg = false
         this.openChangeColor = false
       } else this.openChangeBg = false
-    }
+    },
   },
   computed: {
     isFirstPage() {
-      return (this.openChangeBg || this.openChangeImg || this.openChangeColor) ? false : true
-    }
+      return this.openChangeBg || this.openChangeImg || this.openChangeColor ? false : true
+    },
+    activities() {
+      return this.$store.getters.currBoard.activities || []
+    },
   },
+
   components: {
     imgService,
     customModal,

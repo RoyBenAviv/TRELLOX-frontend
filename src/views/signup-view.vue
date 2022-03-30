@@ -1,6 +1,6 @@
 <template>
   <section class="signup-view">
-    <div class="logo">
+    <div @click="this.$router.push('/')" class="logo">
       <span><i class="fa-brands fa-trello"></i></span>
       <h2>Trellox</h2>
     </div>
