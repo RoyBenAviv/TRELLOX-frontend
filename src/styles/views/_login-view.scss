@@ -21,6 +21,8 @@
     padding: 25px 40px;
     box-shadow: rgb(0 0 0 / 10%) 0 0 10px;
     .failed {
+      position: absolute;
+      top: 10%;
       background: #eb5a46;
       color: #fbedeb;
       padding: rem(7px) rem(14px);
