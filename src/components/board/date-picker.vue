@@ -60,11 +60,11 @@ export default {
         time: this.time,
         isCompleted: null,
       }
-      this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)))
+      this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), `added a due date ${dueDate.date} at ${dueDate.time}`)
     },
     removeDate() {
       const dueDate = null
-      this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)))
+      this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), 'removed due date from card')
     },
   },
   computed: {

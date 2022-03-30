@@ -36,7 +36,7 @@ export default {
           format: res.format
         }
         this.attachments.push(imgAttachment)
-        this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)))
+        this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)), `added an attachment`)
     },
   },
   components: {

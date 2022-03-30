@@ -4,7 +4,7 @@
     <input v-focus v-model="filterBy" class="custom-input" type="text" placeholder="Search members..." />
     <h4>Board members</h4>
     <ul v-if="members.length" class="members-container">
-      <li v-for="member in members" :key="member._id" @click="toggleMember(member._id)">
+      <li v-for="member in members" :key="member._id" @click="toggleMember(member._id, member.fullname)">
         <div class="member" :class="{ active: memberIds.includes(member._id) }">
           <div class="avatar-container">
             <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
@@ -43,14 +43,20 @@ export default {
     closeModal() {
       this.$emit('closeModal')
     },
-    toggleMember(memberId) {
+    toggleMember(memberId, fullname) {
+      var activity = ''
       const idx = this.memberIds.findIndex((mId) => mId === memberId)
-      if (idx === -1) this.memberIds.push(memberId)
-      else this.memberIds.splice(idx, 1)
-      this.save()
+      if (idx === -1){
+        this.memberIds.push(memberId)
+        activity = `${fullname} joined this card`
+      } else {
+        this.memberIds.splice(idx, 1)
+        activity = `${fullname} left this card`
+      }
+      this.save(activity)
     },
-    save() {
-      this.$emit('updateKey', 'memberIds', JSON.parse(JSON.stringify(this.memberIds)))
+    save(activity) {
+      this.$emit('updateKey', 'memberIds', JSON.parse(JSON.stringify(this.memberIds)), activity)
     },
   },
   computed: {

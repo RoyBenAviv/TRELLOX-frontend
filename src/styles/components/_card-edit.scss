@@ -10,7 +10,7 @@
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 20;
+        z-index: 50;
     }
     .save-btn {
         @include blue-btn;
@@ -421,7 +421,7 @@
                 font-size: 0.875rem;
                 color: #172b4d;
 
-                pre {
+                pre, p {
                     margin-block-end: 0;
                     margin-block-start: 0;
                 }
@@ -433,6 +433,15 @@
                 position: absolute;
                 top: 12px;
                 width: 32px;
+            }
+        }
+        .activities {
+            @include flex(column, flex-start, flex-start);
+            gap: 0;
+
+            .activity-txt {
+                font-size: 0.875rem;
+                margin-top: -2px;
             }
         }
         .attachments-container {
