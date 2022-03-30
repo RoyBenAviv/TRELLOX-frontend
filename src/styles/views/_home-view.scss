@@ -30,7 +30,7 @@
       height: 520px;
       animation-name: switchbg;
       animation-direction: alternate-reverse;
-      animation-duration: 8s;
+      animation-duration: 10s;
       // animation-fill-mode: forwards;
       animation-play-state: running;
       animation-iteration-count: infinite;
@@ -88,6 +88,12 @@
 @keyframes switchbg {
     0% {
         background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552621/Digital_presentation-bro_1_fsqxlp.png');
+    }
+    40% {
+        background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552621/Digital_presentation-bro_1_fsqxlp.png');
+    }
+    60% {
+        background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552650/Design_team-amico_1_du6hao.png');
     }
     100% {
         background-image: url('https://res.cloudinary.com/trellox/image/upload/v1648552650/Design_team-amico_1_du6hao.png');

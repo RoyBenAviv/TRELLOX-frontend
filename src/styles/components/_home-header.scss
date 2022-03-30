@@ -24,11 +24,14 @@
   nav {
      .guest-nav {
       @include flex;
-      gap: rem(5px)
+      gap: rem(5px);
+      a {
+        margin-right: 0 !important;
+      }
      }
      .member-nav {
       @include flex(row-reverse);
-      gap: rem(5px)
+      gap: rem(5px); 
      }
      a {
       cursor: pointer;
