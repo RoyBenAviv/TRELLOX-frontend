@@ -41,7 +41,7 @@
                     margin: 0 2% 2% 0;
                     padding: 0;
                     transform: translate(0);
-                    width: 23%;
+                    // width: 23%;
                 }
             }
         }
@@ -54,7 +54,7 @@
             }
         }
     }
-    .recentlyViewd {
+    .recentlyViewed {
         .icon {
             &:before {
                 content: "\e91b";
@@ -72,6 +72,42 @@
         .icon {
             &:before {
                 content: "\e91b";
+            }
+        }
+    }
+}
+
+/* SMALL & MOBILE */
+
+@media (max-width: 750px) {
+    .board-list-container {
+        .boards {
+            li {
+                width: calc(50% - 11px);
+            }
+        }
+    }
+}
+
+/* MEDIUM */
+
+@media (min-width: 750px) {
+    .board-list-container {
+        .boards {
+            li {
+                width: 31%;
+            }
+        }
+    }
+}
+
+/* LARGE */
+
+@media (min-width: 900px) {
+    .board-list-container {
+        .boards {
+            li {
+                width: 23%;
             }
         }
     }

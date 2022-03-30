@@ -16,7 +16,7 @@ export const localService = {
 function getEmptyBoard() {
   return {
     title: '',
-    createdAt: Date.now(),
+    recentlyViewed: Date.now(),
     isStarred: false,
     createdBy: {}, //add logged in user
     style: {
