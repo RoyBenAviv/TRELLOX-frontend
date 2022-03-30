@@ -284,7 +284,6 @@ export default {
       this.isCommentsInput = !this.isCommentsInput
     },
     postComment() {
-      console.log('here')
       if (!this.newComment.txt) return
       var comment = JSON.parse(JSON.stringify(this.newComment))
       comment.txt.trim()

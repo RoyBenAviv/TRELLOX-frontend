@@ -162,7 +162,6 @@ export default {
     },
     setDark(value) {
       this.style.isDark = value
-      console.log('this.style',this.style);
       this.save()
     }
   },
