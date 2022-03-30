@@ -8,7 +8,7 @@
           <div class="modal-header">
             <span class="modal-header-icon"> </span>
             <div class="modal-header-title">
-              <textarea v-model="card.title" @keyup="updateCard" dir="auto" data-autosize="true"></textarea>
+              <textarea placeholder="Enter card title" v-model="card.title" @input="updateCard" @keydown.enter.prevent="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
             <div class="inline-content">
               in list <span style="text-decoration: underline">{{ groupTitle }}</span>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="card-comment">
                   <span class="comment-by">{{ comment.byMember.fullname }}</span>
-                  <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
+                  <span class="comment-date">{{ formattedTime(comment.createdAt) }}</span>
                   <div class="the-comment">
                     <p>{{ comment.txt }}</p>
                   </div>
@@ -138,7 +138,7 @@
                     <span class="comment-by">{{ activity.byMember.fullname }}</span>
                     <span class="activity-txt">{{ activity.txt }}</span>
                   </div>
-                  <span class="comment-date">{{ new Date(activity.createdAt) }}</span>
+                  <span class="comment-date">{{ formattedTime(activity.createdAt) }}</span>
                 </div>
               </div>
             </div>
@@ -344,6 +344,7 @@ export default {
       this.newComment.txt = ''
     },
     async updateCard() {
+      if(!this.card.title) return
       await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card: this.card })
       this.loadCard()
     },
@@ -414,10 +415,15 @@ export default {
     async addActivity(txt) {
       await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
+<<<<<<< HEAD
     async joinToCard() {
       this.card.memberIds.push(this.$store.getters.loggedinUser._id)
       await this.addActivity(`${this.$store.getters.loggedinUser.fullname} Joined card`)
       this.updateCard()
+=======
+    formattedTime(time) {
+      return utilService.getFormattedTime(time)
+>>>>>>> 432c84b8d5a013a9c1ca0a863c652d157ca7aacb
     }
   },
   computed: {
@@ -462,7 +468,7 @@ export default {
       if (!this.card.style.cover) return ''
       if (this.card.style.type === 'color') {
         return this.card.style.cover === '#172B4D' ? 'on-cover-icon-dark' : 'on-cover-icon'
-      } else return this.coverColor.isDark ? 'on-cover-icon-dark' : 'on-cover-icon'
+      } else return this.coverColor?.isDark ? 'on-cover-icon-dark' : 'on-cover-icon'
     },
     formattedDate() {
       const date = new Date(this.card.dueDate.date)

@@ -21,7 +21,7 @@
               <span class="comment-by">{{ activity.byMember.fullname }}</span>
               <span class="activity-txt"> {{ activity.txt }}</span>
             </div>
-            <span class="comment-date">{{ new Date(activity.createdAt) }}</span>
+            <span class="comment-date">{{ formattedTime(activity.createdAt) }}</span>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
 <script>
 import { imgService } from '../../services/img.service.js'
 import customModal from './custom-modal.vue'
-
+import { utilService } from '../../services/util.service.js'
 export default {
   name: '',
   data() {
@@ -117,6 +117,9 @@ export default {
         this.openChangeColor = false
       } else this.openChangeBg = false
     },
+    formattedTime(activityTime) {
+      return utilService.getFormattedTime(activityTime)
+    }
   },
   computed: {
     isFirstPage() {
@@ -125,6 +128,7 @@ export default {
     activities() {
       return this.$store.getters.currBoard.activities || []
     },
+
   },
 
   components: {

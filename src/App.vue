@@ -13,7 +13,6 @@ export default {
   },
   created() {
     this.$store.dispatch('loadBoards')
-    socketService.on('test', this.test)
   },
   components: {
   },
