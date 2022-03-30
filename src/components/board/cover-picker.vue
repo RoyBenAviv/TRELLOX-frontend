@@ -54,7 +54,7 @@
   </custom-modal>
   <custom-modal v-else :isFirstPage="false" @goBack="goBack" class="image-picker" @closeModal="closeModal">
     <template v-slot:header>Photo search</template>
-    <input type="text" @input="searchImages(searchVal)" v-model="searchVal" class="custom-input" placeholder="Search Unsplash for photos" />
+    <input type="text" @input="searchImages(searchVal)" v-focus v-model="searchVal" class="custom-input" placeholder="Search Unsplash for photos" />
     <section v-if="searchVal">
         <h4 style="margin-top: 16px; margin-bottom: 4px;">Results</h4>
         <div class="large-image-container">

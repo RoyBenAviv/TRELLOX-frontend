@@ -20,7 +20,10 @@ return {
 methods: {
     removeCard() {
         this.$emit('removeCard')
-    }
+    },
+    closeModal() {
+      this.$emit('closeModal')
+    },
 },
 computed: {
 },

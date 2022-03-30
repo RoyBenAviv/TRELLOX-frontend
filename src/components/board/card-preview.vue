@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import cardActions from './card-actions.vue'
 import cardEdit from './card-edit.vue'
 import quickEditActions from './quick-edit-actions.vue'
 import labelPicker from './label-picker.vue'
@@ -83,7 +82,6 @@ export default {
     groupId: String,
   },
   components: {
-    cardActions,
     cardEdit,
     quickEditActions,
     labelPicker,

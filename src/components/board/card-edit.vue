@@ -153,39 +153,39 @@
             </div>
             <div class="action-container">
               <h3>Add to card</h3>
-              <div class="action-btn" @click="openModal('member-picker')">
+              <div class="action-btn" @click="openModal('member-picker', $event)">
                 <span class="icon ic-join"></span>
                 <span>Members</span>
               </div>
-              <div class="action-btn" @click="openModal('label-picker')">
+              <div class="action-btn" @click="openModal('label-picker', $event)">
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              <component v-if="cmpName" :is="cmpName" :card="card" @mousedown.prevent @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()"></component>
-              <div class="action-btn" @click="openModal('checklist-add')">
+              <component v-if="cmpName" :is="cmpName" :card="card" :isCopyCard="isCopyCard" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" :style="`top: ${posTop}px; left: ${posLeft}px`"></component>
+              <div class="action-btn" @click="openModal('checklist-add', $event)">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
               </div>
-              <div class="action-btn" @click="openModal('date-picker')">
+              <div class="action-btn" @click="openModal('date-picker', $event)">
                 <span class="icon ic-date"></span>
                 <span>Dates</span>
               </div>
-              <div class="action-btn" @click="openModal('attachments')">
+              <div class="action-btn" @click="openModal('attachments', $event)">
                 <span class="icon ic-attachment"></span>
                 <span>Attachment</span>
               </div>
-              <div class="action-btn" @click="openModal('cover-picker')">
+              <div class="action-btn" @click="openModal('cover-picker', $event)">
                 <span class="icon ic-cover"></span>
                 <span>Cover</span>
               </div>
             </div>
             <div class="action-container">
               <h3>Actions</h3>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('move-card',$event)">
                 <span class="icon ic-move"></span>
                 <span>Move</span>
               </div>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('copy-card', $event)">
                 <span class="icon ic-copy"></span>
                 <span>Copy</span>
               </div>
@@ -198,11 +198,11 @@
                 <span>Watch</span>
               </div>
               <hr />
-              <div class="action-btn remove" @click="openModal('confirm-delete')">
+              <div class="action-btn remove" @click="openModal('confirm-delete', $event)">
                 <span class="icon ic-remove remove"></span>
                 <span>Delete</span>
               </div>
-              <div class="action-btn">
+              <div class="action-btn" @click="openModal('share-card', $event)">
                 <span class="icon ic-share"></span>
                 <span>Share</span>
               </div>
@@ -224,6 +224,8 @@ import coverPicker from './cover-picker.vue'
 import attachments from './attachments.vue'
 import FastAverageColor from 'fast-average-color'
 import confirmDelete from './confirm-delete.vue'
+import moveCard from './move-card.vue'
+import shareCard from './share-card.vue'
 
 export default {
   components: {
@@ -234,6 +236,8 @@ export default {
     attachments,
     confirmDelete,
     datePicker,
+    moveCard,
+    shareCard
   },
   data() {
     return {
@@ -257,6 +261,9 @@ export default {
         isDone: false,
       },
       coverColor: null,
+      isCopyCard: false,
+      posTop: null,
+      posLeft: null
     }
   },
   created() {
@@ -265,8 +272,25 @@ export default {
     this.loadCard()
   },
   methods: {
-    openModal(cmpName) {
+    openModal(cmpName, ev) {
+      this.calcPosition(ev.target.getBoundingClientRect())
+      if(cmpName === 'copy-card') {
+        this.isCopyCard = true
+        cmpName = 'move-card'
+      } else this.isCopyCard = false
+      console.log('cmpName',cmpName);
       this.cmpName = cmpName
+    },
+    calcPosition(rect) {
+      console.log('rect',rect);
+      var {top, bottom, right, left, x, y} = rect
+      const winHeight = window.innerHeight
+      const winWidth = window.innerWidth
+      if(winWidth - left < 300) {
+        left = winWidth - 330
+      }
+      this.posTop = winHeight - 630
+      this.posLeft = left
     },
     closeModal() {
       this.cmpName = null
