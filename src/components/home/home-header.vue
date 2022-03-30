@@ -4,7 +4,7 @@
       <nav>
         <div class="guest-nav" v-if="!member">
         <router-link to="/login">Log in</router-link>
-        <router-link to="/">Sign up</router-link>
+        <router-link to="/signup">Sign up</router-link>
         </div>
         <div class="member-nav" v-else>
           <a @click="logout">Log out</a>
