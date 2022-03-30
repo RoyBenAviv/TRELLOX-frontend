@@ -1,6 +1,7 @@
 import { localService } from '../../services/board.service-local'
 import { boardService } from '../../services/board.service'
 import { socketService, SOCKET_EVENT_BOARD_CHANGED } from '../../services/socket.service'
+import { utilService } from '../../services/util.service'
 export default {
   state: {
     boards: null,
@@ -74,6 +75,10 @@ export default {
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
     },
+    addActivity(state, {activity}) {
+      state.currBoard.activities.unshift(activity)
+      console.log('state.currBoard',state.currBoard);
+    }
   },
   actions: {
     async loadBoards({ commit, state }) {
@@ -188,6 +193,24 @@ export default {
         console.log('Cannot find card', err)
         throw err
       }
+    },
+    addActivity({ commit, getters, dispatch }, { txt, card }) {
+      const activity = {
+        id: utilService.makeId(),
+        txt: txt,
+        createdAt: Date.now(),
+        byMember: {
+          _id: getters.loggedinUser._id,
+          fullname: getters.loggedinUser.fullname,
+          imgUrl: getters.loggedinUser?.imgUrl,
+        },
+        card: {
+          id: card.id,
+          title: card.title,
+        },
+      }
+      commit({type:'addActivity', activity})
+      dispatch({type: 'saveBoard', board: getters.currBoard})
     },
   },
 }

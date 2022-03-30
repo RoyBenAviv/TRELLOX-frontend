@@ -26,6 +26,13 @@
       </div>
     </div>
     <button v-if="style.cover" class="custom-btn">Remove cover</button>
+    <section v-if="style.type === 'url' && style.fullCover && style.cover" class="text-color-container">
+      <h4>Text color</h4>
+      <div class="preview-container">
+        <div class="dark" @click="setDark(true)" :style="`background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${style.cover}');`" :class="style.isDark ? 'active' : ''">{{card.title}}</div>
+        <div class="light" @click="setDark(false)" :style="`background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('${style.cover}');`" :class="!style.isDark ? 'active' : ''">{{card.title}}</div>
+      </div>
+    </section>
     <h4>Colors</h4>
     <div class="colors-container">
       <div v-for="color in colors" :key="color" class="color-preview" :style="'background-color:' + color" @click="setColor(color)" :class="color === style.cover ? 'active' : ''"></div>
@@ -49,7 +56,7 @@
     <template v-slot:header>Photo search</template>
     <input type="text" @input="searchImages(searchVal)" v-model="searchVal" class="custom-input" placeholder="Search Unsplash for photos" />
     <section v-if="searchVal">
-        <h4>Results</h4>
+        <h4 style="margin-top: 16px; margin-bottom: 4px;">Results</h4>
         <div class="large-image-container">
             <div v-for="photo in photos" :key="photo" class="large-preview" @click="setBgUrl(photo.urls.full)" :style="`background-image: url('${photo.urls.small}')`"></div>
         </div>
@@ -67,7 +74,7 @@
         <button @click.stop="searchImages('Space')" class="grey-btn">Space</button>
         <button @click.stop="searchImages('Animals')" class="grey-btn">Animals</button>
       </div>
-      <h4>Top photos</h4>
+      <h4 style="margin-top: 12px; margin-bottom: 4px;">Top photos</h4>
       <div v-if="photos" class="images-container">
         <div v-for="photo in photos" :key="photo" class="attachment-preview" @click="setBgUrl(photo.urls.full)" :style="`background-image: url('${photo.urls.small}')`" :class="photo.urls.full === style.cover ? 'active' : ''"></div>
       </div>
@@ -152,6 +159,11 @@ export default {
     goBack() {
       this.searchVal = ''
       this.searchPhotos = false
+    },
+    setDark(value) {
+      this.style.isDark = value
+      console.log('this.style',this.style);
+      this.save()
     }
   },
   computed: {

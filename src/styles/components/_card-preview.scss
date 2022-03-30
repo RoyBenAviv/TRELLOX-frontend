@@ -66,31 +66,58 @@
       background-size: cover;
       background-position: center;
 
-      span {
-        color: white;
-        padding-bottom: 8px;
-      }
-
       .full-cover-title {
-        background: linear-gradient(180deg, #00000080, #000);
+        // background: linear-gradient(180deg, #00000080, #000);
         padding: 6px 8px 2px;
         width: 100%;
         overflow: visible;
         position: absolute;
         bottom: 0;
         min-height: 32px;
+        border-radius: 0px 0px 3px 3px;
 
-        &::before {
-          content: '';
-          height: 32px;
-          left: 0;
-          mix-blend-mode: normal;
-          position: absolute;
-          right: 0;
-          top: -32px;
-          width: 100%;
-          background: linear-gradient(180deg, #0000, #00000080);
-          mix-blend-mode: normal;
+        &.dark {
+          background: linear-gradient(180deg, #00000080, #000);
+
+          span {
+            color: white;
+            padding-bottom: 8px;
+          }
+
+          &::before {
+            content: "";
+            height: 32px;
+            left: 0;
+            mix-blend-mode: normal;
+            position: absolute;
+            right: 0;
+            top: -32px;
+            width: 100%;
+            background: linear-gradient(180deg, #0000, #00000080);
+            mix-blend-mode: normal;
+          }
+        }
+
+        &.light {
+          background: linear-gradient(180deg, #ffffff80, #fff);
+
+          span {
+            color: #172b4d;
+            padding-bottom: 8px;
+          }
+
+          &::before {
+            content: "";
+            height: 32px;
+            left: 0;
+            mix-blend-mode: normal;
+            position: absolute;
+            right: 0;
+            top: -32px;
+            width: 100%;
+            background: linear-gradient(180deg, #fff0, #ffffff80);
+            mix-blend-mode: normal;
+          }
         }
       }
     }

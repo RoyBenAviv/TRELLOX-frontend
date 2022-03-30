@@ -183,6 +183,7 @@ function _getEmptyCard(title = '') {
       type: '',
       cover: '',
       fullCover: false,
+      isDark: true
     },
   }
 }
