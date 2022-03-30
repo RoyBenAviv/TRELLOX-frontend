@@ -296,7 +296,7 @@ export default {
       this.cmpName = null
     },
     async updateKey(key, value, activity) {
-      if (key === 'checklists') {
+      if (key === 'checklists' || key === 'attachments') {
         value.id = utilService.makeId()
         this.card[key].push(value)
       } else this.card[key] = value

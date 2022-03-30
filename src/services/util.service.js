@@ -3,6 +3,7 @@ export const utilService = {
   getRandomInt,
   makeId,
   makeAvatar,
+  getFormattedTime,
 }
 
 function makeAvatar(fullname) {
@@ -32,44 +33,47 @@ function makeId(length = 5) {
   return txt
 }
 
-function _filter(board) {
-  const filterBy = board.filterBy
-  // if (filterBy.txt) {
-
-  // }
-  logger.info('start to filter', filterBy)
-  if (filterBy.by.noOne) {
-    board.groups = board.groups.map((group) => {
-      group.cards = group.cards.filter((card) => card.memberIds.length === 0)
-      return group
-    })
+function getFormattedTime(activityTime) {
+  const now = Date.now()
+  const diff = now - activityTime
+  var msg = ''
+  var helper
+  if (diff <= 5000) {
+    // less than 5 seconds
+    msg = 'just now'
+  } else if (diff <= 20000) {
+    //20,000
+    // less than 20 seconds
+    msg = 'a few seconds ago'
+  } else if (diff <= 120000) {
+    //60,000
+    // less than 2 minute
+    msg = 'a minute ago'
+  } else if (diff <= 3600000) {
+    //3,600,000
+    //less then hour
+    helper = Math.floor(diff / 60 / 1000)
+    msg = helper + ' minutes ago'
+  } else if (diff <= 7200000) {
+    //7,200,000
+    //less then 2 hour
+    msg = 'a hour ago'
+  } else if (diff <= 86400000) {
+    //86,400,000
+    //less then day
+    helper = Math.floor(diff / 60 / 60 / 1000)
+    msg = helper + ' hours ago'
   } else {
-    if (filterBy.by.options.length) {
-      board.groups = board.groups.map((group) => {
-        group.cards = group.cards.map((card) => {
-          card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
-          return card
-        })
-        return group
-      })
-    }
+    //Mar 25 at 7:31 PM
+    activityTime = new Date(activityTime)
+    const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    const minutes = activityTime.getMinutes()
+    const hour = activityTime.getHours()
+    msg += month[activityTime.getMonth()] + ' '
+    msg += activityTime.getDate() + ' at '
+    msg += hour < 10 ? '0' + hour : hour
+    msg += ':'
+    msg += minutes < 10 ? '0' + minutes : minutes
   }
-  return board
+  return msg
 }
-
-// filterBy: {
-//   txt: '',
-//   by: {
-//     noOne: false,
-//     options: [],
-//   },
-//   due: {
-//     none: false,
-//     over: false,
-//     tommarow: false,
-//   },
-//   label: {
-//     none: false,
-//     options: [],
-//   },
-// },

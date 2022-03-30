@@ -136,7 +136,7 @@ export default {
       if (!this.newTitle) return
       const card = JSON.parse(JSON.stringify(this.card))
       card.title = this.newTitle
-      await this.addActivity('updated this card title')
+      await this.addActivity(`updated this card title`)
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       this.$emit('closeQuickEdit')
     },

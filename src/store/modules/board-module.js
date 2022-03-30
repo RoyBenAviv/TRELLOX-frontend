@@ -70,14 +70,16 @@ export default {
       if (idx !== -1) {
         if (state.currBoard && board._id === state.currBoard._id) state.currBoard = board
         state.boards.splice(idx, 1, board)
-      } else state.boards.push(board)
+      } else {
+        state.boards.push(board)
+        state.currBoard = board
+      }
     },
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
     },
     addActivity(state, {activity}) {
       state.currBoard.activities.unshift(activity)
-      console.log('state.currBoard',state.currBoard);
     }
   },
   actions: {

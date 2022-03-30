@@ -2,21 +2,23 @@
 <template>
   <custom-modal v-if="member" class="user-modal">
     <template v-slot:header> Acount </template>
-    <div class="member-container">
-      <div class="avatar-container" :title="member ? member.fullname : 'Guest'">
-        <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
-        <span v-else>{{ checkMember }}</span>
+    <template v-slot:main>
+      <div class="member-container">
+        <div class="avatar-container" :title="member ? member.fullname : 'Guest'">
+          <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
+          <span v-else>{{ checkMember }}</span>
+        </div>
+        <div class="member-details">
+          <h3>{{ member.fullname }}</h3>
+          <h5>{{ member.email }}</h5>
+        </div>
       </div>
-      <div class="member-details">
-        <h3>{{ member.fullname }}</h3>
-        <h5>{{ member.email }}</h5>
-      </div>
-    </div>
-    <hr />
-    <ul class="member-options">
-      <li>Activity</li>
-      <li @click="logout">Log out</li>
-    </ul>
+      <hr />
+      <ul class="member-options">
+        <li>Activity</li>
+        <li @click="logout">Log out</li>
+      </ul>
+    </template>
   </custom-modal>
 </template>
 

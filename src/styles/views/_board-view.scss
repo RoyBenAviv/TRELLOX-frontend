@@ -110,17 +110,39 @@
       }
     }
     .board-menu {
-      overflow-y: auto;
+      overflow-y: hidden;
+      .custom-modal-main {
+        max-height: 100%;
+      } 
       menu {
         margin-top: rem(23px);
         padding: 0;
       }
+      .activities-container {
+        margin-top: rem(20px);
+        .avatar-container {
+          margin: 4px 8px 6px 0;
+        }
+        .activities {
+          @include flex(column, flex-start, flex-start);
+          // gap: rem(8px);
+          font-weight: 400;
+          margin-top: rem(20px);
+          margin-left: rem(18px);
+          .comment-by {
+            color: $clr1;
+            margin-right: rem(6px);
+            font-weight: 700;
+          }
+      }
+      }
+
       position: fixed;
       right: 0;
       width: 339px;
       height: 893px;
       background-color: #f4f5f7;
-      z-index: 15;
+      z-index: 11;
       left: inherit;
       top: 45px;
       font-weight: 600;
