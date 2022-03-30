@@ -23,7 +23,7 @@
         <span v-else>{{ checkMember }}</span>
       </div>
     </div>
-    <component v-if="cmpName" :is="cmpName" @closeModal="closeModal" v-click-outside="() => closeModal()" @logout="logout"> </component>
+    <component v-if="cmpName" :is="cmpName" @closeModal="closeModal" @logout="logout" v-click-outside="() => closeModal()" :style="`top: ${posTop}px; left: ${posLeft}px`"> </component>
   </header>
 </template>
 
@@ -41,6 +41,8 @@ export default {
       openCreate: false,
       openUser: false,
       cmpName: null,
+      posLeft: null,
+      posTop: null,
     }
   },
   components: {
@@ -51,9 +53,9 @@ export default {
     // templatesModal,
   },
   methods: {
-    openModal(cmpName, event) {
+    openModal(cmpName, ev) {
+      this.calcPosition(ev.target.getBoundingClientRect())
       this.cmpName = cmpName
-      console.log('event',event)
     },
     closeModal() {
       this.cmpName = null
@@ -64,6 +66,11 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    calcPosition(rect) {
+      var { left} = rect
+      this.posTop = 50
+      this.posLeft = left
     },
   },
   computed: {

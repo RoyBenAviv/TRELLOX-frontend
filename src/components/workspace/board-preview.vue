@@ -23,16 +23,18 @@ export default {
   },
   async created() {
     try {
-      const fac = new FastAverageColor()
-      this.color = await fac.getColorAsync(this.board.style.bgImgUrl)
+      if (this.board.style.bgImgUrl) {
+        const fac = new FastAverageColor()
+        this.color = await fac.getColorAsync(this.board.style.bgImgUrl)
+      }
     } catch (err) {
-      // console.log(err)
+      console.log(err)
     }
   },
   methods: {
     linearGradient() {
       var num
-      if (this.color) num = this.color.isDark ? '0.05' : '0.3'
+      if (this.color) num = this.color.isDark ? '0.1' : '0.3'
       else num = '0.1'
       return `linear-gradient(rgba(0, 0, 0, ${num}),rgba(0, 0, 0, ${num})), `
     },

@@ -1,53 +1,55 @@
 <template>
-  <custom-modal v-if="!newLabel" @closeModal="closeModal" @goBack="goBack" class="label-picker">
-    <template v-slot:header> Labels </template>
-    <input v-focus v-model="filterBy" class="custom-input" type="text" placeholder="Search labels..." />
-    <h4>Labels</h4>
-    <ul class="labels-container">
-      <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
-        <span class="edit-label" @click.stop="startCreating(label)"></span>
-        <div class="label-in-label-picker" :class="label.className">
-          {{ label.title }}
-          <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
-        </div>
-      </li>
-    </ul>
-    <button v-if="labels.length" class="custom-btn" @click="startCreating(null)">Create new label</button>
-    <button v-else class="custom-btn" @click="startCreating(filterBy, true)">Create new "{{ filterBy }}"" label</button>
-    <hr />
-    <button class="custom-btn">Enable color blind friendly mode</button>
-  </custom-modal>
+  <section class="label-picker">
+    <custom-modal v-if="!newLabel" @closeModal="closeModal" @goBack="goBack" :style="`left: ${posLeft}px`">
+      <template v-slot:header> Labels </template>
+      <input v-focus v-model="filterBy" class="custom-input" type="text" placeholder="Search labels..." />
+      <h4>Labels</h4>
+      <ul class="labels-container">
+        <li v-for="label in labels" :key="label.id" @click="toggleLabel(label.id)">
+          <span class="edit-label" @click.stop="startCreating(label)"></span>
+          <div class="label-in-label-picker" :class="label.className">
+            {{ label.title }}
+            <span class="v-icon" v-if="labelIds.includes(label.id)"></span>
+          </div>
+        </li>
+      </ul>
+      <button v-if="labels.length" class="custom-btn" @click="startCreating(null)">Create new label</button>
+      <button v-else class="custom-btn" @click="startCreating(filterBy, true)">Create new "{{ filterBy }}"" label</button>
+      <hr />
+      <button class="custom-btn">Enable color blind friendly mode</button>
+    </custom-modal>
 
-  <custom-modal v-if="newLabel && !wantToDelete" @closeModal="closeModal" @goBack="goBack" :isFirstPage="false" class="label-picker">
-    <template v-slot:header>{{ titleTxt }}</template>
-    <form @submit.prevent="saveLabel" class="form-label">
-      <label for="name">Name</label>
-      <input v-focus v-model="newLabel.title" id="name" class="custom-input" type="text" />
-      <label for="color">Select a color</label>
-      <div>
-        <span v-for="classColor in classColors" :key="classColor" :class="classColor" class="colorPalette" @click="changeColor(classColor)">
-          <span v-if="selectedColor === classColor" class="v-icon"></span>
-        </span>
-      </div>
-      <div class="empty-card-container">
-        <span :class="emptyColor" class="colorPalette" @click="changeColor(emptyColor)">
-          <span v-if="selectedColor === emptyColor" class="v-icon"></span>
-        </span>
+    <custom-modal v-if="newLabel && !wantToDelete" @closeModal="closeModal" @goBack="goBack" :style="`left: ${posLeft}px`" :isFirstPage="false">
+      <template v-slot:header>{{ titleTxt }}</template>
+      <form @submit.prevent="saveLabel" class="form-label">
+        <label for="name">Name</label>
+        <input v-focus v-model="newLabel.title" id="name" class="custom-input" type="text" />
+        <label for="color">Select a color</label>
         <div>
-          <p>No color.</p>
-          <p>This won't show up on the front of cards.</p>
+          <span v-for="classColor in classColors" :key="classColor" :class="classColor" class="colorPalette" @click="changeColor(classColor)">
+            <span v-if="selectedColor === classColor" class="v-icon"></span>
+          </span>
         </div>
-      </div>
-      <button class="add-btn">{{ btnTxt }}</button>
-      <div v-if="newLabel.id" class="delete-btn" @click="wantToDelete = true">Delete</div>
-    </form>
-  </custom-modal>
+        <div class="empty-card-container">
+          <span :class="emptyColor" class="colorPalette" @click="changeColor(emptyColor)">
+            <span v-if="selectedColor === emptyColor" class="v-icon"></span>
+          </span>
+          <div>
+            <p>No color.</p>
+            <p>This won't show up on the front of cards.</p>
+          </div>
+        </div>
+        <button class="add-btn">{{ btnTxt }}</button>
+        <div v-if="newLabel.id" class="delete-btn" @click="wantToDelete = true">Delete</div>
+      </form>
+    </custom-modal>
 
-  <custom-modal v-if="newLabel && wantToDelete" @closeModal="closeModal" @goBack="wantToDelete = false" :isFirstPage="false" class="label-picker delete-mode">
-    <template v-slot:header>Delete label?</template>
-    <p>There is no undo. This will remove this label from all cards and destroy its history.</p>
-    <div class="delete-btn" @click="deleteLabel">Delete</div>
-  </custom-modal>
+    <custom-modal v-if="newLabel && wantToDelete" @closeModal="closeModal" @goBack="wantToDelete = false" :style="`left: ${posLeft}px`" :isFirstPage="false" class="delete-mode">
+      <template v-slot:header>Delete label?</template>
+      <p>There is no undo. This will remove this label from all cards and destroy its history.</p>
+      <div class="delete-btn" @click="deleteLabel">Delete</div>
+    </custom-modal>
+  </section>
 </template>
 
 <script>
@@ -57,6 +59,7 @@ import customModal from './custom-modal.vue'
 export default {
   props: {
     card: Object,
+    posLeft: Number,
   },
   components: {
     customModal,
@@ -90,7 +93,7 @@ export default {
         this.selectedColor = labelToEdit.className
       } else {
         this.newLabel = {
-          title: isNew ? labelToEdit: '',
+          title: isNew ? labelToEdit : '',
           className: this.selectedColor,
         }
       }
