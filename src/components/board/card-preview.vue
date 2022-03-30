@@ -134,10 +134,11 @@ export default {
       this.newTitle = JSON.parse(JSON.stringify(this.card.title))
       this.$emit('openQuickEdit', this.card.id)
     },
-    updateTitle() {
+    async updateTitle() {
       if (!this.newTitle) return
       const card = JSON.parse(JSON.stringify(this.card))
       card.title = this.newTitle
+      await this.addActivity('updated this card title')
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       this.$emit('closeQuickEdit')
     },
@@ -147,22 +148,29 @@ export default {
     closeModal() {
       this.cmpName = null
     },
-    updateKey(key, value) {
+    async updateKey(key, value, activity) {
       const card = JSON.parse(JSON.stringify(this.card))
       if (key === 'checklists') {
         value.id = utilService.makeId()
         card[key].push(value)
       } else card[key] = value
+      if(activity) await this.addActivity(activity)
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
     async removeCard() {
+      await this.addActivity(`removed card ${this.card.title}`)
       await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
       this.$emit('closeQuickEdit')
     },
-    completeDate() {
+    async completeDate() {
       const card = JSON.parse(JSON.stringify(this.card))
       card.dueDate.isCompleted = !card.dueDate.isCompleted
+      if(card.dueDate.isCompleted) await this.addActivity('marked the due date complete')
+      else await this.addActivity('marked the due date incomplete')
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
+    },
+    async addActivity(txt) {
+      await this.$store.dispatch({type: 'addActivity', txt, card: this.card})
     }
   },
   computed: {

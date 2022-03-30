@@ -20,7 +20,7 @@
                 <h3>Members</h3>
                 <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
                   <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-                  <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+                  <span v-else>{{member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0]}}</span>
                 </div>
                 <div class="add-member" @click="openModal('member-picker')"><i class="fa-solid fa-plus"></i></div>
               </div>
@@ -107,7 +107,7 @@
               </div>
               <div class="comments-frame">
                 <div class="comments-input" v-click-outside="() => (isCommentsInput = false)">
-                  <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" placeholder="Write a comment..."></textarea>
+                  <textarea @focus="isCommentsInput = true" :class="commentsInputStyle" v-model="newComment.txt" @keydown.enter.prevent="postComment" placeholder="Write a comment..."></textarea>
                   <button v-if="isCommentsInput" @click.stop="postComment" :class="isCommentsText">Save</button>
                 </div>
               </div>
@@ -116,14 +116,29 @@
               <div class="card-comment-container" v-for="comment in comments" :key="comment.id">
                 <div class="avatar-container member">
                   <img v-if="comment.byMember.imgUrl" :src="comment.byMember.imgUrl" alt="" />
-                  <span v-else>{{ comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] }}</span>
+                  <span v-else>{{ comment.byMember._id ? (comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0]) : 'G' }}</span>
                 </div>
                 <div class="card-comment">
                   <span class="comment-by">{{ comment.byMember.fullname }}</span>
                   <span class="comment-date">{{ new Date(comment.createdAt) }}</span>
                   <div class="the-comment">
-                    <pre>{{ comment.txt }}</pre>
+                    <p>{{ comment.txt }}</p>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="activities.length && isShowActivity">
+              <div class="card-comment-container" v-for="activity in activities" :key="activity.id">
+                <div class="avatar-container member">
+                  <img v-if="activity.byMember.imgUrl" :src="activity.byMember.imgUrl" alt="" />
+                  <span v-else>{{ activity.byMember._id ? (activity.byMember.fullname.split(' ')[0].split('')[0] + activity.byMember.fullname.split(' ')[1].split('')[0]) : 'G' }}</span>
+                </div>
+                <div class="card-comment activities">
+                  <div>
+                    <span class="comment-by">{{ activity.byMember.fullname }}</span>
+                    <span class="activity-txt">{{activity.txt}}</span>
+                  </div>
+                  <span class="comment-date">{{ new Date(activity.createdAt) }}</span>
                 </div>
               </div>
             </div>
@@ -165,10 +180,6 @@
                 <span class="icon ic-cover"></span>
                 <span>Cover</span>
               </div>
-              <!-- <div class="action-btn">
-                            <span><i class="fa-solid fa-user"></i></span>
-                            <span>Custom Fields</span>
-                            </div> -->
             </div>
             <div class="action-container">
               <h3>Actions</h3>
@@ -267,6 +278,7 @@ export default {
         value.id = utilService.makeId()
         this.card[key].push(value)
       } else this.card[key] = value
+      if(activity) await this.addActivity(activity)
       this.updateCard()
     },
     closeEdit() {
@@ -308,21 +320,25 @@ export default {
       var precent = ((doneTodos * 100) / todos.length).toFixed(0) + '%'
       return precent
     },
-    toggleTodo(todoId, checklistId) {
+    async toggleTodo(todoId, checklistId) {
       const clIdx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
       const todoIdx = this.card.checklists[clIdx].todos.findIndex((t) => t.id === todoId)
       this.card.checklists[clIdx].todos[todoIdx].isDone = !this.card.checklists[clIdx].todos[todoIdx].isDone
+      if (this.card.checklists[clIdx].todos[todoIdx].isDone) {
+        await this.addActivity(`marked ${this.card.checklists[clIdx].todos[todoIdx].title} completed at checklist ${this.card.checklists[clIdx].title}`)
+      } else await this.addActivity(`unmarked ${this.card.checklists[clIdx].todos[todoIdx].title} at checklist ${this.card.checklists[clIdx].title}`)
       this.updateCard()
     },
-    updateDescription() {
+    async updateDescription() {
       this.card.description = this.description
+      await this.addActivity(`added description to card ${this.card.title}`)
       this.updateCard()
       this.isTextArea = false
     },
     getMemberById(memberId) {
       console.log('memberId', memberId)
     },
-    addTodo(checklistId, checklist) {
+    async addTodo(checklistId, checklist) {
       var newTodo = JSON.parse(JSON.stringify(this.newTodo))
       newTodo.title = JSON.parse(JSON.stringify(checklist.newTodo))
       checklist.newTodo = ''
@@ -330,6 +346,7 @@ export default {
       newTodo.id = utilService.makeId()
       const idx = this.card.checklists.findIndex((cl) => cl.id === checklistId)
       this.card.checklists[idx].todos.push(newTodo)
+      await this.addActivity(`added ${newTodo.title} to the checklist ${this.card.checklists[idx].title}`)
       this.updateCard()
     },
     closeTodoInput(checklist) {
@@ -339,7 +356,8 @@ export default {
     openUrl(url) {
       window.open(url)
     },
-    removeChecklist(idx) {
+    async removeChecklist(idx) {
+      await this.addActivity(`removed checklist ${this.card.checklists[idx].title}`)
       this.card.checklists.splice(idx, 1)
       this.updateCard()
     },
@@ -353,9 +371,13 @@ export default {
       }
     },
     async removeCard() {
+      this.addActivity(`removed card ${this.card.title}`)
       await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
       this.closeEdit()
     },
+    async addActivity(txt) {
+      await this.$store.dispatch({type: 'addActivity', txt, card: this.card})
+    }
   },
   computed: {
     commentsInputStyle() {
@@ -407,6 +429,10 @@ export default {
       const day = date.getDate()
       const hour = this.card.dueDate.time
       return `${month} ${day} at ${hour}`
+    },
+    activities() {
+      const activities = this.$store.getters.currBoard.activities
+      return activities.length ? activities.filter(ac => ac.card.id === this.card.id) : []
     }
   },
 }

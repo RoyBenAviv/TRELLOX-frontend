@@ -2,34 +2,36 @@
   max-height: calc(100vh - 12.5rem);
   overflow-y: auto;
   overflow-x: hidden;
-  // &::-webkit-scrollbar {
-  //   width: 8px;
-  // }
-
-  // /* Track */
-  // &::-webkit-scrollbar-track {
-  //   background: #f1f1f1;
-  // }
-  // &::-webkit-scrollbar-thumb {
-  //   background: darken($clr5, 10%);
-  //   border-radius: 10px;
-  // }
-
+  padding-inline-end: 4px;
   &::-webkit-scrollbar {
-    width: 25px;
+    width: 8px;
   }
 
+  /* Track */
   &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 10px 10px #dadbe2;
-    border: solid 8px transparent;
-    border-radius: 20px;
+    background: #dadbe2;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #bfc4ce;
+    border-radius: 10px;
   }
 
-  &::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 10px 10px #bfc4ce;
-    border: solid 8px transparent;
-    border-radius: 20px;
-  }
+  // &::-webkit-scrollbar {
+  //   width: 25px;
+  // }
+
+  // &::-webkit-scrollbar-track {
+  //   box-shadow: inset 0 0 10px 10px #dadbe2;
+  //   border: solid 8px transparent;
+  //   border-radius: 20px;
+  // }
+
+  // &::-webkit-scrollbar-thumb {
+  //   box-shadow: inset 0 0 10px 10px #bfc4ce;
+  //   border: solid 8px transparent;
+  //   border-radius: 20px;
+  // }
 
   .save-quick-edit {
     @include blue-btn;
@@ -384,7 +386,7 @@
   .quick-card-editor-open {
     z-index: 15;
     position: fixed;
-    width: 243px;
+    width: 255px;
     height: max-content;
   }
 }

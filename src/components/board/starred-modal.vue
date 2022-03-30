@@ -15,19 +15,15 @@ export default {
   name: '',
   data() {
     return {
-      starredBoards: this.checkStarred,
+      starredBoards: this.starBoards(),
     }
   },
-  methods: {},
+  methods: {
+    async starBoards() {
+      this.starredBoards = await this.$store.dispatch({ type: 'getBoards', filterBy: { isStarred: true } })
+    }
+  },
   computed: {
-    boards() {
-      return this.$store.getters.boards
-    },
-    checkStarred() {
-      return this.boards.filter((board) => {
-        board.isStarred === false
-      })
-    },
   },
   components: {
     customModal,
