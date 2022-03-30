@@ -144,7 +144,7 @@
             </div>
           </div>
           <div class="modal-side-bar">
-            <div class="action-container">
+            <div class="action-container" v-if="!checkUser">
               <h3>Suggested</h3>
               <div @click="joinToCard" class="action-btn">
                 <span class="icon ic-join"></span>
@@ -414,6 +414,11 @@ export default {
     async addActivity(txt) {
       await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
+    async joinToCard() {
+      this.card.memberIds.push(this.$store.getters.loggedinUser._id)
+      await this.addActivity(`${this.$store.getters.loggedinUser.fullname} Joined card`)
+      this.updateCard()
+    }
   },
   computed: {
     commentsInputStyle() {
@@ -470,6 +475,9 @@ export default {
       const activities = this.$store.getters.currBoard.activities
       return activities.length ? activities.filter((ac) => ac.card.id === this.card.id) : []
     },
+    checkUser() {
+      return this.card.memberIds.includes(this.$store.getters.loggedinUser._id)
+    }
   },
 }
 </script>

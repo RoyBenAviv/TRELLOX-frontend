@@ -25,9 +25,9 @@
         <span v-else class="card-preview-title">{{ card.title }}</span>
         <div class="card-icons-container">
           <div>
-            <!-- <div title="watch" class="icon-div">
+            <div v-if="checkUser" title="watch" class="icon-div">
             <span class="eyecon"></span>
-          </div> -->
+            </div>
             <div :class="{complete: card.dueDate.isCompleted}" title="date" 
             v-if="card.dueDate" class="icon-div date-preview" 
             @click.stop="completeDate">
@@ -198,6 +198,9 @@ export default {
       const month = date.toLocaleString('en-US', { month: 'short' })
       const day = date.getDate()
       return `${month} ${day}`
+    },
+    checkUser() {
+      return this.card.memberIds.includes(this.$store.getters.loggedinUser._id)
     }
   },
 }
