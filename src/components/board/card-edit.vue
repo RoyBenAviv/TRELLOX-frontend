@@ -475,7 +475,7 @@ export default {
       return activities.length ? activities.filter((ac) => ac.card.id === this.card.id) : []
     },
     checkUser() {
-      return this.card.memberIds.includes(this.$store.getters.loggedinUser._id)
+      return this.card.memberIds.includes(this.$store.getters.loggedinUser?._id)
     }
   },
 }

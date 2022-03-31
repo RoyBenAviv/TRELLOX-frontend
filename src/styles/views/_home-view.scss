@@ -4,6 +4,7 @@
     padding-block-start: rem(150px);
     >* {
         @include flex;
+        gap: rem(5px)
     }
     h1 {
       font-size: rem(48px);
@@ -65,7 +66,7 @@
       @include blue-btn;
       background-color: $clr2;
       width: 300px;
-      font-size: rem(34px);
+      font-size: rem(30px);
       gap: rem(20px);
       transition: all 0.5s;
       padding: 10px 0;

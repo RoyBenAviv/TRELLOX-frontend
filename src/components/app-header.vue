@@ -6,7 +6,6 @@
         <p>Trellox</p>
       </div>
 
-      <button class="workspace" @click="this.$router.push('/workspace')">Workspace</button>
       <button class="recent" @click="openModal('recent-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <button class="starred" @click="openModal('starred-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <!-- <button @click="openModal('templates-modal')">Templates <i class="fa-solid fa-chevron-down"></i></button> -->
