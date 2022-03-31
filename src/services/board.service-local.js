@@ -177,9 +177,9 @@ function _getEmptyCard(title = '') {
     attachments: [],
     checklists: [],
     comments: [],
-    memberIds: [userService.getLoggedinUser()._id] || [], // add creator
+    memberIds: [],
     labelIds: [],
-    createdBy: userService.getLoggedinUser() || {}, // add creator
+    createdBy: userService.getLoggedinUser() || {},
     style: {
       type: '',
       cover: '',
