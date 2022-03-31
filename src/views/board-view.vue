@@ -4,7 +4,7 @@
     <div class="board-view">
       <nav class="board-nav">
         <div class="left-nav">
-          <h2 @input="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
+          <h2 @keydown.enter="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
           <div class="members-container">
