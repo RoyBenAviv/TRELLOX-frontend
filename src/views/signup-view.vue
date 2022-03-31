@@ -32,8 +32,12 @@ export default {
   data() {
     return {
       failed: false,
+<<<<<<< HEAD
       signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: '' },
       googleUser: null,
+=======
+      signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: null },
+>>>>>>> e09e9de26950212ac7c4a5bf37e8a8110d24f03e
     }
   },
   methods: {
@@ -41,6 +45,10 @@ export default {
       if (!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) this.failedLog()
       if (this.signupCred.fullname.split(' ').length <= 1) return
       try {
+        const nameArray = this.signupCred.fullname.split(' ')
+        this.signupCred.fullname = nameArray.reduce((name, word) => name + ' ' + this.capitalizeFirstLetter(word), '')
+        this.signupCred.fullname = this.signupCred.fullname.trim()
+        console.log('this.signupCred.fullname', this.signupCred.fullname)
         this.signupCred.username = this.signupCred.fullname.split(' ').join('').toLowerCase()
         await this.$store.dispatch({ type: 'signup', userCred: this.signupCred })
         console.log('this.signupCred',this.signupCred);
@@ -71,6 +79,9 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
     failedLog() {
       this.failed = true

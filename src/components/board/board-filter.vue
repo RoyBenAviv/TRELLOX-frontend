@@ -1,7 +1,7 @@
 <template>
-  <custom-modal @closeModal="closeModal">
+  <custom-modal @closeModal="closeModal" class="board-filter-body">
     <template v-slot:header> Filter </template>
-    <section class="board-filter-body">
+    <section>
       <p>Keyword</p>
       <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." />
       <p class="mini">Search cards, members, labels, and more.</p>

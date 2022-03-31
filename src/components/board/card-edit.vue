@@ -115,11 +115,11 @@
             <div>
               <div class="card-comment-container" v-for="comment in comments" :key="comment.id">
                 <div class="avatar-container member">
-                  <img v-if="comment.byMember.imgUrl" :src="comment.byMember.imgUrl" alt="" />
-                  <span v-else>{{ comment.byMember._id ? comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
+                  <img v-if="comment.byMember?.imgUrl" :src="comment.byMember.imgUrl" alt="" />
+                  <span v-else>{{ comment.byMember?._id ? comment.byMember.fullname.split(' ')[0].split('')[0] + comment.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
                 </div>
                 <div class="card-comment">
-                  <span class="comment-by">{{ comment.byMember.fullname }}</span>
+                  <span class="comment-by">{{ comment.byMember?.fullname || 'Guest' }}</span>
                   <span class="comment-date">{{ formattedTime(comment.createdAt) }}</span>
                   <div class="the-comment">
                     <p>{{ comment.txt }}</p>
@@ -131,7 +131,7 @@
               <div class="card-comment-container" v-for="activity in activities" :key="activity.id">
                 <div class="avatar-container member">
                   <img v-if="activity.byMember.imgUrl" :src="activity.byMember.imgUrl" alt="" />
-                  <span v-else>{{ activity.byMember._id ? activity.byMember.fullname.split(' ')[0].split('')[0] + activity.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
+                  <span v-else>{{ activity.byMember?._id ? activity.byMember.fullname.split(' ')[0].split('')[0] + activity.byMember.fullname.split(' ')[1].split('')[0] : 'G' }}</span>
                 </div>
                 <div class="card-comment activities">
                   <div>
@@ -262,7 +262,7 @@ export default {
       newComment: {
         txt: '',
         createdAt: null,
-        byMemberId: 'u101', //loggedInUserId
+        byMemberId: this.$store.getters.loggedinUser?._id || '', //loggedInUserId
       },
       cmpName: null,
       description: null,
@@ -435,7 +435,8 @@ export default {
       return members.filter((m) => this.card.memberIds.includes(m._id))
     },
     comments() {
-      var members = JSON.parse(JSON.stringify(this.$store.getters.currBoard.members))
+      var members = JSON.parse(JSON.stringify(this.$store.getters.users))
+      members.push(JSON.parse(JSON.stringify(this.$store.getters.currBoard.members)))
       const card = JSON.parse(JSON.stringify(this.card))
       return card.comments.map((c) => {
         var currMember = members.find((m) => m._id === c.byMemberId)

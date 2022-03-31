@@ -5,7 +5,6 @@
         <i class="fa-brands fa-trello"></i>
         <p>Trellox</p>
       </div>
-
       <button class="recent" @click="openModal('recent-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <button class="starred" @click="openModal('starred-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <!-- <button @click="openModal('templates-modal')">Templates <i class="fa-solid fa-chevron-down"></i></button> -->
@@ -25,8 +24,9 @@
     <component
     v-if="cmpName"
     :is="cmpName"
-    :posLeft="posLeft"
+    :posLeft="posLeft" 
     :posTop="posTop"
+    @toggleStar="toggleStar"
     @closeModal="closeModal"
     @logout="logout"
     v-click-outside="() => closeModal()"
@@ -84,6 +84,12 @@ export default {
       }
       this.posTop = 50
       this.posLeft = left
+    },
+    async toggleStar(board) {
+      // const board = JSON.parse(JSON.stringify(this.board))
+      console.log('toggle star')
+      board.isStarred = !board.isStarred
+      await this.$store.dispatch({ type: 'saveBoard', board })
     },
   },
   computed: {
