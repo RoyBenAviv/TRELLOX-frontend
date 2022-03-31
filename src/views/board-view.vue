@@ -4,7 +4,13 @@
     <div class="board-view">
       <nav class="board-nav">
         <div class="left-nav">
-          <h2 @keydown.enter="editBoardTitle" :contenteditable="true">{{ board.title }}</h2>
+          <h2
+          @keydown.enter.prevent="editBoardTitle"
+          @keyup.enter.prevent="editTitle = false"
+          @click="editTitle = true"
+          v-click-outside="()=> editBoardTitle()"
+          :contenteditable="editTitle"
+          >{{ board.title }}</h2>
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
           <div class="members-container">
@@ -71,7 +77,8 @@ export default {
       lastBoard: null,
       groupsCount: 0,
       openFilter: false,
-      openInvite: false
+      openInvite: false,
+      editTitle: true,
     }
   },
   async created() {
