@@ -21,24 +21,26 @@
   .left-header {
     .logo {
       cursor: pointer;
-      margin: 0 rem(20px) 0 rem(16px);
+      margin: 0 rem(8px) 0 rem(22px);
       border-radius: 3px;
       padding: rem(5px);
       @include flex;
       font-family: katahdin, sans-serif;
       // color: $clr1;
       gap: rem(6px);
+      margin-top: 1px;
       @media (max-width: 700px) {
         margin-left: rem(4px);
       }
       i {
-        font-size: 1.3em;
+        font-size: 1.1em;
         @media (max-width: 550px) {
           font-size: 1.8em;
         }
       }
       p {
         margin: 0;
+        margin-top: 1px;
         @media (max-width: 550px) {
           display: none;
         }
@@ -47,11 +49,6 @@
         background-color: rgba(0, 0, 0, 0.2);
       }
     }
-    .workspace {
-      @media (max-width: 900px) {
-          display: none !important;
-        }
-      }
     button:not(:last-child) {
       @include header-btn;
       i {
@@ -112,6 +109,10 @@
     padding-right: rem(4px);
     gap: rem(6px);
     justify-content: flex-end;
+    .avatar-container {
+      margin: 0;
+      margin-right: rem(4px)
+    }
     label {
       @include flex;
       width: 256px;
