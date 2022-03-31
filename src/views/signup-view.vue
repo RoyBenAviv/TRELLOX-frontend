@@ -32,12 +32,7 @@ export default {
   data() {
     return {
       failed: false,
-<<<<<<< HEAD
-      signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: '' },
-      googleUser: null,
-=======
       signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: null },
->>>>>>> e09e9de26950212ac7c4a5bf37e8a8110d24f03e
     }
   },
   methods: {
