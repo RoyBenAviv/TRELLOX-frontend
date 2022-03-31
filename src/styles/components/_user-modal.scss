@@ -33,6 +33,7 @@ top: 45px;
     }
 }
 .member-options {
+    padding: 0;
     li {
         padding: rem(6px) rem(12px);
         cursor: pointer;
@@ -46,5 +47,12 @@ top: 45px;
 hr {
     margin: rem(12px) auto !important ;
     width: 92% !important;
+    margin: 8px 0;
+    background-color: #091e4221;
+    border: 0;
+    height: 1px;
+    margin: 16px 0;
+    padding: 0;
+    width: 100%;
 }
 }

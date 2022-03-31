@@ -293,17 +293,12 @@ export default {
       this.cmpName = cmpName
     },
     calcPosition(rect) {
-      var { top, bottom, right, left, x, y } = rect
-      // console.log('rect', rect)
-      const winHeight = window.innerHeight
+      var { left } = rect
       const winWidth = window.innerWidth
-      console.log('winWidth - left',winWidth - left)
-      console.log('winWidth',winWidth)
-      console.log('left',left)
       if (winWidth - left < 300) {
         left = winWidth - 330
       }
-      this.posTop = winHeight - 630
+      this.posTop = 100
       this.posLeft = left
     },
     closeModal() {
@@ -315,7 +310,7 @@ export default {
         this.card[key].push(value)
       } else this.card[key] = value
       if (activity) await this.addActivity(activity)
-      this.updateCard()
+      await this.updateCard()
     },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)

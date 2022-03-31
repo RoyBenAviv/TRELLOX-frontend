@@ -4,8 +4,9 @@
       <div class="group-header-container">
         <p class="group-title" v-if="!editTitle" @click="editTitle = true">{{ group.title }}</p>
         <input @keyup.enter="changeGrpTitle" v-click-outside="changeGrpTitle" v-focus @focus="$event.target.select()" v-if="editTitle" v-model="groupTitle" />
-        <span class="act-btn" @click="openGrpAct = !openGrpAct"></span>
+        <span class="act-btn" @click="toggleGroupActions($event)"></span>
         <group-actions
+          v-if="openGrpAct"
           :isSort="group.cards.length > 1 ? true : false"
           @closeGrpAct="openGrpAct = false"
           v-click-outside="() => (openGrpAct = false)"
@@ -16,7 +17,7 @@
           @removeGroup="removeGroup"
           @addCard="actionAdd"
           @sortBy="sortCards"
-          v-if="openGrpAct"
+          :style="`left: ${posLeft}px`"
         />
       </div>
 
@@ -70,9 +71,14 @@ export default {
         boolean: false,
         cardId: '',
       },
+      posLeft: null,
     }
   },
   methods: {
+    toggleGroupActions(ev) {
+      this.openGrpAct = !this.openGrpAct
+      this.calcPosition(ev.target.getBoundingClientRect())
+    },
     addCard() {
       if (!this.cardTitle) return
       this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
@@ -160,9 +166,16 @@ export default {
       var filterBy = {
         type: 'sort',
         groupId: this.group.id,
-        sortBy: value
+        sortBy: value,
       }
-      this.$store.dispatch({type: 'filterBoard', boardId: this.board._id, filterBy})
+      this.$store.dispatch({ type: 'filterBoard', boardId: this.board._id, filterBy })
+    },
+    calcPosition(rect) {
+      // var { left } = rect
+      // const winWidth = window.innerWidth
+      // if (winWidth - left < 300) {
+      //   this.posLeft = 70
+      // } else this.posLeft = 238
     },
   },
   computed: {
