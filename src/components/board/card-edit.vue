@@ -335,6 +335,7 @@ export default {
       comment.id = utilService.makeId()
       this.card.comments.unshift(comment)
       this.updateCard()
+      this.isCommentsInput = false
       this.newComment.txt = ''
     },
     async updateCard() {
