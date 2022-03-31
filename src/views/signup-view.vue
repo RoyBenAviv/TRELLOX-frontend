@@ -18,6 +18,8 @@
       </form>
 
       <button @click="signup" class="login-btn">Sign up!</button>
+      <span>OR</span>
+      <button @click="googleSignup">Continue with Google</button>
       <hr />
       <router-link to="/login">Already have an acount? Log in</router-link>
     </div>
@@ -31,19 +33,43 @@ export default {
     return {
       failed: false,
       signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: '' },
+      googleUser: null,
     }
   },
   methods: {
     async signup() {
-      if(!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) this.failedLog()
-      if (this.signupCred.fullname.split(" ").length <= 1) return
+      if (!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) this.failedLog()
+      if (this.signupCred.fullname.split(' ').length <= 1) return
       try {
         this.signupCred.username = this.signupCred.fullname.split(' ').join('').toLowerCase()
         await this.$store.dispatch({ type: 'signup', userCred: this.signupCred })
+        console.log('this.signupCred',this.signupCred);
         this.$router.push('/workspace')
       } catch (err) {
         // this.failedLog()
         console.log('error')
+      }
+    },
+    async googleSignup() {
+      try {
+        const googleUser = await this.$gAuth.signIn()
+        console.log(googleUser)
+        if (!googleUser) return
+
+        this.googleUser = {
+          email: googleUser.Du.tv,
+          fullname: googleUser.Du.tf,
+          username: googleUser.Du.tf.split(' ').join('').toLowerCase(),
+          password: 'google',
+          boardIds: [],
+          imgUrl: googleUser.Du.eN,
+        }
+
+        await this.$store.dispatch({ type: 'signup', userCred: JSON.parse(JSON.stringify(this.googleUser)) })
+        console.log('googleUser',JSON.parse(JSON.stringify(this.googleUser)));
+        this.$router.push('/workspace')
+      } catch (err) {
+        console.log(err)
       }
     },
     failedLog() {
