@@ -202,7 +202,7 @@
                 padding: 6px 12px;
                 color: $clr8;
                 display: flex;
-                
+
                 &.remove {
                     background-color: #b04632;
                     color: #fff;
@@ -246,6 +246,9 @@
             color: #172b4d;
             float: none;
             width: 100%;
+            outline: none;
+            line-height: 2.3;
+            padding-inline-start: 7px;
         }
     }
 
@@ -274,19 +277,20 @@
             margin-left: 40px;
 
             .card-date {
-                    @include checkbox;
-                    &:hover {
-                        input {
-                            box-shadow: inset 0 0 0 10px #ebecf0;
-                            &.full {
-                                box-shadow: inset 0 0 0 2px #0079bf;
-                            }
+                @include checkbox;
+                &:hover {
+                    input {
+                        box-shadow: inset 0 0 0 10px #ebecf0;
+                        &.full {
+                            box-shadow: inset 0 0 0 2px #0079bf;
                         }
                     }
+                }
                 .date-info {
                     // @include flex;
                     color: #172b4d;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Ubuntu",
+                        "Droid Sans", "Helvetica Neue", sans-serif;
                     font-size: 14px;
                     line-height: 20px;
                     font-weight: 400;
@@ -298,18 +302,15 @@
                         margin-left: 10px;
                     }
                     .complete {
-                        color: #FFFFFF;
-                        background-color: #61BD4F;
+                        color: #ffffff;
+                        background-color: #61bd4f;
                         font-size: 12px;
                         line-height: 16px;
                         padding: 0 4px;
                         border-radius: 2px;
                         margin: auto 0 auto 8px;
                     }
-
-                    
                 }
-
             }
             .card-details-item {
                 display: block;
@@ -421,7 +422,8 @@
                 font-size: 0.875rem;
                 color: #172b4d;
 
-                pre, p {
+                pre,
+                p {
                     margin-block-end: 0;
                     margin-block-start: 0;
                 }

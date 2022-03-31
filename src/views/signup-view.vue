@@ -46,7 +46,7 @@ export default {
         console.log('this.signupCred.fullname', this.signupCred.fullname)
         this.signupCred.username = this.signupCred.fullname.split(' ').join('').toLowerCase()
         await this.$store.dispatch({ type: 'signup', userCred: this.signupCred })
-        console.log('this.signupCred',this.signupCred);
+        console.log('this.signupCred', this.signupCred)
         this.$router.push('/workspace')
       } catch (err) {
         // this.failedLog()
@@ -69,7 +69,7 @@ export default {
         }
 
         await this.$store.dispatch({ type: 'signup', userCred: JSON.parse(JSON.stringify(this.googleUser)) })
-        console.log('googleUser',JSON.parse(JSON.stringify(this.googleUser)));
+        console.log('googleUser', JSON.parse(JSON.stringify(this.googleUser)))
         this.$router.push('/workspace')
       } catch (err) {
         console.log(err)
