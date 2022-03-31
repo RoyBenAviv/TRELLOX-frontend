@@ -7,8 +7,8 @@ export default {
   },
   getters: {
     users({ users }) {
-       return users 
-      },
+      return users
+    },
     loggedinUser({ loggedinUser }) {
       return loggedinUser
     },
@@ -18,19 +18,19 @@ export default {
       state.loggedinUser = user ? { ...user } : null
     },
     setUsers(state, { users }) {
-      state.users = users;
-  },
+      state.users = users
+    },
   },
   actions: {
     async loadUsers({ commit }) {
       try {
-          const users = await userService.getUsers();
-          commit({ type: 'setUsers', users })
+        const users = await userService.getUsers()
+        commit({ type: 'setUsers', users })
       } catch (err) {
-          console.log('Error load users', err)
-          throw err
+        console.log('Error load users', err)
+        throw err
       }
-  }, 
+    },
     async login({ commit }, { userCred }) {
       try {
         const user = await userService.login(userCred)

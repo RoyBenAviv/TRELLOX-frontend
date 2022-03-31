@@ -310,7 +310,7 @@ export default {
         this.card[key].push(value)
       } else this.card[key] = value
       if (activity) await this.addActivity(activity)
-      this.updateCard()
+      await this.updateCard()
     },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)

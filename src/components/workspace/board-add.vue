@@ -26,6 +26,7 @@
 <script>
 import customModal from '../board/custom-modal.vue'
 import { localService } from '../../services/board.service-local'
+
 export default {
   name: '',
   data() {
@@ -48,9 +49,11 @@ export default {
       this.newBoard.style.bgColor = color
     },
     async createBoard() {
-      console.log('this.newBoard',this.newBoard);
-      await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
-      this.$router.push(`/board/${this.$store.getters.currBoard._id}`)
+      console.log('this.newBoard', this.newBoard)
+      const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
+      await this.$store.dispatch({ type: 'setCurrBoard', boardId: board._id })
+      this.$emit('closeModal')
+      // this.$router.push(`/board/${board._id}`)
       this.newBoard = localService.getEmptyBoard()
     },
   },
