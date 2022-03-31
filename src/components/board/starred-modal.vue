@@ -3,7 +3,11 @@
     <template v-slot:header> Starred boards </template>
     <ul v-if="starredBoards.length">
       <li v-for="board in starredBoards" :key="board._id">
-        {{ board.title }}
+        <section class="bg" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }"></section>
+        <div>
+          {{ board.title }}
+          <span class="star" :class="{ full: board.isStarred }"></span>
+        </div>
       </li>
     </ul>
     <div v-else class="starred-container">
