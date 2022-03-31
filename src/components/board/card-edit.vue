@@ -289,7 +289,6 @@ export default {
         this.isCopyCard = true
         cmpName = 'move-card'
       } else this.isCopyCard = false
-      console.log('cmpName', cmpName)
       this.cmpName = cmpName
     },
     calcPosition(rect) {

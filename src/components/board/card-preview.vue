@@ -59,7 +59,7 @@
         </div>
         <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
         <quick-edit-actions @mousedown.stop @openCard="openCard" @openModal="openModal" :hidden="!checkQuickEdit" :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
-        <component v-if="cmpName && checkQuickEdit" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
+        <component v-if="cmpName && checkQuickEdit" :isCopyCard="isCopyCard" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
       </div>
     </div>
   </section>
@@ -73,6 +73,7 @@ import memberPicker from './member-picker.vue'
 import coverPicker from './cover-picker.vue'
 import datePicker from './date-picker.vue'
 import confirmDelete from './confirm-delete.vue'
+import moveCard from './move-card.vue'
 
 export default {
   name: 'card-preview',
@@ -89,6 +90,7 @@ export default {
     coverPicker,
     datePicker,
     confirmDelete,
+    moveCard
   },
   data() {
     return {
@@ -97,6 +99,7 @@ export default {
       isChecklistDone: false,
       newTitle: '',
       cmpName: null,
+      isCopyCard: false
     }
   },
   methods: {
@@ -141,6 +144,10 @@ export default {
       this.$emit('closeQuickEdit')
     },
     openModal(cmpName) {
+      if (cmpName === 'copy-card') {
+        this.isCopyCard = true
+        cmpName = 'move-card'
+      } else this.isCopyCard = false
       this.cmpName = cmpName
     },
     closeModal() {

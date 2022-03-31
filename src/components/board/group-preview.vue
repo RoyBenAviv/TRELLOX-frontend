@@ -27,7 +27,7 @@
         </Draggable>
 
         <div class="add-card-container" v-if="isAddCard">
-          <textarea v-click-outside="() => addCard()" @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
+          <textarea v-click-outside="() => addCard()" @keydown.enter.prevent @keyup.enter="addCard" v-focus class="add-card-textarea" v-model="cardTitle" placeholder="Enter a title for this card..."></textarea>
           <div class="add-card-actions">
             <button @click="addCard">Add card</button><span @click="isAddCard = false"><i class="fa-solid fa-xmark"></i></span>
           </div>
