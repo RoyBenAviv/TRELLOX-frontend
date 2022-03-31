@@ -71,8 +71,9 @@ export default {
       this.newBoard.style.bgColor = color
     },
     async createBoard() {
-      await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
-      this.$router.push(`/board/${this.$store.getters.currBoard._id}`)
+      const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
+      await this.$store.dispatch({ type: 'setCurrBoard', boardId: board._id })
+      this.$router.push(`/board/${board._id}`)
       this.newBoard = localService.getEmptyBoard()
     },
   },
