@@ -16,11 +16,11 @@
             <span class="icon cover"></span>
             <span class="txt">Change cover</span>
          </div>
-         <div @click="openModal('move-place-picker')" class="action-button">
+         <div @click="openModal('move-card')" class="action-button">
             <span class="icon move"></span>
             <span class="txt">Move</span>
          </div>
-         <div @click="openModal('copy-place-picker')" class="action-button">
+         <div @click="openModal('copy-card')" class="action-button">
             <span class="icon copy"></span>
             <span class="txt">Copy</span>
          </div>

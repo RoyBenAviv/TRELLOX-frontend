@@ -12,11 +12,12 @@
     "element-plus": "^2.1.7",
     "fast-average-color": "^7.1.0",
     "socket.io-client": "^4.4.1",
+    "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12",
+    "vue3-facebook-login": "^0.0.1",
     "vue3-smooth-dnd": "^0.0.2",
-    "vuex": "^4.0.2",
-    "v-calendar": "^3.0.0-alpha.8"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.2",
