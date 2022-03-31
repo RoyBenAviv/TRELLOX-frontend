@@ -6,11 +6,20 @@ import './styles/styles.scss'
 import 'v-calendar/dist/style.css';
 import { focusDirective, clickOutside } from './directives'
 import { SetupCalendar } from 'v-calendar';
+import gAuthPlugin from 'vue3-google-oauth2'
+
+let gauthClientId = '438420074378-5cu9up50dsabv90v8ak9p72vrmfgdaod.apps.googleusercontent.com'
+
 const app = createApp(App)
 
 app.directive('focus', focusDirective)
 app.directive('click-outside', clickOutside)
 
+app.use(gAuthPlugin, {
+    clientId: gauthClientId,
+    scope: 'email',
+    prompt: 'consent'
+})
 app.use(SetupCalendar, {})
 app.use(router)
 app.use(store)
