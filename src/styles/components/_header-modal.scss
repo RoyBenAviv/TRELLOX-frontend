@@ -1,4 +1,4 @@
-.starred-modal {
+.header-modal {
     left: 350px;
 
     ul {
@@ -20,16 +20,6 @@
             transition-property: color, background, opacity, transform, width, margin;
             cursor: pointer;
 
-            &:hover {
-                background-color: #ebecf0;
-                .bg {
-                    filter: brightness(104%);
-                }
-                .star {
-                    opacity: 1;
-                }
-            }
-
             .bg {
                 background-size: cover;
                 border-radius: 3px;
@@ -47,22 +37,49 @@
                 font-size: 14px;
                 color: #172b4d;
                 font-weight: 500;
+                padding-inline-end: 20px;
 
                 .star {
                     color: #091e42;
                     height: 16px;
-                    // position: absolute;
-                    // right: 10px;
-                    // bottom: 14px;
-                    // width: 0;
-                    // z-index: 10;
-                    // opacity: 0;
                     font-family: trellicons;
-                    transition-duration: 0.15s;
+                    opacity: 0;
+                    transition-duration: 0.1s;
                     transition-property: color, background, opacity, transform, width, margin;
                     cursor: pointer;
+                    position: absolute;
+                    right: 4px;
+
                     &::before {
                         content: "\e966";
+                    }
+
+                    &.full {
+                        opacity: 1;
+                        &::before {
+                            content: "\e967";
+                            color: #f2d600;
+                        }
+                    }
+                }
+            }
+
+            &:hover {
+                background-color: #ebecf0;
+                .bg {
+                    filter: brightness(104%);
+                }
+                .star {
+                    opacity: 1;
+                    &:hover {
+                        color: #f2d600;
+                    }
+                    &.full {
+                        &:hover {
+                            &::before {
+                                content: "\e966";
+                            }
+                        }
                     }
                 }
             }

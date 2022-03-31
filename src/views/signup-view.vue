@@ -30,14 +30,18 @@ export default {
   data() {
     return {
       failed: false,
-      signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: '' },
+      signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: null },
     }
   },
   methods: {
     async signup() {
-      if(!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) this.failedLog()
-      if (this.signupCred.fullname.split(" ").length <= 1) return
+      if (!this.signupCred.email || !this.signupCred.password || !this.signupCred.fullname) this.failedLog()
+      if (this.signupCred.fullname.split(' ').length <= 1) return
       try {
+        const nameArray = this.signupCred.fullname.split(' ')
+        this.signupCred.fullname = nameArray.reduce((name, word) => name + ' ' + this.capitalizeFirstLetter(word), '')
+        this.signupCred.fullname = this.signupCred.fullname.trim()
+        console.log('this.signupCred.fullname', this.signupCred.fullname)
         this.signupCred.username = this.signupCred.fullname.split(' ').join('').toLowerCase()
         await this.$store.dispatch({ type: 'signup', userCred: this.signupCred })
         this.$router.push('/workspace')
@@ -45,6 +49,9 @@ export default {
         // this.failedLog()
         console.log('error')
       }
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
     failedLog() {
       this.failed = true

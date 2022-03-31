@@ -1,12 +1,12 @@
 <template>
-  <custom-modal class="starred-modal">
+  <custom-modal class="header-modal">
     <template v-slot:header> Starred boards </template>
     <ul v-if="starredBoards.length">
-      <li v-for="board in starredBoards" :key="board._id">
+      <li v-for="board in starredBoards" :key="board._id" @click="this.$router.push('/board/' + board._id)">
         <section class="bg" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }"></section>
         <div>
           {{ board.title }}
-          <span class="star" :class="{ full: board.isStarred }"></span>
+          <span class="star" :class="{ full: board.isStarred }" @click.stop="toggleStar(board)"></span>
         </div>
       </li>
     </ul>
@@ -28,7 +28,11 @@ export default {
   components: {
     customModal,
   },
-  methods: {},
+  methods: {
+    toggleStar(board) {
+      this.$emit('toggleStar', board)
+    },
+  },
   computed: {
     starredBoards() {
       var boards = this.$store.getters.boards
