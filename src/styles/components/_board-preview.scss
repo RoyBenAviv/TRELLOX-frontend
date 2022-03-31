@@ -19,7 +19,7 @@
     .txt-on-borad-img {
         position: absolute;
         left: 10px;
-        top: 10px;
+        top: 6px;
         color: $clr4;
         font-weight: 700;
         z-index: 10;
@@ -38,8 +38,8 @@
         transition-duration: 0.15s;
         transition-property: color, background, opacity, transform, width, margin;
         width: 0;
-        opacity: 0;
         z-index: 10;
+        opacity: 0;
         cursor: pointer;
         &::before {
             content: "\e966";

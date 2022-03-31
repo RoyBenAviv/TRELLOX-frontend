@@ -65,7 +65,7 @@
       <div class="bg-choose-color" v-if="openChangeColor">
         <ul class="bg-colors" v-if="images">
           <li v-for="color in colors" :key="color">
-            <div @click="setBoardClr(color)" class="bg-color" :style="{ 'background-color': color }"></div>
+            <div @click="setBoardClr(color)" class="bg-color" :style="{ 'background-color': color.body }"></div>
           </li>
         </ul>
       </div>
@@ -78,7 +78,7 @@ import { imgService } from '../../services/img.service.js'
 import customModal from './custom-modal.vue'
 import { utilService } from '../../services/util.service.js'
 export default {
-  name: '',
+  name: 'board-menu',
   data() {
     return {
       openChangeBg: false,
@@ -95,7 +95,7 @@ export default {
   methods: {
     async searchImages(searchVal) {
       const images = await imgService.getBgImages(searchVal)
-      this.images = images.photos.results
+      this.images = images.photos.results.splice(0, 10)
     },
     async onUploadImg(ev) {
       const res = await imgService.uploadImg(ev)

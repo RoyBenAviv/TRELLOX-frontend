@@ -26,7 +26,7 @@
     height: 100%;
     padding-block-start: rem(100px);
     width: max-content;
-    margin-inline-start: rem(28px);
+    margin-inline-start: rem(12px);
     .board-nav {
       z-index: 11;
       position: fixed;
@@ -106,7 +106,7 @@
         }
       }
       .right-nav {
-        margin-inline-end: rem(32px);
+        margin-inline-end: rem(18px);
       }
     }
     .board-menu {
@@ -225,13 +225,14 @@
         border-radius: 10px;
         cursor: pointer;
         &:hover {
-          filter: grayscale(50%);
+          opacity: 0.7;
         }
       }
       .bg-images,
       .bg-colors {
         @include flex;
         flex-wrap: wrap;
+        margin-top: 2px;
         gap: rem(10px);
       }
       .bg-choose-img {
@@ -245,6 +246,8 @@
         img {
           object-fit: cover;
           object-position: bottom;
+          width: 147.5px;
+          height: 95px;
         }
       }
       .bg-choose-color {

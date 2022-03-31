@@ -15,7 +15,17 @@ export default {
       'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHwzfHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
       'https://images.unsplash.com/photo-1433477155337-9aea4e790195?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb',
     ],
-    boardColors: ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc'],
+    boardColors: [
+      { body: '#0079bf', header: '#0066a0' },
+      { body: '#d29034', header: '#b0792c' },
+      { body: '#519839', header: '#448030' },
+      { body: '#b04632', header: '#943b2a' },
+      { body: '#89609e', header: '#735185' },
+      { body: '#cd5a91', header: '#ac4c7a' },
+      { body: '#4bbf6b', header: '#3fa05a' },
+      { body: '#00aecc', header: '#0092ab' },
+    ],
+
     coverColors: ['#7BC86C', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5', '#6DECA9', '#FF8ED4', '#172B4D'],
     coverImages: [
       'https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
@@ -79,9 +89,9 @@ export default {
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
     },
-    addActivity(state, {activity}) {
+    addActivity(state, { activity }) {
       state.currBoard.activities.unshift(activity)
-    }
+    },
   },
   actions: {
     async loadBoards({ commit, state }) {
@@ -205,8 +215,8 @@ export default {
           title: card.title,
         },
       }
-      commit({type:'addActivity', activity})
-      await dispatch({type: 'saveBoard', board: getters.currBoard})
+      commit({ type: 'addActivity', activity })
+      await dispatch({ type: 'saveBoard', board: getters.currBoard })
     },
   },
 }

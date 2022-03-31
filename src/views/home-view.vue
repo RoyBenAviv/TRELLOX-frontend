@@ -5,8 +5,8 @@
     <div class="topside">
     <article>
       <h1>Trellox helps teams move work forward.</h1>
-      <p>Collaborate, manage projects, and reach new productivity peaks. From high rises to the home office, the way your team works is unique—accomplish it all with Trello.</p>
-      <button @click="toWorkSpace">Start now <span><i class="fa-solid fa-arrow-right"></i></span></button>
+      <p>Collaborate, manage projects, and reach new productivity peaks. From high rises to the home office, the way your team works is unique accomplish it all with Trellox.</p>
+      <button @click="toWorkSpace">Get started <span><i class="fa-solid fa-arrow-right"></i></span></button>
     </article>
     <div class="background"></div>
     </div>

@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       failed: false,
-      signupCred: { email: '', username: '', password: '', fullname: '' },
+      signupCred: { email: '', username: '', password: '', fullname: '', boardIds: [], imgUrl: '' },
     }
   },
   methods: {

@@ -7,8 +7,7 @@
         <router-link to="/signup">Sign up</router-link>
         </div>
         <div class="member-nav" v-else>
-          <a @click="logout">Log out</a>
-          <a>Welcome {{member.fullname.split(' ')[0]}}</a>
+          <a @click="this.$router.push('/workspace')">Welcome {{member.fullname.split(' ')[0]}}</a>
         </div>
       </nav>
   </header>
