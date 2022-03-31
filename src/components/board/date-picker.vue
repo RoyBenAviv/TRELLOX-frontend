@@ -53,18 +53,20 @@ export default {
     closeModal() {
       this.$emit('closeModal')
     },
-    setDate() {
+    async setDate() {
       if(!this.time) this.time = '00:00'
       const dueDate = {
         date: this.date,
         time: this.time,
         isCompleted: null,
       }
-      this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), `added a due date ${dueDate.date} at ${dueDate.time}`)
+      await this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), `added a due date ${dueDate.date} at ${dueDate.time}`)
+      this.closeModal()
     },
-    removeDate() {
+    async removeDate() {
       const dueDate = null
-      this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), 'removed due date from card')
+      await this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), 'removed due date from card')
+      this.closeModal()
     },
   },
   computed: {

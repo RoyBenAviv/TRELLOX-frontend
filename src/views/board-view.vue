@@ -13,7 +13,8 @@
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </div>
           </div>
-          <button class="invite">Invite</button>
+          <button class="invite" @click="openInvite = true">Invite</button>
+          <user-invite v-if="openInvite" v-click-outside="()=> openInvite = false" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
           <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
@@ -48,6 +49,7 @@ import { applyDrag } from '../services/drag.helpers'
 import appHeader from '../components/app-header.vue'
 import boardMenu from '../components/board/board-menu.vue'
 import boardFilter from '../components/board/board-filter.vue'
+import userInvite from '../components/board/user-invite.vue'
 
 export default {
   components: {
@@ -57,6 +59,7 @@ export default {
     appHeader,
     boardMenu,
     boardFilter,
+    userInvite
   },
   data() {
     return {
@@ -68,11 +71,13 @@ export default {
       lastBoard: null,
       groupsCount: 0,
       openFilter: false,
+      openInvite: false
     }
   },
   async created() {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+    this.updateKey('recentlyViewed', Date.now())
   },
   methods: {
     async updateKey(key, value) {
@@ -80,9 +85,9 @@ export default {
       if (value === 'toggle') {
         board[key] = !board[key]
       } else board[key] = value
-      // await this.$store.dispatch({ type: 'saveBoard', board })
-      this.board = this._filter(board)
-      // this.board = board
+      await this.$store.dispatch({ type: 'saveBoard', board })
+      this.board = board
+      // this.board = this._filter(board)
     },
     _filter(board) {
       const filterBy = board.filterBy

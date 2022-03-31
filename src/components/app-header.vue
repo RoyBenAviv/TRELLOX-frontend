@@ -10,7 +10,7 @@
       <button class="recent" @click="openModal('recent-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <button class="starred" @click="openModal('starred-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <!-- <button @click="openModal('templates-modal')">Templates <i class="fa-solid fa-chevron-down"></i></button> -->
-      <button @click="openModal('create-board-modal')"></button>
+      <button @click="openModal('create-board-modal', $event)"></button>
     </div>
     <div class="right-header">
       <label>
@@ -18,12 +18,21 @@
         <input type="text" placeholder="Search" />
       </label>
       <button class="notifications"><i class="fa-solid fa-bell"></i></button>
-      <div @click="openModal('user-modal')" class="avatar-container" :title="member ? member.fullname : 'Guest'">
+      <div @click="openModal('user-modal', $event)" class="avatar-container" :title="member ? member.fullname : 'Guest'">
         <img v-if="member?.imgUrl" :src="member.imgUrl" alt="" />
         <span v-else>{{ checkMember }}</span>
       </div>
     </div>
-    <component v-if="cmpName" :is="cmpName" @closeModal="closeModal" @logout="logout" v-click-outside="() => closeModal()" :style="`top: ${posTop}px; left: ${posLeft}px`"> </component>
+    <component
+    v-if="cmpName"
+    :is="cmpName"
+    :posLeft="posLeft"
+    :posTop="posTop"
+    @closeModal="closeModal"
+    @logout="logout"
+    v-click-outside="() => closeModal()"
+    :style="`top: ${posTop}px; left: ${posLeft}px`"
+    > </component>
   </header>
 </template>
 
@@ -63,12 +72,20 @@ export default {
     async logout() {
       try {
         await this.$store.dispatch('logout')
+        this.$router.push('/')
       } catch (err) {
         console.log(err)
       }
     },
     calcPosition(rect) {
       var { left } = rect
+      const winWidth = window.innerWidth
+      console.log('winWidth',winWidth)
+      console.log('left',left)
+      console.log('winWidth - left',winWidth - left)
+      if (winWidth - left < 310) {
+        left = winWidth - 310
+      }
       this.posTop = 50
       this.posLeft = left
     },

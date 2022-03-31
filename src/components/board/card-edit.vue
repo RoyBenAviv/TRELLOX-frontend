@@ -144,7 +144,7 @@
             </div>
           </div>
           <div class="modal-side-bar">
-            <div class="action-container">
+            <div class="action-container" v-if="!checkUser">
               <h3>Suggested</h3>
               <div @click="joinToCard" class="action-btn">
                 <span class="icon ic-join"></span>
@@ -293,17 +293,12 @@ export default {
       this.cmpName = cmpName
     },
     calcPosition(rect) {
-      var { top, bottom, right, left, x, y } = rect
-      // console.log('rect', rect)
-      const winHeight = window.innerHeight
+      var { left } = rect
       const winWidth = window.innerWidth
-      console.log('winWidth - left',winWidth - left)
-      console.log('winWidth',winWidth)
-      console.log('left',left)
       if (winWidth - left < 300) {
         left = winWidth - 330
       }
-      this.posTop = winHeight - 630
+      this.posTop = 100
       this.posLeft = left
     },
     closeModal() {
@@ -315,7 +310,7 @@ export default {
         this.card[key].push(value)
       } else this.card[key] = value
       if (activity) await this.addActivity(activity)
-      this.updateCard()
+      await this.updateCard()
     },
     closeEdit() {
       this.$router.push(`/board/${this.boardId}`)
@@ -415,6 +410,11 @@ export default {
     async addActivity(txt) {
       await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
+    async joinToCard() {
+      this.card.memberIds.push(this.$store.getters.loggedinUser._id)
+      await this.addActivity(`${this.$store.getters.loggedinUser.fullname} Joined card`)
+      this.updateCard()
+    },
     formattedTime(time) {
       return utilService.getFormattedTime(time)
     }
@@ -474,6 +474,9 @@ export default {
       const activities = this.$store.getters.currBoard.activities
       return activities.length ? activities.filter((ac) => ac.card.id === this.card.id) : []
     },
+    checkUser() {
+      return this.card.memberIds.includes(this.$store.getters.loggedinUser._id)
+    }
   },
 }
 </script>

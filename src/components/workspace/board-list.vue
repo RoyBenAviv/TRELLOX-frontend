@@ -12,15 +12,15 @@
         <li v-for="board in boards" :key="board._id">
           <board-preview :board="board" />
         </li>
-        <li v-if="showCreate" @click="openBoardCreation = true">
+        <li v-if="showCreate" @click="openCreateBoard($event)">
           <section class="board-preview new-board">
             <div class="board-preview-container">
               <span class="txt-on-borad-img">Create new board</span>
             </div>
           </section>
-          <board-add @closeModal="openBoardCreation = false" v-if="openBoardCreation" />
         </li>
       </ul>
+      <board-add v-if="openBoardCreation" @closeModal="openBoardCreation = false" :style="`top: ${posTop}px; left: ${posLeft}px`" />
     </section>
   </section>
 </template>
@@ -38,13 +38,29 @@ export default {
   data() {
     return {
       openBoardCreation: false,
+      posLeft: null,
+      posTop: null,
     }
   },
   components: {
     boardPreview,
     boardAdd,
   },
-  methods: {},
+  methods: {
+    openCreateBoard(ev) {
+      this.calcPosition(ev.target.getBoundingClientRect())
+      this.openBoardCreation = true
+    },
+    calcPosition(rect) {
+      var { left, top } = rect
+      const winWidth = window.innerWidth
+      console.log('rect', rect)
+      if (winWidth - left < 500) {
+        this.posLeft = left - 320
+      } else this.posLeft = left + 160
+      this.posTop = top - 350
+    },
+  },
   computed: {},
 }
 </script>

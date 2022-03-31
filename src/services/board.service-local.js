@@ -1,6 +1,7 @@
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
 import { boardService } from './board.service'
+import { userService } from './user.service'
 
 export const localService = {
   getEmptyBoard,
@@ -18,13 +19,13 @@ function getEmptyBoard() {
     title: '',
     recentlyViewed: Date.now(),
     isStarred: false,
-    createdBy: {}, //add logged in user
+    createdBy: userService.getLoggedinUser() || {}, //add logged in user
     style: {
       bgImUrl: '',
       bgColor: '',
     },
     labels: _getLabelsForPM(),
-    members: [], //add logged in user
+    members: [userService.getLoggedinUser()] || [], //add logged in user
     groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
     activities: [],
     filterBy: {},
@@ -176,9 +177,9 @@ function _getEmptyCard(title = '') {
     attachments: [],
     checklists: [],
     comments: [],
-    memberIds: [], // add creator
+    memberIds: [userService.getLoggedinUser()._id] || [], // add creator
     labelIds: [],
-    byMember: {}, // add creator
+    createdBy: userService.getLoggedinUser() || {}, // add creator
     style: {
       type: '',
       cover: '',
