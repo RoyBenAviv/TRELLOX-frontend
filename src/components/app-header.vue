@@ -80,9 +80,6 @@ export default {
     calcPosition(rect) {
       var { left } = rect
       const winWidth = window.innerWidth
-      console.log('winWidth',winWidth)
-      console.log('left',left)
-      console.log('winWidth - left',winWidth - left)
       if (winWidth - left < 310) {
         left = winWidth - 310
       }

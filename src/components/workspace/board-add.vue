@@ -51,9 +51,7 @@ export default {
     async createBoard() {
       console.log('this.newBoard', this.newBoard)
       const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
-      await this.$store.dispatch({ type: 'setCurrBoard', boardId: board._id })
-      this.$emit('closeModal')
-      // this.$router.push(`/board/${board._id}`)
+      this.$router.push(`/board/${board._id}`)
       this.newBoard = localService.getEmptyBoard()
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="create-board-modal-container">
     <custom-modal @closeModal="closeModal" v-if="!openBoardCreation" class="create-board-modal" :style="`top: ${posTop}px; left: ${posLeft}px`">
       <template v-slot:header> Create </template>
       <template v-slot:main>
