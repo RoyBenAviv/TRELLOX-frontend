@@ -1,6 +1,6 @@
 <template>
   <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" v-if="board">
-    <app-header class="board-header"/>
+    <app-header @headerClr="headerClr" :style="{'background-color': headerClr?.hex}" class="board-header"/>
     <div class="board-view">
       <nav class="board-nav">
         <div class="left-nav">
@@ -56,6 +56,7 @@ import appHeader from '../components/app-header.vue'
 import boardMenu from '../components/board/board-menu.vue'
 import boardFilter from '../components/board/board-filter.vue'
 import userInvite from '../components/board/user-invite.vue'
+import FastAverageColor from 'fast-average-color'
 
 export default {
   components: {
@@ -79,12 +80,16 @@ export default {
       openFilter: false,
       openInvite: false,
       editTitle: true,
+      headerClr: null
     }
   },
   async created() {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
+        const board = JSON.parse(JSON.stringify(this.board))
+        const fac = new FastAverageColor()
+        this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
   },
   methods: {
     async updateKey(key, value) {
@@ -176,11 +181,14 @@ export default {
         this.board = this.lastBoard
       }
     },
-    setBoardBg(boardBg) {
+    async setBoardBg(boardBg) {
       // this.board.style.bgImgUrl = boardBg
       const board = JSON.parse(JSON.stringify(this.board))
       board.style.bgColor = ''
       board.style.bgImgUrl = boardBg
+      const fac = new FastAverageColor()
+      this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
+      console.log(this.headerClr)
       this.$store.dispatch({ type: 'saveBoard', board })
     },
     setBoardClr(boardClr) {
