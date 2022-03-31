@@ -13,7 +13,7 @@
       </ul>
       <ul class="color-picker">
         <li @click="setColor(color)" v-for="color in colorPicker" :key="color">
-          <div class="color" :style="{ 'background-color': color }"></div>
+          <div class="color" :style="{ 'background-color': color.body }"></div>
         </li>
       </ul>
       <h4 class="board-title">Board title <span>*</span></h4>
@@ -46,7 +46,8 @@ export default {
     },
     setColor(color) {
       this.newBoard.style.bgImgUrl = ''
-      this.newBoard.style.bgColor = color
+      this.newBoard.style.bgColor = color.body
+      this.newBoard.style.bgHeader = color.header
     },
     async createBoard() {
       const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })

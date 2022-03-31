@@ -1,6 +1,6 @@
 <template>
   <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" v-if="board">
-    <app-header @headerClr="headerClr" :style="{'background-color': headerClr?.hex}" class="board-header"/>
+    <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{'background-color': headerClr ? headerClr.hex : board.style.bgHeader}" class="board-header"/>
     <div class="board-view">
       <nav class="board-nav">
         <div class="left-nav">
@@ -185,6 +185,7 @@ export default {
       // this.board.style.bgImgUrl = boardBg
       const board = JSON.parse(JSON.stringify(this.board))
       board.style.bgColor = ''
+      board.style.bgHeader = ''
       board.style.bgImgUrl = boardBg
       const fac = new FastAverageColor()
       this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
@@ -192,10 +193,11 @@ export default {
       this.$store.dispatch({ type: 'saveBoard', board })
     },
     setBoardClr(boardClr) {
-      console.log('boardClr', boardClr)
       const board = JSON.parse(JSON.stringify(this.board))
       board.style.bgImgUrl = ''
-      board.style.bgColor = boardClr
+      board.style.bgColor = boardClr.body
+      board.style.bgHeader = boardClr.header
+      this.headerClr = null
       this.$store.dispatch({ type: 'saveBoard', board })
     },
     editBoardTitle(ev) {
