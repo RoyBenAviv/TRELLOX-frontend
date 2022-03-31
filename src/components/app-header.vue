@@ -1,11 +1,11 @@
 <template>
   <header class="app-header">
-    <div :style="{color: headerClr?.isDark ? 'white' : '#091e42'}" class="left-header">
+    <div class="left-header">
       <div @click="this.$router.push('/workspace')" class="logo">
         <i class="fa-brands fa-trello"></i>
         <p>Trellox</p>
       </div>
-      {{headerClr}}
+
       <button class="recent" @click="openModal('recent-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <button class="starred" @click="openModal('starred-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <!-- <button @click="openModal('templates-modal')">Templates <i class="fa-solid fa-chevron-down"></i></button> -->
@@ -44,9 +44,6 @@ import createBoardModal from './board/create-board-modal.vue'
 
 export default {
   name: '',
-    props: {
-    headerClr: Object
-  },
   data() {
     return {
       openCreate: false,

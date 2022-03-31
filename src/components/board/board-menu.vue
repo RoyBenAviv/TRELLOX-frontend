@@ -65,7 +65,7 @@
       <div class="bg-choose-color" v-if="openChangeColor">
         <ul class="bg-colors" v-if="images">
           <li v-for="color in colors" :key="color">
-            <div @click="setBoardClr(color)" class="bg-color" :style="{ 'background-color': color }"></div>
+            <div @click="setBoardClr(color)" class="bg-color" :style="{ 'background-color': color.body }"></div>
           </li>
         </ul>
       </div>

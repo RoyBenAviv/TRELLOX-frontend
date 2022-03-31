@@ -23,6 +23,7 @@ function getEmptyBoard() {
     style: {
       bgImUrl: '',
       bgColor: '',
+      bgHeader: ''
     },
     labels: _getLabelsForPM(),
     members: [userService.getLoggedinUser()] || [], //add logged in user
