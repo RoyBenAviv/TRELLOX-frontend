@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div @click="openCardEdit" class="card-preview" :class="computedQuickEdit" >
+    <div @click="openCardEdit" class="card-preview" :style="(card.style.fullCover && card.style.type === 'url') ? 'overflow-y: unset' : ''" :class="computedQuickEdit" >
       <div v-if="card.style.fullCover && !checkQuickEdit" :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`" class="card-preview-full-cover" :class="card.style.type === 'color' ? '' : 'imgUrl'">
         <div class="card-preview-cover-color"></div>
         <div class="full-cover-title" :class="card.style.isDark ? 'dark' : 'light'">
@@ -14,7 +14,7 @@
           <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
         </div>
         <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
-        <div class="card-label-container">
+        <div :style="(card.style.type === 'url' && !card.style.fullCover || card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container" >
           <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
             <span v-if="labelTitleShown">{{ label.title }}</span>
           </span>
@@ -200,7 +200,7 @@ export default {
       return `${month} ${day}`
     },
     checkUser() {
-      return this.card.memberIds.includes(this.$store.getters.loggedinUser._id)
+      return this.card.memberIds.includes(this.$store.getters.loggedinUser?._id)
     }
   },
 }
