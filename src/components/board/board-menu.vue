@@ -1,9 +1,9 @@
 <template>
   <custom-modal :isFirstPage="isFirstPage" @goBack="goBack" class="board-menu" @closeModal="closeModal">
     <template v-slot:header> <p class="header-title">Menu</p> </template>
-    <menu v-if="!openChangeBg && !openChangeImg && !openChangeColor">
+    <menu v-if="!openChangeBg && !openChangeImg && !openChangeColor && !openStickers">
       <ul class="menu-options">
-        <li><i class="fa-brands fa-trello"></i> <a>About this board</a></li>
+        <li class="stickers" @click="openStickers = true"><a>Stickers</a></li>
         <li @click="openChangeBg = true"><i class="fa-solid fa-image"></i> <a>Change background</a></li>
       </ul>
       <hr />
@@ -27,7 +27,7 @@
       </div>
     </menu>
     <Transition name="inside-menu">
-      <div class="bg-choose" v-if="openChangeBg && !openChangeImg && !openChangeColor">
+      <div class="bg-choose" v-if="openChangeBg && !openChangeImg && !openChangeColor && !openStickers">
         <div class="bg-choose-top">
           <div @click="openChangeImg = true" class="bg-picker">
             <img src="https://res.cloudinary.com/trellox/image/upload/v1648369955/background_ffsmh3.jpg" alt="background image picker" />
@@ -50,7 +50,17 @@
         </div>
       </div>
     </Transition>
+    <Transition name="inside-menu">
+        <div class="choose-sticker" v-if="openStickers">
+              <input class="custom-input" placeholder="Search sticker" type="text" v-model="stickerSearch" @input="searchStickers(stickerSearch)" />
+              <ul class="stickers-list" v-if="stickers">
+                <li v-for="sticker in stickers" :key="sticker.id">
+                    <img :src="sticker.images.original.url" :alt="sticker.title"/>
+                </li>
+              </ul>
+        </div>
 
+    </Transition>
     <Transition name="inside-menu">
       <div class="bg-choose-img" v-if="openChangeImg">
         <input class="custom-input" placeholder="Photos" type="text" v-model="search" @input="searchImages(search)" />
@@ -83,19 +93,27 @@ export default {
     return {
       openChangeBg: false,
       images: null,
+      stickers: null,
       colors: this.$store.getters.boardColors,
       search: '',
+      stickerSearch: '',
       openChangeImg: false,
       openChangeColor: false,
+      openStickers: false
     }
   },
   created() {
     this.searchImages('nature')
+    this.searchStickers('wow')
   },
   methods: {
     async searchImages(searchVal) {
       const images = await imgService.getBgImages(searchVal)
       this.images = images.photos.results.splice(0, 10)
+    },
+    async searchStickers(searchVal) {
+      const stickers = await imgService.getStickers(searchVal)
+      this.stickers = stickers.data
     },
     async onUploadImg(ev) {
       const res = await imgService.uploadImg(ev)

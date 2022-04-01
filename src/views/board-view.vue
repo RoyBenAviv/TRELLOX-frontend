@@ -23,7 +23,7 @@
             <span>Filter</span>
             <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
           </button>
-          <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
+          <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
         </div>
         <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
       </nav>
