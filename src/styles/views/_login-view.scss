@@ -1,4 +1,5 @@
-.login-view, .signup-view {
+.login-view,
+.signup-view {
   @include flex(column);
   .logo {
     margin: rem(40px) 0;
@@ -52,10 +53,9 @@
         @include custom-input;
         padding: rem(12px);
         &::placeholder {
-            font-size: rem(14px);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          font-size: rem(14px);
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-
       }
       @include flex(column);
       width: 100%;
@@ -70,15 +70,48 @@
       background-color: #5aac44;
       font-weight: 700;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
     }
     a {
       text-decoration: none;
-      color: #0052CC;
+      color: #0052cc;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       font-size: rem(16px);
       &:hover {
         text-decoration: underline;
+      }
+    }
+    .or {
+      font-size: rem(12px);
+      margin: rem(16px) 0;
+    }
+    hr {
+      margin: 8px 0;
+      background-color: #091e4221;
+      border: 0;
+      height: 1px;
+      padding: 0;
+      margin: rem(20px) 0;
+      width: 100%;
+    }
+    .google {
+      width: 100%;
+      cursor: pointer;
+      @include flex;
+      gap: rem(8px);
+      box-shadow: rgb(0 0 0 / 20%) 1px 1px 5px 0;
+      border-radius: 3px;
+      height: 41px;
+      &:hover {
+        background-color: #F9FAFC;
+      }
+      h3 {
+        margin: 0;
+        color: #505f79;
+        font-size: rem(14px);
+      }
+      img {
+        width: 18px;
+        height: 18px;
       }
     }
   }

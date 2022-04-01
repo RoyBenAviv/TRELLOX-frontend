@@ -242,10 +242,15 @@
       .menu-options {
         .stickers {
           &::before {
-            font-size: rem(18px);
+            font-size: rem(17px);
             font-weight: 500;
             font-family: trellicons;
             content: "\e968";
+          }
+        }
+        .change-bg-btn {
+          i {
+            font-size: rem(17px);
           }
         }
         li {

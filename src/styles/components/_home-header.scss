@@ -30,7 +30,8 @@
     }
     @media (max-width: 700px) {
       h2 {
-        font-size: rem(25px)
+        font-size: rem(25px);
+        margin-top: 0;
       }
       span {
         font-size: 1.7em

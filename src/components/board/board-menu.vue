@@ -4,7 +4,7 @@
     <menu v-if="!openChangeBg && !openChangeImg && !openChangeColor && !openStickers">
       <ul class="menu-options">
         <li class="stickers" @click="openStickers = true"><a>Stickers</a></li>
-        <li @click="openChangeBg = true"><i class="fa-solid fa-image"></i> <a>Change background</a></li>
+        <li class="change-bg-btn" @click="openChangeBg = true"><i class="fa-solid fa-image"></i> <a>Change background</a></li>
       </ul>
       <hr />
       <ul class="menu-options">

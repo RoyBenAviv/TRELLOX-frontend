@@ -7,7 +7,7 @@
     <div class="login-container">
       <Transition name="failed">
         <div class="failed" v-if="failed">
-          <p >Logged in failed. Please enter valid email or password.</p>
+          <p>Logged in failed. Please enter valid email or password.</p>
         </div>
       </Transition>
       <h3>Log in to Trellox</h3>
@@ -17,8 +17,13 @@
       </form>
 
       <button @click="login" class="login-btn">Log in</button>
-        <hr>
-        <router-link to="/signup">Sign up for an account</router-link>
+      <span class="or">OR</span>
+      <div class="google" @click="googleSignup">
+        <img src="google.svg" />
+        <h3>Continue with Google</h3>
+      </div>
+      <hr />
+      <router-link to="/signup">Sign up for an account</router-link>
     </div>
   </section>
 </template>
@@ -31,28 +36,49 @@ export default {
       failed: false,
       loginCred: {
         email: '',
-        password: ''
+        password: '',
       },
     }
   },
   methods: {
     async login() {
-      if(!this.loginCred.email || !this.loginCred.password) this.failedLog()
+      if (!this.loginCred.email || !this.loginCred.password) this.failedLog()
       try {
-        await this.$store.dispatch({ type: 'login', userCred: this.loginCred})
-        this.$router.push('/workspace');
-      } catch(err) {
-          this.failedLog()
+        await this.$store.dispatch({ type: 'login', userCred: this.loginCred })
+        this.$router.push('/workspace')
+      } catch (err) {
+        this.failedLog()
       }
-
     },
     failedLog() {
       this.failed = true
       setTimeout(() => {
         this.failed = false
-          }, 6000)
+      }, 6000)
       return
-    }
+    },
+    async googleSignup() {
+      try {
+        const googleUser = await this.$gAuth.signIn()
+        console.log(googleUser)
+        if (!googleUser) return
+
+        this.googleUser = {
+          email: googleUser.Du.tv,
+          fullname: googleUser.Du.tf,
+          username: googleUser.Du.tf.split(' ').join('').toLowerCase(),
+          password: 'google',
+          boardIds: [],
+          imgUrl: googleUser.Du.eN,
+        }
+
+        await this.$store.dispatch({ type: 'signup', userCred: JSON.parse(JSON.stringify(this.googleUser)) })
+        console.log('googleUser', JSON.parse(JSON.stringify(this.googleUser)))
+        this.$router.push('/workspace')
+      } catch (err) {
+        console.log(err)
+      }
+    },
   },
   computed: {},
   components: {},
