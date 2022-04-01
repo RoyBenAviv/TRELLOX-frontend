@@ -194,6 +194,7 @@ function _getEmptyCard(title = '') {
     comments: [],
     memberIds: [],
     labelIds: [],
+    isShown: true,
     createdBy: userService.getLoggedinUser() || {},
     style: {
       type: '',

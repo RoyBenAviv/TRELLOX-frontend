@@ -82,6 +82,7 @@ export default {
     },
     addCard() {
       if (!this.cardTitle) return
+      console.log('adding new card');
       this.$store.dispatch({ type: 'addCard', groupId: this.group.id, title: this.cardTitle })
       this.cardTitle = ''
     },

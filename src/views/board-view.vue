@@ -22,6 +22,7 @@
             <i class="fa-solid fa-filter"></i>
             Filter
             <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
+            <span v-if="this.filteringCount > -1" class="filterRestart"></span>
           </button>
           <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
         </div>
@@ -87,10 +88,13 @@ export default {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
-    const board = JSON.parse(JSON.stringify(this.board))
+    var board = JSON.parse(JSON.stringify(this.board))
     const fac = new FastAverageColor()
     this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
-    this.board = filter(board)
+    //set filter
+    board = this.filter(board)
+    await this.$store.dispatch({ type: 'saveBoard', board })
+    this.board = board
   },
   methods: {
     async updateKey(key, value) {
@@ -175,9 +179,11 @@ export default {
     },
     filter(board) {
       const filterBy = board.filterBy
+      console.log('filterBy', filterBy)
       const startVal =
         filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tommarow === false && filterBy.label.none === false && filterBy.label.options.length === 0
       if (startVal) {
+        console.log('at  apload of page')
         this.filteringCount = -1
         board.groups = board.groups.map((group) => {
           group.cards = group.cards.map((card) => {
