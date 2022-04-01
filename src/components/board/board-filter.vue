@@ -96,8 +96,8 @@
           </li>
         </ul>
       </div>
-      {{ filterBy.label.options }}
-      {{ filterBy.by.options }}
+      <!-- {{ filterBy.label.options }}
+      {{ filterBy.by.options }} -->
     </section>
   </custom-modal>
 </template>

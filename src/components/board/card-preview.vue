@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" >
+    <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
       <div v-if="card.style.fullCover && !checkQuickEdit" :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`" class="card-preview-full-cover" :class="card.style.type === 'color' ? '' : 'imgUrl'">
         <div class="card-preview-cover-color"></div>
         <div class="full-cover-title" :class="card.style.isDark ? 'dark' : 'light'">
@@ -51,10 +51,12 @@
               <span class="check"></span>
               <span class="txt">{{ calcProgress() }}</span>
             </div>
-            <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
+            <Container v-if="members.length || (this.$store.getters.isMemberDrag && isDragOver)" style="float:right" group-name="3" orientation="horizontal" :get-child-payload="getChildPayload" @drop="onMemberDrop($event)">
+            <Draggable class="avatar-container" @mousedown="this.$store.commit({type: 'memberDrag', isDrag: true})" v-for="member in members" :key="member.id" :title="member.fullname" >
               <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
-            </div>
+            </Draggable>
+            </Container>
           </div>
         </div>
         <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
@@ -74,6 +76,8 @@ import coverPicker from './cover-picker.vue'
 import datePicker from './date-picker.vue'
 import confirmDelete from './confirm-delete.vue'
 import moveCard from './move-card.vue'
+import { Container, Draggable } from 'vue3-smooth-dnd'
+import { applyDrag } from '../../services/drag.helpers'
 
 export default {
   name: 'card-preview',
@@ -90,7 +94,10 @@ export default {
     coverPicker,
     datePicker,
     confirmDelete,
-    moveCard
+    moveCard,
+    Container,
+    Draggable,
+    
   },
   data() {
     return {
@@ -101,7 +108,8 @@ export default {
       cmpName: null,
       isCopyCard: false,
       posTop: null, 
-      posLeft: null
+      posLeft: null,
+      isDragOver: false
     }
   },
   methods: {
@@ -186,7 +194,25 @@ export default {
     },
     async addActivity(txt) {
       await this.$store.dispatch({type: 'addActivity', txt, card: this.card})
-    }
+    },
+    async onMemberDrop(dropResult) {
+      console.log('dropResult',dropResult);
+      const card = JSON.parse(JSON.stringify(this.card))
+      if(dropResult.addedIndex !== null && !card.memberIds.includes(dropResult.payload._id)) {
+        console.log('inside IF');
+        card.memberIds.unshift(dropResult.payload._id)
+        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
+      }else if(dropResult.removedIndex !== null) {
+        console.log('inside 2 IF');
+        const idx = card.memberIds.findIndex(mId => mId === dropResult.payload._id)
+        card.memberIds.splice(idx, 1)
+        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
+      }
+      this.$store.commit({type: 'memberDrag', isDrag: false})
+    },
+    getChildPayload(idx) {
+      return this.members[idx]
+    },
   },
   computed: {
     labels() {

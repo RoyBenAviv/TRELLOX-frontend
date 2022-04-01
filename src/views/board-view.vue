@@ -8,12 +8,12 @@
           <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
-          <div class="members-container">
-            <div class="avatar-container" v-for="member in members" :key="member.id" :title="member.fullname">
+          <container style="height: 32px;" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
+            <draggable @mousedown="this.$store.commit({type: 'memberDrag', isDrag: true})" @mouseup="this.$store.commit({type: 'memberDrag', isDrag: false})" style="height: 32px;" class="avatar-container" v-for="member in members" :key="member._id" :title="member.fullname">
               <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
-            </div>
-          </div>
+            </draggable>
+          </container>
           <button class="invite" @click="openInvite = true">Invite</button>
           <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
         </div>
@@ -123,6 +123,7 @@ export default {
       this.groupTitle = ''
     },
     async onGroupDrop(dropResult) {
+      console.log('ON GROUP DROP');
       try {
         const board = Object.assign({}, this.board)
         board.groups = applyDrag(board.groups, dropResult)
@@ -134,7 +135,11 @@ export default {
         this.board = this.lastBoard
       }
     },
+    getChildPayload(idx) {
+      return this.$store.getters.currBoard.members[idx]
+    },
     async onCardDrop({ cards, groupId }) {
+      console.log('ON CARD DROP');
       try {
         const board = JSON.parse(JSON.stringify(this.board))
         const idx = this.board.groups.findIndex((group) => group.id === groupId)
@@ -197,28 +202,33 @@ export default {
       this.filteringCount = 0
       board.groups = board.groups.map((group) => {
         group.cards = group.cards.map((card) => {
-          var conditions = []
+          var conditions = [false, false, false]
           if (filterBy.by.none) {
-            conditions.push(card.memberIds.length === 0)
-          } else if (filterBy.by.options.length) {
+            if (card.memberIds.length === 0) conditions[0] = true
+          }
+          if (filterBy.by.options.length) {
             var members = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
-            conditions.push(members.length > 0)
+            if (members.length > 0) conditions[0] = true
           }
 
           if (filterBy.due.none) {
-            conditions.push(card.dueDate)
-          } else if (filterBy.due.over) {
-            conditions.push(card.dueDate > Date.now())
-          } else if (filterBy.due.tomorrow) {
-            conditions.push(this.calcIfTomorrow(card.dueDate))
+            if (card.dueDate) conditions[1] = true
+          }
+          if (filterBy.due.over) {
+            if (card.dueDate > Date.now()) conditions[1] = true
+          }
+          if (filterBy.due.tomorrow) {
+            if (this.calcIfTomorrow(card.dueDate)) conditions[1] = true
           }
 
           if (filterBy.label.none) {
-            conditions.push(card.labelIds.length === 0)
-          } else if (filterBy.label.options.length) {
-            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
-            conditions.push(labels.length > 0)
+            if (card.labelIds.length === 0) conditions[2] = true
           }
+          if (filterBy.label.options.length) {
+            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
+            if (labels.length > 0) conditions[2] = true
+          }
+
           if (!conditions.includes(false)) {
             this.filteringCount++
             card.isShown = true
