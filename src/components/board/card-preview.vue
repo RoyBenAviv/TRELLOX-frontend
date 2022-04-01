@@ -1,10 +1,20 @@
 <template>
   <section>
     <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
-      <div v-if="card.style.fullCover && !checkQuickEdit" :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`" class="card-preview-full-cover" :class="card.style.type === 'color' ? '' : 'imgUrl'">
+      <Container orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers.length ? 'sticker-container' : ''">
+        <div class="sticker" v-for="(sticker, idx) in card.stickers" :key="sticker" @click.stop="removeSticker(idx)">
+          <img :src="sticker" alt="" />
+        </div>
+      </Container>
+      <div
+        v-if="card.style.fullCover && !checkQuickEdit"
+        :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`"
+        class="card-preview-full-cover"
+        :class="card.style.type === 'color' ? '' : 'imgUrl'"
+      >
         <div class="card-preview-cover-color"></div>
         <div class="full-cover-title" :class="card.style.isDark ? 'dark' : 'light'">
-        <span >{{ card.title }}</span>
+          <span>{{ card.title }}</span>
         </div>
         <span @click.stop="openQuickEdit" class="edit-card"></span>
       </div>
@@ -14,7 +24,7 @@
           <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
         </div>
         <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
-        <div :style="(card.style.type === 'url' && !card.style.fullCover || card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container" >
+        <div :style="(card.style.type === 'url' && !card.style.fullCover) || (card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container">
           <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
             <span v-if="labelTitleShown">{{ label.title }}</span>
           </span>
@@ -26,15 +36,12 @@
         <div class="card-icons-container">
           <div>
             <div v-if="checkUser" title="watch" class="icon-div">
-            <span class="eyecon"></span>
+              <span class="eyecon"></span>
             </div>
-            <div :class="{complete: card.dueDate.isCompleted}" title="date" 
-            v-if="card.dueDate" class="icon-div date-preview" 
-            @click.stop="completeDate">
-            
+            <div :class="{ complete: card.dueDate.isCompleted }" title="date" v-if="card.dueDate" class="icon-div date-preview" @click.stop="completeDate">
               <span v-if="card.dueDate.isCompleted" class="date-complete-icon"></span>
               <span v-else class="date-icon"></span>
-              <span class="date">{{formattedDate}}</span>
+              <span class="date">{{ formattedDate }}</span>
             </div>
             <div title="description" v-if="card.description" class="icon-div">
               <span class="desc"></span>
@@ -51,11 +58,11 @@
               <span class="check"></span>
               <span class="txt">{{ calcProgress() }}</span>
             </div>
-            <Container v-if="members.length || (this.$store.getters.isMemberDrag && isDragOver)" style="float:right" group-name="3" orientation="horizontal" :get-child-payload="getChildPayload" @drop="onMemberDrop($event)">
-            <Draggable class="avatar-container" @mousedown="this.$store.commit({type: 'memberDrag', isDrag: true})" v-for="member in members" :key="member.id" :title="member.fullname" >
-              <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-              <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
-            </Draggable>
+            <Container v-if="members.length || (this.$store.getters.isMemberDrag && isDragOver)" style="float: right" group-name="3" orientation="horizontal" :get-child-payload="getChildPayload" @drop="onMemberDrop($event)">
+              <Draggable class="avatar-container" @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })" v-for="member in members" :key="member.id" :title="member.fullname">
+                <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
+                <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+              </Draggable>
             </Container>
           </div>
         </div>
@@ -77,7 +84,6 @@ import datePicker from './date-picker.vue'
 import confirmDelete from './confirm-delete.vue'
 import moveCard from './move-card.vue'
 import { Container, Draggable } from 'vue3-smooth-dnd'
-import { applyDrag } from '../../services/drag.helpers'
 
 export default {
   name: 'card-preview',
@@ -97,7 +103,6 @@ export default {
     moveCard,
     Container,
     Draggable,
-    
   },
   data() {
     return {
@@ -107,9 +112,9 @@ export default {
       newTitle: '',
       cmpName: null,
       isCopyCard: false,
-      posTop: null, 
+      posTop: null,
       posLeft: null,
-      isDragOver: false
+      isDragOver: false,
     }
   },
   methods: {
@@ -165,7 +170,7 @@ export default {
       var { left, top } = rect
       const winWidth = window.innerWidth
       const winHeight = window.innerHeight
-      if(top + 320 > winHeight) top = winHeight - 320
+      if (top + 320 > winHeight) top = winHeight - 320
       this.posTop = top
     },
     closeModal() {
@@ -177,7 +182,7 @@ export default {
         value.id = utilService.makeId()
         card[key].push(value)
       } else card[key] = value
-      if(activity) await this.addActivity(activity)
+      if (activity) await this.addActivity(activity)
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
     async removeCard() {
@@ -188,30 +193,44 @@ export default {
     async completeDate() {
       const card = JSON.parse(JSON.stringify(this.card))
       card.dueDate.isCompleted = !card.dueDate.isCompleted
-      if(card.dueDate.isCompleted) await this.addActivity('marked the due date complete')
+      if (card.dueDate.isCompleted) await this.addActivity('marked the due date complete')
       else await this.addActivity('marked the due date incomplete')
-      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
+      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
     async addActivity(txt) {
-      await this.$store.dispatch({type: 'addActivity', txt, card: this.card})
+      await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
     async onMemberDrop(dropResult) {
-      console.log('dropResult',dropResult);
       const card = JSON.parse(JSON.stringify(this.card))
-      if(dropResult.addedIndex !== null && !card.memberIds.includes(dropResult.payload._id)) {
-        console.log('inside IF');
+      if (dropResult.addedIndex !== null && !card.memberIds.includes(dropResult.payload._id)) {
         card.memberIds.unshift(dropResult.payload._id)
-        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
-      }else if(dropResult.removedIndex !== null) {
-        console.log('inside 2 IF');
-        const idx = card.memberIds.findIndex(mId => mId === dropResult.payload._id)
+        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      } else if (dropResult.removedIndex !== null) {
+        const idx = card.memberIds.findIndex((mId) => mId === dropResult.payload._id)
         card.memberIds.splice(idx, 1)
-        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card})
+        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       }
-      this.$store.commit({type: 'memberDrag', isDrag: false})
+      this.$store.commit({ type: 'memberDrag', isDrag: false })
     },
     getChildPayload(idx) {
       return this.members[idx]
+    },
+    onStickerDrop(dropResult) {
+      console.log('dropResult', dropResult)
+      const sticker = dropResult.payload.images.original.url
+      const card = JSON.parse(JSON.stringify(this.card))
+      if (dropResult.addedIndex !== null) {
+        console.log('here')
+        console.log(this.card.title)
+        if (!card.stickers) card.stickers = []
+        card.stickers.push(sticker)
+        this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      }
+    },
+    removeSticker(idx) {
+      const card = JSON.parse(JSON.stringify(this.card))
+      card.stickers.splice(idx, 1)
+      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
   },
   computed: {
@@ -246,11 +265,11 @@ export default {
       return this.card.memberIds.includes(this.$store.getters.loggedinUser?._id)
     },
     computedStyle() {
-      var style = (this.card.style.fullCover && this.card.style.type === 'url' || this.computedQuickEdit) ? 'overflow-y: unset' : ''
+      var style = (this.card.style.fullCover && this.card.style.type === 'url') || this.computedQuickEdit ? 'overflow-y: unset' : ''
       style += ';'
       style += this.checkQuickEdit ? `top: ${this.posTop}px` : ''
       return style
-    }
+    },
   },
 }
 </script>

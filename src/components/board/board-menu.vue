@@ -53,11 +53,11 @@
     <Transition name="inside-menu">
         <div class="choose-sticker" v-if="openStickers">
               <input class="custom-input" placeholder="Search sticker" type="text" v-model="stickerSearch" @input="searchStickers(stickerSearch)" />
-              <ul class="stickers-list" v-if="stickers">
-                <li v-for="sticker in stickers" :key="sticker.id">
+              <Container class="stickers-list" v-if="stickers" group-name="5" :get-child-payload="getChildPayload">
+                <Draggable v-for="sticker in stickers" :key="sticker.id">
                     <img :src="sticker.images.original.url" :alt="sticker.title"/>
-                </li>
-              </ul>
+                </Draggable>
+              </Container>
         </div>
 
     </Transition>
@@ -87,6 +87,8 @@
 import { imgService } from '../../services/img.service.js'
 import customModal from './custom-modal.vue'
 import { utilService } from '../../services/util.service.js'
+import { Container, Draggable } from 'vue3-smooth-dnd'
+
 export default {
   name: 'board-menu',
   data() {
@@ -130,18 +132,22 @@ export default {
       this.$emit('closeMenu')
     },
     goBack() {
-      if (this.openChangeImg || this.openChangeColor) {
+      if (this.openChangeImg || this.openChangeColor || this.openStickers) {
         this.openChangeImg = false
         this.openChangeColor = false
+        this.openStickers = false
       } else this.openChangeBg = false
     },
     formattedTime(activityTime) {
       return utilService.getFormattedTime(activityTime)
-    }
+    },
+    getChildPayload(idx) {
+      return this.stickers[idx]
+    },
   },
   computed: {
     isFirstPage() {
-      return this.openChangeBg || this.openChangeImg || this.openChangeColor ? false : true
+      return this.openChangeBg || this.openChangeImg || this.openChangeColor || this.openStickers ? false : true
     },
     activities() {
       return this.$store.getters.currBoard.activities || []
@@ -152,6 +158,8 @@ export default {
   components: {
     imgService,
     customModal,
+    Container,
+    Draggable
   },
 }
 </script>
