@@ -8,6 +8,7 @@ export default {
     boards: [],
     currBoard: null,
     labelTitleShown: false,
+    // isFiltering: false,
     labelColors: ['color0', 'color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8', 'color9', 'color10'],
     imagePicker: [
       'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHw0fHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
@@ -25,7 +26,6 @@ export default {
       { body: '#4bbf6b', header: '#3fa05a' },
       { body: '#00aecc', header: '#0092ab' },
     ],
-
     coverColors: ['#7BC86C', '#F5DD29', '#FFAF3F', '#EF7564', '#CD8DE5', '#5BA4CF', '#29CCE5', '#6DECA9', '#FF8ED4', '#172B4D'],
     coverImages: [
       'https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
@@ -61,6 +61,9 @@ export default {
     coverImages(state) {
       return JSON.parse(JSON.stringify(state.coverImages))
     },
+    // isFiltering(state){
+    //   return JSON.parse(JSON.stringify(state.isFiltering))
+    // },
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -92,6 +95,9 @@ export default {
     addActivity(state, { activity }) {
       state.currBoard.activities.unshift(activity)
     },
+    // setFiltering(state, { isFiltering }){
+    //   state.isFiltering = isFiltering
+    // },
   },
   actions: {
     async loadBoards({ commit, state }) {
@@ -111,6 +117,9 @@ export default {
       try {
         const board = await boardService.getBoardById(boardId)
         commit({ type: 'setCurrBoard', board })
+        // const filterBy = board.filterBy
+        // var notFiltering = filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tommarow === false && filterBy.label.none === false && filterBy.label.options.length === 0
+        // commit({ type: 'setFiltering', isFiltering: !notFiltering })
         return board
       } catch (err) {
         console.log('Cannot find board', err)

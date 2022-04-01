@@ -3,14 +3,14 @@
     <template v-slot:header> Filter </template>
     <section>
       <p>Keyword</p>
-      <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." />
+      <!-- <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." /> -->
       <p class="mini">Search cards, members, labels, and more.</p>
       <div>
         <p>Members</p>
         <ul>
           <li v-if="!filterBy.txt">
             <label>
-              <input v-model="filterBy.by.noOne" :class="{ full: filterBy.by.noOne }" type="checkbox" />
+              <input v-model="filterBy.by.none" :class="{ full: filterBy.by.none }" type="checkbox" />
               <div class="avatar-container custom">
                 <i class="fa-solid fa-user"></i>
               </div>
@@ -113,42 +113,45 @@
 import customModal from './custom-modal.vue'
 
 export default {
-  props: {
-    card: Object,
-  },
+  props: {},
   components: {
     customModal,
   },
-  created() {},
   data() {
     return {
-      filterBy: {
-        txt: '',
-        by: {
-          noOne: false,
-          options: [],
-        },
-        due: {
-          none: false,
-          over: false,
-          tommarow: false,
-        },
-        label: {
-          none: false,
-          options: [],
-        },
-      },
+      filterBy: null,
+      // filterBy: {
+      //   by: {
+      //     none: false,
+      //     options: [],
+      //   },
+      //   due: {
+      //     none: false,
+      //     over: false,
+      //     tommarow: false,
+      //   },
+      //   label: {
+      //     none: false,
+      //     options: [],
+      //   },
+      // },
     }
+  },
+  created() {
+    this.filterBy = JSON.parse(JSON.stringify(this.$store.getters.currBoard.filterBy))
   },
   methods: {
     closeModal() {
       this.$emit('closeModal')
     },
     updateKey() {
-      this.$emit('updateKey', 'filterBy', this.filterBy)
+      this.$emit('updateKey', 'filterBy', JSON.parse(JSON.stringify(this.filterBy)))
     },
   },
   computed: {
+    // filterBy(){
+    //   return this.$store.getters.currBoard.filterBy
+    // },
     members() {
       return this.$store.getters.currBoard.members
     },
