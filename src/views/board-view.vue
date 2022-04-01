@@ -197,28 +197,33 @@ export default {
       this.filteringCount = 0
       board.groups = board.groups.map((group) => {
         group.cards = group.cards.map((card) => {
-          var conditions = []
+          var conditions = [false, false, false]
           if (filterBy.by.none) {
-            conditions.push(card.memberIds.length === 0)
-          } else if (filterBy.by.options.length) {
+            if (card.memberIds.length === 0) conditions[0] = true
+          }
+          if (filterBy.by.options.length) {
             var members = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
-            conditions.push(members.length > 0)
+            if (members.length > 0) conditions[0] = true
           }
 
           if (filterBy.due.none) {
-            conditions.push(card.dueDate)
-          } else if (filterBy.due.over) {
-            conditions.push(card.dueDate > Date.now())
-          } else if (filterBy.due.tomorrow) {
-            conditions.push(this.calcIfTomorrow(card.dueDate))
+            if (card.dueDate) conditions[1] = true
+          }
+          if (filterBy.due.over) {
+            if (card.dueDate > Date.now()) conditions[1] = true
+          }
+          if (filterBy.due.tomorrow) {
+            if (this.calcIfTomorrow(card.dueDate)) conditions[1] = true
           }
 
           if (filterBy.label.none) {
-            conditions.push(card.labelIds.length === 0)
-          } else if (filterBy.label.options.length) {
-            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
-            conditions.push(labels.length > 0)
+            if (card.labelIds.length === 0) conditions[2] = true
           }
+          if (filterBy.label.options.length) {
+            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
+            if (labels.length > 0) conditions[2] = true
+          }
+
           if (!conditions.includes(false)) {
             this.filteringCount++
             card.isShown = true
