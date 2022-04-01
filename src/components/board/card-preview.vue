@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div @click="openCardEdit" class="card-preview" :style="(card.style.fullCover && card.style.type === 'url' || computedQuickEdit) ? 'overflow-y: unset' : ''" :class="computedQuickEdit" >
+    <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" >
       <div v-if="card.style.fullCover && !checkQuickEdit" :style="card.style.type === 'color' ? `background: ${card.style.cover}` : `background-image: url('${card.style.cover}')`" class="card-preview-full-cover" :class="card.style.type === 'color' ? '' : 'imgUrl'">
         <div class="card-preview-cover-color"></div>
         <div class="full-cover-title" :class="card.style.isDark ? 'dark' : 'light'">
@@ -20,7 +20,7 @@
           </span>
         </div>
         <br v-if="checkQuickEdit && labels.length" />
-        <span @click.stop="openQuickEdit" class="edit-card"></span>
+        <span @click.stop="openQuickEdit($event)" class="edit-card"></span>
         <textarea v-if="checkQuickEdit" :style="labels.length ? 'transform: translateY(-9px)' : 'transform: translateY(3px);'" v-model="newTitle" v-focus @focus="$event.target.select()" @keydown.prevent.enter="updateTitle"></textarea>
         <span v-else class="card-preview-title">{{ card.title }}</span>
         <div class="card-icons-container">
@@ -59,7 +59,7 @@
         </div>
         <button v-if="checkQuickEdit" class="save-quick-edit" @click.stop="updateTitle">Save</button>
         <quick-edit-actions @mousedown.stop @openCard="openCard" @openModal="openModal" :hidden="!checkQuickEdit" :class="checkQuickEdit ? 'fade-in' : ''"></quick-edit-actions>
-        <component v-if="cmpName && checkQuickEdit" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
+        <component v-if="cmpName && checkQuickEdit" :isCopyCard="isCopyCard" :card="card" :is="cmpName" @removeCard="removeCard" @closeModal="closeModal" @updateKey="updateKey" v-click-outside="() => closeModal()" />
       </div>
     </div>
   </section>
@@ -73,6 +73,7 @@ import memberPicker from './member-picker.vue'
 import coverPicker from './cover-picker.vue'
 import datePicker from './date-picker.vue'
 import confirmDelete from './confirm-delete.vue'
+import moveCard from './move-card.vue'
 
 export default {
   name: 'card-preview',
@@ -89,6 +90,7 @@ export default {
     coverPicker,
     datePicker,
     confirmDelete,
+    moveCard
   },
   data() {
     return {
@@ -97,6 +99,9 @@ export default {
       isChecklistDone: false,
       newTitle: '',
       cmpName: null,
+      isCopyCard: false,
+      posTop: null, 
+      posLeft: null
     }
   },
   methods: {
@@ -128,7 +133,8 @@ export default {
       else this.isChecklistDone = false
       return `${todosMap.doneTodos}/${todosMap.todosCount}`
     },
-    openQuickEdit() {
+    openQuickEdit(ev) {
+      this.calcPosition(ev.target.getBoundingClientRect())
       this.newTitle = JSON.parse(JSON.stringify(this.card.title))
       this.$emit('openQuickEdit', this.card.id)
     },
@@ -141,7 +147,18 @@ export default {
       this.$emit('closeQuickEdit')
     },
     openModal(cmpName) {
+      if (cmpName === 'copy-card') {
+        this.isCopyCard = true
+        cmpName = 'move-card'
+      } else this.isCopyCard = false
       this.cmpName = cmpName
+    },
+    calcPosition(rect) {
+      var { left, top } = rect
+      const winWidth = window.innerWidth
+      const winHeight = window.innerHeight
+      if(top + 320 > winHeight) top = winHeight - 320
+      this.posTop = top
     },
     closeModal() {
       this.cmpName = null
@@ -201,6 +218,12 @@ export default {
     },
     checkUser() {
       return this.card.memberIds.includes(this.$store.getters.loggedinUser?._id)
+    },
+    computedStyle() {
+      var style = (this.card.style.fullCover && this.card.style.type === 'url' || this.computedQuickEdit) ? 'overflow-y: unset' : ''
+      style += ';'
+      style += this.checkQuickEdit ? `top: ${this.posTop}px` : ''
+      return style
     }
   },
 }

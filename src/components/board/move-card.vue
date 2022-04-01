@@ -30,7 +30,7 @@
           <div class="board-info">
             <p>Position</p>
             <p>{{ cardPos + 1 }}</p>
-            <select v-model="cardPos">
+            <select v-if="chosenBoard.groups[groupPos].cards.length" v-model="cardPos">
               <option v-for="(card, idx) in chosenBoard.groups[groupPos].cards" :key="card.id" :value="idx">{{ idx + 1 }}</option>
             </select>
           </div>
@@ -54,7 +54,7 @@ export default {
       groupPos: 0,
       cardPos: 0,
       newTitle: JSON.parse(JSON.stringify(this.card.title)),
-      currBoard: this.$store.getters.currBoard
+      currBoard: null
     }
   },
   methods: {
@@ -62,13 +62,13 @@ export default {
       this.$emit('closeModal')
     },
     async moveCard() {
-      console.log('im here at move card');
+      this.currBoard = JSON.parse(JSON.stringify(this.$store.getters.currBoard))
       const board = JSON.parse(JSON.stringify(this.chosenBoard))
       var card = JSON.parse(JSON.stringify(this.card))
       if (this.isCopyCard) card.title = this.newTitle
       board.groups[this.groupPos].cards.splice(this.cardPos, 0, card)
       await this.$store.dispatch({type: 'saveBoard', board})
-      await this.$store.dispatch({type: 'saveBoard', board: this.currBoard})
+      await this.$store.dispatch({type: 'setCurrBoard', boardId: this.currBoard._id})
       if (!this.isCopyCard) this.$emit('removeCard')
       this.closeModal()
     },

@@ -2,9 +2,10 @@
   <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" v-if="board">
     <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{ 'background-color': headerClr ? headerClr.hex : board.style.bgHeader }" class="board-header" />
     <div class="board-view">
-      <nav class="board-nav">
+      <nav :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" class="board-nav">
         <div class="left-nav">
-          <h2 @keydown.enter.prevent="editBoardTitle" @keyup.enter.prevent="editTitle = false" @click="editTitle = true" v-click-outside="() => editBoardTitle()" :contenteditable="editTitle">{{ board.title }}</h2>
+          <h2 v-if="!editTitle" @click="editTitle = true">{{ board.title }}</h2>
+          <input :style="('width:' + (board.title.length * 12) + 'px' )" v-else class="custom-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="()=> editBoardTitle()"/>
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
           <div class="members-container">
@@ -73,8 +74,8 @@ export default {
       groupsCount: 0,
       openFilter: false,
       openInvite: false,
-      editTitle: true,
-      headerClr: null,
+      editTitle: false,
+      headerClr: null
     }
   },
   async created() {
@@ -160,9 +161,10 @@ export default {
       this.headerClr = null
       this.$store.dispatch({ type: 'saveBoard', board })
     },
-    editBoardTitle(ev) {
+    editBoardTitle() {
+      this.editTitle = false
+      if(!this.board.title) return
       const board = JSON.parse(JSON.stringify(this.board))
-      board.title = ev.currentTarget.textContent
       this.$store.dispatch({ type: 'saveBoard', board })
     },
     _filter(board) {
