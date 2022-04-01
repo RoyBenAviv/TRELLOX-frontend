@@ -14,7 +14,7 @@
     <h1>It’s more than work. It’s a way of working together.</h1>
     <p>
       It’s more than work. It’s a way of working together.
-Start with a Trello board, lists, and cards. Customize and expand with more features as your teamwork grows. Manage projects, organize tasks, and build team spirit—all in one place.
+Start with a Trellox board, lists, and cards. Customize and expand with more features as your teamwork grows. Manage projects, organize tasks, and build team spirit—all in one place.
     </p>
     <img src="https://res.cloudinary.com/trellox/image/upload/v1648555830/board_esjncu.png" />
   </div>

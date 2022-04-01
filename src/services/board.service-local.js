@@ -162,7 +162,7 @@ function _getLabelsForPM() {
     },
     {
       id: 'l106',
-      title: 'Trello Tip',
+      title: 'Trellox Tip',
       className: 'color5',
     },
     {

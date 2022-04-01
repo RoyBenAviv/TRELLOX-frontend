@@ -13,7 +13,7 @@
     <div class="right-header">
       <label>
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search" />
+        <input type="text" @click="openModal('search-modal')" placeholder="Search" />
       </label>
       <button class="notifications"><i class="fa-solid fa-bell"></i></button>
       <div @click="openModal('user-modal', $event)" class="avatar-container" :title="member ? member.fullname : 'Guest'">
@@ -39,6 +39,7 @@
 import userModal from './board/user-modal.vue'
 import recentModal from './board/recent-modal.vue'
 import starredModal from './board/starred-modal.vue'
+import searchModal from './board/search-modal.vue'
 // import templatesModal from './board/templates-modal.vue'
 import createBoardModal from './board/create-board-modal.vue'
 
@@ -58,11 +59,12 @@ export default {
     recentModal,
     createBoardModal,
     starredModal,
+    searchModal,
     // templatesModal,
   },
   methods: {
     openModal(cmpName, ev) {
-      this.calcPosition(ev.target.getBoundingClientRect())
+      if(ev) this.calcPosition(ev.target.getBoundingClientRect())
       this.cmpName = cmpName
     },
     closeModal() {

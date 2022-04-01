@@ -1,0 +1,38 @@
+.search-modal-container {
+    &.custom-modal-container {
+        width: 600px;
+        top: 50px;
+        right: 10px;
+
+        .custom-modal-header {
+            display: none;
+        }
+
+        .search-modal {
+            margin-bottom: 14px;
+            padding-top: 3px;
+
+            .title {
+                color: #5e6c84;
+                font-size: 12px;
+                line-height: 16px;
+                margin-top: 16px;
+                font-weight: 600;
+                margin: 3px 12px;
+            }
+
+            li {
+                display: flex;
+                margin: 0 6px;
+                box-sizing: border-box;
+                border-radius: 4px;
+                position: relative;
+                min-width: 0;
+                display: block;
+                float: left;
+                width: 100%;
+                padding-left: 4px;
+            }
+        }
+    }
+}

@@ -18,9 +18,11 @@
       </form>
 
       <button @click="signup" class="login-btn">Sign up!</button>
-      <span>OR</span>
-      <button @click="googleSignup">Continue with Google</button>
-      <button><a href="http://localhost:3030/auth/facebook">LOGIN WITH FACEBOOK</a></button>
+      <span class="or">OR</span>
+      <div class="google" @click="googleSignup">
+        <img src="google.svg"/>
+        <h3>Continue with Google</h3>
+      </div>
 
       <hr />
       <router-link to="/login">Already have an acount? Log in</router-link>
