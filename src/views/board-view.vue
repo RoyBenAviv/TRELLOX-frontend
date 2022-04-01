@@ -20,7 +20,7 @@
         <div class="right-nav">
           <button @click="openFilter = !openFilter" class="filter" :class="{ active: openFilter || this.filteringCount > -1 }">
             <i class="fa-solid fa-filter"></i>
-            Filter
+            <span>Filter</span>
             <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
             <span v-if="this.filteringCount > -1" class="filterRestart"></span>
           </button>

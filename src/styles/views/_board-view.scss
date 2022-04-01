@@ -39,6 +39,13 @@
         line-height: 32px;
         padding: rem(2px);
         border-radius: 3px;
+        @media (max-width: 700px) {
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
         &:hover {
           background-color: rgba(0, 0, 0, 0.1);
         }
@@ -51,7 +58,10 @@
         color: $clr1;
         padding: rem(2px);
         // margin-top: 4px;
-        transform: translateY(2px);
+        @media (max-width: 700px) {
+          font-size: 15px;
+        }
+        transform: translateY(2px)
       }
       button {
         @include header-btn;
@@ -114,13 +124,25 @@
           .avatar-container {
             // margin-right: -3px;
             margin: 0 rem(-3px) 0 0;
+            @media (max-width: 500px) {
+              margin: 0 rem(-20px) 0 0;
+            }
+            @media (max-width: 400px) {
+              display: none;
+            }
           }
         }
         .invite {
           @include blue-btn;
           margin-left: rem(11px);
           padding: 10px;
-          &::before {
+          @media (max-width: 700px) {
+            margin: 0;
+            span {
+              display: none;
+            }
+          }
+          &::before{
             width: 16px;
             height: 16px;
             font-family: trellicons;
@@ -131,6 +153,13 @@
       }
       .right-nav {
         margin-inline-end: rem(18px);
+        .filter, .menu {
+          @media (max-width: 700px) {
+            span {
+              display: none;
+            }
+          }
+        }
       }
     }
     .board-menu {
@@ -146,6 +175,11 @@
         margin-top: rem(20px);
         .avatar-container {
           margin: 4px 8px 6px 0;
+          img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+          }
         }
         .activities {
           @include flex(column, flex-start, flex-start);
