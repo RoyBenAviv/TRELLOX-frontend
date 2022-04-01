@@ -8,8 +8,16 @@
           <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
-          <container style="height: 32px;" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
-            <draggable @mousedown="this.$store.commit({type: 'memberDrag', isDrag: true})" @mouseup="this.$store.commit({type: 'memberDrag', isDrag: false})" style="height: 32px;" class="avatar-container" v-for="member in members" :key="member._id" :title="member.fullname">
+          <container style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
+            <draggable
+              @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })"
+              @mouseup="this.$store.commit({ type: 'memberDrag', isDrag: false })"
+              style="height: 32px"
+              class="avatar-container"
+              v-for="member in members"
+              :key="member._id"
+              :title="member.fullname"
+            >
               <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </draggable>
@@ -18,11 +26,11 @@
           <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
-          <button @click="openFilter = !openFilter" class="filter" :class="{ active: openFilter || this.filteringCount > -1 }">
+          <button @click="openFilter = !openFilter" class="filter" :class="{ active1: openFilter, active2: this.filteringCount > -1 }">
             <i class="fa-solid fa-filter"></i>
             <span>Filter</span>
             <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
-            <span v-if="this.filteringCount > -1" class="filterRestart"></span>
+            <span v-if="this.filteringCount > -1" class="filterRestart" @click.stop="resetFilter"></span>
           </button>
           <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
         </div>
@@ -123,7 +131,7 @@ export default {
       this.groupTitle = ''
     },
     async onGroupDrop(dropResult) {
-      console.log('ON GROUP DROP');
+      console.log('ON GROUP DROP')
       try {
         const board = Object.assign({}, this.board)
         board.groups = applyDrag(board.groups, dropResult)
@@ -139,7 +147,7 @@ export default {
       return this.$store.getters.currBoard.members[idx]
     },
     async onCardDrop({ cards, groupId }) {
-      console.log('ON CARD DROP');
+      console.log('ON CARD DROP')
       try {
         const board = JSON.parse(JSON.stringify(this.board))
         const idx = this.board.groups.findIndex((group) => group.id === groupId)
@@ -187,8 +195,14 @@ export default {
       console.log('filterBy', filterBy)
       const startVal =
         filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tomorrow === false && filterBy.label.none === false && filterBy.label.options.length === 0
+      // console.log('filterBy.by.none === false',filterBy.by.none === false)
+      // console.log('filterBy.by.options.length === 0',filterBy.by.options.length === 0)
+      // console.log('filterBy.due.none === false',filterBy.due.none === false)
+      // console.log('filterBy.due.over === false',filterBy.due.over === false)
+      // console.log('filterBy.due.tomorrow === false',filterBy.due.tomorrow === false)
+      // console.log('filterBy.due.tomorrow',filterBy.due.tomorrow)
       if (startVal) {
-        console.log('at  apload of page')
+        console.log('no filter')
         this.filteringCount = -1
         board.groups = board.groups.map((group) => {
           group.cards = group.cards.map((card) => {
@@ -202,29 +216,45 @@ export default {
       this.filteringCount = 0
       board.groups = board.groups.map((group) => {
         group.cards = group.cards.map((card) => {
-          var conditions = []
+          var condition = [false, false, false]
+          var match = [false, false, false]
           if (filterBy.by.none) {
-            conditions.push(card.memberIds.length === 0)
-          } else if (filterBy.by.options.length) {
+            condition[0] = true
+            if (card.memberIds.length === 0) match[0] = true
+          }
+          if (filterBy.by.options.length) {
+            condition[0] = true
             var members = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
-            conditions.push(members.length > 0)
+            if (members.length > 0) match[0] = true
           }
 
           if (filterBy.due.none) {
-            conditions.push(card.dueDate)
-          } else if (filterBy.due.over) {
-            conditions.push(card.dueDate > Date.now())
-          } else if (filterBy.due.tomorrow) {
-            conditions.push(this.calcIfTomorrow(card.dueDate))
+            condition[1] = true
+            if (card.dueDate) match[1] = true
+          }
+          if (filterBy.due.over) {
+            condition[1] = true
+            if (card.dueDate > Date.now()) match[1] = true
+          }
+          if (filterBy.due.tomorrow) {
+            condition[1] = true
+            if (this.calcIfTomorrow(card.dueDate)) match[1] = true
           }
 
           if (filterBy.label.none) {
-            conditions.push(card.labelIds.length === 0)
-          } else if (filterBy.label.options.length) {
-            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
-            conditions.push(labels.length > 0)
+            condition[2] = true
+            if (card.labelIds.length === 0) match[2] = true
           }
-          if (!conditions.includes(false)) {
+          if (filterBy.label.options.length) {
+            condition[2] = true
+            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
+            if (labels.length > 0) match[2] = true
+          }
+          // console.log('match', match)
+          // console.log('condition',condition)
+          // console.log('condition === match',condition === match)
+
+          if (condition[0] === match[0] && condition[1] === match[1] && condition[2] === match[2]) {
             this.filteringCount++
             card.isShown = true
           } else card.isShown = false
@@ -234,6 +264,24 @@ export default {
       })
       return board
     },
+    resetFilter(){
+      const emptyFilterBy = {
+        by: {
+          none: false,
+          options: [],
+        },
+        due: {
+          none: false,
+          over: false,
+          tomorrow: false,
+        },
+        label: {
+          none: false,
+          options: [],
+        },
+      }
+      this.updateKey('filterBy', emptyFilterBy )
+    }
   },
   computed: {
     boardFromStore() {

@@ -2,9 +2,9 @@
   <custom-modal @closeModal="closeModal" class="board-filter-body">
     <template v-slot:header> Filter </template>
     <section>
-      <p>Keyword</p>
+      <!-- <p>Keyword</p> -->
       <!-- <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." /> -->
-      <p class="mini">Search cards, members, labels, and more.</p>
+      <!-- <p class="mini">Search cards, members, labels, and more.</p> -->
       <div>
         <p>Members</p>
         <ul>
@@ -29,19 +29,6 @@
               <!-- <span class="label-txt">{{ member.fullname === loggedinUserFullname ? member.fullname : 'Cards assigned to me' }}</span> -->
             </label>
           </li>
-          <!-- <li>
-            <label>
-              <input type="checkbox" />
-              <div class="avatar-container">
-                <span>X</span>
-              </div>
-              <select class="label-txt">
-                <option v-for="member in members" :key="member._id" :value="member">
-                  {{ member.fullname }}
-                </option>
-              </select>
-            </label>
-          </li> -->
         </ul>
       </div>
       <div>
@@ -96,8 +83,8 @@
           </li>
         </ul>
       </div>
-      {{ filterBy.label.options }}
-      {{ filterBy.by.options }}
+      <!-- {{ filterBy.label.options }}
+      {{ filterBy.by.options }} -->
     </section>
   </custom-modal>
 </template>
@@ -113,21 +100,6 @@ export default {
   data() {
     return {
       filterBy: null,
-      // filterBy: {
-      //   by: {
-      //     none: false,
-      //     options: [],
-      //   },
-      //   due: {
-      //     none: false,
-      //     over: false,
-      //     tomorrow: false,
-      //   },
-      //   label: {
-      //     none: false,
-      //     options: [],
-      //   },
-      // },
     }
   },
   created() {
@@ -142,17 +114,11 @@ export default {
     },
   },
   computed: {
-    // filterBy(){
-    //   return this.$store.getters.currBoard.filterBy
-    // },
     members() {
       return this.$store.getters.currBoard.members
     },
     labels() {
       return this.$store.getters.currBoard.labels
-    },
-    loggedinUserFullname() {
-      return 'Shani Kupiec'
     },
   },
   unmounted() {},
