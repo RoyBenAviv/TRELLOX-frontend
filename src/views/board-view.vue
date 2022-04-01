@@ -11,7 +11,6 @@
           <container style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
             <draggable
               @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })"
-              @mouseup="this.$store.commit({ type: 'memberDrag', isDrag: false })"
               style="height: 32px"
               class="avatar-container"
               v-for="member in members"

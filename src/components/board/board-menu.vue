@@ -54,7 +54,7 @@
         <div class="choose-sticker" v-if="openStickers">
               <input class="custom-input" placeholder="Search sticker" type="text" v-model="stickerSearch" @input="searchStickers(stickerSearch)" />
               <Container class="stickers-list" v-if="stickers" group-name="5" :get-child-payload="getChildPayload">
-                <Draggable v-for="sticker in stickers" :key="sticker.id">
+                <Draggable @mousedown="this.$store.commit({ type: 'stickerDrag', isDrag: true })" v-for="sticker in stickers" :key="sticker.id">
                     <img :src="sticker.images.original.url" :alt="sticker.title"/>
                 </Draggable>
               </Container>

@@ -35,7 +35,8 @@ export default {
       'https://images.unsplash.com/photo-1463584954611-9d8ebd80dfd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
       'https://images.unsplash.com/photo-1483835724473-d69ca66efb25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     ],
-    isMemberDrag: false
+    isMemberDrag: false,
+    isStickerDrag: false
   },
   getters: {
     boards(state) {
@@ -64,6 +65,9 @@ export default {
     },
     isMemberDrag(state) {
       return state.isMemberDrag
+    },
+    isStickerDrag(state) {
+      return state.isStickerDrag
     }
     // isFiltering(state){
     //   return JSON.parse(JSON.stringify(state.isFiltering))
@@ -101,6 +105,9 @@ export default {
     },
     memberDrag(state, {isDrag}) {
       state.isMemberDrag = isDrag
+    },
+    stickerDrag(state, {isDrag}) {
+      state.isStickerDrag = isDrag
     }
     // setFiltering(state, { isFiltering }){
     //   state.isFiltering = isFiltering

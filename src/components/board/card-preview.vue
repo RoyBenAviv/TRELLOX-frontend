@@ -1,7 +1,7 @@
 <template>
   <section>
     <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
-      <Container orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers.length ? 'sticker-container' : ''">
+      <Container v-if="card.stickers.length || (this.$store.getters.isStickerDrag && isDragOver)" orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers.length ? 'sticker-container' : 'sticker-container-closed'">
         <div class="sticker" v-for="(sticker, idx) in card.stickers" :key="sticker" @click.stop="removeSticker(idx)">
           <img :src="sticker" alt="" />
         </div>
@@ -59,7 +59,7 @@
               <span class="txt">{{ calcProgress() }}</span>
             </div>
             <Container v-if="members.length || (this.$store.getters.isMemberDrag && isDragOver)" style="float: right" group-name="3" orientation="horizontal" :get-child-payload="getChildPayload" @drop="onMemberDrop($event)">
-              <Draggable class="avatar-container" @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })" v-for="member in members" :key="member.id" :title="member.fullname">
+              <Draggable style="height: 28px" class="avatar-container" @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })" v-for="member in members" :key="member.id" :title="member.fullname">
                 <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
                 <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
               </Draggable>
@@ -226,6 +226,7 @@ export default {
         card.stickers.push(sticker)
         this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       }
+      this.$store.commit({ type: 'stickerDrag', isDrag: false })
     },
     removeSticker(idx) {
       const card = JSON.parse(JSON.stringify(this.card))
