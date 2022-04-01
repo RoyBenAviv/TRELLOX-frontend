@@ -14,12 +14,12 @@
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </div>
           </div>
-          <button class="invite" @click="openInvite = true">Invite</button>
+          <button class="invite" @click="openInvite = true"><span>Invite</span></button>
           <user-invite v-if="openInvite" v-click-outside="()=> openInvite = false" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
-          <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
-          <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
+          <button class="filter" @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> <span>Filter</span></button>
+          <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
         </div>
         <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
       </nav>
