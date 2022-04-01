@@ -1,7 +1,7 @@
 <template>
   <section>
     <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
-      <Container v-if="card.stickers.length || (this.$store.getters.isStickerDrag && isDragOver)" orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers.length ? 'sticker-container' : 'sticker-container-closed'">
+      <Container v-if="card.stickers?.length || (this.$store.getters.isStickerDrag && isDragOver)" orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers?.length ? 'sticker-container' : 'sticker-container-closed'">
         <div class="sticker" v-for="(sticker, idx) in card.stickers" :key="sticker" @click.stop="removeSticker(idx)">
           <img :src="sticker" alt="" />
         </div>
