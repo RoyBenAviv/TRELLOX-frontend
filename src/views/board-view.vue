@@ -192,17 +192,9 @@ export default {
     },
     filter(board) {
       const filterBy = board.filterBy
-      console.log('filterBy', filterBy)
       const startVal =
         filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tomorrow === false && filterBy.label.none === false && filterBy.label.options.length === 0
-      // console.log('filterBy.by.none === false',filterBy.by.none === false)
-      // console.log('filterBy.by.options.length === 0',filterBy.by.options.length === 0)
-      // console.log('filterBy.due.none === false',filterBy.due.none === false)
-      // console.log('filterBy.due.over === false',filterBy.due.over === false)
-      // console.log('filterBy.due.tomorrow === false',filterBy.due.tomorrow === false)
-      // console.log('filterBy.due.tomorrow',filterBy.due.tomorrow)
       if (startVal) {
-        console.log('no filter')
         this.filteringCount = -1
         board.groups = board.groups.map((group) => {
           group.cards = group.cards.map((card) => {
@@ -250,10 +242,6 @@ export default {
             var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
             if (labels.length > 0) match[2] = true
           }
-          // console.log('match', match)
-          // console.log('condition',condition)
-          // console.log('condition === match',condition === match)
-
           if (condition[0] === match[0] && condition[1] === match[1] && condition[2] === match[2]) {
             this.filteringCount++
             card.isShown = true

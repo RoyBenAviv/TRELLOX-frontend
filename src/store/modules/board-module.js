@@ -8,7 +8,6 @@ export default {
     boards: [],
     currBoard: null,
     labelTitleShown: false,
-    // isFiltering: false,
     labelColors: ['color0', 'color1', 'color2', 'color3', 'color4', 'color5', 'color6', 'color7', 'color8', 'color9', 'color10'],
     imagePicker: [
       'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwzMTI4NzN8MHwxfHNlYXJjaHw0fHxtb3VudGFpbnxlbnwwfHx8fDE2NDgyMjMxMjg&ixlib=rb-1.2.1&q=85',
@@ -65,9 +64,6 @@ export default {
     isMemberDrag(state) {
       return state.isMemberDrag
     }
-    // isFiltering(state){
-    //   return JSON.parse(JSON.stringify(state.isFiltering))
-    // },
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -102,9 +98,6 @@ export default {
     memberDrag(state, {isDrag}) {
       state.isMemberDrag = isDrag
     }
-    // setFiltering(state, { isFiltering }){
-    //   state.isFiltering = isFiltering
-    // },
   },
   actions: {
     async loadBoards({ commit, state }) {
