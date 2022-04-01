@@ -196,6 +196,7 @@ function _getEmptyCard(title = '') {
     labelIds: [],
     isShown: true,
     createdBy: userService.getLoggedinUser() || {},
+    stickers: [],
     style: {
       type: '',
       cover: '',

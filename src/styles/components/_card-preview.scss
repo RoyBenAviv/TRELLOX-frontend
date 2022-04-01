@@ -36,6 +36,22 @@
   //   border-radius: 20px;
   // }
 
+  .sticker-container {
+    display: flex;
+    position: absolute;
+    flex-flow: row wrap;
+    z-index: 0;
+    overflow: hidden;
+    height: 100%;
+    right: 25px;
+    top: 0;
+    justify-content: flex-end;
+    .sticker {
+      height: 50px;
+      width: 50px;
+      opacity: 0.87
+    }
+  }
   .save-quick-edit {
     @include blue-btn;
     padding-left: 24px;

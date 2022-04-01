@@ -50,6 +50,7 @@ export default {
       this.newBoard.style.bgHeader = color.header
     },
     async createBoard() {
+      if(!this.newBoard.title) return
       const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
       // await this.$store.dispatch({ type: 'setCurrBoard', boardId: board._id })
       console.log('board',board)
