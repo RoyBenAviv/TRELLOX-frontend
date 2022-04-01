@@ -1,5 +1,8 @@
 .card-preview-container {
   max-height: calc(100vh - 12.5rem);
+  @media (max-width: 700px) {
+    max-height: calc(100vh - 20rem);
+  }
   overflow-y: auto;
   overflow-x: hidden;
   padding-inline-end: 4px;

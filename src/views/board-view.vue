@@ -1,11 +1,11 @@
 <template>
   <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" v-if="board">
-    <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{'background-color': headerClr ? headerClr.hex : board.style.bgHeader}" class="board-header"/>
+    <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{ 'background-color': headerClr ? headerClr.hex : board.style.bgHeader }" class="board-header" />
     <div class="board-view">
       <nav :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" class="board-nav">
         <div class="left-nav">
           <h2 v-if="!editTitle" @click="editTitle = true">{{ board.title }}</h2>
-          <input :style="('width:' + (board.title.length * 12) + 'px' )" v-else class="custom-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="()=> editBoardTitle()"/>
+          <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
           <container style="height: 32px;" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
@@ -15,11 +15,16 @@
             </draggable>
           </container>
           <button class="invite" @click="openInvite = true">Invite</button>
-          <user-invite v-if="openInvite" v-click-outside="()=> openInvite = false" @closeModal="openInvite = false"></user-invite>
+          <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
-          <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
-          <button @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> Show menu</button>
+          <button @click="openFilter = !openFilter" class="filter" :class="{ active: openFilter || this.filteringCount > -1 }">
+            <i class="fa-solid fa-filter"></i>
+            <span>Filter</span>
+            <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
+            <span v-if="this.filteringCount > -1" class="filterRestart"></span>
+          </button>
+          <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
         </div>
         <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
       </nav>
@@ -61,7 +66,7 @@ export default {
     appHeader,
     boardMenu,
     boardFilter,
-    userInvite
+    userInvite,
   },
   data() {
     return {
@@ -75,70 +80,42 @@ export default {
       openFilter: false,
       openInvite: false,
       editTitle: false,
-      headerClr: null
+      headerClr: null,
+      filteringCount: -1,
     }
   },
   async created() {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
-        const board = JSON.parse(JSON.stringify(this.board))
-        const fac = new FastAverageColor()
-        this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
+    var board = JSON.parse(JSON.stringify(this.board))
+    const fac = new FastAverageColor()
+    this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
+    //set filter
+    board = this.filter(board)
+    await this.$store.dispatch({ type: 'saveBoard', board })
+    this.board = board
   },
   methods: {
     async updateKey(key, value) {
-      const board = JSON.parse(JSON.stringify(this.board))
+      var board = JSON.parse(JSON.stringify(this.board))
       if (value === 'toggle') {
         board[key] = !board[key]
       } else board[key] = value
+      if (key === 'filterBy') board = this.filter(board)
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
-      // this.board = this._filter(board)
     },
-    _filter(board) {
-      const filterBy = board.filterBy
-      console.log('filterBy', filterBy)
-      // if (filterBy.txt) {
-
-      // }
-      if (filterBy.by.noOne) {
-        board.groups = board.groups.map((group) => {
-          group.cards = group.cards.filter((card) => card.memberIds.length === 0)
-          return group
-        })
-        // console.log('here1 board', board)
-      } else {
-        if (filterBy.by.options.length) {
-          board.groups = board.groups.map((group) => {
-            group.cards = group.cards.filter((card) => {
-              card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
-              if(card.memberIds.length) return card
-            })
-            return group
-          })
-          console.log('here2 board', board)
-        }
-      }
-      if (filterBy.label.none) {
-        board.groups = board.groups.map((group) => {
-          group.cards = group.cards.filter((card) => card.labelIds.length === 0)
-          return group
-        })
-        // console.log('here1 board', board)
-      } else {
-        if (filterBy.label.options.length) {
-          board.groups = board.groups.map((group) => {
-            group.cards = group.cards.filter((card) => {
-              card.labelIds = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
-              if(card.labelIds.length) return card
-            })
-            return group
-          })
-          console.log('here2 board', board)
-        }
-      }
-      return board
+    calcIfTomorrow(due) {
+      const dueInDate = new Date(due)
+      const dateInDate = new Date(Date.now())
+      var countTo12 = dueInDate.getHours() * 60 * 60 * 1000
+      due -= countTo12
+      var x = due - Date.now()
+      const bool1 = x - 24 * 60 * 60 * 1000 < 0
+      const bool2 = due > Date.now()
+      const bool3 = dueInDate.getDay() !== dateInDate.getDay()
+      return bool1 && bool2 && bool3
     },
     async addGroup() {
       if (!this.groupTitle) return
@@ -189,7 +166,6 @@ export default {
       board.style.bgImgUrl = boardBg
       const fac = new FastAverageColor()
       this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
-      console.log(this.headerClr)
       this.$store.dispatch({ type: 'saveBoard', board })
     },
     setBoardClr(boardClr) {
@@ -202,9 +178,61 @@ export default {
     },
     editBoardTitle() {
       this.editTitle = false
-      if(!this.board.title) return
+      if (!this.board.title) return
       const board = JSON.parse(JSON.stringify(this.board))
       this.$store.dispatch({ type: 'saveBoard', board })
+    },
+    filter(board) {
+      const filterBy = board.filterBy
+      console.log('filterBy', filterBy)
+      const startVal =
+        filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tomorrow === false && filterBy.label.none === false && filterBy.label.options.length === 0
+      if (startVal) {
+        console.log('at  apload of page')
+        this.filteringCount = -1
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.map((card) => {
+            card.isShown = startVal
+            return card
+          })
+          return group
+        })
+        return board
+      }
+      this.filteringCount = 0
+      board.groups = board.groups.map((group) => {
+        group.cards = group.cards.map((card) => {
+          var conditions = []
+          if (filterBy.by.none) {
+            conditions.push(card.memberIds.length === 0)
+          } else if (filterBy.by.options.length) {
+            var members = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
+            conditions.push(members.length > 0)
+          }
+
+          if (filterBy.due.none) {
+            conditions.push(card.dueDate)
+          } else if (filterBy.due.over) {
+            conditions.push(card.dueDate > Date.now())
+          } else if (filterBy.due.tomorrow) {
+            conditions.push(this.calcIfTomorrow(card.dueDate))
+          }
+
+          if (filterBy.label.none) {
+            conditions.push(card.labelIds.length === 0)
+          } else if (filterBy.label.options.length) {
+            var labels = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
+            conditions.push(labels.length > 0)
+          }
+          if (!conditions.includes(false)) {
+            this.filteringCount++
+            card.isShown = true
+          } else card.isShown = false
+          return card
+        })
+        return group
+      })
+      return board
     },
   },
   computed: {

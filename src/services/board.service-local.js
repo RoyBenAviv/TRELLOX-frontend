@@ -29,7 +29,21 @@ function getEmptyBoard() {
     members: [userService.getLoggedinUser()] || [], //add logged in user
     groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
     activities: [],
-    filterBy: {},
+    filterBy: {
+      by: {
+        none: false,
+        options: [],
+      },
+      due: {
+        none: false,
+        over: false,
+        tomorrow: false,
+      },
+      label: {
+        none: false,
+        options: [],
+      },
+    },
   }
 }
 
@@ -180,6 +194,7 @@ function _getEmptyCard(title = '') {
     comments: [],
     memberIds: [],
     labelIds: [],
+    isShown: true,
     createdBy: userService.getLoggedinUser() || {},
     style: {
       type: '',

@@ -20,7 +20,7 @@
       <button @click="signup" class="login-btn">Sign up!</button>
       <span>OR</span>
       <button @click="googleSignup">Continue with Google</button>
-      <button><a href="/auth/facebook/callback">LOGIN WITH FACEBOOK</a></button>
+      <button><a href="http://localhost:3030/auth/facebook">LOGIN WITH FACEBOOK</a></button>
 
       <hr />
       <router-link to="/login">Already have an acount? Log in</router-link>
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-
 export default {
   name: '',
   data() {
@@ -78,6 +77,7 @@ export default {
         console.log(err)
       }
     },
+
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },

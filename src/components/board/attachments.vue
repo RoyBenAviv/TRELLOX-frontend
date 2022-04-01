@@ -8,6 +8,18 @@
       </label></li>
             <li><label>Google Drive
       </label></li>
+
+        <!-- <audio-recorder
+    :attempts="3"
+    :time="2"
+    :headers="headers"
+    :before-recording="callback"
+    :pause-recording="callback"
+    :after-recording="callback"
+    :select-record="callback"
+    :before-upload="callback"
+    :successful-upload="callback"
+    :failed-upload="callback"/> -->
     </ul>
   </custom-modal>
 </template>
@@ -32,6 +44,9 @@ export default {
         }
         this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(imgAttachment)))
     },
+    // callback(data) {
+    //   console.log(data)
+    // }
   },
   components: {
     customModal

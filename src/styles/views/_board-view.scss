@@ -39,11 +39,18 @@
         line-height: 32px;
         padding: rem(2px);
         border-radius: 3px;
+        @media (max-width: 700px) {
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
         &:hover {
           background-color: rgba(0, 0, 0, 0.1);
         }
       }
-      input {
+      .title-input {
         @include custom-input;
         font-size: rem(20px);
         font-weight: 700;
@@ -51,6 +58,9 @@
         color: $clr1;
         padding: rem(2px);
         // margin-top: 4px;
+        @media (max-width: 700px) {
+          font-size: 15px;
+        }
         transform: translateY(2px)
       }
       button {
@@ -65,6 +75,14 @@
       .right-nav {
         @include flex;
         gap: rem(4px);
+        .filter {
+          &.active {
+            background-color: rgba(0, 0, 0, 0.2);
+          }
+        }
+        .filterRestart{
+          
+        }
       }
       .left-nav {
         .seperator {
@@ -106,12 +124,24 @@
           .avatar-container {
             // margin-right: -3px;
             margin: 0 rem(-3px) 0 0;
+            @media (max-width: 500px) {
+              margin: 0 rem(-20px) 0 0;
+            }
+            @media (max-width: 400px) {
+              display: none;
+            }
           }
         }
         .invite {
           @include blue-btn;
           margin-left: rem(11px);
           padding: 10px;
+          @media (max-width: 700px) {
+            margin: 0;
+            span {
+              display: none;
+            }
+          }
           &::before{
             width: 16px;
             height: 16px;
@@ -123,13 +153,20 @@
       }
       .right-nav {
         margin-inline-end: rem(18px);
+        .filter, .menu {
+          @media (max-width: 700px) {
+            span {
+              display: none;
+            }
+          }
+        }
       }
     }
     .board-menu {
       overflow-y: hidden;
       .custom-modal-main {
         max-height: 100%;
-      } 
+      }
       menu {
         margin-top: rem(23px);
         padding: 0;
@@ -138,6 +175,11 @@
         margin-top: rem(20px);
         .avatar-container {
           margin: 4px 8px 6px 0;
+          img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+          }
         }
         .activities {
           @include flex(column, flex-start, flex-start);
@@ -153,7 +195,7 @@
           .comment-date {
             font-size: 12px;
           }
-      }
+        }
       }
 
       position: fixed;
@@ -178,6 +220,14 @@
         color: $clr1;
       }
       .menu-options {
+        .stickers {
+          &::before {
+            font-size: rem(18px);
+            font-weight: 500;
+            font-family: trellicons;
+            content: "\e968"
+          }
+        }
         li {
           cursor: pointer;
           @include flex(row, _, center);
@@ -245,7 +295,8 @@
         }
       }
       .bg-images,
-      .bg-colors {
+      .bg-colors,
+      .stickers-list {
         @include flex;
         flex-wrap: wrap;
         margin-top: 2px;

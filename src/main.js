@@ -23,7 +23,6 @@ app.use(gAuthPlugin, {
     scope: 'email',
     prompt: 'consent'
 })
-
 app.use(SetupCalendar, {})
 app.use(router)
 app.use(store)
