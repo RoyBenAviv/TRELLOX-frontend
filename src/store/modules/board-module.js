@@ -35,6 +35,7 @@ export default {
       'https://images.unsplash.com/photo-1463584954611-9d8ebd80dfd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
       'https://images.unsplash.com/photo-1483835724473-d69ca66efb25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     ],
+    isMemberDrag: false
   },
   getters: {
     boards(state) {
@@ -61,6 +62,9 @@ export default {
     coverImages(state) {
       return JSON.parse(JSON.stringify(state.coverImages))
     },
+    isMemberDrag(state) {
+      return state.isMemberDrag
+    }
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -92,6 +96,9 @@ export default {
     addActivity(state, { activity }) {
       state.currBoard.activities.unshift(activity)
     },
+    memberDrag(state, {isDrag}) {
+      state.isMemberDrag = isDrag
+    }
   },
   actions: {
     async loadBoards({ commit, state }) {

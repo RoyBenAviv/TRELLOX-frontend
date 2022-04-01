@@ -209,6 +209,7 @@
     float: left;
     margin-left: -2px;
     width: 100%;
+    overflow-x: clip;
 
     .avatar-container {
       width: 28px;
