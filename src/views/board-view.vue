@@ -106,7 +106,7 @@ export default {
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
     },
-    calcIfTommarow(due) {
+    calcIfTomorrow(due) {
       const dueInDate = new Date(due)
       const dateInDate = new Date(Date.now())
       var countTo12 = dueInDate.getHours() * 60 * 60 * 1000
@@ -181,7 +181,7 @@ export default {
       const filterBy = board.filterBy
       console.log('filterBy', filterBy)
       const startVal =
-        filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tommarow === false && filterBy.label.none === false && filterBy.label.options.length === 0
+        filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tomorrow === false && filterBy.label.none === false && filterBy.label.options.length === 0
       if (startVal) {
         console.log('at  apload of page')
         this.filteringCount = -1
@@ -209,8 +209,8 @@ export default {
             conditions.push(card.dueDate)
           } else if (filterBy.due.over) {
             conditions.push(card.dueDate > Date.now())
-          } else if (filterBy.due.tommarow) {
-            conditions.push(this.calcIfTommarow(card.dueDate))
+          } else if (filterBy.due.tomorrow) {
+            conditions.push(this.calcIfTomorrow(card.dueDate))
           }
 
           if (filterBy.label.none) {

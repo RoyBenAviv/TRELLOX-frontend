@@ -37,7 +37,7 @@ function getEmptyBoard() {
       due: {
         none: false,
         over: false,
-        tommarow: false,
+        tomorrow: false,
       },
       label: {
         none: false,
