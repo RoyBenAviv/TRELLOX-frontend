@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const imgService = {
   getBgImages,
+  getStickers,
   uploadImg,
 }
 
@@ -33,5 +34,14 @@ async function getBgImages(search) {
     return res.json()
   } catch(err) {
     console.log('cannot get images', err)
+  }
+}
+
+async function getStickers(search) {
+  try {
+    const res = await fetch(`https://api.giphy.com/v1/stickers/search?api_key=rQgzccXSxZdfKDNtwJwPomi48MFP2ye1&limit=10&q=${search}"`, {method: 'GET'})
+    return res.json()
+  } catch (err) {
+    console.log('cannot get stickers', err)
   }
 }

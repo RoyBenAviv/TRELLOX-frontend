@@ -220,6 +220,14 @@
         color: $clr1;
       }
       .menu-options {
+        .stickers {
+          &::before {
+            font-size: rem(18px);
+            font-weight: 500;
+            font-family: trellicons;
+            content: "\e968"
+          }
+        }
         li {
           cursor: pointer;
           @include flex(row, _, center);
@@ -287,7 +295,8 @@
         }
       }
       .bg-images,
-      .bg-colors {
+      .bg-colors,
+      .stickers-list {
         @include flex;
         flex-wrap: wrap;
         margin-top: 2px;
