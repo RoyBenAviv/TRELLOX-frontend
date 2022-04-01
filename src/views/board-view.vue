@@ -32,7 +32,7 @@
         <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
       </Transition>
       <div class="loading-board" v-if="isLoading">
-        <h1>TRELLOX</h1>
+        <h1 :style="{color: headerClr?.isDark || !headerClr ? 'white' : '#091e42'}">TRELLOX</h1>
         <img src="loading.gif" />
       </div>
       <Container v-else drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
