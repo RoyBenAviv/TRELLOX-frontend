@@ -1,16 +1,10 @@
 <template>
   <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" v-if="board">
-    <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{'background-color': headerClr ? headerClr.hex : board.style.bgHeader}" class="board-header"/>
+    <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{ 'background-color': headerClr ? headerClr.hex : board.style.bgHeader }" class="board-header" />
     <div class="board-view">
       <nav class="board-nav">
         <div class="left-nav">
-          <h2
-          @keydown.enter.prevent="editBoardTitle"
-          @keyup.enter.prevent="editTitle = false"
-          @click="editTitle = true"
-          v-click-outside="()=> editBoardTitle()"
-          :contenteditable="editTitle"
-          >{{ board.title }}</h2>
+          <h2 @keydown.enter.prevent="editBoardTitle" @keyup.enter.prevent="editTitle = false" @click="editTitle = true" v-click-outside="() => editBoardTitle()" :contenteditable="editTitle">{{ board.title }}</h2>
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
           <div class="members-container">
@@ -20,7 +14,7 @@
             </div>
           </div>
           <button class="invite" @click="openInvite = true">Invite</button>
-          <user-invite v-if="openInvite" v-click-outside="()=> openInvite = false" @closeModal="openInvite = false"></user-invite>
+          <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
           <button @click="openFilter = !openFilter"><i class="fa-solid fa-filter"></i> Filter</button>
@@ -66,7 +60,7 @@ export default {
     appHeader,
     boardMenu,
     boardFilter,
-    userInvite
+    userInvite,
   },
   data() {
     return {
@@ -80,16 +74,16 @@ export default {
       openFilter: false,
       openInvite: false,
       editTitle: true,
-      headerClr: null
+      headerClr: null,
     }
   },
   async created() {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
-        const board = JSON.parse(JSON.stringify(this.board))
-        const fac = new FastAverageColor()
-        this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
+    const board = JSON.parse(JSON.stringify(this.board))
+    const fac = new FastAverageColor()
+    this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
   },
   methods: {
     async updateKey(key, value) {
@@ -99,51 +93,17 @@ export default {
       } else board[key] = value
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
-      // this.board = this._filter(board)
     },
-    _filter(board) {
-      const filterBy = board.filterBy
-      console.log('filterBy', filterBy)
-      // if (filterBy.txt) {
-
-      // }
-      if (filterBy.by.noOne) {
-        board.groups = board.groups.map((group) => {
-          group.cards = group.cards.filter((card) => card.memberIds.length === 0)
-          return group
-        })
-        // console.log('here1 board', board)
-      } else {
-        if (filterBy.by.options.length) {
-          board.groups = board.groups.map((group) => {
-            group.cards = group.cards.filter((card) => {
-              card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
-              if(card.memberIds.length) return card
-            })
-            return group
-          })
-          console.log('here2 board', board)
-        }
-      }
-      if (filterBy.label.none) {
-        board.groups = board.groups.map((group) => {
-          group.cards = group.cards.filter((card) => card.labelIds.length === 0)
-          return group
-        })
-        // console.log('here1 board', board)
-      } else {
-        if (filterBy.label.options.length) {
-          board.groups = board.groups.map((group) => {
-            group.cards = group.cards.filter((card) => {
-              card.labelIds = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
-              if(card.labelIds.length) return card
-            })
-            return group
-          })
-          console.log('here2 board', board)
-        }
-      }
-      return board
+    calcIfTommarow(due) {
+      const dueInDate = new Date(due)
+      const dateInDate = new Date(Date.now())
+      var countTo12 = dueInDate.getHours() * 60 * 60 * 1000
+      due -= countTo12
+      var x = due - Date.now()
+      const bool1 = x - 24 * 60 * 60 * 1000 < 0
+      const bool2 = due > Date.now()
+      const bool3 = dueInDate.getDay() !== dateInDate.getDay()
+      return bool1 && bool2 && bool3
     },
     async addGroup() {
       if (!this.groupTitle) return
@@ -205,10 +165,137 @@ export default {
       board.title = ev.currentTarget.textContent
       this.$store.dispatch({ type: 'saveBoard', board })
     },
+    _filter(board) {
+      const filterBy = board.filterBy
+      logger.info('filterBy', filterBy)
+      if (filterBy.by.none) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => card.memberIds.length === 0)
+          return group
+        })
+        logger.info('filterBy.by.none')
+      } else {
+        if (filterBy.by.options.length) {
+          board.groups = board.groups.map((group) => {
+            group.cards = group.cards.filter((card) => {
+              card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
+              if (card.memberIds.length) return card
+            })
+            return group
+          })
+          logger.info('filterBy.by.options')
+        }
+      }
+      if (filterBy.due.none) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => !card.dueDate)
+          return group
+        })
+      } else if (filterBy.due.over) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => card.dueDate > Date.now())
+          return group
+        })
+      } else if (filterBy.due.tommarow) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => this.calcIfTommarow(card.dueDate))
+          return group
+        })
+      }
+      if (filterBy.label.none) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => card.labelIds.length === 0)
+          return group
+        })
+      } else {
+        if (filterBy.label.options.length) {
+          board.groups = board.groups.map((group) => {
+            group.cards = group.cards.filter((card) => {
+              card.labelIds = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
+              if (card.labelIds.length) return card
+            })
+            return group
+          })
+        }
+      }
+      return board
+    },
   },
   computed: {
     boardFromStore() {
-      return this.$store.getters.currBoard
+      var board = this.$store.getters.currBoard
+      if(!board) return null
+      console.log('board', board)
+      // const filterBy = {
+      //   by: {
+      //     none: false,
+      //     options: [],
+      //   },
+      //   due: {
+      //     none: false,
+      //     over: false,
+      //     tommarow: false,
+      //   },
+      //   label: {
+      //     none: false,
+      //     options: [],
+      //   },
+      // }
+      // board.filterBy = board.filterBy ? board.filterBy : filterBy
+      const filterBy = board.filterBy
+      // logger.info('filterBy', filterBy)
+      if (filterBy.by.none) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => card.memberIds.length === 0)
+          return group
+        })
+        console.log('board',board)
+        console.log('without members');
+      } else {
+        if (filterBy.by.options.length) {
+          board.groups = board.groups.map((group) => {
+            group.cards = group.cards.filter((card) => {
+              card.memberIds = card.memberIds.filter((memberId) => filterBy.by.options.includes(memberId))
+              if (card.memberIds.length) return card
+            })
+            return group
+          })
+          // logger.info('filterBy.by.options')
+        }
+      }
+      if (filterBy.due.none) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => !card.dueDate)
+          return group
+        })
+      } else if (filterBy.due.over) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => card.dueDate > Date.now())
+          return group
+        })
+      } else if (filterBy.due.tommarow) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => this.calcIfTommarow(card.dueDate))
+          return group
+        })
+      }
+      if (filterBy.label.none) {
+        board.groups = board.groups.map((group) => {
+          group.cards = group.cards.filter((card) => card.labelIds.length === 0)
+          return group
+        })
+      } else {
+        if (filterBy.label.options.length) {
+          board.groups = board.groups.map((group) => {
+            group.cards = group.cards.filter((card) => {
+              card.labelIds = card.labelIds.filter((labelId) => filterBy.label.options.includes(labelId))
+              if (card.labelIds.length) return card
+            })
+            return group
+          })
+        }
+      }
+      return board
     },
     members() {
       return this.$store.getters.currBoard.members

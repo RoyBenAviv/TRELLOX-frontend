@@ -3,14 +3,14 @@
     <template v-slot:header> Filter </template>
     <section>
       <p>Keyword</p>
-      <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." />
+      <!-- <input v-focus v-model="filterBy.txt" class="custom-input" type="text" placeholder="Enter a keyword..." /> -->
       <p class="mini">Search cards, members, labels, and more.</p>
       <div>
         <p>Members</p>
         <ul>
           <li v-if="!filterBy.txt">
             <label>
-              <input v-model="filterBy.by.noOne" :class="{ full: filterBy.by.noOne }" type="checkbox" />
+              <input v-model="filterBy.by.none" :class="{ full: filterBy.by.none }" type="checkbox" />
               <div class="avatar-container custom">
                 <i class="fa-solid fa-user"></i>
               </div>
@@ -123,9 +123,8 @@ export default {
   data() {
     return {
       filterBy: {
-        txt: '',
         by: {
-          noOne: false,
+          none: false,
           options: [],
         },
         due: {
