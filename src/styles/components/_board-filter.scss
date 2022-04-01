@@ -1,5 +1,10 @@
 .board-filter-body {
     right: 2px;
+
+    &.custom-modal-container {
+        width: 384px;
+    }
+
     p {
         color: #5e6c84;
         font-size: 12px;
@@ -17,6 +22,7 @@
             margin-bottom: 11px;
         }
     }
+
     li {
         color: #172b4d;
         font-size: 14px;
@@ -33,7 +39,7 @@
             display: inline-flex;
             align-items: center;
             color: #5e6c84;
-            font-size: 12px;
+            font-size: rem(14px);
             line-height: 16px;
 
             input {
@@ -57,15 +63,49 @@
                 margin-inline-start: 15px;
                 @include flex;
                 background-color: #ebecf0;
+
+                img,
+                span {
+                    height: 24px;
+                    font-size: rem(12px);
+                }
                 &.custom {
                     i {
                         color: #00000066;
                     }
                 }
+
+                &.due-over {
+                    background-color: rgb(235, 90, 70);
+                }
+
+                &.due-tomorrow {
+                    background-color: rgb(242, 214, 0);
+                }
+
+                &.no-labels {
+                    transform: rotate(-90deg);
+                }
             }
 
             .label-txt {
                 margin-inline-start: 10px;
+
+                &.labels{
+                    font-weight: 700;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    border-radius: 3px;
+                    padding: 0 8px;
+                    width: 100%;
+                    line-height: 32px;
+                    color: #FFFFFF;
+                }
+            }
+
+            .username {
+                margin-inline-start: 10px;
+                font-size: rem(11px);
             }
 
             &:hover {

@@ -6,12 +6,22 @@
             box-shadow: -8px 0 #519839;
         }
     }
+    &.labels {
+        &:hover{
+            background-color: #519839;
+        }
+    }
 }
 .color1 {
     background-color: #f2d600;
     &.label-in-label-picker {
         &:hover {
             box-shadow: -8px 0 #d9b51c;
+        }
+    }
+    &.labels {
+        &:hover{
+            background-color: #d9b51c;
         }
     }
 }
@@ -22,12 +32,22 @@
             box-shadow: -8px 0 #cd8313;
         }
     }
+    &.labels {
+        &:hover{
+            background-color: #cd8313;
+        }
+    }
 }
 .color3 {
     background-color: #eb5a46;
     &.label-in-label-picker {
         &:hover {
             box-shadow: -8px 0 #b04632;
+        }
+    }
+    &.labels {
+        &:hover{
+            background-color: #b04632;
         }
     }
 }
@@ -38,12 +58,22 @@
             box-shadow: -8px 0 #89609e;
         }
     }
+    &.labels {
+        &:hover{
+            background-color: #89609e;
+        }
+    }
 }
 .color5 {
     background-color: #0079bf;
     &.label-in-label-picker {
         &:hover {
             box-shadow: -8px 0 #055a8c;
+        }
+    }
+    &.labels {
+        &:hover{
+            background-color: #055a8c;
         }
     }
 }
@@ -54,12 +84,22 @@
             box-shadow: -8px 0 #0098b7;
         }
     }
+    &.labels {
+        &:hover{
+            background-color: #0098b7;
+        }
+    }
 }
 .color7 {
     background-color: #51e898;
     &.label-in-label-picker {
         &:hover {
             box-shadow: -8px 0 #4bbf6b;
+        }
+    }
+    &.labels {
+        &:hover{
+            background-color: #4bbf6b;
         }
     }
 }
@@ -70,6 +110,11 @@
             box-shadow: -8px 0 #c9558f;
         }
     }
+    &.labels {
+        &:hover{
+            background-color: #c9558f;
+        }
+    }
 }
 .color9 {
     background-color: #344563;
@@ -78,12 +123,22 @@
             box-shadow: -8px 0 #091e42;
         }
     }
+    &.labels {
+        &:hover{
+            background-color: #091e42;
+        }
+    }
 }
 .color10 {
     background-color: #b3bac5;
     &.label-in-label-picker {
         &:hover {
             box-shadow: -8px 0 #97a0af;
+        }
+    }
+    &.labels {
+        &:hover{
+            background-color: #97a0af;
         }
     }
 }

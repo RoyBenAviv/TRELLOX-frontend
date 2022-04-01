@@ -37,7 +37,7 @@ function getEmptyBoard() {
       due: {
         none: false,
         over: false,
-        tommarow: false,
+        tomorrow: false,
       },
       label: {
         none: false,
@@ -194,6 +194,7 @@ function _getEmptyCard(title = '') {
     comments: [],
     memberIds: [],
     labelIds: [],
+    isShown: true,
     createdBy: userService.getLoggedinUser() || {},
     style: {
       type: '',

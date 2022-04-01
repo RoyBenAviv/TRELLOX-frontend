@@ -117,9 +117,6 @@ export default {
       try {
         const board = await boardService.getBoardById(boardId)
         commit({ type: 'setCurrBoard', board })
-        // const filterBy = board.filterBy
-        // var notFiltering = filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tommarow === false && filterBy.label.none === false && filterBy.label.options.length === 0
-        // commit({ type: 'setFiltering', isFiltering: !notFiltering })
         return board
       } catch (err) {
         console.log('Cannot find board', err)

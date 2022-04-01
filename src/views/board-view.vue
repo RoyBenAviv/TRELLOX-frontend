@@ -22,6 +22,7 @@
             <i class="fa-solid fa-filter"></i>
             <span>Filter</span>
             <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
+            <span v-if="this.filteringCount > -1" class="filterRestart"></span>
           </button>
           <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
         </div>
@@ -87,10 +88,13 @@ export default {
     const { boardId } = this.$route.params
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
-    const board = JSON.parse(JSON.stringify(this.board))
+    var board = JSON.parse(JSON.stringify(this.board))
     const fac = new FastAverageColor()
     this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
-    this.board = filter(board)
+    //set filter
+    board = this.filter(board)
+    await this.$store.dispatch({ type: 'saveBoard', board })
+    this.board = board
   },
   methods: {
     async updateKey(key, value) {
@@ -102,7 +106,7 @@ export default {
       await this.$store.dispatch({ type: 'saveBoard', board })
       this.board = board
     },
-    calcIfTommarow(due) {
+    calcIfTomorrow(due) {
       const dueInDate = new Date(due)
       const dateInDate = new Date(Date.now())
       var countTo12 = dueInDate.getHours() * 60 * 60 * 1000
@@ -175,9 +179,11 @@ export default {
     },
     filter(board) {
       const filterBy = board.filterBy
+      console.log('filterBy', filterBy)
       const startVal =
-        filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tommarow === false && filterBy.label.none === false && filterBy.label.options.length === 0
+        filterBy.by.none === false && filterBy.by.options.length === 0 && filterBy.due.none === false && filterBy.due.over === false && filterBy.due.tomorrow === false && filterBy.label.none === false && filterBy.label.options.length === 0
       if (startVal) {
+        console.log('at  apload of page')
         this.filteringCount = -1
         board.groups = board.groups.map((group) => {
           group.cards = group.cards.map((card) => {
@@ -203,8 +209,8 @@ export default {
             conditions.push(card.dueDate)
           } else if (filterBy.due.over) {
             conditions.push(card.dueDate > Date.now())
-          } else if (filterBy.due.tommarow) {
-            conditions.push(this.calcIfTommarow(card.dueDate))
+          } else if (filterBy.due.tomorrow) {
+            conditions.push(this.calcIfTomorrow(card.dueDate))
           }
 
           if (filterBy.label.none) {
