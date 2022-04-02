@@ -12,10 +12,12 @@
       <!-- <li>
         <label> Google Drive </label>
       </li> -->
-      <li>
-        <label @click="recording = true"> record video </label>
-        <video-record v-if="recording" @videoUrl="videoUrl" />
+      <li @click="recording = true">
+        <label> record video </label>
       </li>
+      <div v-if="recording" class="video-rec">
+        <video-record class="video"  @videoUrl="videoUrl" />
+      </div>
 
       <!-- <audio-recorder
     :attempts="3"

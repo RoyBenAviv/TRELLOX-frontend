@@ -1,11 +1,19 @@
+.scroll-wrapper {
+  padding-bottom: 15px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -webkit-optimize-contrast;
+}
 .board-wrapper {
-  height: 100vh;
+  height: calc(100vh - 15px);
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 12px;
   }
   &::-webkit-scrollbar-track {
-    background: #00000026;
+    background: #41414126;
     margin: 35px;
     border-radius: 10px;
   }
@@ -13,12 +21,6 @@
     background: #aba59d70;
     border-radius: 10px;
   }
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  image-rendering: pixelated;
-  image-rendering: -webkit-optimize-contrast;
-
   .board-header {
     @include header-color(header);
   }
@@ -152,17 +154,14 @@
         }
         .members-container {
           @include flex;
-          // display: flex;
+          @media (max-width: 550px) {
+            display: none;
+        }
           margin-inline-start: 5px;
           .avatar-container {
             // margin-right: -3px;
             margin: 0 rem(-3px) 0 0;
-            @media (max-width: 500px) {
-              margin: 0 rem(-20px) 0 0;
-            }
-            @media (max-width: 400px) {
-              display: none;
-            }
+
           }
         }
         .invite {
@@ -187,11 +186,17 @@
       .right-nav {
         margin-inline-end: rem(18px);
         .filter,
+        .dashboard-btn,
         .menu {
-          @media (max-width: 700px) {
+          @media (max-width: 850px) {
             span {
               display: none;
             }
+          }
+        }
+        .dashboard-btn {
+          @media (max-width: 400px) {
+            display: none;
           }
         }
       }

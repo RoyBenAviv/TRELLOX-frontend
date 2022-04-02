@@ -1,9 +1,10 @@
 .search-modal-container {
     &.custom-modal-container {
-        width: 600px;
         top: 50px;
-        right: 10px;
-
+        right: 78px;
+        @media (max-width: 900px) {
+            right: 10px
+        }
         .custom-modal-header {
             display: none;
         }
