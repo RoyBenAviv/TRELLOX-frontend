@@ -20,7 +20,7 @@
       <button @click="signup" class="login-btn">Sign up!</button>
       <span class="or">OR</span>
       <div class="google" @click="googleSignup">
-        <img src="google.svg"/>
+        <img src="https://res.cloudinary.com/trellox/image/upload/v1648921835/google_pxddpi.svg"/>
         <h3>Continue with Google</h3>
       </div>
 
