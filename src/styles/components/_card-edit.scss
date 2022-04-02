@@ -58,6 +58,10 @@
         position: relative;
         width: 768px;
         z-index: 25;
+
+        @media (max-width: 750px) {
+            margin: 36px 8px;
+        }
     }
 
     .card-cover-image {
@@ -110,6 +114,10 @@
         min-height: 32px;
         position: relative;
         z-index: 1;
+
+        @media (max-width: 750px) {
+            margin: 12px 8px 8px 48px;
+        }
     }
 
     .modal-header-icon {
@@ -181,6 +189,11 @@
         width: calc(100% - 575px);
         z-index: 10;
 
+        @media (max-width: 750px) {
+            width: 100%;
+            padding: 0 8px 8px 8px;
+        }
+
         .action-container {
             margin-bottom: 16px;
             clear: both;
@@ -203,9 +216,30 @@
                 color: $clr8;
                 display: flex;
 
+                @media (max-width: 750px) {
+                    width: calc(50% - 4px);
+                    display: inline-block;
+                    &:nth-child(odd) {
+                        margin-inline-start: 8px;
+                    }
+                }
+
+                .template {
+                    display: inline-flex;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: calc(100% - 20px);
+                    white-space: nowrap;
+                }
+
                 &.remove {
                     background-color: #b04632;
                     color: #fff;
+
+                    @media (max-width: 750px) {
+                        margin-inline-start: 0;
+                        margin-inline-end: 8px;
+                    }
 
                     &:hover {
                         background-color: darken(#b04632, 5%);
@@ -214,6 +248,11 @@
 
                 span {
                     font-size: rem(14px);
+
+                    @media (max-width: 750px) {
+                        transform: translateY(-4px);
+                        display: inline-block;
+                    }
                 }
 
                 &:hover {
@@ -272,9 +311,18 @@
         position: relative;
         width: 575px;
         z-index: 0;
+
+        @media (max-width: 750px) {
+            width: 100%;
+            padding: 8px;
+        }
         .card-details {
             margin-top: 8px;
             margin-left: 40px;
+
+            @media (max-width: 750px) {
+                margin-left: 6px;
+            }
 
             .card-date {
                 @include checkbox;
@@ -696,6 +744,10 @@
                     font-size: 0.875rem;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    margin: 0 0 8px;
+                    color: #172b4d;
+                    white-space: pre-wrap;
+                    word-wrap: break-word;
                 }
 
                 .fake-text-area {
@@ -777,6 +829,10 @@
         font-family: trellicons;
         margin: 0 6px 0 -6px;
         color: #42526e;
+
+        @media (max-width: 750px) {
+            height: unset;
+        }
 
         &.remove {
             color: #fff;

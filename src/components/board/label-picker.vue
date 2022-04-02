@@ -17,6 +17,8 @@
       <button v-else class="custom-btn" @click="startCreating(filterBy, true)">Create new "{{ filterBy }}"" label</button>
       <!-- <hr />
       <button class="custom-btn">Enable color blind friendly mode</button> -->
+      <!-- <pre>{{ wantToDelete }}</pre>
+      <pre>{{ newLabel }}</pre> -->
     </custom-modal>
 
     <custom-modal v-if="newLabel && !wantToDelete" @closeModal="closeModal" @goBack="goBack" :style="`left: ${posLeft}px`" :isFirstPage="false">
@@ -42,6 +44,8 @@
         <button class="add-btn">{{ btnTxt }}</button>
         <div v-if="newLabel.id" class="delete-btn" @click="wantToDelete = true">Delete</div>
       </form>
+      <!-- <pre>{{ wantToDelete }}</pre>
+      <pre>{{ newLabel }}</pre> -->
     </custom-modal>
 
     <custom-modal v-if="newLabel && wantToDelete" @closeModal="closeModal" @goBack="wantToDelete = false" :style="`left: ${posLeft}px`" :isFirstPage="false" class="delete-mode">

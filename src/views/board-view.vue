@@ -8,8 +8,15 @@
           <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
-          <container style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
-            <draggable @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })" style="height: 32px" class="avatar-container" v-for="member in members" :key="member._id" :title="member.fullname">
+          <container v-if="members.length" style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
+            <draggable
+              @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })"
+              style="height: 32px"
+              class="avatar-container"
+              v-for="member in members"
+              :key="member._id"
+              :title="member.fullname"
+            >
               <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </draggable>

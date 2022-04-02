@@ -48,7 +48,11 @@ export default {
     },
     inviteUser(user) {
       const board = JSON.parse(JSON.stringify(this.$store.getters.currBoard))
-      if(board.members.includes(user)) return
+      const memberCheck = board.members.reduce((acc, member) => {
+        if(member._id === user._id) acc++
+        return acc
+      }, 0)
+      if(memberCheck) return
       board.members.push(user)
       this.$store.dispatch({type: 'saveBoard', board})
       console.log('user',user);
