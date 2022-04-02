@@ -44,7 +44,7 @@
       </Transition>
       <div class="loading-board" v-if="isLoading">
         <h1 :style="{color: headerClr?.isDark || !headerClr ? 'white' : '#091e42'}">TRELLOX</h1>
-        <img src="loading.gif" />
+        <img src="https://res.cloudinary.com/trellox/image/upload/v1648921970/loading_thf5st.gif" />
       </div>
       <Container v-else drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
         <Draggable v-for="group in board.groups" :key="group.id">
