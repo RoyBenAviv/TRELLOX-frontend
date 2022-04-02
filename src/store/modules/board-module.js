@@ -35,7 +35,7 @@ export default {
       'https://images.unsplash.com/photo-1483835724473-d69ca66efb25?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     ],
     isMemberDrag: false,
-    isStickerDrag: false
+    isStickerDrag: false,
   },
   getters: {
     boards(state) {
@@ -67,7 +67,7 @@ export default {
     },
     isStickerDrag(state) {
       return state.isStickerDrag
-    }
+    },
   },
   mutations: {
     setBoards(state, { boards }) {
@@ -99,15 +99,16 @@ export default {
     addActivity(state, { activity }) {
       state.currBoard.activities.unshift(activity)
     },
-    memberDrag(state, {isDrag}) {
+    memberDrag(state, { isDrag }) {
       state.isMemberDrag = isDrag
     },
-    stickerDrag(state, {isDrag}) {
+    stickerDrag(state, { isDrag }) {
       state.isStickerDrag = isDrag
-    }
+    },
   },
   actions: {
-    async loadBoards({ commit, state }) {
+    async loadBoards({ commit }) {
+      commit({ type: 'setIsLoading', isLoading: true })
       try {
         var boards = await boardService.query({})
         commit({ type: 'setBoards', boards })
@@ -118,6 +119,8 @@ export default {
       } catch (err) {
         console.error('Cannot Load boards', err)
         throw err
+      } finally {
+        commit({ type: 'setIsLoading', isLoading: false })
       }
     },
     async setCurrBoard({ commit }, { boardId }) {
@@ -140,6 +143,7 @@ export default {
       }
     },
     async saveBoard({ commit }, { board }) {
+      // commit({ type: 'setIsLoading', isLoading: true })
       try {
         var board = await boardService.updateBoard(board)
         commit({ type: 'saveBoard', board })
@@ -147,6 +151,8 @@ export default {
       } catch (err) {
         console.error('Cannot Edit/Add board', err)
         throw err
+      } finally {
+        // commit({ type: 'setIsLoading', isLoading: false })
       }
     },
     async filterBoard({ commit }, { boardId, filterBy }) {
