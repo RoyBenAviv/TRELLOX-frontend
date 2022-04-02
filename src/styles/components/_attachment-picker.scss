@@ -17,6 +17,17 @@
                     width: 302px;
                 }
             }
+            .video-rec {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                z-index: 25;
+                transform: translate(-50%, -50%);
+                .video {
+                    width: 700px;
+                    height: 700px;
+                }
+            }
         }
     }
 
