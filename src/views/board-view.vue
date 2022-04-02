@@ -18,6 +18,7 @@
           <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
+          <button @click="openDashboard" class="dashboard-btn"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></button>
           <button @click="openFilter = !openFilter" class="filter" :class="{ active1: openFilter, active2: this.filteringCount > -1 }">
             <i class="fa-solid fa-filter"></i>
             <span>Filter</span>
@@ -39,7 +40,7 @@
         <Draggable v-for="group in board.groups" :key="group.id">
           <group-preview :group="group" @onCardDrop="onCardDrop" />
         </Draggable>
-        <div class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
+        <div  :style="{color: headerClr?.isDark || !headerClr ? 'white' : '#091e42'}" class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
         <div class="add-group-container" v-else>
           <input @keyup.enter="addGroup" v-model="groupTitle" v-focus type="text" placeholder="Enter list title..." />
           <div class="add-group-actions">
@@ -47,7 +48,9 @@
           </div>
         </div>
       </Container>
-      <router-view></router-view>
+      <Transition name="dashboard">
+        <router-view></router-view>
+      </Transition>
     </div>
   </section>
 </template>
@@ -61,6 +64,7 @@ import boardMenu from '../components/board/board-menu.vue'
 import boardFilter from '../components/board/board-filter.vue'
 import userInvite from '../components/board/user-invite.vue'
 import FastAverageColor from 'fast-average-color'
+import { socketService } from '../services/socket.service'
 
 export default {
   components: {
@@ -90,6 +94,14 @@ export default {
   },
   async created() {
     const { boardId } = this.$route.params
+
+    socketService.emit('board topic', boardId);
+    socketService.emit('setMemberSocket', this.$store.getters.loggedinUser?._id || '')
+    socketService.on('online members', members => {
+      console.log(members)
+    })
+
+
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
     var board = JSON.parse(JSON.stringify(this.board))
@@ -266,6 +278,10 @@ export default {
       }
       this.updateKey('filterBy', emptyFilterBy)
     },
+    openDashboard() {
+      const currRoute = this.$router.currentRoute._value.fullPath
+      this.$router.push(`${currRoute}/dashboard`)
+    }
   },
   computed: {
     boardFromStore() {
@@ -305,5 +321,15 @@ export default {
 .menu-enter-from,
 .menu-leave-to {
   transform: translateX(450px);
+}
+
+.dashboard-enter-active,
+.dashboard-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.dashboard-enter-from,
+.dashboard-leave-to {
+  opacity: 0;
 }
 </style>

@@ -26,7 +26,6 @@
     .loading-board {
       @include flex(column);
       gap: 40px;
-      background-color: rgba(0, 0, 0, 0.3);
         position: fixed;
         width: 100%;
         height: 60%;
@@ -35,6 +34,7 @@
         }
         img {
           width: 140px;
+          border-radius: 10px;
         }
     }
     height: 100%;
