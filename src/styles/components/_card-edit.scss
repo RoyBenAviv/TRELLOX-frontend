@@ -114,6 +114,10 @@
         min-height: 32px;
         position: relative;
         z-index: 1;
+
+        @media (max-width: 750px) {
+            margin: 12px 8px 8px 48px;
+        }
     }
 
     .modal-header-icon {
