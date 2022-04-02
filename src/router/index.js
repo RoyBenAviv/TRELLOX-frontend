@@ -5,6 +5,7 @@ import signupView from '../views/signup-view.vue'
 import workspaceView from '../views/workspace-view.vue'
 import boardView from '../views/board-view.vue'
 import cardEdit from '../components/board/card-edit.vue'
+import dashboard from '../components/board/dashboard.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,10 @@ const router = createRouter({
         {
           path: 'edit/:cardId',
           component: cardEdit
+        },
+        {
+          path: 'dashboard',
+          component: dashboard
         }
       ]
     },
