@@ -94,7 +94,6 @@ export default {
   data() {
     return {
       style: JSON.parse(JSON.stringify(this.card.style)),
-      attachments: JSON.parse(JSON.stringify(this.card.attachments)),
       colors: this.$store.getters.coverColors,
       images: this.$store.getters.coverImages,
       searchPhotos: false,
@@ -117,8 +116,7 @@ export default {
         url: res.url,
         format: res.format,
       }
-      this.attachments.push(imgAttachment)
-      this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(this.attachments)), `added an attachment`)
+      this.$emit('updateKey', 'attachments', imgAttachment, `added an attachment`)
       this.style.cover = res.url
       this.style.type = 'url'
       this.save()

@@ -5,7 +5,7 @@ import signupView from '../views/signup-view.vue'
 import workspaceView from '../views/workspace-view.vue'
 import boardView from '../views/board-view.vue'
 import cardEdit from '../components/board/card-edit.vue'
-import dashboard from '../components/board/dashboard.vue'
+import dashboard from '../components/dashboard/dashboard.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),

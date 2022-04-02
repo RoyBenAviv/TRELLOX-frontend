@@ -27,10 +27,20 @@
       </div>
       <div class="dash-card"></div>
     </div>
+    <div class="charts-container">
+      <div class="chart">
+        <doughnut-chart />
+      </div>
+      <div class="chart">
+        <LineChart></LineChart>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
+import DoughnutChart from './doughnut-chart.vue'
+import LineChart from './line-chart.vue'
 export default {
   name: '',
   data() {
@@ -58,7 +68,10 @@ export default {
       return cardsCount
     },
   },
-  components: {},
+  components: {
+    DoughnutChart,
+    LineChart
+  },
 }
 </script>
 
