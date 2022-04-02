@@ -67,6 +67,7 @@ export default {
         url: res.url,
         format: res.format,
       }
+      console.log('imgAttachment.format',imgAttachment.format)
       this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(imgAttachment)))
     },
     // callback(data) {

@@ -1,5 +1,4 @@
 <template>
-  
   <section v-if="card" class="card-edit">
     <div @mousedown="closeEdit" class="window-overlay">
       <div @mousedown.stop class="card-modal">
@@ -70,7 +69,7 @@
                   </video> -->
                   <!-- <iframe v-if="attachment.format === 'mkv'" class="attachment" :src="attachment.url" title="Your video"></iframe> -->
                   <!-- <video-player v-if="attachment.format === 'mkv'" /> -->
-                  <video-player v-if="attachment.format === 'mkv'" :options="videoOptions()" />
+                  <video-player v-if="attachment.format === 'mkv'" :options="videoOptions(attachment.url)" />
                   <div v-else class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">
                     <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
@@ -437,6 +436,30 @@ export default {
           {
             src: url,
             type: 'video/mp4',
+          },
+          {
+            src: url,
+            type: 'video/webm',
+          },
+          {
+            src: url,
+            type: 'video/MOV',
+          },
+          {
+            src: url,
+            type: 'video/WMV',
+          },
+          {
+            src: url,
+            type: 'video/AVI',
+          },
+          {
+            src: url,
+            type: 'video/AVCHD',
+          },
+          {
+            src: url,
+            type: 'video/MKV',
           },
         ],
       }
