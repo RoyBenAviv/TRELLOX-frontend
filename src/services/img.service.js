@@ -30,6 +30,9 @@ function uploadImg(ev) {
 }
 
 function uploadVideo(video) {
+  console.log('video', video)
+  // video.name = video.name.substr(0, video.name.lastIndexOf('.')) + '.mp4'
+  // console.log('video', video)
   const UPLOAD_PRESET = 'Trellox_1'
   const CLOUD_NAME = 'trellox'
   const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`

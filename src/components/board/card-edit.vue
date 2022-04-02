@@ -69,7 +69,7 @@
                   </video> -->
                   <!-- <iframe v-if="attachment.format === 'mkv'" class="attachment" :src="attachment.url" title="Your video"></iframe> -->
                   <!-- <video-player v-if="attachment.format === 'mkv'" /> -->
-                  <video-player v-if="attachment.format === 'mkv'" :options="videoOptions(attachment.url)" />
+                  <video-player v-if="attachment.format === 'mp4'" :options="videoOptions(attachment.url)" />
                   <div v-else class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">
                     <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
