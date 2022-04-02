@@ -28,7 +28,6 @@
         <board-list :boards="boards" :showCreate="true" class="yourWorkspace">
           <template v-slot:boards-name>YOUR WORKSPACE</template>
         </board-list>
-        <!-- <video-record></video-record> -->
       </div>
     </div>
   </section>
@@ -37,14 +36,12 @@
 <script>
 import boardList from '../components/workspace/board-list.vue'
 import AppHeader from '../components/app-header.vue'
-import videoRecord from '../components/board/video-record.vue'
 
 export default {
   name: 'workspace-view',
   components: {
     boardList,
     AppHeader,
-    videoRecord,
   },
   data() {
     return {}

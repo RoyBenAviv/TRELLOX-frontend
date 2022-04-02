@@ -69,7 +69,7 @@ export default {
                         */
           // configure videojs-record plugin
           record: {
-            audio: false,
+            audio: true,
             video: true,
             debug: true,
           },
@@ -115,8 +115,9 @@ export default {
   methods: {
     async upload(value) {
       console.log('value', value)
-      var x = await imgService.uploadVideo(value)
-      console.log('x', x)
+      var url = await imgService.uploadVideo(value)
+      console.log('url', url)
+      this.$emit('videoUrl', url)
     },
   },
   beforeDestroy() {

@@ -63,7 +63,8 @@
               </div>
               <ul>
                 <li v-for="attachment in card.attachments" :key="attachment">
-                  <div class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
+                  <div v-if="attachment.format === mkv">video</div>
+                  <div v-else class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">
                     <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
                     <p>Added {{ attachment.createdAt }}</p>
