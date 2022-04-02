@@ -63,7 +63,13 @@
               </div>
               <ul>
                 <li v-for="attachment in card.attachments" :key="attachment">
-                  <div v-if="attachment.format === mkv">video</div>
+                  <!-- <video v-if="attachment.format === 'mkv'" class="attachment" width="320" height="240" controls>
+                    <source src="attachment.url" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video> -->
+                  <!-- <iframe v-if="attachment.format === 'mkv'" class="attachment" :src="attachment.url" title="Your video"></iframe> -->
+                  <!-- <video-player v-if="attachment.format === 'mkv'" /> -->
+                  <video-player v-if="attachment.format === 'mkv'" :options="videoOptions(attachment.url)" />
                   <div v-else class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">
                     <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>
@@ -162,7 +168,7 @@
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              
+
               <div class="action-btn" @click="openModal('checklist-add', $event)">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
@@ -239,6 +245,7 @@ import FastAverageColor from 'fast-average-color'
 import confirmDelete from './confirm-delete.vue'
 import moveCard from './move-card.vue'
 import shareCard from './share-card.vue'
+import videoPlayer from './video-player.vue'
 
 export default {
   components: {
@@ -251,6 +258,7 @@ export default {
     datePicker,
     moveCard,
     shareCard,
+    videoPlayer,
   },
   data() {
     return {
@@ -341,7 +349,7 @@ export default {
       this.newComment.txt = ''
     },
     async updateCard() {
-      if(!this.card.title) return
+      if (!this.card.title) return
       await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card: this.card })
       this.loadCard()
     },
@@ -419,7 +427,19 @@ export default {
     },
     formattedTime(time) {
       return utilService.getFormattedTime(time)
-    }
+    },
+    videoOptions(url) {
+      return {
+        autoplay: true,
+        controls: true,
+        sources: [
+          {
+            src: url,
+            type: 'video/mp4',
+          },
+        ],
+      }
+    },
   },
   computed: {
     commentsInputStyle() {
@@ -479,7 +499,7 @@ export default {
     },
     checkUser() {
       return this.card.memberIds.includes(this.$store.getters.loggedinUser?._id)
-    }
+    },
   },
 }
 </script>

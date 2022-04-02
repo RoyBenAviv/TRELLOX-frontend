@@ -13,18 +13,6 @@ import RecordRTC from 'recordrtc'
 
 import { imgService } from '../../services/img.service.js'
 
-// the following imports are only needed when you're recording
-// audio-only using the videojs-wavesurfer plugin
-/*
-    import WaveSurfer from 'wavesurfer.js';
-    import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.js';
-    WaveSurfer.microphone = MicrophonePlugin;
-
-    // register videojs-wavesurfer plugin
-    import videojs_wavesurfer_css from 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
-    import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
-    */
-
 import Record from 'videojs-record/dist/videojs.record.js'
 
 export default {
@@ -43,30 +31,6 @@ export default {
           volumePanel: false,
         },
         plugins: {
-          /*
-                        // this section is only needed when recording audio-only
-                        wavesurfer: {
-                            backend: 'WebAudio',
-                            waveColor: '#36393b',
-                            progressColor: 'black',
-                            debug: true,
-                            cursorWidth: 1,
-                            displayMilliseconds: true,
-                            hideScrollbar: true,
-                            plugins: [
-                                // enable microphone plugin
-                                WaveSurfer.microphone.create({
-                                    bufferSize: 4096,
-                                    numberOfInputChannels: 1,
-                                    numberOfOutputChannels: 1,
-                                    constraints: {
-                                        video: false,
-                                        audio: true
-                                    }
-                                })
-                            ]
-                        },
-                        */
           // configure videojs-record plugin
           record: {
             audio: true,

@@ -14,7 +14,7 @@
       </li> -->
       <li>
         <label @click="recording = true"> record video </label>
-        <!-- <video-record v-if="recording" @videoUrl="videoUrl" /> -->
+        <video-record v-if="recording" @videoUrl="videoUrl" />
       </li>
 
       <!-- <audio-recorder
