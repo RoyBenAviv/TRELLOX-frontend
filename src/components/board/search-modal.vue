@@ -4,10 +4,10 @@
       <div class="title">Recent boards</div>
       <ul>
         <li v-for="board in boards" :key="board._id" @click="this.$router.push('/board/' + board._id)">
+          <span class="star" :class="{ full: board.isStarred }" @click.stop="toggleStar(board)"></span>
           <section class="bg" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }"></section>
-          <div>
+          <div class="name">
             {{ board.title }}
-            <span class="star" :class="{ full: board.isStarred }" @click.stop="toggleStar(board)"></span>
           </div>
         </li>
       </ul>

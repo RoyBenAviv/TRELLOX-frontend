@@ -1,4 +1,5 @@
 <template>
+  
   <section v-if="card" class="card-edit">
     <div @mousedown="closeEdit" class="window-overlay">
       <div @mousedown.stop class="card-modal">
@@ -22,21 +23,21 @@
                   <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
                   <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
                 </div>
-                <div class="add-member" @click="openModal('member-picker')"><i class="fa-solid fa-plus"></i></div>
+                <div class="add-member" @click="openModal('member-picker', $event)"><i class="fa-solid fa-plus"></i></div>
               </div>
               <div v-if="labels.length" class="card-details-item">
                 <h3>Labels</h3>
                 <div>
                   <span class="label-span" v-for="label in labels" :key="label.id" :class="label.className" :title="label.title">
-                    <span @click="openModal('label-picker')">{{ label.title }}</span>
+                    <span @click="openModal('label-picker', $event)">{{ label.title }}</span>
                   </span>
-                  <div class="add-label" @click="openModal('label-picker')"><i class="fa-solid fa-plus"></i></div>
+                  <div class="add-label" @click="openModal('label-picker', $event)"><i class="fa-solid fa-plus"></i></div>
                 </div>
               </div>
               <div v-if="card.dueDate?.date" class="card-details-item card-date">
                 <h3>Due date</h3>
                 <input @input="updateCard" v-model="card.dueDate.isCompleted" type="checkbox" :class="{ full: card.dueDate.isCompleted }" />
-                <span class="date-info" @click="openModal('date-picker')">{{ formattedDate }}<span class="complete" v-if="card.dueDate.isCompleted">complete</span><i class="fa-solid fa-angle-down"></i></span>
+                <span class="date-info" @click="openModal('date-picker', $event)">{{ formattedDate }}<span class="complete" v-if="card.dueDate.isCompleted">complete</span><i class="fa-solid fa-angle-down"></i></span>
               </div>
             </div>
             <div class="description-container">
@@ -69,7 +70,7 @@
                   </video> -->
                   <!-- <iframe v-if="attachment.format === 'mkv'" class="attachment" :src="attachment.url" title="Your video"></iframe> -->
                   <!-- <video-player v-if="attachment.format === 'mkv'" /> -->
-                  <video-player v-if="attachment.format === 'mkv'" :options="videoOptions(attachment.url)" />
+                  <video-player v-if="attachment.format === 'mkv'" :options="videoOptions()" />
                   <div v-else class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">
                     <h5>{{ attachment.name }}.{{ attachment.format }} <span @click="openUrl(attachment.url)"></span></h5>

@@ -1,5 +1,8 @@
 <template>
-  <section class="board-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" v-if="board">
+<section v-if="board" class="scroll-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }">
+
+
+  <div class="board-wrapper">
     <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{ 'background-color': headerClr ? headerClr.hex : board.style.bgHeader }" class="board-header" />
     <div class="board-view">
       <nav :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" class="board-nav">
@@ -59,6 +62,7 @@
         <router-view></router-view>
       </Transition>
     </div>
+  </div>
   </section>
 </template>
 
@@ -104,8 +108,10 @@ export default {
 
     socketService.emit('board topic', boardId);
     socketService.emit('setMemberSocket', this.$store.getters.loggedinUser?._id || '')
-    socketService.on('online members', members => {
-      console.log(members)
+
+    socketService.on('addMember', connectedMembers => {
+      // console.log('my user',this.$store.getters.loggedinUser?._id || '')
+      // console.log('front - connectedMembers', connectedMembers)
     })
 
 

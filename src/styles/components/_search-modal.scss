@@ -1,9 +1,10 @@
 .search-modal-container {
     &.custom-modal-container {
-        width: 600px;
         top: 50px;
-        right: 10px;
-
+        right: 78px;
+        @media (max-width: 900px) {
+            right: 10px
+        }
         .custom-modal-header {
             display: none;
         }
@@ -23,16 +24,73 @@
 
             li {
                 display: flex;
+                align-items: center;
                 margin: 0 6px;
                 box-sizing: border-box;
                 border-radius: 4px;
                 position: relative;
                 min-width: 0;
-                display: block;
                 float: left;
                 width: 100%;
                 padding-left: 4px;
-                color: #172B4D;
+                color: #172b4d;
+                height: 30px;
+                padding-left: 4px;
+
+                .star {
+                    color: #091e42;
+                    font-family: trellicons;
+                    opacity: 0;
+                    transition-duration: 0.1s;
+                    transition-property: color, background, opacity, transform, width, margin;
+                    cursor: pointer;
+
+                    &::before {
+                        content: "\e966";
+                    }
+
+                    &.full {
+                        opacity: 1;
+                        &::before {
+                            content: "\e967";
+                            color: #f2d600;
+                        }
+                    }
+                }
+
+                .bg {
+                    display: inline-block;
+                    flex: 0 0 auto;
+                    background-size: cover;
+                    border-radius: 2px;
+                    height: 16px;
+                    width: 20px;
+                    margin-inline-start: 12px;
+                }
+
+                .name{
+                    margin-inline-start: 12px;
+                }
+
+                &:hover {
+                    background-color: #ebecf0;
+                    .bg {
+                        filter: brightness(104%);
+                    }
+                    .star {
+                        opacity: 1;
+                        &:hover {
+                            color: #f2d600;
+                        }
+                        &.full {
+                            &:hover {
+                                &::before {
+                                    content: "\e966";
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

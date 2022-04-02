@@ -5,7 +5,6 @@
 <script>
 
 export default {
-
   created() {
     this.$store.dispatch('loadBoards')
     this.$store.dispatch('loadUsers')
