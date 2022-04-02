@@ -41,14 +41,14 @@
     height: 50px;
   }
   .sticker-container {
-    display: flex;
+    display: flex !important;
     position: absolute;
     flex-flow: row wrap;
     z-index: 0;
     overflow: hidden;
     height: 100%;
     width: 100%;
-    right: 25px;
+    right: 20px;
     top: 0;
     justify-content: flex-end;
     .sticker {
