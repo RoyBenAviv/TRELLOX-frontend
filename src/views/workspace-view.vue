@@ -41,7 +41,7 @@ export default {
   name: 'workspace-view',
   components: {
     boardList,
-    AppHeader
+    AppHeader,
   },
   data() {
     return {}

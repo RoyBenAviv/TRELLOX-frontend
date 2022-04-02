@@ -14,6 +14,8 @@
     "fast-average-color": "^7.1.0",
     "socket.io-client": "^4.4.1",
     "v-calendar": "^3.0.0-alpha.8",
+    "video.js": "^7.18.1",
+    "videojs-record": "^4.5.0",
     "vue": "^3.2.31",
     "vue-chart-3": "^3.1.8",
     "vue-router": "^4.0.12",

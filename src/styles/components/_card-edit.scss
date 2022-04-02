@@ -511,8 +511,17 @@
                         background-position: center;
                         background-size: cover;
                     }
+
+                    .video-js {
+                        width: 300px;
+                        height: 170px;
+                        border-radius: 3px;
+                    }
+
                     .attachment-info {
                         width: 60%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                         p {
                             margin: 0;
                             color: $clr6;
