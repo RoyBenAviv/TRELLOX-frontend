@@ -23,6 +23,20 @@
     @include header-color(header);
   }
   .board-view {
+    .loading-board {
+      @include flex(column);
+      gap: 40px;
+      background-color: rgba(0, 0, 0, 0.3);
+        position: fixed;
+        width: 100%;
+        height: 60%;
+        h1 {
+          font-family: katahdin, sans-serif;
+        }
+        img {
+          width: 140px;
+        }
+    }
     height: 100%;
     padding-block-start: rem(100px);
     width: max-content;

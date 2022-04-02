@@ -8,7 +8,7 @@
           <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
           <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
           <span class="seperator">|</span>
-          <container style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
+          <container v-if="members.length" style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
             <draggable
               @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })"
               style="height: 32px"
@@ -36,9 +36,13 @@
         <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
       </nav>
       <Transition name="menu">
-        <board-menu  @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
+        <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
       </Transition>
-      <Container drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
+      <div class="loading-board" v-if="isLoading">
+        <h1 :style="{color: headerClr?.isDark || !headerClr ? 'white' : '#091e42'}">TRELLOX</h1>
+        <img src="loading.gif" />
+      </div>
+      <Container v-else drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
         <Draggable v-for="group in board.groups" :key="group.id">
           <group-preview :group="group" @onCardDrop="onCardDrop" />
         </Draggable>
@@ -97,7 +101,7 @@ export default {
     this.updateKey('recentlyViewed', Date.now())
     var board = JSON.parse(JSON.stringify(this.board))
     const fac = new FastAverageColor()
-    this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
+    if (board.style.bgImgUrl) this.headerClr = await fac.getColorAsync(board.style.bgImgUrl)
     //set filter
     board = this.filter(board)
     await this.$store.dispatch({ type: 'saveBoard', board })
@@ -251,7 +255,7 @@ export default {
       })
       return board
     },
-    resetFilter(){
+    resetFilter() {
       const emptyFilterBy = {
         by: {
           none: false,
@@ -267,8 +271,8 @@ export default {
           options: [],
         },
       }
-      this.updateKey('filterBy', emptyFilterBy )
-    }
+      this.updateKey('filterBy', emptyFilterBy)
+    },
   },
   computed: {
     boardFromStore() {
@@ -276,6 +280,9 @@ export default {
     },
     members() {
       return this.$store.getters.currBoard.members
+    },
+    isLoading() {
+      return this.$store.getters.isLoading
     },
   },
   watch: {

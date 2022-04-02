@@ -26,7 +26,7 @@ function getEmptyBoard() {
       bgHeader: ''
     },
     labels: _getLabelsForPM(),
-    members: [userService.getLoggedinUser()] || [], //add logged in user
+    members: (userService.getLoggedinUser() ? [userService.getLoggedinUser()] : []), //add logged in user
     groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
     activities: [],
     filterBy: {

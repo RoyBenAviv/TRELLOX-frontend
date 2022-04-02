@@ -8,7 +8,7 @@
           <div class="modal-header">
             <span class="modal-header-icon"> </span>
             <div class="modal-header-title">
-              <textarea placeholder="Enter card title" v-model="card.title" @input="updateCard" @keydown.enter.prevent="updateCard" dir="auto" data-autosize="true"></textarea>
+              <textarea placeholder="Enter card title" v-model="card.title" @blur="updateCard" @keydown.enter.prevent="updateCard" dir="auto" data-autosize="true"></textarea>
             </div>
             <div class="inline-content">
               in list <span style="text-decoration: underline">{{ groupTitle }}</span>
@@ -161,18 +161,7 @@
                 <span class="icon ic-label"></span>
                 <span>Labels</span>
               </div>
-              <component
-                v-if="cmpName"
-                :is="cmpName"
-                :card="card"
-                :posLeft="posLeft"
-                :isCopyCard="isCopyCard"
-                @removeCard="removeCard"
-                @closeModal="closeModal"
-                @updateKey="updateKey"
-                v-click-outside="() => closeModal()"
-                :style="`top: ${posTop}px; left: ${posLeft}px`"
-              ></component>
+              
               <div class="action-btn" @click="openModal('checklist-add', $event)">
                 <span class="icon ic-checklist"></span>
                 <span>Checklist</span>
@@ -202,7 +191,7 @@
               </div>
               <div class="action-btn">
                 <span class="icon ic-template"></span>
-                <span>Make template</span>
+                <span class="template">Make template</span>
               </div>
               <div class="action-btn">
                 <span class="icon ic-watch"></span>
@@ -217,6 +206,18 @@
                 <span class="icon ic-share"></span>
                 <span>Share</span>
               </div>
+              <component
+                v-if="cmpName"
+                :is="cmpName"
+                :card="card"
+                :posLeft="posLeft"
+                :isCopyCard="isCopyCard"
+                @removeCard="removeCard"
+                @closeModal="closeModal"
+                @updateKey="updateKey"
+                v-click-outside="() => closeModal()"
+                :style="`top: ${posTop}px; left: ${posLeft}px`"
+              ></component>
             </div>
           </div>
         </div>
