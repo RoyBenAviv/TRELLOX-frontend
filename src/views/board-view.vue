@@ -104,8 +104,10 @@ export default {
 
     socketService.emit('board topic', boardId);
     socketService.emit('setMemberSocket', this.$store.getters.loggedinUser?._id || '')
-    socketService.on('online members', members => {
-      console.log(members)
+
+    socketService.on('addMember', connectedMembers => {
+      // console.log('my user',this.$store.getters.loggedinUser?._id || '')
+      // console.log('front - connectedMembers', connectedMembers)
     })
 
 
