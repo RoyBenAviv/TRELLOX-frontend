@@ -12,7 +12,7 @@
       </Transition>
       <h3>Sign up to Trellox</h3>
       <form @keyup.enter="signup" @submit.prevent="signup" class="user-crad">
-        <input v-focus type="text" v-model="signupCred.fullname" placeholder="Enter fullname" />
+        <input type="text" v-model="signupCred.fullname" placeholder="Enter fullname" />
         <input type="email" v-model="signupCred.email" placeholder="Enter email" />
         <input type="password" v-model="signupCred.password" placeholder="Enter password" />
       </form>
