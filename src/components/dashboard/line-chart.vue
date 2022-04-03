@@ -20,6 +20,7 @@ export default defineComponent({
         labels: [],
         datasets: [
           {
+            label: 'Activity',
             data: [],
             backgroundColor: ['#61bd4f', '#f2d600', '#ff9f1a', '#eb5a46', '#c377e0', '#0079bf', '#00c2e0', '#51e898', '#ff78cb', '#344563', '#b3bac5'],
             fontColor: ['white']
@@ -32,18 +33,15 @@ export default defineComponent({
                 display: true,
                 text: 'Activity per member',
                 font: {
-                    size: 32,
+                    size: 28,
                     weigth: 'bold',
                     family: 'Roboto'
                 }
             },
         },
-        legend: {
-            label: 'Activity per member'
-        },
         elements: {
             line: {
-                backgroundColor: 'black',
+                backgroundColor: 'white',
                 borderColor: 'white',
                 borderWidth: 3
             }
@@ -66,7 +64,6 @@ export default defineComponent({
   methods: {
     loadChart() {
       const board = JSON.parse(JSON.stringify(this.$store.getters.currBoard))
-      const boardData = JSON.parse(JSON.stringify(this.boardData))
       var activityMap = {}
       board.activities.forEach(activity => {
           activityMap[activity.byMember.fullname] ? activityMap[activity.byMember.fullname]++ : activityMap[activity.byMember.fullname] = 1

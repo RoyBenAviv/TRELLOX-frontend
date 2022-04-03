@@ -30,9 +30,9 @@ export default defineComponent({
         plugins: {
             title: {
                 display: true,
-                text: 'Card by labels',
+                text: 'Tasks by labels',
                 font: {
-                    size: 32,
+                    size: 28,
                     weigth: 'bold',
                     family: 'Roboto'
                 }
