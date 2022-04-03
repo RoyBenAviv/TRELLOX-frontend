@@ -106,7 +106,7 @@ export default {
   async created() {
     const { boardId } = this.$route.params
 
-    socketService.emit('board topic', boardId);
+    socketService.emit('board room', boardId);
     socketService.emit('setMemberSocket', this.$store.getters.loggedinUser?._id || '')
 
     socketService.on('addMember', connectedMembers => {
