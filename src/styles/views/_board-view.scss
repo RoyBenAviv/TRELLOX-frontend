@@ -1,5 +1,5 @@
 .scroll-wrapper {
-  padding-bottom: 15px;
+  padding-bottom: 8px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -7,18 +7,18 @@
   image-rendering: -webkit-optimize-contrast;
 }
 .board-wrapper {
-  height: calc(100vh - 15px);
+  height: calc(100vh - 8px);
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 12px;
   }
   &::-webkit-scrollbar-track {
-    background: #41414126;
+    background: #0e0d0d26;
     margin: 35px;
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #aba59d70;
+    background: #d1ccc670;
     border-radius: 10px;
   }
   .board-header {

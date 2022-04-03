@@ -65,8 +65,9 @@ export default {
         name: res.public_id,
         createdAt: res.created_at,
         url: res.url,
-        format: res.format,
+        format: 'mp4',
       }
+      console.log('imgAttachment.format',imgAttachment.format)
       this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(imgAttachment)))
     },
     // callback(data) {

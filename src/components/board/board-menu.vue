@@ -106,7 +106,7 @@ export default {
   },
   created() {
     this.searchImages('nature')
-    this.searchStickers('wow')
+    this.searchStickers('processing')
   },
   methods: {
     async searchImages(searchVal) {

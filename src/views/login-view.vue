@@ -12,14 +12,14 @@
       </Transition>
       <h3>Log in to Trellox</h3>
       <form @keyup.enter="login" @submit.prevent="login" class="user-crad">
-        <input v-focus type="email" v-model="loginCred.email" placeholder="Enter email" />
+        <input type="email" v-model="loginCred.email" placeholder="Enter email" />
         <input type="password" v-model="loginCred.password" placeholder="Enter password" />
       </form>
 
       <button @click="login" class="login-btn">Log in</button>
       <span class="or">OR</span>
       <div class="google" @click="googleSignup">
-        <img src="google.svg" />
+        <img src="https://res.cloudinary.com/trellox/image/upload/v1648921835/google_pxddpi.svg" />
         <h3>Continue with Google</h3>
       </div>
       <hr />

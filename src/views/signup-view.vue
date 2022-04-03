@@ -12,7 +12,7 @@
       </Transition>
       <h3>Sign up to Trellox</h3>
       <form @keyup.enter="signup" @submit.prevent="signup" class="user-crad">
-        <input v-focus type="text" v-model="signupCred.fullname" placeholder="Enter fullname" />
+        <input type="text" v-model="signupCred.fullname" placeholder="Enter fullname" />
         <input type="email" v-model="signupCred.email" placeholder="Enter email" />
         <input type="password" v-model="signupCred.password" placeholder="Enter password" />
       </form>
@@ -20,7 +20,7 @@
       <button @click="signup" class="login-btn">Sign up!</button>
       <span class="or">OR</span>
       <div class="google" @click="googleSignup">
-        <img src="google.svg"/>
+        <img src="https://res.cloudinary.com/trellox/image/upload/v1648921835/google_pxddpi.svg"/>
         <h3>Continue with Google</h3>
       </div>
 

@@ -1,7 +1,7 @@
 .card-preview-container {
-  max-height: calc(100vh - 12.5rem - 15px);
+  max-height: calc(100vh - 12.5rem - 8px);
   @media (max-width: 700px) {
-    max-height: calc(100vh - 20rem - 15px);
+    max-height: calc(100vh - 20rem - 8px);
   }
   overflow-y: auto;
   overflow-x: hidden;
@@ -180,6 +180,9 @@
       border-bottom-color: #091e4240;
       .edit-card {
         display: flex;
+        @media (max-width: 700px) {
+          display: none;
+        }
       }
     }
     .card-image {
