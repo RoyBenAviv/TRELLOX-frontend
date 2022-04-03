@@ -17,16 +17,18 @@
       margin-top: rem(5px);
       font-size: rem(20px);
     }
+    .middle, .bottom {
+      flex-direction: column;
+      text-align: center;
+    }
     .middle {
-        margin-top: 300px;
-        flex-direction: column;
-        text-align: center;
+        margin-top: 20vh;
         @media(max-width: 500px) {
           margin-top: 100px;
         }
         img {
           @media (min-width: 1060px) {
-              width: 50%;
+              width: 60%;
 
             }
         }

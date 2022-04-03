@@ -187,7 +187,7 @@ export default {
     },
     async removeCard() {
       await this.addActivity(`removed card ${this.card.title}`)
-      await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
+      await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.card.id })
       this.$emit('closeQuickEdit')
     },
     async completeDate() {
@@ -217,7 +217,7 @@ export default {
     },
     onStickerDrop(dropResult) {
       console.log('dropResult', dropResult)
-      const sticker = dropResult.payload.images.original.url
+      const sticker = dropResult.payload.images.original_still.url
       const card = JSON.parse(JSON.stringify(this.card))
       if (dropResult.addedIndex !== null) {
         console.log('here')

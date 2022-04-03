@@ -8,7 +8,7 @@
           <div class="modal-header">
             <span class="modal-header-icon"> </span>
             <div class="modal-header-title">
-              <textarea placeholder="Enter card title" v-model="card.title" @blur="updateCard" @keydown.enter.prevent="updateCard" dir="auto" data-autosize="true"></textarea>
+              <textarea placeholder="Enter card title" v-model="card.title" @blur="updateTitle" @keydown.enter.prevent="updateTitle" dir="auto" data-autosize="true"></textarea>
             </div>
             <div class="inline-content">
               in list <span style="text-decoration: underline">{{ groupTitle }}</span>
@@ -312,6 +312,10 @@ export default {
     },
     closeModal() {
       this.cmpName = null
+    },
+    async updateTitle() {
+      await this.addActivity('updated card title')
+      this.updateCard()
     },
     async updateKey(key, value, activity) {
       if (key === 'checklists' || key === 'attachments') {

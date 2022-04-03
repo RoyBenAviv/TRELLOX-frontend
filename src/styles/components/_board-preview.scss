@@ -6,7 +6,9 @@
             filter: brightness(90%);
         }
     }
-
+    .shadow-text {
+        text-shadow: 2px 3px 4px rgb(0 0 0 / 15%);
+    }
     .board-preview-container {
         height: 96px;
         border-radius: 3px;
@@ -14,6 +16,7 @@
         background-repeat: no-repeat;
         background-color: #97a0af;
         background-position: 50%;
+        transition: filter 0.2s;
     }
 
     .txt-on-borad-img {
@@ -24,7 +27,6 @@
         font-weight: 700;
         z-index: 10;
         width: calc(100% - 20px);
-        text-shadow: 2px 3px 5px rgb(0 0 0 / 30%);
     }
     
     .star {
