@@ -55,7 +55,7 @@
               <input class="custom-input" placeholder="Search sticker" type="text" v-model="stickerSearch" @input="searchStickers(stickerSearch)" />
               <Container class="stickers-list" v-if="stickers" group-name="5" :get-child-payload="getChildPayload">
                 <Draggable @mousedown="this.$store.commit({ type: 'stickerDrag', isDrag: true })" v-for="sticker in stickers" :key="sticker.id">
-                    <img :src="sticker.images.original.url" :alt="sticker.title"/>
+                    <img :src="sticker.images.original_still.url" :alt="sticker.title"/>
                 </Draggable>
               </Container>
         </div>
@@ -106,7 +106,7 @@ export default {
   },
   created() {
     this.searchImages('nature')
-    this.searchStickers('processing')
+    this.searchStickers('fun')
   },
   methods: {
     async searchImages(searchVal) {

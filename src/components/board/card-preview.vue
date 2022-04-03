@@ -217,7 +217,7 @@ export default {
     },
     onStickerDrop(dropResult) {
       console.log('dropResult', dropResult)
-      const sticker = dropResult.payload.images.original.url
+      const sticker = dropResult.payload.images.original_still.url
       const card = JSON.parse(JSON.stringify(this.card))
       if (dropResult.addedIndex !== null) {
         console.log('here')

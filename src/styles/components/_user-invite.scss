@@ -1,5 +1,10 @@
 .user-invite {
     min-height: 300px;
+    left: 25%;
+    @media (max-width: 416px) {
+        left: 10%;
+
+    }
     .users-container {
         background-color: #fff;
         border-radius: 3px;

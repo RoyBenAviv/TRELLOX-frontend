@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <div class="left-header">
-      <div @click="this.$router.push('/workspace')" class="logo">
+      <div @click="checkPath" class="logo">
         <i class="fa-brands fa-trello"></i>
         <p>Trellox</p>
       </div>
@@ -93,6 +93,10 @@ export default {
       board.isStarred = !board.isStarred
       await this.$store.dispatch({ type: 'saveBoard', board })
     },
+    checkPath() {
+      if(this.$route.path === '/workspace') this.$router.push('/')
+      else if (this.$route.name === 'board') this.$router.push('/workspace')
+    }
   },
   computed: {
     member() {

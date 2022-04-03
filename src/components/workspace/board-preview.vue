@@ -1,8 +1,10 @@
 <template>
   <section class="board-preview">
     <router-link :to="'/board/' + board._id">
-      <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }" class="board-preview-container"></div>
-      <span class="txt-on-borad-img">{{ board.title }} </span>
+      <div :style="{ 'background-image': linearGradient() + 'url(' + board.style.bgImgUrl + ')',
+       'background-color': board.style.bgColor }"
+        class="board-preview-container"></div>
+      <span :class="board.style.bgImgUrl ? 'shadow-text' : ''" class="txt-on-borad-img">{{ board.title }} </span>
     </router-link>
     <span class="star" :class="{ full: board.isStarred }" @click="toggleStar()"></span>
   </section>
@@ -34,7 +36,7 @@ export default {
   methods: {
     linearGradient() {
       var num
-      if (this.color) num = this.color.isDark ? '0.1' : '0.3'
+      if (this.color) num = this.color.isDark ? '0.1' : '0.35'
       else num = '0.1'
       return `linear-gradient(rgba(0, 0, 0, ${num}),rgba(0, 0, 0, ${num})), `
     },

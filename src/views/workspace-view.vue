@@ -8,10 +8,6 @@
             <span class="board-icon icon"></span>
             <span class="view-name">Boards</span>
           </router-link>
-          <!-- <router-link to="/workspace" :class="{ active: currpage === 'template' }" @click="setCurrpage('template')">
-            <span class="template-icon icon"></span>
-            <span class="view-name">Templates</span>
-          </router-link> -->
           <router-link to="/">
             <span class="home-icon icon"></span>
             <span class="view-name">Home</span>
