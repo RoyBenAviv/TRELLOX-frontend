@@ -13,7 +13,7 @@
     <div class="right-header">
       <label>
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" @click="openModal('search-modal')" placeholder="Search" />
+        <input type="text" v-model="filterBy" @click="openModal('search-modal')" placeholder="Search" />
       </label>
       <button class="notifications"><i class="fa-solid fa-bell"></i></button>
       <div @click="openModal('user-modal', $event)" class="avatar-container" :title="member ? member.fullname : 'Guest'">
@@ -22,16 +22,18 @@
       </div>
     </div>
     <component
-    v-if="cmpName"
-    :is="cmpName"
-    :posLeft="posLeft" 
-    :posTop="posTop"
-    @toggleStar="toggleStar"
-    @closeModal="closeModal"
-    @logout="logout"
-    v-click-outside="() => closeModal()"
-    :style="`top: ${posTop}px; left: ${posLeft}px`"
-    > </component>
+      v-if="cmpName"
+      :is="cmpName"
+      :posLeft="posLeft"
+      :posTop="posTop"
+      :boards="boards"
+      @toggleStar="toggleStar"
+      @closeModal="closeModal"
+      @logout="logout"
+      v-click-outside="() => closeModal()"
+      :style="`top: ${posTop}px; left: ${posLeft}px`"
+    >
+    </component>
   </header>
 </template>
 
@@ -52,6 +54,7 @@ export default {
       cmpName: null,
       posLeft: null,
       posTop: null,
+      filterBy: null,
     }
   },
   components: {
@@ -64,7 +67,7 @@ export default {
   },
   methods: {
     openModal(cmpName, ev) {
-      if(ev) this.calcPosition(ev.target.getBoundingClientRect())
+      if (ev) this.calcPosition(ev.target.getBoundingClientRect())
       this.cmpName = cmpName
     },
     closeModal() {
@@ -94,9 +97,9 @@ export default {
       await this.$store.dispatch({ type: 'saveBoard', board })
     },
     checkPath() {
-      if(this.$route.path === '/workspace') this.$router.push('/')
+      if (this.$route.path === '/workspace') this.$router.push('/')
       else if (this.$route.name === 'board') this.$router.push('/workspace')
-    }
+    },
   },
   computed: {
     member() {
@@ -104,6 +107,12 @@ export default {
     },
     checkMember() {
       return this.member ? this.member.fullname.split(' ')[0].split('')[0] + this.member.fullname.split(' ')[1].split('')[0] : 'G'
+    },
+    boards() {
+      var boards = this.$store.getters.boards
+      if (!this.filterBy) return boards
+      const regex = new RegExp(this.filterBy, 'i')
+      return boards.filter((board) => regex.test(board.title))
     },
   },
 }
