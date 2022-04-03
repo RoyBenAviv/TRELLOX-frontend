@@ -9,27 +9,12 @@
           <input type="file" @change="onUploadImg" />
         </label>
       </li>
-      <!-- <li>
-        <label> Google Drive </label>
-      </li> -->
       <li @click="recording = true">
-        <label> record video </label>
+        <label> Record video </label>
       </li>
       <div v-if="recording" class="video-rec">
         <video-record class="video"  @videoUrl="videoUrl" />
       </div>
-
-      <!-- <audio-recorder
-    :attempts="3"
-    :time="2"
-    :headers="headers"
-    :before-recording="callback"
-    :pause-recording="callback"
-    :after-recording="callback"
-    :select-record="callback"
-    :before-upload="callback"
-    :successful-upload="callback"
-    :failed-upload="callback"/> -->
     </ul>
   </custom-modal>
 </template>
@@ -70,9 +55,6 @@ export default {
       console.log('imgAttachment.format',imgAttachment.format)
       this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(imgAttachment)))
     },
-    // callback(data) {
-    //   console.log(data)
-    // }
   },
 }
 </script>

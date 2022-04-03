@@ -434,7 +434,7 @@ export default {
     },
     videoOptions(url) {
       return {
-        autoplay: true,
+        autoplay: false,
         controls: true,
         sources: [
           {
