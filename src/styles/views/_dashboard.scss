@@ -1,4 +1,5 @@
 .dashboard {
+  padding: 0 rem(20px);
   .close-modal-button {
     border-radius: 50%;
     color: $clr4;
@@ -10,7 +11,7 @@
     right: 0;
     top: 0;
     background-color: rgba(255, 255, 255, 0.171);
-    transition: background-color 85ms, color 85ms;
+    // transition: background-color 85ms, color 85ms;
     z-index: 5;
     font-size: rem(30px);
     @include flex();
@@ -29,7 +30,7 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background-color: rgba(0, 0, 0, 0.83);
+  background-color: rgba(0, 0, 0, 0.88);
   overflow-y: scroll;
   overflow-x: hidden;
   > * {
@@ -55,35 +56,48 @@
     width: 8px;
   }
   .title {
-    margin-top: rem(60px);
+    margin-top: rem(20px);
     @include flex;
     gap: rem(20px);
     h2 {
       font-size: rem(45px);
+      @media (max-width: 800px) {
+        font-size: rem(35px);
+        margin-top: rem(20px);
+        text-align: center;
+      }
     }
     span {
       margin-top: 8px;
       color: gold;
       font-size: 1.6em;
+      @media (max-width: 800px) {
+        font-size: 1em;
+        margin-top: 25px;
+      }
+      @media (max-width: 450px) {
+        display: none;
+      }
     }
   }
   .cards-container {
     @include flex;
     margin-top: rem(20px);
     gap: rem(18px);
-    margin-inline: 1rem;
     width: 100%;
+    flex-wrap: wrap;
     .dash-card {
       @include flex;
       gap: rem(30px);
       border: 2px solid $clr4;
       border-radius: 10px;
-      padding: rem(20px) rem(40px);
-      width: 30%;
-      height: 200px;
-      background-color: #091e42c5;
+      padding: rem(10px) rem(20px);
+      height: 250px;
+      width: 380px;
+      background-color: rgba(0, 0, 0, 0.6);
       .left,
       .right {
+        flex-basis: 50%;
         h2,
         span,
         h4 {
@@ -102,20 +116,60 @@
         h4 {
           font-size: 1.5rem;
         }
+        @media(max-width: 800px) {
+          h2 {
+            font-size: 4.5rem;
+          }
+          h4 {
+            font-size: 1.2em;
+          }
+        }
       }
       .right {
+        &.tasks {
+          .calc {
+            display: flex;
+            text-align: center;
+          }
+          .mini-header {
+            @include flex(row, space-around);
+            &.todos {
+             width: 164px;
+            }
+            width: max-content;
+            border-bottom: 2px solid white;
+            margin-bottom: rem(5px);
+            h2 {
+              
+              font-size: 1.35em;
+              span {
+                font-size: 1.2em;
+                margin-right: 4px;
+                color: #ff9f1a;
+              }
+              i {
+                font-size: 0.8em;
+                color: #61bd4f;
+                margin-left: 10px;
+                // float: right;
+              }
+            }
+          }
+        }
       }
     }
   }
 
   .charts-container {
     @include flex(row, space-evenly, center);
-    width: 70vw;
-    margin-top: 1.25rem;
+    width: 100%;
+    gap: rem(8px);
+    margin-top: 2.25rem;
     margin-bottom: 3.75rem;
+    flex-wrap: wrap;
     .chart {
-      width: 40%;
-      height: auto;
+      // width: 40%;
+      // height: auto;
     }
   }
 }
@@ -124,7 +178,7 @@
   .board-members {
     @include flex;
     flex-wrap: wrap;
-    width: 160px;
+    // width: 160px;
     gap: rem(5px);
     .avatar-container {
       border: 3px solid $clr4;
@@ -139,6 +193,17 @@
       span {
         font-size: 1.2em;
       }
+    }
+    @media (max-width: 800px) {
+      .avatar-container {
+        width: 45px;
+        height: 45px;
+        border: 2px solid $clr4;
+        span {
+          font-size: 1em;
+        }
+      }
+
     }
   }
 }

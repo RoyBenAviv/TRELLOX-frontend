@@ -24,7 +24,7 @@
               <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
             </draggable>
           </container>
-          <button class="invite" @click="openInviteModal($event)"><span>Invite</span></button>
+          <button class="invite" @click="openInviteModal()"><span>Invite</span></button>
           <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
         </div>
         <div class="right-nav">
@@ -295,16 +295,8 @@ export default {
       const currRoute = this.$router.currentRoute._value.fullPath
       this.$router.push(`${currRoute}/dashboard`)
     },
-    openInviteModal(ev) {
+    openInviteModal() {
       this.openInvite = true
-      this.calcPosition(ev.target.getBoundingClientRect())
-    },
-    calcPosition(rect) {
-      var { left, top } = rect
-      const winWidth = window.innerWidth
-      const winHeight = window.innerHeight
-      if (top + 320 > winHeight) top = winHeight - 320
-      // this.posTop = top
     },
   },
   computed: {
