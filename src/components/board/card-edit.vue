@@ -264,6 +264,7 @@ export default {
     return {
       isTextArea: false,
       card: null,
+      lastCard: null,
       boardId: null,
       cardId: null,
       groupId: null,

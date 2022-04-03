@@ -112,12 +112,6 @@ export default {
       })
       return cardsCount
     },
-    // doneTodos() {
-    //   return `${this.todosMap.doneTodos} of total ${this.todosMap.todosCount} todos marked as done`
-    // },
-    // doneChecklists() {
-    //   return `${this.todosMap.doneChecklists} of total ${this.todosMap.checklistsCount} marked as done`
-    // }
     
   },
   components: {
