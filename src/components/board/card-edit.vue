@@ -446,26 +446,6 @@ export default {
             src: url,
             type: 'video/webm',
           },
-          {
-            src: url,
-            type: 'video/MOV',
-          },
-          {
-            src: url,
-            type: 'video/WMV',
-          },
-          {
-            src: url,
-            type: 'video/AVI',
-          },
-          {
-            src: url,
-            type: 'video/AVCHD',
-          },
-          {
-            src: url,
-            type: 'video/MKV',
-          },
         ],
       }
     },
