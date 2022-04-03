@@ -184,10 +184,13 @@ export default {
     },
     calcPosition(rect) {
       var { left, top } = rect
-      const winWidth = window.innerWidth
+      const winWidth = screen.width
       const winHeight = window.innerHeight
       if (top + 320 > winHeight) top = winHeight - 320
+      left -= 217
+      if (left + 420 > winWidth) left = winWidth - 420
       this.posTop = top
+      this.posLeft = left
     },
     closeModal() {
       this.cmpName = null
@@ -318,7 +321,7 @@ export default {
     computedStyle() {
       var style = (this.card.style.fullCover && this.card.style.type === 'url') || this.computedQuickEdit ? 'overflow-y: unset' : ''
       style += ';'
-      style += this.checkQuickEdit ? `top: ${this.posTop}px` : ''
+      style += this.checkQuickEdit ? `top: ${this.posTop}px; left: ${this.posLeft}px;` : ''
       return style
     },
   },
