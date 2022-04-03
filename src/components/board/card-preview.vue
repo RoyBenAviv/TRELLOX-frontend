@@ -187,7 +187,7 @@ export default {
     },
     async removeCard() {
       await this.addActivity(`removed card ${this.card.title}`)
-      await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.cardId })
+      await this.$store.dispatch('removeCard', { groupId: this.groupId, cardId: this.card.id })
       this.$emit('closeQuickEdit')
     },
     async completeDate() {

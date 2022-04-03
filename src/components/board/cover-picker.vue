@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <button v-if="style.cover" class="custom-btn">Remove cover</button>
+    <button v-if="style.cover" class="custom-btn" @click="removeCover">Remove cover</button>
     <section v-if="style.type === 'url' && style.fullCover && style.cover" class="text-color-container">
       <h4>Text color</h4>
       <div class="preview-container">
@@ -161,6 +161,11 @@ export default {
     },
     setDark(value) {
       this.style.isDark = value
+      this.save()
+    },
+    removeCover() {
+      this.style.cover = ''
+      this.style.type = ''
       this.save()
     }
   },
