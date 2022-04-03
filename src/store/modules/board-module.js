@@ -96,7 +96,8 @@ export default {
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
     },
-    addActivity(state, { activity }) {
+    addActivity(state, { activity, clearAct }) {
+      if(clearAct) state.currBoard.activities.pop()
       state.currBoard.activities.unshift(activity)
     },
     memberDrag(state, { isDrag }) {
@@ -220,6 +221,7 @@ export default {
       }
     },
     async addActivity({ commit, getters, dispatch }, { txt, card }) {
+      const clearAct = (getters.currBoard.activities.length > 100)
       const activity = {
         id: utilService.makeId(),
         txt: txt,
@@ -234,7 +236,7 @@ export default {
           title: card.title,
         },
       }
-      commit({ type: 'addActivity', activity })
+      commit({ type: 'addActivity', activity, clearAct })
       await dispatch({ type: 'saveBoard', board: getters.currBoard })
     },
   },
