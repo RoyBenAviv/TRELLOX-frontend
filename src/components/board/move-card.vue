@@ -35,13 +35,14 @@
             </select>
           </div>
         </label>
-        <button>{{isCopyCard ? 'Copy' : 'Move'}}</button>
+        <button @click="moveCard">{{isCopyCard ? 'Copy' : 'Move'}}</button>
       </form>
     </div>
   </custom-modal>
 </template>
 
 <script>
+import { utilService } from '../../services/util.service'
 import customModal from './custom-modal.vue'
 export default {
   props: {
@@ -62,14 +63,19 @@ export default {
       this.$emit('closeModal')
     },
     async moveCard() {
+            console.log('got here');
       this.currBoard = JSON.parse(JSON.stringify(this.$store.getters.currBoard))
       const board = JSON.parse(JSON.stringify(this.chosenBoard))
       var card = JSON.parse(JSON.stringify(this.card))
-      if (this.isCopyCard) card.title = this.newTitle
+      if (this.isCopyCard){
+        card.title = this.newTitle
+        card.id = utilService.makeId()
+      } 
       board.groups[this.groupPos].cards.splice(this.cardPos, 0, card)
       await this.$store.dispatch({type: 'saveBoard', board})
       await this.$store.dispatch({type: 'setCurrBoard', boardId: this.currBoard._id})
       if (!this.isCopyCard) this.$emit('removeCard')
+      console.log('got here');
       this.closeModal()
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div @click="openCardEdit" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
+    <div @click.prevent.stop="openCardEdit" @mousedown="stopDrag($event)" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
       <Container v-if="card.stickers?.length || (this.$store.getters.isStickerDrag && isDragOver)" orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers?.length ? 'sticker-container' : 'sticker-container-closed'">
         <div class="sticker" v-for="(sticker, idx) in card.stickers" :key="sticker" @click.stop="removeSticker(idx)">
           <img :src="sticker" alt="" />
@@ -233,6 +233,9 @@ export default {
       card.stickers.splice(idx, 1)
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
+    stopDrag(ev) {
+      if(this.checkQuickEdit) ev.stopPropagation()
+    }
   },
   computed: {
     labels() {

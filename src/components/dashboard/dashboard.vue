@@ -3,13 +3,14 @@
     <span @click="closeDashboard" class="close-modal-button" :class="coverButtonClass"></span>
     <div class="title">
       <h2>{{ board.title }}</h2>
+      
       <span v-if="board.isStarred"><i class="fa-solid fa-star"></i></span>
     </div>
     <p>Created By: {{ board.createdBy.fullname }}</p>
     <div class="cards-container">
       <div class="dash-card members">
         <div class="left">
-          <h2>{{ board.members.length }}</h2>
+          <h2><vue3-autocounter ref='counter' :startAmount='0' :endAmount='board.members.length' :duration='1'  :autoinit='true'/></h2>
           <h4>Member<span v-if="board.members.length > 1">s</span></h4>
         </div>
         <div class="right board-members">
@@ -21,15 +22,20 @@
       </div>
       <div class="dash-card">
         <div class="left">
-          <h2>{{ cardsDetails }}</h2>
-          <h4>Cards</h4>
+          <h2><vue3-autocounter ref='counter' :startAmount='0' :endAmount='cardsDetails' :duration='1'  :autoinit='true'/></h2>
+          <h4>Tasks</h4>
         </div>
-        <div>
-          <h2>{{this.todosMap.todosCount}} Todos</h2>
-          <span>{{this.todosMap.doneTodos}} of them marked as Done</span>
+        <div class="right tasks">
+          <div class="mini-header todos">
+            <h2><span><vue3-autocounter ref='counter' :startAmount='0' :endAmount='this.todosMap.todosCount' :duration='1'  :autoinit='true'/></span>
+             Todos <i class="fa-solid fa-check-double"></i></h2>
+             </div>
+          <span class="calc">{{this.todosMap.doneTodos}} of them marked as Done</span>
           <br>
-          <h2>{{this.todosMap.checklistsCount}} Checklists</h2>
-          <span>{{this.todosMap.doneChecklists}} of them marked as Done</span>
+          <div class="mini-header"><h2>
+            <span><vue3-autocounter ref='counter' :startAmount='0' :endAmount='this.todosMap.checklistsCount' :duration='1'  :autoinit='true'/></span>
+             Checklists <i class="fa-solid fa-list-check"></i></h2></div>
+          <span class="calc">{{this.todosMap.doneChecklists}} of them marked as Done</span>
         </div>
       </div>
       <div class="dash-card"></div>
@@ -49,6 +55,7 @@
 </template>
 
 <script>
+import Vue3autocounter from 'vue3-autocounter';
 import DoughnutChart from './doughnut-chart.vue'
 import LineChart from './line-chart.vue'
 import BarChart from './bar-chart.vue'
@@ -116,7 +123,8 @@ export default {
   components: {
     DoughnutChart,
     LineChart,
-    BarChart
+    BarChart,
+    'vue3-autocounter': Vue3autocounter
   },
 }
 </script>
