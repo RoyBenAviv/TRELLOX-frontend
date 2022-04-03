@@ -24,6 +24,13 @@
           <h2>{{ cardsDetails }}</h2>
           <h4>Cards</h4>
         </div>
+        <div>
+          <h2>{{this.todosMap.todosCount}} Todos</h2>
+          <span>{{this.todosMap.doneTodos}} of them marked as Done</span>
+          <br>
+          <h2>{{this.todosMap.checklistsCount}} Checklists</h2>
+          <span>{{this.todosMap.doneChecklists}} of them marked as Done</span>
+        </div>
       </div>
       <div class="dash-card"></div>
     </div>
@@ -49,16 +56,43 @@ export default {
   name: '',
   data() {
     return {
-        boardId: null
+        boardId: null,
+        todosMap: {}
     }
   },
   created() {
     this.boardId = this.$route.params.boardId
+    this.countTodos()
   },
   methods: {
     closeDashboard() {
       this.$router.push(`/board/${this.boardId}`)
     },
+    countTodos() {
+      var todosMap = {
+        todosCount: 0,
+        doneTodos: 0,
+        checklistsCount: 0,
+        doneChecklists: 0
+      }
+      this.board.groups.forEach(group => {
+        group.cards.forEach(card => {
+          card.checklists.forEach(checklist => {
+            const doneTodos = checklist.todos.reduce((acc, todo) => {
+              if (todo.isDone) {
+                todosMap.doneTodos++
+                acc++
+              }
+              todosMap.todosCount++
+              return acc
+            }, 0)
+            todosMap.doneChecklists += (doneTodos === checklist.todos.length) ? 1 : 0
+            todosMap.checklistsCount++
+          })
+        })
+      })
+      this.todosMap = todosMap
+    }
   },
   computed: {
     board() {
@@ -71,6 +105,13 @@ export default {
       })
       return cardsCount
     },
+    // doneTodos() {
+    //   return `${this.todosMap.doneTodos} of total ${this.todosMap.todosCount} todos marked as done`
+    // },
+    // doneChecklists() {
+    //   return `${this.todosMap.doneChecklists} of total ${this.todosMap.checklistsCount} marked as done`
+    // }
+    
   },
   components: {
     DoughnutChart,

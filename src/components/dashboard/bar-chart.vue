@@ -20,6 +20,7 @@ export default defineComponent({
         labels: [],
         datasets: [
           {
+            label: 'Tasks by lists',
             data: [],
             backgroundColor: ['#61bd4f', '#f2d600', '#ff9f1a', '#eb5a46', '#c377e0', '#0079bf', '#00c2e0', '#51e898', '#ff78cb', '#344563', '#b3bac5'],
             fontColor: ['white']
@@ -30,16 +31,13 @@ export default defineComponent({
         plugins: {
             title: {
                 display: true,
-                text: 'Activity per member',
+                text: 'Tasks by lists',
                 font: {
-                    size: 32,
+                    size: 28,
                     weigth: 'bold',
                     family: 'Roboto'
                 }
             },
-        },
-        legend: {
-            label: 'Activity per member'
         },
         elements: {
             line: {
@@ -66,14 +64,14 @@ export default defineComponent({
   methods: {
     loadChart() {
       const board = JSON.parse(JSON.stringify(this.$store.getters.currBoard))
-      const boardData = JSON.parse(JSON.stringify(this.boardData))
-      var activityMap = {}
-      board.activities.forEach(activity => {
-          activityMap[activity.byMember.fullname] ? activityMap[activity.byMember.fullname]++ : activityMap[activity.byMember.fullname] = 1
+      var groupsMap = {}
+      board.groups.forEach(group => {
+        groupsMap[group.title] = group.cards.length
       })
-      for (const member in activityMap) {
-          this.boardData.labels.push(member)
-          this.boardData.datasets[0].data.push(activityMap[member])
+      console.log(groupsMap);
+      for (const groupName in groupsMap) {
+        this.boardData.labels.push(groupName)
+        this.boardData.datasets[0].data.push(groupsMap[groupName])
       }
     },
   },
