@@ -34,6 +34,9 @@
       <div class="chart">
         <LineChart></LineChart>
       </div>
+      <div class="chart">
+        <BarChart></BarChart>
+      </div>
     </div>
   </section>
 </template>
@@ -41,6 +44,7 @@
 <script>
 import DoughnutChart from './doughnut-chart.vue'
 import LineChart from './line-chart.vue'
+import BarChart from './bar-chart.vue'
 export default {
   name: '',
   data() {
@@ -70,7 +74,8 @@ export default {
   },
   components: {
     DoughnutChart,
-    LineChart
+    LineChart,
+    BarChart
   },
 }
 </script>
