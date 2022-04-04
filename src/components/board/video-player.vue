@@ -27,7 +27,7 @@ export default {
       console.log('onPlayerReady', this)
     })
   },
-  beforeDestroy() {
+  beforeDestroy() {1
     if (this.player) {
       this.player.dispose()
     }
