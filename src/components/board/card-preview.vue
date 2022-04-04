@@ -30,6 +30,7 @@
           <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
         </div>
         <img class="card-image" v-if="card.attachments.length && !card.style.cover && card.attachments[0].format !== 'mp4'" :src="card.attachments[0].url" />
+        <video-player v-if="card.attachments[0].format == 'mp4'" :options="videoOptions(card.attachments[0].url)" />
         <div :style="(card.style.type === 'url' && !card.style.fullCover) || (card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container">
           <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
             <span v-if="labelTitleShown">{{ label.title }}</span>
@@ -90,6 +91,7 @@ import datePicker from './date-picker.vue'
 import confirmDelete from './confirm-delete.vue'
 import moveCard from './move-card.vue'
 import { Container, Draggable } from 'vue3-smooth-dnd'
+import videoPlayer from './video-player.vue'
 
 export default {
   name: 'card-preview',
@@ -109,6 +111,7 @@ export default {
     moveCard,
     Container,
     Draggable,
+    videoPlayer,
   },
   data() {
     return {
@@ -122,7 +125,7 @@ export default {
       posTop: null,
       posLeft: null,
       isDragOver: false,
-      lastCard: null
+      lastCard: null,
     }
   },
   methods: {
@@ -169,8 +172,8 @@ export default {
         await this.addActivity(`updated this card title`)
         this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
         this.$emit('closeQuickEdit')
-      } catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.card = this.lastCard
         throw err
       }
@@ -206,8 +209,8 @@ export default {
         this.card = card
         if (activity) await this.addActivity(activity)
         this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
-      }catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.card = this.lastCard
         throw err
       }
@@ -226,8 +229,8 @@ export default {
         if (card.dueDate?.isCompleted) await this.addActivity('marked the due date complete')
         else await this.addActivity('marked the due date incomplete')
         this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
-      }catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.card = this.lastCard
         throw err
       }
@@ -250,8 +253,8 @@ export default {
           await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
         }
         this.$store.commit({ type: 'memberDrag', isDrag: false })
-      } catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.card = this.lastCard
         throw err
       }
@@ -271,8 +274,8 @@ export default {
           this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
         }
         this.$store.commit({ type: 'stickerDrag', isDrag: false })
-      }catch(err) {
-        console.log('err',err);
+      } catch (err) {
+        console.log('err', err)
         this.card = this.lastCard
         throw err
       }
@@ -284,8 +287,8 @@ export default {
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
     stopDrag(ev) {
-      if(this.checkQuickEdit) ev.stopPropagation()
-    }
+      if (this.checkQuickEdit) ev.stopPropagation()
+    },
   },
   computed: {
     labels() {
@@ -323,6 +326,22 @@ export default {
       style += ';'
       style += this.checkQuickEdit ? `top: ${this.posTop}px; left: ${this.posLeft}px;` : ''
       return style
+    },
+    videoOptions(url) {
+      return {
+        autoplay: false,
+        controls: true,
+        sources: [
+          {
+            src: url,
+            type: 'video/mp4',
+          },
+          {
+            src: url,
+            type: 'video/webm',
+          },
+        ],
+      }
     },
   },
   watch: {
