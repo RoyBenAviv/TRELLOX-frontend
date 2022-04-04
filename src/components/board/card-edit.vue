@@ -376,9 +376,6 @@ export default {
       this.updateCard()
       this.isTextArea = false
     },
-    getMemberById(memberId) {
-      console.log('memberId', memberId)
-    },
     async addTodo(checklistId, checklist) {
       var newTodo = JSON.parse(JSON.stringify(this.newTodo))
       newTodo.title = JSON.parse(JSON.stringify(checklist.newTodo))

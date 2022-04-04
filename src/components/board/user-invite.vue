@@ -55,7 +55,6 @@ export default {
       if(memberCheck) return
       board.members.push(user)
       this.$store.dispatch({type: 'saveBoard', board})
-      console.log('user',user);
     }
   },
   computed: {

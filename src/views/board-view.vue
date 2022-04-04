@@ -299,7 +299,6 @@ export default {
     },
   },
   unmounted() {
-    console.log('unmounted')
     socketService.emit('setMemberLeave', this.$store.getters.loggedinUser?._id || '')
   },
   watch: {
