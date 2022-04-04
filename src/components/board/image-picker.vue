@@ -52,7 +52,6 @@ export default {
     async searchImages(searchVal, firstSearch = false) {
       if (!firstSearch) this.searchVal = searchVal
       const images = await imgService.getBgImages(searchVal)
-      console.log('images.photos.results', images.photos.results)
       this.images = images.photos.results
     },
   },

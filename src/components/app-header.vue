@@ -92,7 +92,6 @@ export default {
     },
     async toggleStar(board) {
       // const board = JSON.parse(JSON.stringify(this.board))
-      console.log('toggle star')
       board.isStarred = !board.isStarred
       await this.$store.dispatch({ type: 'saveBoard', board })
     },

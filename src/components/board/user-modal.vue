@@ -58,8 +58,6 @@ export default {
     },
     memberActivity() {
       return this.$store.getters.currBoard?.activities.filter(activity => {
-        console.log('bymember',activity.byMember._id)
-        console.log('user',this.$store.getters.loggedinUser._id)
         activity.byMember._id === this.$store.getters.loggedinUser._id
       })
     }
