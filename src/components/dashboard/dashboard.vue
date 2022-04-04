@@ -43,6 +43,7 @@
         </div>
       </div>
       <div class="dash-card">
+        <span></span>
         <div class="center">
                     <div class="ring-container">
             <div class="ringring"></div>
@@ -51,7 +52,6 @@
           <h2><vue3-autocounter ref="counter" :startAmount="0" :endAmount="onlineUsers.length" :duration="1" :autoinit="true" /></h2>
           <h4 v-if="onlineUsers.length > 1">Members online</h4>
           <h4 v-else>Member online</h4>
-
 
         </div>
       </div>
