@@ -1,7 +1,13 @@
 <template>
   <section>
     <div @click.prevent.stop="openCardEdit" @mousedown="stopDrag($event)" class="card-preview" :style="computedStyle" :class="computedQuickEdit" @mouseover="isDragOver = true" @mouseleave="isDragOver = false">
-      <Container v-if="card.stickers?.length || (this.$store.getters.isStickerDrag && isDragOver)" orientation="horizontal" group-name="5" @drop="onStickerDrop($event)" :class="card.stickers?.length ? 'sticker-container' : 'sticker-container-closed'">
+      <Container
+        v-if="card.stickers?.length || (this.$store.getters.isStickerDrag && isDragOver)"
+        orientation="horizontal"
+        group-name="5"
+        @drop="onStickerDrop($event)"
+        :class="card.stickers?.length ? 'sticker-container' : 'sticker-container-closed'"
+      >
         <div class="sticker" v-for="(sticker, idx) in card.stickers" :key="sticker" @click.stop="removeSticker(idx)">
           <img :src="sticker" alt="" />
         </div>
@@ -88,7 +94,7 @@ import { Container, Draggable } from 'vue3-smooth-dnd'
 export default {
   name: 'card-preview',
   props: {
-    card: Object,
+    cardToCopy: Object,
     isQuickEdit: Object,
     groupId: String,
   },
@@ -107,6 +113,7 @@ export default {
   data() {
     return {
       // openActionsMenu: false,
+      card: JSON.parse(JSON.stringify(this.cardToCopy)),
       activeColor: 'red',
       isChecklistDone: false,
       newTitle: '',
@@ -115,6 +122,7 @@ export default {
       posTop: null,
       posLeft: null,
       isDragOver: false,
+      lastCard: null
     }
   },
   methods: {
@@ -152,12 +160,20 @@ export default {
       this.$emit('openQuickEdit', this.card.id)
     },
     async updateTitle() {
-      if (!this.newTitle) return
-      const card = JSON.parse(JSON.stringify(this.card))
-      card.title = this.newTitle
-      await this.addActivity(`updated this card title`)
-      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
-      this.$emit('closeQuickEdit')
+      try {
+        if (!this.newTitle) return
+        const card = JSON.parse(JSON.stringify(this.card))
+        this.lastCard = JSON.parse(JSON.stringify(this.card))
+        card.title = this.newTitle
+        this.card = card
+        await this.addActivity(`updated this card title`)
+        this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+        this.$emit('closeQuickEdit')
+      } catch(err) {
+        console.log('err',err);
+        this.card = this.lastCard
+        throw err
+      }
     },
     openModal(cmpName) {
       if (cmpName === 'copy-card') {
@@ -168,22 +184,33 @@ export default {
     },
     calcPosition(rect) {
       var { left, top } = rect
-      const winWidth = window.innerWidth
+      const winWidth = screen.width
       const winHeight = window.innerHeight
       if (top + 320 > winHeight) top = winHeight - 320
+      left -= 217
+      if (left + 420 > winWidth) left = winWidth - 420
       this.posTop = top
+      this.posLeft = left
     },
     closeModal() {
       this.cmpName = null
     },
     async updateKey(key, value, activity) {
-      const card = JSON.parse(JSON.stringify(this.card))
-      if (key === 'checklists') {
-        value.id = utilService.makeId()
-        card[key].push(value)
-      } else card[key] = value
-      if (activity) await this.addActivity(activity)
-      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      try {
+        const card = JSON.parse(JSON.stringify(this.card))
+        this.lastCard = JSON.parse(JSON.stringify(this.card))
+        if (key === 'checklists') {
+          value.id = utilService.makeId()
+          card[key].push(value)
+        } else card[key] = value
+        this.card = card
+        if (activity) await this.addActivity(activity)
+        this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      }catch(err) {
+        console.log('err',err);
+        this.card = this.lastCard
+        throw err
+      }
     },
     async removeCard() {
       await this.addActivity(`removed card ${this.card.title}`)
@@ -191,46 +218,69 @@ export default {
       this.$emit('closeQuickEdit')
     },
     async completeDate() {
-      const card = JSON.parse(JSON.stringify(this.card))
-      card.dueDate.isCompleted = !card.dueDate.isCompleted
-      if (card.dueDate.isCompleted) await this.addActivity('marked the due date complete')
-      else await this.addActivity('marked the due date incomplete')
-      this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      try {
+        const card = JSON.parse(JSON.stringify(this.card))
+        this.lastCard = JSON.parse(JSON.stringify(this.card))
+        card.dueDate.isCompleted = !card.dueDate.isCompleted
+        this.card = card
+        if (card.dueDate.isCompleted) await this.addActivity('marked the due date complete')
+        else await this.addActivity('marked the due date incomplete')
+        this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      }catch(err) {
+        console.log('err',err);
+        this.card = this.lastCard
+        throw err
+      }
     },
     async addActivity(txt) {
       await this.$store.dispatch({ type: 'addActivity', txt, card: this.card })
     },
     async onMemberDrop(dropResult) {
-      const card = JSON.parse(JSON.stringify(this.card))
-      if (dropResult.addedIndex !== null && !card.memberIds.includes(dropResult.payload._id)) {
-        card.memberIds.unshift(dropResult.payload._id)
-        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
-      } else if (dropResult.removedIndex !== null) {
-        const idx = card.memberIds.findIndex((mId) => mId === dropResult.payload._id)
-        card.memberIds.splice(idx, 1)
-        await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      try {
+        const card = JSON.parse(JSON.stringify(this.card))
+        this.lastCard = JSON.parse(JSON.stringify(this.card))
+        if (dropResult.addedIndex !== null && !card.memberIds.includes(dropResult.payload._id)) {
+          card.memberIds.unshift(dropResult.payload._id)
+          this.card = card
+          await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+        } else if (dropResult.removedIndex !== null) {
+          const idx = card.memberIds.findIndex((mId) => mId === dropResult.payload._id)
+          card.memberIds.splice(idx, 1)
+          this.card = card
+          await this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+        }
+        this.$store.commit({ type: 'memberDrag', isDrag: false })
+      } catch(err) {
+        console.log('err',err);
+        this.card = this.lastCard
+        throw err
       }
-      this.$store.commit({ type: 'memberDrag', isDrag: false })
     },
     getChildPayload(idx) {
       return this.members[idx]
     },
     onStickerDrop(dropResult) {
-      console.log('dropResult', dropResult)
-      const sticker = dropResult.payload.images.original_still.url
-      const card = JSON.parse(JSON.stringify(this.card))
-      if (dropResult.addedIndex !== null) {
-        console.log('here')
-        console.log(this.card.title)
-        if (!card.stickers) card.stickers = []
-        card.stickers.push(sticker)
-        this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+      try {
+        const sticker = dropResult.payload.images.original_still.url
+        const card = JSON.parse(JSON.stringify(this.card))
+        this.lastCard = JSON.parse(JSON.stringify(this.card))
+        if (dropResult.addedIndex !== null) {
+          if (!card.stickers) card.stickers = []
+          card.stickers.push(sticker)
+          this.card = card
+          this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
+        }
+        this.$store.commit({ type: 'stickerDrag', isDrag: false })
+      }catch(err) {
+        console.log('err',err);
+        this.card = this.lastCard
+        throw err
       }
-      this.$store.commit({ type: 'stickerDrag', isDrag: false })
     },
     removeSticker(idx) {
       const card = JSON.parse(JSON.stringify(this.card))
       card.stickers.splice(idx, 1)
+      this.card = card
       this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
     },
     stopDrag(ev) {
@@ -271,7 +321,7 @@ export default {
     computedStyle() {
       var style = (this.card.style.fullCover && this.card.style.type === 'url') || this.computedQuickEdit ? 'overflow-y: unset' : ''
       style += ';'
-      style += this.checkQuickEdit ? `top: ${this.posTop}px` : ''
+      style += this.checkQuickEdit ? `top: ${this.posTop}px; left: ${this.posLeft}px;` : ''
       return style
     },
   },
