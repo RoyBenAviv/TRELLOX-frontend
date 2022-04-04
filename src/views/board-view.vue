@@ -101,7 +101,7 @@ export default {
     socketService.emit('setMemberJoin', this.$store.getters.loggedinUser?._id || '')
 
     socketService.on('updateMembersCount', (members) => {
-      console.log('other members watcing this borad now: ', members)
+      console.log('user ids watching this board now: ', members);
     })
 
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
