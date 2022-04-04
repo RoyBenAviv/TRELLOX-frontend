@@ -8,10 +8,13 @@
 
     }
    }
-   .save {
-    background-color: $clr7 !important;
-    color: $clr4 !important;
-    }
+   .custom-btn {
+       &.save {
+           background-color: $clr7;
+           color: $clr4 ;
+
+       }
+   }
     .date-options {
         @include flex(row, flex-start);
         gap: rem(6px);

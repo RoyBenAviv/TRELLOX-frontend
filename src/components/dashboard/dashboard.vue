@@ -43,9 +43,9 @@
         </div>
       </div>
       <div class="dash-card">
-        <div class="left online-mem">
+        <div class="center">
           <h2><vue3-autocounter ref="counter" :startAmount="0" :endAmount="onlineUsers.length" :duration="1" :autoinit="true" /></h2>
-          <h4>Member watching this board</h4>
+          <h4>Members online</h4>
         </div>
       </div>
     </div>
