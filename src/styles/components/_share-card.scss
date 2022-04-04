@@ -1,0 +1,40 @@
+.share-card {
+    .members-icon {
+        color: #f2d600;
+        font-size: 16px;
+        height: 20px;
+        line-height: 20px;
+        width: 20px;
+        font-family: trellicons;
+        transform: translateY(2px);
+    }
+    .members-icon::before {
+        content: "\e951";
+    }
+    a {
+        text-decoration: none;
+    }
+    .share-btn-container {
+        @include flex(row, space-evenly, center);
+        .facebook,
+        .whatsapp {
+            @include blue-btn;
+            width: 48%;
+            color: white;
+        }
+
+        .whatsapp {
+            background-color: #61bd4f;
+
+            &:hover {
+                background-color: #61bd4f;
+                filter: saturate(85%) brightness(85%);
+            }
+        }
+
+        i {
+            margin-right: 5px;
+            color: white;
+        }
+    }
+}
