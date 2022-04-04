@@ -38,7 +38,7 @@ export default defineComponent({
                 }
             },
             legend: {
-                position: 'right'
+                position: false
             }
         }
     }

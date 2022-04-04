@@ -78,9 +78,7 @@ export default {
   },
   methods: {
     async upload(value) {
-      console.log('value', value)
       var url = await imgService.uploadVideo(value)
-      console.log('url', url)
       this.$emit('videoUrl', url)
     },
   },

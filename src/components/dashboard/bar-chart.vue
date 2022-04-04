@@ -29,6 +29,9 @@ export default defineComponent({
       },
       options: {
         plugins: {
+          legend: {
+            display: false
+          },
             title: {
                 display: true,
                 text: 'Tasks by lists',
@@ -42,7 +45,7 @@ export default defineComponent({
         elements: {
             line: {
                 backgroundColor: 'black',
-                borderColor: 'white',
+                borderColor: "white",
                 borderWidth: 3
             }
         },

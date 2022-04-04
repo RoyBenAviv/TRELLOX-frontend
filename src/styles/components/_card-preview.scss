@@ -201,6 +201,22 @@
       overflow: hidden;
       width: calc(100% + 8px);
     }
+    .card-video{
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      width: 256px;
+      max-height: 260px;
+      margin-left: -8px;
+      object-fit: cover;
+      object-position: top;
+      overflow: hidden;
+      width: calc(100% + 8px);
+
+      .video-js{
+        width: 256px;
+        max-height: 260px;
+      }
+    }
     .edit-card {
       position: absolute;
       right: 2px;

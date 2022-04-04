@@ -165,9 +165,6 @@
       .center {
         @include flex(column);
         h2 {
-          span {
-            color: #eb5a46;
-          }
           font-size: 6rem;
           line-height: 1;
         }
@@ -175,6 +172,39 @@
           font-size: 1.5rem;
           text-align: center
         }
+        .ring-container {
+          position: relative;
+          top: -15px;
+          right: -15px;
+      }
+      
+      .circle {
+          width: 15px;
+          height: 15px;
+          background-color: #eb5a46;
+          border-radius: 50%;
+          position: absolute;
+          top: 20px;
+          left: 20px;
+      }
+      
+      .ringring {
+          border: 3px solid #eb5a46;
+          border-radius: 30px;
+          height: 25px;
+          width: 25px;
+          position: absolute;
+          left: 15px;
+          top: 15px;
+          animation: pulsate 1.2s ease-out;
+          animation-iteration-count: infinite; 
+          opacity: 0
+      }
+      @keyframes pulsate {
+          0% {transform: scale(0.1, 0.1); opacity: 0.0;}
+          50% {opacity: 1.0;}
+          100% {transform: scale(1.2, 1.2); opacity: 0.0;}
+      }
       }
     }
   }
@@ -186,10 +216,6 @@
     margin-top: 2.25rem;
     margin-bottom: 3.75rem;
     flex-wrap: wrap;
-    .chart {
-      // width: 40%;
-      // height: auto;
-    }
   }
 }
 
@@ -197,7 +223,6 @@
   .board-members {
     @include flex;
     flex-wrap: wrap;
-    // width: 160px;
     gap: rem(5px);
     .avatar-container {
       border: 3px solid $clr4;
