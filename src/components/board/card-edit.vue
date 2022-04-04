@@ -63,12 +63,6 @@
               </div>
               <ul>
                 <li v-for="attachment in card.attachments" :key="attachment">
-                  <!-- <video v-if="attachment.format === 'mkv'" class="attachment" width="320" height="240" controls>
-                    <source src="attachment.url" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video> -->
-                  <!-- <iframe v-if="attachment.format === 'mkv'" class="attachment" :src="attachment.url" title="Your video"></iframe> -->
-                  <!-- <video-player v-if="attachment.format === 'mkv'" /> -->
                   <video-player v-if="attachment.format === 'mp4'" :options="videoOptions(attachment.url)" />
                   <div v-else class="attachment" :style="{ 'background-image': 'url(' + attachment.url + ')' }"></div>
                   <div class="attachment-info">

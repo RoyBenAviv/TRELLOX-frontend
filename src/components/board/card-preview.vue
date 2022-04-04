@@ -29,7 +29,7 @@
           <img class="card-image" v-if="card.style.type === 'url'" :src="card.style.cover" />
           <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
         </div>
-        <img class="card-image" v-if="card.attachments.length && !card.style.cover" :src="card.attachments[0].url" />
+        <img class="card-image" v-if="card.attachments.length && !card.style.cover && card.attachments[0].format !== 'mp4'" :src="card.attachments[0].url" />
         <div :style="(card.style.type === 'url' && !card.style.fullCover) || (card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container">
           <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
             <span v-if="labelTitleShown">{{ label.title }}</span>
