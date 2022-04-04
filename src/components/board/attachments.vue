@@ -52,7 +52,6 @@ export default {
         url: res.url,
         format: 'mp4',
       }
-      console.log('imgAttachment.format',imgAttachment.format)
       this.$emit('updateKey', 'attachments', JSON.parse(JSON.stringify(imgAttachment)))
     },
   },

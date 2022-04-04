@@ -63,7 +63,6 @@ export default {
       this.$emit('closeModal')
     },
     async moveCard() {
-            console.log('got here');
       this.currBoard = JSON.parse(JSON.stringify(this.$store.getters.currBoard))
       const board = JSON.parse(JSON.stringify(this.chosenBoard))
       var card = JSON.parse(JSON.stringify(this.card))
@@ -75,7 +74,6 @@ export default {
       await this.$store.dispatch({type: 'saveBoard', board})
       await this.$store.dispatch({type: 'setCurrBoard', boardId: this.currBoard._id})
       if (!this.isCopyCard) this.$emit('removeCard')
-      console.log('got here');
       this.closeModal()
     },
   },

@@ -73,7 +73,6 @@ export default {
         }
 
         await this.$store.dispatch({ type: 'signup', userCred: JSON.parse(JSON.stringify(this.googleUser)) })
-        console.log('googleUser', JSON.parse(JSON.stringify(this.googleUser)))
         this.$router.push('/workspace')
       } catch (err) {
         console.log(err)

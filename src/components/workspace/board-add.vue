@@ -53,7 +53,6 @@ export default {
       if(!this.newBoard.title) return
       const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
       // await this.$store.dispatch({ type: 'setCurrBoard', boardId: board._id })
-      console.log('board',board)
       this.$router.push(`/board/${board._id}`)
       this.newBoard = localService.getEmptyBoard()
     },

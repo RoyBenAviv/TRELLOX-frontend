@@ -54,7 +54,6 @@ export default {
     calcPosition(rect) {
       var { left, top } = rect
       const winWidth = window.innerWidth
-      console.log('rect', rect)
       if (winWidth - left < 500) {
         this.posLeft = left - 320
       } else this.posLeft = left + 160

@@ -97,7 +97,6 @@ export default {
       this.$store.dispatch({ type: 'removeCard', groupId: this.group.id, cardId })
     },
     onCardDrop(group, dropResult) {
-      console.log('onCardDrop GROUPPREVIEW');
       const newGroup = Object.assign({}, JSON.parse(JSON.stringify(group)))
       newGroup.cards = applyDrag(newGroup.cards, dropResult)
       this.$emit('onCardDrop', { cards: newGroup.cards, groupId: newGroup.id })

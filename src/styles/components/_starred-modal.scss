@@ -1,0 +1,77 @@
+.starred-modal {
+    left: 350px;
+
+    ul {
+        li {
+            @include flex();
+            margin-bottom: 8px;
+            margin-top: 2px;
+            box-sizing: border-box;
+            border-radius: 3px;
+            min-width: 0;
+            float: left;
+            width: 100%;
+            height: 32px;
+            font-weight: 700;
+            padding: 0;
+            position: relative;
+            text-decoration: none;
+            transition-duration: 0.15s;
+            transition-property: color, background, opacity, transform, width, margin;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #ebecf0;
+                .bg {
+                    filter: brightness(104%);
+                }
+                .star {
+                    opacity: 1;
+                }
+            }
+
+            .bg {
+                background-size: cover;
+                border-radius: 3px;
+                height: 32px;
+                width: 47px;
+            }
+
+            div {
+                @include flex(_, flex-start);
+                position: relative;
+                width: 100%;
+                padding: 0 0 0 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 14px;
+                color: #172b4d;
+                font-weight: 500;
+
+                .star {
+                    color: #091e42;
+                    height: 16px;
+                    // position: absolute;
+                    // right: 10px;
+                    // bottom: 14px;
+                    // width: 0;
+                    // z-index: 10;
+                    // opacity: 0;
+                    font-family: trellicons;
+                    transition-duration: 0.15s;
+                    transition-property: color, background, opacity, transform, width, margin;
+                    cursor: pointer;
+                    &::before {
+                        content: "\e966";
+                    }
+                }
+            }
+        }
+    }
+    .starred-container {
+        padding: 0 rem(10px);
+        p {
+            text-align: center;
+        }
+    }
+}

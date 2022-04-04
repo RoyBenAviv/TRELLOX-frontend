@@ -141,7 +141,6 @@ export default {
       this.groupTitle = ''
     },
     async onGroupDrop(dropResult) {
-      console.log('ON GROUP DROP')
       try {
         const board = Object.assign({}, this.board)
         board.groups = applyDrag(board.groups, dropResult)
@@ -157,7 +156,6 @@ export default {
       return this.$store.getters.currBoard.members[idx]
     },
     async onCardDrop({ cards, groupId }) {
-      console.log('ON CARD DROP')
       try {
         const board = JSON.parse(JSON.stringify(this.board))
         const idx = this.board.groups.findIndex((group) => group.id === groupId)

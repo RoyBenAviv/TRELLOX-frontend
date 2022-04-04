@@ -68,7 +68,6 @@ export default defineComponent({
       board.groups.forEach(group => {
         groupsMap[group.title] = group.cards.length
       })
-      console.log(groupsMap);
       for (const groupName in groupsMap) {
         this.boardData.labels.push(groupName)
         this.boardData.datasets[0].data.push(groupsMap[groupName])

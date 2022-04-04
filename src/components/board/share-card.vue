@@ -16,9 +16,6 @@ export default {
     return {
     }
   },
-  created() {
-      console.log('this.$route.params',this.$route.params);
-  },
   methods: {
     closeModal() {
       this.$emit('closeModal')
