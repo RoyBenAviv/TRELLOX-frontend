@@ -36,6 +36,7 @@ export default {
     ],
     isMemberDrag: false,
     isStickerDrag: false,
+    onlineUsersOnBoard: [],
   },
   getters: {
     boards(state) {
@@ -67,6 +68,9 @@ export default {
     },
     isStickerDrag(state) {
       return state.isStickerDrag
+    },
+    onlineUsersOnBoard(state) {
+      return state.onlineUsersOnBoard
     },
   },
   mutations: {
@@ -105,6 +109,9 @@ export default {
     },
     stickerDrag(state, { isDrag }) {
       state.isStickerDrag = isDrag
+    },
+    setOnlineUsersOnBoard(state, { users }) {
+      state.onlineUsersOnBoard = users
     },
   },
   actions: {

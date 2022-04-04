@@ -96,8 +96,13 @@
       width: 380px;
       background-color: rgba(0, 0, 0, 0.6);
       .left,
+      .center,
       .right {
         flex-basis: 50%;
+
+        &.online-mem{
+          flex-basis: 100%;
+        }
         h2,
         span,
         h4 {
@@ -155,6 +160,20 @@
               }
             }
           }
+        }
+      }
+      .center {
+        @include flex(column);
+        h2 {
+          span {
+            color: #eb5a46;
+          }
+          font-size: 6rem;
+          line-height: 1;
+        }
+        h4 {
+          font-size: 1.5rem;
+          text-align: center
         }
       }
     }

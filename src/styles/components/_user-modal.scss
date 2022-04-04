@@ -2,6 +2,10 @@
 .user-modal {
 left: 81%;
 top: 45px;
+p {
+    margin: 0;
+    padding: rem(10px);
+}
 .member-container {
     margin-left: rem(12px);
     @include flex(row, flex-start);

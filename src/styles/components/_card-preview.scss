@@ -316,9 +316,12 @@
     .date-preview {
       &.complete {
         > * {
-          color: $clr4 !important;
+          color: $clr4;
         }
-        background-color: #61bd4f !important;
+        background-color: #61bd4f;
+        &:hover {
+          background-color: #61bd4f;
+        }
       }
       padding: 2px;
       border-radius: 3px;
