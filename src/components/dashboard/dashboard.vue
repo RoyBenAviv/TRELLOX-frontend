@@ -38,7 +38,12 @@
           <span class="calc">{{this.todosMap.doneChecklists}} of them marked as Done</span>
         </div>
       </div>
-      <div class="dash-card"></div>
+      <div class="dash-card">
+        <div class="center">
+          <h2><span><vue3-autocounter ref='counter' :startAmount='0' :endAmount='3' :duration='1'  :autoinit='true'/></span></h2>
+          <h4>Members online</h4>
+        </div>
+      </div>
     </div>
     <div class="charts-container">
       <div class="chart">
