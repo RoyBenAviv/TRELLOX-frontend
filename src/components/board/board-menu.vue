@@ -106,7 +106,7 @@ export default {
   },
   created() {
     this.searchImages('nature')
-    this.searchStickers('fun')
+    this.searchStickers('Lets go')
   },
   methods: {
     async searchImages(searchVal) {

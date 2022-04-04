@@ -4,7 +4,7 @@
     padding-block-start: rem(150px);
     >* {
         @include flex;
-        gap: rem(5px)
+        gap: rem(25px)
     }
     h1 {
       font-size: rem(48px);
@@ -22,7 +22,7 @@
       text-align: center;
     }
     .middle {
-        margin-top: 20vh;
+        margin-top: 40vh;
         @media(max-width: 500px) {
           margin-top: 100px;
         }

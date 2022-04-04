@@ -322,5 +322,13 @@ export default {
       return style
     },
   },
+  watch: {
+    cardToCopy: {
+      handler() {
+        this.card = this.cardToCopy
+      },
+      deep: true,
+    },
+  },
 }
 </script>

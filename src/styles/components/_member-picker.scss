@@ -17,7 +17,11 @@
                     width: 100%;
                     overflow: hidden;
                     position: relative;
-
+                    .member-info {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                     span {
                         padding-left: 5px;
                     }
