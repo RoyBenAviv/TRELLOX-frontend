@@ -100,8 +100,9 @@ export default {
     socketService.emit('board room', boardId)
     socketService.emit('setMemberJoin', this.$store.getters.loggedinUser?._id || '')
 
-    socketService.on('updateMembersCount', (members) => {
-      console.log('user ids watching this board now: ', members);
+    socketService.on('updateMembersCount', (users) => {
+      console.log('user ids watching this board now: ', users)
+      this.$store.commit({ type: 'setOnlineUsersOnBoard', users })
     })
 
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
@@ -298,6 +299,7 @@ export default {
     },
   },
   unmounted() {
+    console.log('unmounted')
     socketService.emit('setMemberLeave', this.$store.getters.loggedinUser?._id || '')
   },
   watch: {

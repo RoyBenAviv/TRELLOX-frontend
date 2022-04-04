@@ -98,6 +98,10 @@
       .left,
       .right {
         flex-basis: 50%;
+
+        &.online-mem{
+          flex-basis: 100%;
+        }
         h2,
         span,
         h4 {
