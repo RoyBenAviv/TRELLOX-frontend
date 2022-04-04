@@ -11,8 +11,11 @@
    .custom-btn {
        &.save {
            background-color: $clr7;
-           color: $clr4 ;
-
+           color: $clr4;
+        &:hover {
+            background-color: $clr7;
+            color: $clr4;
+        }
        }
    }
     .date-options {
