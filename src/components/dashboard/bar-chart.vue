@@ -29,6 +29,9 @@ export default defineComponent({
       },
       options: {
         plugins: {
+          legend: {
+            display: false
+          },
             title: {
                 display: true,
                 text: 'Tasks by lists',
