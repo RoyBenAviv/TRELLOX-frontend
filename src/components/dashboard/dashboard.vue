@@ -43,6 +43,7 @@
         </div>
       </div>
       <div class="dash-card">
+        <span></span>
         <div class="center">
                     <div class="ring-container">
             <div class="ringring"></div>
@@ -52,7 +53,6 @@
           <h4 v-if="onlineUsers.length > 1">Members online</h4>
           <h4 v-else>Member online</h4>
 
-        <!-- <div></div> -->
         </div>
       </div>
     </div>
