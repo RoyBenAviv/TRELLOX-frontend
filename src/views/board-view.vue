@@ -1,68 +1,59 @@
 <template>
-<section v-if="board" class="scroll-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }">
-
-
-  <div class="board-wrapper">
-    <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{ 'background-color': headerClr ? headerClr.hex : board.style.bgHeader }" class="board-header" />
-    <div class="board-view">
-      <nav :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" class="board-nav">
-        <div class="left-nav">
-          <h2 v-if="!editTitle" @click="editTitle = true">{{ board.title }}</h2>
-          <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
-          <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
-          <span class="seperator">|</span>
-          <container v-if="members.length" style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
-            <draggable
-              @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })"
-              style="height: 32px"
-              class="avatar-container"
-              v-for="member in members"
-              :key="member._id"
-              :title="member.fullname"
-            >
-              <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
-              <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
-            </draggable>
-          </container>
-          <button class="invite" @click="openInviteModal()"><span>Invite</span></button>
-          <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
-        </div>
-        <div class="right-nav">
-          <button @click="openDashboard" class="dashboard-btn"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></button>
-          <button @click="openFilter = !openFilter" class="filter" :class="{ active1: openFilter, active2: this.filteringCount > -1 }">
-            <i class="fa-solid fa-filter"></i>
-            <span>Filter</span>
-            <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
-            <span v-if="this.filteringCount > -1" class="filterRestart" @click.stop="resetFilter"></span>
-          </button>
-          <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
-        </div>
-        <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
-      </nav>
-      <Transition name="menu">
-        <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
-      </Transition>
-      <div class="loading-board" v-if="isLoading">
-        <h1 :style="{color: headerClr?.isDark || !headerClr ? 'white' : '#091e42'}">TRELLOX</h1>
-        <img src="https://res.cloudinary.com/trellox/image/upload/v1648921970/loading_thf5st.gif" />
-      </div>
-      <Container v-else drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
-        <Draggable v-for="group in board.groups" :key="group.id">
-          <group-preview :group="group" @onCardDrop="onCardDrop" />
-        </Draggable>
-        <div  :style="{color: headerClr?.isDark || !headerClr ? 'white' : '#091e42'}" class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
-        <div class="add-group-container" v-else>
-          <input @keyup.enter="addGroup" v-model="groupTitle" v-focus type="text" placeholder="Enter list title..." />
-          <div class="add-group-actions">
-            <button @click="addGroup">Add list</button><span @click="isAddGroup = false"><i class="fa-solid fa-xmark"></i></span>
+  <section v-if="board" class="scroll-wrapper" :style="{ 'background-image': 'url(' + board.style.bgImgUrl + ')', 'background-color': board.style.bgColor }">
+    <div class="board-wrapper">
+      <app-header :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" :style="{ 'background-color': headerClr ? headerClr.hex : board.style.bgHeader }" class="board-header" />
+      <div class="board-view">
+        <nav :class="headerClr?.isDark || !headerClr ? 'white-color' : 'dark-color'" class="board-nav">
+          <div class="left-nav">
+            <h2 v-if="!editTitle" @click="editTitle = true">{{ board.title }}</h2>
+            <input v-else :style="'width:' + board.title.length * 12 + 'px'" class="custom-input, title-input" type="text" v-focus v-model="board.title" @keyup.enter="editBoardTitle" v-click-outside="() => editBoardTitle()" />
+            <button class="star" :class="{ full: board.isStarred }" @click="updateKey('isStarred', 'toggle')"></button>
+            <span class="seperator">|</span>
+            <container v-if="members.length" style="height: 32px" class="members-container" orientation="horizontal" group-name="3" :get-child-payload="getChildPayload">
+              <draggable @mousedown="this.$store.commit({ type: 'memberDrag', isDrag: true })" style="height: 32px" class="avatar-container" v-for="member in members" :key="member._id" :title="member.fullname">
+                <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
+                <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
+              </draggable>
+            </container>
+            <button class="invite" @click="openInviteModal()"><span>Invite</span></button>
+            <user-invite v-if="openInvite" v-click-outside="() => (openInvite = false)" @closeModal="openInvite = false"></user-invite>
           </div>
+          <div class="right-nav">
+            <button @click="openDashboard" class="dashboard-btn"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></button>
+            <button @click="openFilter = !openFilter" class="filter" :class="{ active1: openFilter, active2: this.filteringCount > -1 }">
+              <i class="fa-solid fa-filter"></i>
+              <span>Filter</span>
+              <span v-if="this.filteringCount > -1" class="filterCount">{{ this.filteringCount }}</span>
+              <span v-if="this.filteringCount > -1" class="filterRestart" @click.stop="resetFilter"></span>
+            </button>
+            <button class="menu" @click="openMenu = !openMenu"><i class="fa-solid fa-ellipsis"></i> <span>Show menu</span></button>
+          </div>
+          <boardFilter v-if="openFilter" @updateKey="updateKey" @closeModal="openFilter = false" v-click-outside="() => (openFilter = false)"></boardFilter>
+        </nav>
+        <Transition name="menu">
+          <board-menu @closeMenu="openMenu = false" @setBoardClr="setBoardClr" @setBoardBg="setBoardBg" v-if="openMenu" />
+        </Transition>
+        <div class="loading-board" v-if="isLoading">
+          <h1 :style="{ color: headerClr?.isDark || !headerClr ? 'white' : '#091e42' }">TRELLOX</h1>
+          <img src="https://res.cloudinary.com/trellox/image/upload/v1648921970/loading_thf5st.gif" />
         </div>
-      </Container>
-      <Transition name="dashboard">
-        <router-view></router-view>
-      </Transition>
+        <Container v-else drag-class="on-dragging" orientation="horizontal" class="group-container" @drop="onGroupDrop($event)">
+          <Draggable v-for="group in board.groups" :key="group.id">
+            <group-preview :group="group" @onCardDrop="onCardDrop" />
+          </Draggable>
+          <div :style="{ color: headerClr?.isDark || !headerClr ? 'white' : '#091e42' }" class="open-group-container" @click="isAddGroup = true" v-if="!isAddGroup"><i class="fa-solid fa-plus"></i><span>Add another list</span></div>
+          <div class="add-group-container" v-else>
+            <input @keyup.enter="addGroup" v-model="groupTitle" v-focus type="text" placeholder="Enter list title..." />
+            <div class="add-group-actions">
+              <button @click="addGroup">Add list</button><span @click="isAddGroup = false"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+          </div>
+        </Container>
+        <Transition name="dashboard">
+          <router-view></router-view>
+        </Transition>
+      </div>
     </div>
-  </div>
   </section>
 </template>
 
@@ -106,14 +97,12 @@ export default {
   async created() {
     const { boardId } = this.$route.params
 
-    socketService.emit('board room', boardId);
-    socketService.emit('setMemberSocket', this.$store.getters.loggedinUser?._id || '')
+    socketService.emit('board room', boardId)
+    socketService.emit('setMemberJoin', this.$store.getters.loggedinUser?._id || '')
 
-    socketService.on('addMember', connectedMembers => {
-      // console.log('my user',this.$store.getters.loggedinUser?._id || '')
-      // console.log('front - connectedMembers', connectedMembers)
+    socketService.on('updateMembersCount', (members) => {
+      console.log('other members watcing this borad now: ', members)
     })
-
 
     this.board = await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     this.updateKey('recentlyViewed', Date.now())
@@ -309,6 +298,9 @@ export default {
     isLoading() {
       return this.$store.getters.isLoading
     },
+  },
+  unmounted() {
+    socketService.emit('setMemberLeave', this.$store.getters.loggedinUser?._id || '')
   },
   watch: {
     boardFromStore: {
