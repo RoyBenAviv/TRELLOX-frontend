@@ -109,6 +109,8 @@ export default {
       this.$emit('closeModal')
     },
     async onUploadImg(ev) {
+      console.log('ev',ev);
+      console.log('here');
       const res = await imgService.uploadImg(ev)
       const imgAttachment = {
         name: res.public_id,
