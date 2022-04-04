@@ -30,7 +30,8 @@
           <div v-else class="card-preview-cover-color" :style="`background-color: ${card.style.cover};`"></div>
         </div>
         <img class="card-image" v-if="card.attachments.length && !card.style.cover && card.attachments[0].format !== 'mp4'" :src="card.attachments[0].url" />
-        <video-player v-if="card.attachments.length && !card.style.cover && card.attachments[0].format == 'mp4'" :options="videoOptions(card.attachments[0].url)" />
+        <!-- {{card.attachments}} -->
+        <video-player v-if="card.attachments.length && !card.style.cover && card.attachments[0].format == 'mp4'" class="card-video" :options="videoOptions(card.attachments[0].url)" />
         <div :style="(card.style.type === 'url' && !card.style.fullCover) || (card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container">
           <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
             <span v-if="labelTitleShown">{{ label.title }}</span>
@@ -289,6 +290,22 @@ export default {
     stopDrag(ev) {
       if (this.checkQuickEdit) ev.stopPropagation()
     },
+    videoOptions(url) {
+      return {
+        autoplay: false,
+        controls: true,
+        sources: [
+          {
+            src: url,
+            type: 'video/mp4',
+          },
+          {
+            src: url,
+            type: 'video/webm',
+          },
+        ],
+      }
+    },
   },
   computed: {
     labels() {
@@ -326,22 +343,6 @@ export default {
       style += ';'
       style += this.checkQuickEdit ? `top: ${this.posTop}px; left: ${this.posLeft}px;` : ''
       return style
-    },
-    videoOptions(url) {
-      return {
-        autoplay: false,
-        controls: true,
-        sources: [
-          {
-            src: url,
-            type: 'video/mp4',
-          },
-          {
-            src: url,
-            type: 'video/webm',
-          },
-        ],
-      }
     },
   },
   watch: {
