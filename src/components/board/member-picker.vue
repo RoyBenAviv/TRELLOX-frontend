@@ -10,8 +10,11 @@
             <img v-if="member.imgUrl" :src="member.imgUrl" alt="" />
             <span v-else>{{ member.fullname.split(' ')[0].split('')[0] + member.fullname.split(' ')[1].split('')[0] }}</span>
           </div>
+          <div class="member-info">
           <span>{{ member.fullname }}</span>
           <span>({{ member.username }})</span>
+          </div>
+
           <span class="v-icon"></span>
         </div>
       </li>
