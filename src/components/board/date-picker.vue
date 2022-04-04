@@ -4,20 +4,6 @@
     <div class="calendar-container">
       <DatePicker v-model="date" />
     </div>
-
-    <!-- <label>Set due date reminder
-    <select>
-      <option>None</option>
-      <option>At time of due date</option>
-      <option>5 Minutes before</option>
-      <option>10 Minutes before</option>
-      <option>15 Minutes before</option>
-      <option>1 Hour before</option>
-      <option>2 Hour before</option>
-      <option>1 Day before</option>
-      <option>2 Day before</option>
-    </select>
-    </label> -->
     <h4>Due date</h4>
     <div class="date-options">
       <input disabled type="date" v-model="readDate" class="custom-input" />

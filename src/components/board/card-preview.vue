@@ -44,7 +44,7 @@
             <div v-if="checkUser" title="watch" class="icon-div">
               <span class="eyecon"></span>
             </div>
-            <div :class="{ complete: card.dueDate.isCompleted }" title="date" v-if="card.dueDate" class="icon-div date-preview" @click.stop="completeDate">
+            <div :class="{ complete: card.dueDate?.isCompleted }" title="date" v-if="card.dueDate" class="icon-div date-preview" @click.stop="completeDate">
               <span v-if="card.dueDate.isCompleted" class="date-complete-icon"></span>
               <span v-else class="date-icon"></span>
               <span class="date">{{ formattedDate }}</span>
@@ -223,7 +223,7 @@ export default {
         this.lastCard = JSON.parse(JSON.stringify(this.card))
         card.dueDate.isCompleted = !card.dueDate.isCompleted
         this.card = card
-        if (card.dueDate.isCompleted) await this.addActivity('marked the due date complete')
+        if (card.dueDate?.isCompleted) await this.addActivity('marked the due date complete')
         else await this.addActivity('marked the due date incomplete')
         this.$store.dispatch({ type: 'updateCard', groupId: this.groupId, card })
       }catch(err) {
@@ -310,7 +310,7 @@ export default {
       return members.filter((m) => this.card.memberIds.includes(m._id))
     },
     formattedDate() {
-      const date = new Date(this.card.dueDate.date)
+      const date = new Date(this.card.dueDate?.date)
       const month = date.toLocaleString('en-US', { month: 'short' })
       const day = date.getDate()
       return `${month} ${day}`
