@@ -31,7 +31,7 @@
         </div>
         <img class="card-image" v-if="card.attachments.length && !card.style.cover && card.attachments[0].format !== 'mp4'" :src="card.attachments[0].url" />
         <!-- {{card.attachments}} -->
-        <video-player v-if="card.attachments.length && !card.style.cover && card.attachments[0].format == 'mp4'" @click.stop="x = 5" class="card-video" :options="videoOptions(card.attachments[0].url)" />
+        <video-player v-if="card.attachments.length && !card.style.cover && card.attachments[0].format == 'mp4'" @click.stop class="card-video" :options="videoOptions(card.attachments[0].url)" />
         <div :style="(card.style.type === 'url' && !card.style.fullCover) || (card.attachments.length && !card.style.cover && !card.style.fullCover) ? 'margin-top: unset' : ''" class="card-label-container">
           <span v-for="label in labels" :key="label.id" @click.stop="toggleLabelTitle" :class="[label.className, labelTitleShown]" class="card-label" :title="label.title">
             <span v-if="labelTitleShown">{{ label.title }}</span>
@@ -126,7 +126,6 @@ export default {
       posLeft: null,
       isDragOver: false,
       lastCard: null,
-      x: null,
     }
   },
   methods: {
