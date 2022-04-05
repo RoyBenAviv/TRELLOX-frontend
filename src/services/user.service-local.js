@@ -86,34 +86,3 @@ function getLoggedinUser() {
     imgUrl: 'img.png',
   }
 }
-
-// (async ()=>{
-//     await userService.signup({fullname: 'Puki Norma', username: 'user1', password:'123',score: 10000, isAdmin: false})
-//     await userService.signup({fullname: 'Master Adminov', username: 'admin', password:'123', score: 10000, isAdmin: true})
-//     await userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 10000})
-// })();
-
-// This IIFE functions for Dev purposes
-// It allows testing of real time updates (such as sockets) by groupening to storage events
-// ;(async () => {
-//   // Dev Helper: Groupens to when localStorage changes in OTHER browser
-
-//   // Here we are groupening to changes for the watched user (comming from other browsers)
-//   window.addEventGroupener('storage', async () => {
-//     if (!gWatchedUser) return
-//     const freshUsers = await storageService.query('user')
-//     const watchedUser = freshUsers.find((u) => u._id === gWatchedUser._id)
-//     if (!watchedUser) return
-//     if (gWatchedUser.score !== watchedUser.score) {
-//       console.log('Watched user score changed - localStorage updated from another browser')
-//       socketService.emit(SOCKET_EVENT_USER_UPDATED, watchedUser)
-//     }
-//     gWatchedUser = watchedUser
-//   })
-// })()
-
-// This is relevant when backend is connected
-// (async () => {
-//     var user = getLoggedinUser()
-//     if (user) socketService.emit('set-user-socket', user._id)
-// })();
