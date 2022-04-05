@@ -46,7 +46,7 @@ export default {
         time: this.time,
         isCompleted: null,
       }
-      await this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), `added a due date ${dueDate.date} at ${dueDate.time}`)
+      await this.$emit('updateKey', 'dueDate', JSON.parse(JSON.stringify(dueDate)), `added a due date ${dueDate.date.toDateString()} at ${dueDate.time}`)
       this.closeModal()
     },
     async removeDate() {
