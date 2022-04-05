@@ -58,11 +58,7 @@ export default {
     this.player.on('startRecord', () => {
       console.log('started recording!')
     })
-
-    // user completed recording and stream is available
     this.player.on('finishRecord', () => {
-      // the blob object contains the recorded data that
-      // can be downloaded by the user, stored on server etc.
       console.log('finished recording: ', this.player.recordedData)
       this.upload(this.player.recordedData)
     })
