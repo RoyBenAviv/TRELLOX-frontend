@@ -220,11 +220,11 @@
     .edit-card {
       position: absolute;
       right: 2px;
-      top: 2px;
+      top: 1px;
       font-size: em(16px);
       border-radius: 3px;
-      height: 28px;
-      width: 28px;
+      height: 26px;
+      width: 26px;
       padding: rem(5px);
       font-weight: 400;
       @include flex;
