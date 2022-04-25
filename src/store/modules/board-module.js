@@ -151,7 +151,7 @@ export default {
       }
     },
     async saveBoard({ commit }, { board }) {
-      // commit({ type: 'setIsLoading', isLoading: true })
+      commit({ type: 'setIsLoading', isLoading: true })
       try {
         var board = await boardService.updateBoard(board)
         commit({ type: 'saveBoard', board })
@@ -160,7 +160,7 @@ export default {
         console.error('Cannot Edit/Add board', err)
         throw err
       } finally {
-        // commit({ type: 'setIsLoading', isLoading: false })
+        commit({ type: 'setIsLoading', isLoading: false })
       }
     },
     async filterBoard({ commit }, { boardId, filterBy }) {

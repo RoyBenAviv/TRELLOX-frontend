@@ -7,7 +7,6 @@
       </div>
       <button class="recent" @click="openModal('recent-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
       <button class="starred" @click="openModal('starred-modal', $event)"><i class="fa-solid fa-chevron-down"></i></button>
-      <!-- <button @click="openModal('templates-modal')">Templates <i class="fa-solid fa-chevron-down"></i></button> -->
       <button @click="openModal('create-board-modal', $event)"></button>
     </div>
     <div class="right-header">
@@ -42,7 +41,6 @@ import userModal from './board/user-modal.vue'
 import recentModal from './board/recent-modal.vue'
 import starredModal from './board/starred-modal.vue'
 import searchModal from './board/search-modal.vue'
-// import templatesModal from './board/templates-modal.vue'
 import createBoardModal from './board/create-board-modal.vue'
 
 export default {
@@ -63,15 +61,21 @@ export default {
     createBoardModal,
     starredModal,
     searchModal,
-    // templatesModal,
   },
   methods: {
     openModal(cmpName, ev) {
       if (ev) this.calcPosition(ev.target.getBoundingClientRect())
+      else {
+        this.posTop = null
+        this.posLeft = null
+        console.log('else');
+      }
       this.cmpName = cmpName
     },
     closeModal() {
       this.cmpName = null
+      this.posTop = null
+      this.posLeft = null
     },
     async logout() {
       try {
@@ -91,7 +95,6 @@ export default {
       this.posLeft = left
     },
     async toggleStar(board) {
-      // const board = JSON.parse(JSON.stringify(this.board))
       board.isStarred = !board.isStarred
       await this.$store.dispatch({ type: 'saveBoard', board })
     },

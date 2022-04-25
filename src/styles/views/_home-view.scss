@@ -44,7 +44,6 @@
       animation-name: switchbg;
       animation-direction: alternate-reverse;
       animation-duration: 10s;
-      // animation-fill-mode: forwards;
       animation-play-state: running;
       animation-iteration-count: infinite;
       animation-timing-function: ease-in-out;
@@ -63,7 +62,6 @@
     }
     button {
         position: relative;
-      // @include flex;
       margin-top: rem(50px);
       @include blue-btn;
       background-color: $clr2;

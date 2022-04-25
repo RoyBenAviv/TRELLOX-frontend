@@ -43,7 +43,6 @@
         </div>
       </div>
       <div class="dash-card">
-        <span></span>
         <div class="center">
                     <div class="ring-container">
             <div class="ringring"></div>

@@ -60,7 +60,6 @@ export default {
     async googleSignup() {
       try {
         const googleUser = await this.$gAuth.signIn()
-        console.log(googleUser)
         if (!googleUser) return
 
         this.googleUser = {

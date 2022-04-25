@@ -34,7 +34,7 @@ export const generateWords = (n) => {
     while(result.length < n){
       if(index < words.length)
         result.push(words[index])
-      else { // if im over of ther array start from 0
+      else {
         index = 0;
         result.push(words[index])
       }

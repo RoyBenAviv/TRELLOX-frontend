@@ -78,7 +78,6 @@ export default {
   methods: {
     toggleGroupActions(ev) {
       this.openGrpAct = !this.openGrpAct
-      this.calcPosition(ev.target.getBoundingClientRect())
     },
     addCard() {
       if (!this.cardTitle) return
@@ -170,13 +169,6 @@ export default {
         sortBy: value,
       }
       this.$store.dispatch({ type: 'filterBoard', boardId: this.board._id, filterBy })
-    },
-    calcPosition(rect) {
-      // var { left } = rect
-      // const winWidth = window.innerWidth
-      // if (winWidth - left < 300) {
-      //   this.posLeft = 70
-      // } else this.posLeft = 238
     },
   },
   computed: {

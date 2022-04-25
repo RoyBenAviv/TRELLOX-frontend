@@ -1,6 +1,4 @@
 .board-add {
-    // left: 105%;
-    // top: 0;
     .demo-board {
         margin: auto;
         width: 200px;
@@ -29,7 +27,6 @@
             }
         }
         .color-picker {
-            // border-radius: 10px;
             @include flex;
             gap: rem(8px);
             margin-block-end: rem(25px);

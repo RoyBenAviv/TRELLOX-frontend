@@ -267,7 +267,7 @@ export default {
       newComment: {
         txt: '',
         createdAt: null,
-        byMemberId: this.$store.getters.loggedinUser?._id || '', //loggedInUserId
+        byMemberId: this.$store.getters.loggedinUser?._id || '',
       },
       cmpName: null,
       description: null,
@@ -463,7 +463,6 @@ export default {
       return card.comments.map((c) => {
         var currMember = members.find((m) => m._id === c.byMemberId)
         c.byMember = currMember
-        // delete c.byMemberId
         return c
       })
     },
