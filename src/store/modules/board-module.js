@@ -101,7 +101,7 @@ export default {
       state.currBoard.groups.push(emptyGroup)
     },
     addActivity(state, { activity, clearAct }) {
-      if(clearAct) state.currBoard.activities.pop()
+      if (clearAct) state.currBoard.activities.pop()
       state.currBoard.activities.unshift(activity)
     },
     memberDrag(state, { isDrag }) {
@@ -132,6 +132,7 @@ export default {
       }
     },
     async setCurrBoard({ commit }, { boardId }) {
+      commit({ type: 'setIsLoading', isLoading: true })
       try {
         const board = await boardService.getBoardById(boardId)
         commit({ type: 'setCurrBoard', board })
@@ -139,6 +140,8 @@ export default {
       } catch (err) {
         console.log('Cannot find board', err)
         throw err
+      } finally {
+        commit({ type: 'setIsLoading', isLoading: false })
       }
     },
     async removeBoard({ commit }, { id }) {
@@ -151,7 +154,6 @@ export default {
       }
     },
     async saveBoard({ commit }, { board }) {
-      commit({ type: 'setIsLoading', isLoading: true })
       try {
         var board = await boardService.updateBoard(board)
         commit({ type: 'saveBoard', board })
@@ -159,8 +161,6 @@ export default {
       } catch (err) {
         console.error('Cannot Edit/Add board', err)
         throw err
-      } finally {
-        commit({ type: 'setIsLoading', isLoading: false })
       }
     },
     async filterBoard({ commit }, { boardId, filterBy }) {
@@ -228,7 +228,7 @@ export default {
       }
     },
     async addActivity({ commit, getters, dispatch }, { txt, card }) {
-      const clearAct = (getters.currBoard.activities.length > 100)
+      const clearAct = getters.currBoard.activities.length > 100
       const activity = {
         id: utilService.makeId(),
         txt: txt,
